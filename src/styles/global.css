@@ -369,4 +369,11 @@
   .site-footer .legal { grid-column: 1 / -1; padding-block-start: var(--s-5); border-block-start: 1px solid var(--line); font-size: var(--step--1); color: var(--ink-muted); }
 
   .section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--s-2) var(--s-5); margin-block-end: var(--s-5); }
+
+  /* Standalone links get a 44px tap area; links inside paragraphs stay inline. */
+  .paths a, .quick a, .section-head a, .committee-grid a, .inline-list a, .signup a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+  }
 }
