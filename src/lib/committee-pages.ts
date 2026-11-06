@@ -178,7 +178,7 @@ export const committees: Record<string, CommitteePage> = {
     eyebrow: 'Conference committee · P.I.',
     email: 'pi@aaemass.org',
     lede: 'Carrying the message of recovery to the still-suffering alcoholic by informing the public about AA.',
-    description: 'The Area 30 Public Information (P.I.) Committee works with media, schools and organizations to give accurate information about AA Meets the 1st Thursday of the month at 7:00 PM.',
+    description: 'The Area 30 Public Information (P.I.) Committee gives media, schools and groups accurate information about AA. Meets the 1st Thursday at 7 PM.',
     sections: [
       {
         title: 'What is P.I. work?',
