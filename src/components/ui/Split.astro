@@ -1,0 +1,9 @@
+---
+// Image beside text. Stacks on phones; flip puts the image on the right from tablet up.
+interface Props { src?: string; alt?: string; flip?: boolean }
+const { src, alt = '', flip = false } = Astro.props;
+---
+<div class:list={['split', flip && 'split--flip']}>
+  {src ? <img src={src} alt={alt} loading="lazy" decoding="async" /> : <div />}
+  <div class="stack prose"><slot /></div>
+</div>

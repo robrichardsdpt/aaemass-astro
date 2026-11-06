@@ -1,0 +1,110 @@
+---
+// Renders CMS page blocks with the shared UI components. Add a new block type in three places:
+// content.config.ts (schema), public/admin/config.yml (editor fields) and here.
+import type { Block } from '../content.config';
+import Section from './ui/Section.astro';
+import CardGrid from './ui/CardGrid.astro';
+import Callout from './ui/Callout.astro';
+import Split from './ui/Split.astro';
+import FaqList from './ui/FaqList.astro';
+import MeetingCard from './ui/MeetingCard.astro';
+import Directory from './ui/Directory.astro';
+import PillList from './ui/PillList.astro';
+import Quote from './ui/Quote.astro';
+import Checklist from './ui/Checklist.astro';
+import ButtonRow from './ui/ButtonRow.astro';
+import Button from './ui/Button.astro';
+import EventList from './ui/EventList.astro';
+import { md, href, slugify } from '../lib/cms';
+import { path } from '../lib/site';
+import { getUpcomingEvents } from '../lib/events';
+
+interface Props { blocks: Block[] }
+const { blocks } = Astro.props;
+const seen = new Set<string>();
+const upcoming = await getUpcomingEvents(12);
+const idFor = (b: { heading?: string; title?: string }, i: number) => `${slugify(b.heading ?? b.title ?? 'section')}-${i}`;
+---
+
+{blocks.map((b, i) => {
+  const id = idFor(b as any, i);
+  switch (b.type) {
+    case 'text':
+      return (
+        <Section id={id} title={b.heading} narrow>
+          <div class="stack prose-body" set:html={md(b.body, seen)} />
+        </Section>
+      );
+    case 'cards':
+      return (
+        <Section id={id} title={b.heading} intro={b.intro}>
+          <CardGrid cards={b.cards.map((c) => ({ title: c.title, text: c.text, href: href(c.link_url), linkText: c.link_text }))} />
+        </Section>
+      );
+    case 'callout':
+      return (
+        <Section id={id}>
+          <Callout title={b.title}><div class="stack prose-body" set:html={md(b.body, seen)} /></Callout>
+        </Section>
+      );
+    case 'split':
+      return (
+        <Section id={id}>
+          <Split src={href(b.image)} alt={b.image_alt} flip={b.flip}>
+            {b.heading && <h2>{b.heading}</h2>}
+            <div class="stack prose-body" set:html={md(b.body, seen)} />
+            {b.button_label && b.button_url && <p><Button href={href(b.button_url)!}>{b.button_label}</Button></p>}
+          </Split>
+        </Section>
+      );
+    case 'faq':
+      return (
+        <Section id={id} title={b.heading ?? 'Frequently asked questions'}>
+          <FaqList items={b.items} />
+        </Section>
+      );
+    case 'directory':
+      return (
+        <Section id={id} title={b.heading} intro={b.intro}>
+          <Directory items={b.items.map((x) => ({ title: x.title, email: x.email, href: href(x.url), note: x.note }))} />
+        </Section>
+      );
+    case 'meeting':
+      return (
+        <Section id={id}>
+          <MeetingCard
+            title={b.title}
+            lines={b.lines}
+            join={b.join_url ? { href: href(b.join_url)! } : undefined}
+            calendarHref={b.show_calendar_link ? path('/calendar/') : undefined}
+          />
+        </Section>
+      );
+    case 'links':
+      return (
+        <Section id={id} title={b.heading}>
+          <PillList items={b.items.map((x) => ({ label: x.label, href: href(x.url)! }))} />
+        </Section>
+      );
+    case 'quote':
+      return <Section id={id}><Quote text={b.text} by={b.by} /></Section>;
+    case 'buttons':
+      return (
+        <Section id={id}>
+          <ButtonRow items={b.items.map((x) => ({ label: x.label, href: href(x.url)!, variant: x.style }))} />
+        </Section>
+      );
+    case 'checklist':
+      return (
+        <Section id={id} title={b.heading} narrow>
+          <Checklist items={b.items} />
+        </Section>
+      );
+    case 'events':
+      return (
+        <Section id={id} title={b.heading ?? 'Upcoming events'}>
+          <EventList events={upcoming.slice(0, b.count || 6)} />
+        </Section>
+      );
+  }
+})}

@@ -1,0 +1,10 @@
+---
+interface Props { title?: string }
+const { title } = Astro.props;
+---
+<div class="prose">
+  <div class="notice stack">
+    {title && <h2 style="font-size: var(--step-1)">{title}</h2>}
+    <slot />
+  </div>
+</div>

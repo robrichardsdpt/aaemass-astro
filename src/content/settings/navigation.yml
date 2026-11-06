@@ -1,0 +1,19 @@
+items:
+  - label: What is AA?
+    url: /alcoholics-anonymous/
+  - label: Calendar
+    url: /calendar/
+  - label: Registrar
+    url: /committees/registrar/
+  - label: Committees
+    url: /committees/
+  - label: Districts
+    url: /districts/
+  - label: Literature
+    url: /literature/
+  - label: Resources
+    url: /resources/
+  - label: Contact
+    url: /contact/
+  - label: Contribute
+    url: /contribute/

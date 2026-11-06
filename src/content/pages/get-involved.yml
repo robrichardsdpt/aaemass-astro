@@ -1,0 +1,35 @@
+title: Get Involved in Service | Area 30
+description: Ways to get involved in AA service in Eastern Massachusetts, from your home group to Area 30 committees and the General Service Conference.
+eyebrow: Service
+lede: The best place to start is your home group. From there, service is a short step away.
+blocks:
+  - type: text
+    heading: Why service?
+    body: |
+      AA members work together to help the alcoholic who still suffers, and helping each other is a key to staying sober.
+
+      Service takes many forms: setting up chairs, serving as your group's General Service Representative (GSR), or joining an Area 30 committee.
+  - type: cards
+    heading: Where to start
+    cards:
+      - title: Your home group
+        text: Ask what service positions are open, from greeter to GSR.
+        link_text: Find a meeting
+        link_url: https://www.aa.org/find-aa/north-america
+      - title: A district
+        text: Districts bring nearby groups together. Your GSR attends district meetings.
+        link_text: See the districts
+        link_url: /districts/
+      - title: An Area 30 committee
+        text: Committees carry the message to prisons, treatment centers, schools and professionals.
+        link_text: Browse committees
+        link_url: /committees/
+  - type: callout
+    title: Not sure where you fit?
+    body: Email [info@aaemass.org](mailto:info@aaemass.org) and we will point you to a committee that needs your skills.
+  - type: faq
+    items:
+      - q: Do I need to be sober a certain length of time to do service?
+        a: Requirements vary by position. Many service roles, such as greeting newcomers or helping at an event, are open to any AA member. Committee chairs and officers may have sobriety requirements set by the Area.
+      - q: How much time does service take?
+        a: It depends on the role. Committees usually meet once a month, and event help can be a single afternoon.

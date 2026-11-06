@@ -1,0 +1,5 @@
+---
+interface Props { items: string[] }
+const { items } = Astro.props;
+---
+<ul class="checklist prose">{items.map((i) => <li>{i}</li>)}</ul>

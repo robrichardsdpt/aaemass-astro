@@ -1,0 +1,15 @@
+---
+// Name plus contact, in a ruled list: 1 / 2 / 3 columns.
+interface Props { items: { title: string; email?: string; href?: string; note?: string }[] }
+const { items } = Astro.props;
+---
+<ul class="directory">
+  {items.map((i) => (
+    <li>
+      <h3>{i.title}</h3>
+      {i.note && <p>{i.note}</p>}
+      {i.email && <a href={`mailto:${i.email}`}>{i.email}</a>}
+      {i.href && <a href={i.href}>{i.href.replace(/^https?:\/\//, '').replace(/\/$/, '')}</a>}
+    </li>
+  ))}
+</ul>

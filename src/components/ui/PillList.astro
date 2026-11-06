@@ -1,0 +1,7 @@
+---
+interface Props { items: { label: string; href: string }[] }
+const { items } = Astro.props;
+---
+<ul class="inline-list">
+  {items.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+</ul>

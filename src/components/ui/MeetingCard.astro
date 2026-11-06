@@ -1,0 +1,21 @@
+---
+interface Props {
+  title?: string;
+  lines: string[];
+  join?: { href: string; text?: string };
+  calendarHref?: string;
+}
+const { title = 'When does it meet?', lines, join, calendarHref } = Astro.props;
+---
+<div class="prose">
+  <div class="notice stack">
+    <h2 style="font-size: var(--step-1)">{title}</h2>
+    {lines.map((l) => <p>{l}</p>)}
+    {(join || calendarHref) && (
+      <p class="button-row">
+        {join && <a class="button" href={join.href}>{join.text || 'Join online'}</a>}
+        {calendarHref && <a class="button button--quiet" href={calendarHref}>See the calendar</a>}
+      </p>
+    )}
+  </div>
+</div>

@@ -37,18 +37,6 @@ export const site = {
   },
 };
 
-export const nav = [
-  { href: path('/alcoholics-anonymous'), label: 'What is AA?' },
-  { href: path('/calendar'), label: 'Calendar' },
-  { href: path('/committees/registrar'), label: 'Registrar' },
-  { href: path('/committees'), label: 'Committees' },
-  { href: path('/districts'), label: 'Districts' },
-  { href: path('/literature'), label: 'Literature' },
-  { href: path('/resources'), label: 'Resources' },
-  { href: path('/contact'), label: 'Contact' },
-  { href: path('/contribute'), label: 'Contribute' },
-];
-
 export const committees = [
   { name: 'Archives', href: path('/committees/archives'), image: 'archives' },
   { name: 'Cooperation with the Professional Community', short: 'C.P.C.', href: path('/committees/cpc'), image: 'cpc' },

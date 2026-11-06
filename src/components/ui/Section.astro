@@ -1,0 +1,28 @@
+---
+// A page section: optional eyebrow, heading and intro, then the content in the slot.
+// narrow = reading-width column for text; leave off for grids and wide content.
+interface Props {
+  id?: string;
+  title?: string;
+  eyebrow?: string;
+  intro?: string;
+  narrow?: boolean;
+  level?: 2 | 3;
+}
+const { id, title, eyebrow, intro, narrow = false, level = 2 } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+const labelId = title && id ? `${id}-title` : undefined;
+---
+
+<section class="section anchor" id={id} aria-labelledby={labelId}>
+  <div class:list={['wrap', narrow && 'prose']}>
+    {(title || eyebrow || intro) && (
+      <div class="stack prose section-intro">
+        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+        {title && <Heading id={labelId}>{title}</Heading>}
+        {intro && <p>{intro}</p>}
+      </div>
+    )}
+    <slot />
+  </div>
+</section>

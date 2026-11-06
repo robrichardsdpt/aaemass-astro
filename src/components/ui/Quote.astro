@@ -1,0 +1,10 @@
+---
+interface Props { text: string; by?: string }
+const { text, by } = Astro.props;
+---
+<div class="prose">
+  <blockquote class="quote">
+    <p>“{text}”</p>
+    {by && <footer>{by}</footer>}
+  </blockquote>
+</div>

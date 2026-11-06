@@ -1,0 +1,199 @@
+# Decap CMS: edit pages, events and the menu at /admin/.
+# Local editing:  npm run cms   (in one terminal)  +  npm run dev  (in another), then open /admin/.
+# Production editing needs a GitHub OAuth proxy; see docs/CMS.md.
+backend:
+  name: github
+  repo: robrichardsdpt/aaemass-astro
+  branch: main
+  # base_url: https://YOUR-OAUTH-PROXY.example.workers.dev   # see docs/CMS.md
+
+local_backend: true
+publish_mode: simple
+media_folder: public/uploads
+public_folder: /uploads
+site_url: https://robrichardsdpt.github.io/aaemass-astro/
+display_url: https://robrichardsdpt.github.io/aaemass-astro/
+
+collections:
+  - name: pages
+    label: Pages
+    label_singular: Page
+    description: Build a page from blocks. Drag blocks by their handle to reorder them.
+    folder: src/content/pages
+    extension: yml
+    format: yml
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}}'
+    editor:
+      preview: false
+    fields:
+      - { label: Title, name: title, widget: string, hint: 'Shown as the page heading. Keep it under 60 characters for search results.' }
+      - { label: Search description, name: description, widget: text, hint: 'One or two sentences, 120 to 160 characters.' }
+      - { label: Small label above the title, name: eyebrow, widget: string, required: false }
+      - { label: Intro sentence, name: lede, widget: text, required: false }
+      - { label: Hide from search engines, name: noindex, widget: boolean, default: false, required: false }
+      - label: Blocks
+        name: blocks
+        widget: list
+        label_singular: Block
+        summary: '{{fields.type}}: {{fields.heading}}{{fields.title}}{{fields.text}}'
+        hint: Add blocks and drag them into order.
+        types:
+          - label: Text
+            name: text
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false }
+              - { label: Text, name: body, widget: markdown, hint: 'Links to pages on this site: /contact/' }
+          - label: Cards
+            name: cards
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false }
+              - { label: Intro, name: intro, widget: text, required: false }
+              - label: Cards
+                name: cards
+                widget: list
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Text, name: text, widget: text, required: false }
+                  - { label: Link text, name: link_text, widget: string, required: false }
+                  - { label: Link address, name: link_url, widget: string, required: false, hint: '/committees/ for this site, or a full https:// address' }
+          - label: Callout box
+            name: callout
+            widget: object
+            fields:
+              - { label: Title, name: title, widget: string, required: false }
+              - { label: Text, name: body, widget: markdown }
+          - label: Image and text
+            name: split
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false }
+              - { label: Text, name: body, widget: markdown }
+              - { label: Image, name: image, widget: image, required: false }
+              - { label: Image description (for screen readers), name: image_alt, widget: string, required: false }
+              - { label: Put image on the right, name: flip, widget: boolean, default: false, required: false }
+              - { label: Button text, name: button_label, widget: string, required: false }
+              - { label: Button address, name: button_url, widget: string, required: false }
+          - label: FAQ
+            name: faq
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false, hint: 'Defaults to Frequently asked questions' }
+              - label: Questions
+                name: items
+                widget: list
+                fields:
+                  - { label: Question, name: q, widget: string }
+                  - { label: Answer, name: a, widget: text, hint: 'Plain text. Also used for search and AI answers.' }
+          - label: Contact list
+            name: directory
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false }
+              - { label: Intro, name: intro, widget: text, required: false }
+              - label: People or committees
+                name: items
+                widget: list
+                fields:
+                  - { label: Name, name: title, widget: string }
+                  - { label: Email, name: email, widget: string, required: false }
+                  - { label: Website, name: url, widget: string, required: false }
+                  - { label: Note, name: note, widget: string, required: false }
+          - label: Meeting details
+            name: meeting
+            widget: object
+            fields:
+              - { label: Title, name: title, widget: string, required: false, hint: 'Defaults to When does it meet?' }
+              - label: Lines
+                name: lines
+                widget: list
+                field: { label: Line, name: line, widget: string }
+              - { label: Online meeting link, name: join_url, widget: string, required: false }
+              - { label: Show a calendar button, name: show_calendar_link, widget: boolean, default: true, required: false }
+          - label: Link pills
+            name: links
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false }
+              - label: Links
+                name: items
+                widget: list
+                fields:
+                  - { label: Text, name: label, widget: string }
+                  - { label: Address, name: url, widget: string }
+          - label: Quote
+            name: quote
+            widget: object
+            fields:
+              - { label: Quote, name: text, widget: text }
+              - { label: Who said it, name: by, widget: string, required: false }
+          - label: Buttons
+            name: buttons
+            widget: object
+            fields:
+              - label: Buttons
+                name: items
+                widget: list
+                fields:
+                  - { label: Text, name: label, widget: string }
+                  - { label: Address, name: url, widget: string }
+                  - { label: Style, name: style, widget: select, options: [primary, quiet], default: primary, required: false }
+          - label: Checklist
+            name: checklist
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false }
+              - label: Items
+                name: items
+                widget: list
+                field: { label: Item, name: item, widget: string }
+          - label: Upcoming events
+            name: events
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false, hint: 'Defaults to Upcoming events' }
+              - { label: How many to show, name: count, widget: number, value_type: int, min: 1, max: 12, default: 6, required: false }
+
+  - name: events
+    label: Events
+    label_singular: Event
+    description: Each event gets its own page. Past events drop off the lists automatically.
+    folder: src/content/events
+    extension: md
+    format: frontmatter
+    create: true
+    slug: '{{year}}-{{month}}-{{slug}}'
+    summary: '{{title}} ({{start}})'
+    sortable_fields: [start, title]
+    editor:
+      preview: false
+    fields:
+      - { label: Event name, name: title, widget: string }
+      - { label: One-sentence summary, name: summary, widget: text, hint: 'Used in search results and the event list.' }
+      - { label: Starts, name: start, widget: datetime, hint: 'Times are Eastern.' }
+      - { label: Ends, name: end, widget: datetime, required: false }
+      - { label: All-day event, name: all_day, widget: boolean, default: false, required: false }
+      - { label: Place name, name: location_name, widget: string, required: false }
+      - { label: Street address, name: address, widget: string, required: false }
+      - { label: Online link, name: online_url, widget: string, required: false }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: Image description (for screen readers), name: image_alt, widget: string, required: false }
+      - { label: Details, name: body, widget: markdown, required: false }
+
+  - name: settings
+    label: Site settings
+    files:
+      - name: navigation
+        label: Main menu
+        file: src/content/settings/navigation.yml
+        description: Drag to reorder. Use /page-name/ for pages on this site.
+        fields:
+          - label: Menu items
+            name: items
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Address, name: url, widget: string }

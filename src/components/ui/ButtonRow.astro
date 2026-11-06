@@ -1,0 +1,8 @@
+---
+import Button from './Button.astro';
+interface Props { items: { label: string; href: string; variant?: 'primary' | 'quiet' }[] }
+const { items } = Astro.props;
+---
+<div class="button-row">
+  {items.map((b) => <Button href={b.href} variant={b.variant}>{b.label}</Button>)}
+</div>

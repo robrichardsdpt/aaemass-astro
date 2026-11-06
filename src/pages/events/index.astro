@@ -1,0 +1,23 @@
+---
+import Page from '../../layouts/Page.astro';
+import Section from '../../components/ui/Section.astro';
+import EventList from '../../components/ui/EventList.astro';
+import { getCmsEvents } from '../../lib/events';
+import { path } from '../../lib/site';
+
+const events = (await getCmsEvents()).sort((a, b) => a.start.getTime() - b.start.getTime());
+---
+
+<Page
+  title="Upcoming Events | Area 30 Eastern Mass. AA"
+  description="Upcoming Area 30 events for Alcoholics Anonymous in Eastern Massachusetts: assemblies, workshops, dinners and service events."
+  heading="Upcoming events"
+  eyebrow="Events"
+  lede="Assemblies, workshops and service events across Eastern Massachusetts."
+  current="/calendar/"
+>
+  <Section id="events" narrow>
+    <EventList events={events} />
+    <p style="margin-block-start: var(--s-5)"><a class="button button--quiet" href={path('/calendar/')}>See the full calendar</a></p>
+  </Section>
+</Page>

@@ -1,0 +1,5 @@
+---
+interface Props { href: string; variant?: 'primary' | 'quiet' }
+const { href, variant = 'primary' } = Astro.props;
+---
+<a class:list={['button', variant === 'quiet' && 'button--quiet']} href={href}><slot /></a>

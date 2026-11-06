@@ -1,0 +1,18 @@
+---
+// Pages created in the CMS (src/content/pages/<slug>.yml). Hand-built pages take precedence.
+import { getCollection } from 'astro:content';
+import Page from '../layouts/Page.astro';
+import Blocks from '../components/Blocks.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map((p) => ({ params: { slug: p.id }, props: { page: p } }));
+}
+const { page } = Astro.props;
+const d = page.data;
+const faqs = d.blocks.flatMap((b) => (b.type === 'faq' ? b.items : []));
+---
+
+<Page title={d.title} description={d.description} heading={d.title.split(' | ')[0]} eyebrow={d.eyebrow} lede={d.lede} faqs={faqs} showFaqs={false} noindex={d.noindex}>
+  <Blocks blocks={d.blocks} />
+</Page>

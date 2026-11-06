@@ -172,6 +172,12 @@
   .section + .section { padding-block-start: 0; }
   .stack > * + * { margin-block-start: var(--s-4); }
   .prose { max-width: var(--measure); }
+  /* A reading-width column sits on the same left edge as the hero and headings, not centered. */
+  .wrap.prose {
+    width: min(100% - 2 * var(--gutter), var(--measure));
+    max-width: none;
+    margin-inline: max(var(--gutter), calc((100% - var(--page)) / 2)) auto;
+  }
 }
 
 @layer components {
@@ -437,11 +443,20 @@
     .calendar-agenda { display: none; }
     .calendar-month { display: block; block-size: 44rem; }
   }
-  .breadcrumbs { margin-block-end: var(--s-4); font-size: var(--step--1); }
-  .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-2); padding: 0; list-style: none; }
-  .breadcrumbs li + li::before { content: '/'; margin-inline-end: var(--s-2); opacity: 0.7; }
-  .breadcrumbs a { color: var(--hero-ink); text-underline-offset: 0.2em; }
-  .breadcrumbs [aria-current] { opacity: 0.85; }
+  /* Markdown written in the CMS */
+  .prose-body ul, .prose-body ol { padding-inline-start: 1.25rem; }
+  .prose-body li + li { margin-block-start: var(--s-2); }
+  .prose-body h3, .prose-body h4 { margin-block-start: var(--s-5); }
+  .prose-body img { border-radius: 0.5rem; }
+  .prose-body blockquote { margin-inline: 0; padding-inline-start: var(--s-4); border-inline-start: 4px solid var(--accent); }
+  .breadcrumbs { border-block-end: 1px solid var(--line); background: var(--surface); font-size: var(--step--1); }
+  .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: 0 var(--s-2); padding: 0; margin: 0; list-style: none; }
+  .breadcrumbs li { display: inline-flex; align-items: center; min-block-size: 2.75rem; color: var(--ink-muted); }
+  .breadcrumbs li + li::before { content: '/'; margin-inline-end: var(--s-2); }
+  .breadcrumbs a { display: inline-flex; align-items: center; min-block-size: 2.75rem; color: var(--ink); text-underline-offset: 0.2em; }
+  .breadcrumbs [aria-current] { color: var(--ink-muted); font-weight: 600; }
+  .button-row { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+  .section-intro { margin-block-end: var(--s-5); }
   .anchor { scroll-margin-block-start: var(--s-5); }
   .checklist { display: grid; gap: var(--s-2); padding: 0; list-style: none; }
   .checklist li { padding-inline-start: 1.75rem; position: relative; }

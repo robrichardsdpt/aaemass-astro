@@ -1,0 +1,24 @@
+---
+// Date column plus title and time. Used on the home page, calendar and event blocks.
+import type { AreaEvent } from '../../lib/events';
+interface Props { events: AreaEvent[] }
+const { events } = Astro.props;
+const tz = 'America/New_York';
+const day = new Intl.DateTimeFormat('en-US', { timeZone: tz, month: 'short', day: 'numeric' });
+const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', hour: 'numeric', minute: '2-digit' });
+---
+{events.length > 0 ? (
+  <ul class="events prose">
+    {events.map((e) => (
+      <li>
+        <time datetime={e.start.toISOString()}>{day.format(e.start)}</time>
+        <div>
+          <a href={e.url}>{e.title}</a>
+          <p class="when">{e.allDay ? 'All day' : clock.format(e.start)}{e.venue ? `, ${e.venue}` : ''}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+) : (
+  <p class="prose">No events are posted right now. Check back soon.</p>
+)}
