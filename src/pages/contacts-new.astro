@@ -1,0 +1,236 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteScripts from '../components/SiteScripts.astro';
+import { site } from '../lib/site';
+import heroImg from '../assets/boston-2-bg.jpg';
+
+const mail = (user: string) => `${user}@aaemass.org`;
+
+const officers = [
+  { role: 'Delegate', user: 'delegate' },
+  { role: 'Alternate Delegate', user: 'altdelegate' },
+  { role: 'Area Chair', user: 'chair' },
+  { role: 'Alternate Area Chair', user: 'altchair' },
+  { role: 'Area Secretary', user: 'secretary' },
+  { role: 'Area Treasurer', user: 'treasurer' },
+];
+const conferenceCommittees = [
+  { name: 'Archives', user: 'archives' },
+  { name: 'Cooperation with the Professional Community', user: 'cpc' },
+  { name: 'Corrections', user: 'corrections' },
+  { name: 'Grapevine', user: 'grapevine' },
+  { name: 'Literature', user: 'literature' },
+  { name: 'Public Information', user: 'pi' },
+  { name: 'Treatment Facilities', user: 'treatment' },
+  { name: 'Accessibilities', user: 'accessibilities' },
+];
+const standingCommittees = [
+  { name: 'Mass. State Convention', user: 'mastateconvention' },
+  { name: 'Messenger', user: 'messenger' },
+  { name: 'Registrar', user: 'registrar' },
+  { name: 'Service Seminar', user: 'serviceseminar' },
+  { name: 'Technology', user: 'technology' },
+  { name: 'Website', user: 'website' },
+];
+const reasons = ['Looking for help', 'Meetings', 'General service', 'Committee', 'Website', 'Other'];
+---
+
+<Base
+  noindex
+  title="Contact Area 30 | Eastern Massachusetts Alcoholics Anonymous"
+  description="Contact Area 30, the Alcoholics Anonymous service area for Eastern Massachusetts: mailing address, committee meeting, officers and committee email addresses."
+>
+  <SiteHeader current={`${site.url}/contacts`} />
+
+  <main id="main">
+    <section class="hero hero--compact" aria-labelledby="hero-title">
+      <Image src={heroImg} alt="" widths={[640, 1024, 1600]} sizes="100vw" quality={55} loading="eager" fetchpriority="high" />
+      <div class="wrap">
+        <p class="eyebrow">Area 30</p>
+        <h1 id="hero-title">How can we help you?</h1>
+        <p class="lede">
+          Write to the officers and committees of Area 30, or send us a note and we will point you
+          to the right person.
+        </p>
+        <div class="actions">
+          <a class="button" href="#contact-form">Send a message</a>
+          <a class="button button--quiet" href={site.links.findMeeting}>Find A.A. near you</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="general-title">
+      <div class="wrap">
+        <h2 id="general-title" class="visually-hidden">General contact</h2>
+        <div class="contact-cards">
+          <div class="notice stack">
+            <h3>Email</h3>
+            <p>General questions about Area 30.</p>
+            <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+          </div>
+          <div class="notice stack">
+            <h3>Postal address</h3>
+            <address class="stack">
+              <p>
+                A.A. General Service Committee of Eastern Massachusetts<br />
+                {site.address.street}<br />
+                {site.address.city}, {site.address.region} {site.address.postalCode}
+              </p>
+            </address>
+          </div>
+          <div class="notice stack">
+            <h3>Area 30 committee meeting</h3>
+            <p>
+              {site.meeting.when}<br />
+              <a href={site.meeting.map}>{site.meeting.where}</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="officers-title">
+      <div class="wrap">
+        <div class="stack prose" style="margin-block-end: var(--s-6)">
+          <p class="eyebrow">Elected by the Area</p>
+          <h2 id="officers-title">Officers</h2>
+          <p>Each officer is a volunteer elected by the groups of Area 30.</p>
+        </div>
+        <ul class="directory">
+          {officers.map((o) => (
+            <li>
+              <h3>{o.role}</h3>
+              <a href={`mailto:${mail(o.user)}`}>{mail(o.user)}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="conference-title">
+      <div class="wrap">
+        <div class="stack prose" style="margin-block-end: var(--s-6)">
+          <h2 id="conference-title">Conference committees</h2>
+          <p>These committees mirror the standing committees of the General Service Conference.</p>
+        </div>
+        <ul class="directory">
+          {conferenceCommittees.map((c) => (
+            <li>
+              <h3>{c.name}</h3>
+              <a href={`mailto:${mail(c.user)}`}>{mail(c.user)}</a>
+              {c.user === 'accessibilities' && (
+                <a href="https://www.area30accessibilities.org">area30accessibilities.org</a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="standing-title">
+      <div class="wrap">
+        <div class="stack prose" style="margin-block-end: var(--s-6)">
+          <h2 id="standing-title">Standing committees</h2>
+          <p>Area committees that run events and services for Area 30 members.</p>
+        </div>
+        <ul class="directory">
+          {standingCommittees.map((c) => (
+            <li>
+              <h3>{c.name}</h3>
+              <a href={`mailto:${mail(c.user)}`}>{mail(c.user)}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="form-title">
+      <div class="wrap split">
+        <div class="stack prose">
+          <h2 id="form-title">Send us a message</h2>
+          <p>
+            Tell us what you need and we will route your note to the right committee. If you are
+            looking for a meeting, the
+            <a href={site.links.findMeeting}>meeting finder on aa.org</a> is the fastest way to
+            find one near you.
+          </p>
+        </div>
+        {site.signupEndpoint ? (
+          <form id="contact-form" class="contact-form" method="post" action={site.signupEndpoint} novalidate>
+            <div class="field">
+              <label for="cf-name">Name</label>
+              <input id="cf-name" type="text" name="name" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="cf-email">Email address</label>
+              <input id="cf-email" type="email" name="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="cf-reason">Reason for contact</label>
+              <select id="cf-reason" name="reason">
+                {reasons.map((r) => <option value={r}>{r}</option>)}
+              </select>
+            </div>
+            <div class="field">
+              <label for="cf-notes">Notes</label>
+              <textarea id="cf-notes" name="notes" rows="5"></textarea>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label>Leave this field empty if you are human<input type="text" name="_gotcha" value="" tabindex="-1" autocomplete="off" /></label>
+            </div>
+            <input type="hidden" name="_subject" value="Area 30 website contact form" />
+            <div><button class="button" type="submit">Submit</button></div>
+          </form>
+        ) : (
+          <div id="contact-form" class="notice stack">
+            <p>The contact form is not connected yet. Please email <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+          </div>
+        )}
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <SiteScripts />
+  <script is:inline>
+    // Contact form: send without leaving the page, then confirm with a toast.
+    var form = document.querySelector('form.contact-form');
+    var toast = document.getElementById('toast');
+    var toastTimer;
+    function showToast(message, isError) {
+      toast.textContent = message;
+      toast.dataset.state = isError ? 'error' : 'ok';
+      toast.hidden = false;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.hidden = true; }, 7000);
+    }
+    if (form && toast) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = form.elements.name;
+        var email = form.elements.email;
+        if (!name.value.trim()) { name.focus(); showToast('Please enter your name.', true); return; }
+        if (!email.value || !email.checkValidity()) { email.focus(); showToast('Please enter a valid email address.', true); return; }
+        var button = form.querySelector('button[type=submit]');
+        button.disabled = true;
+        fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+          .then(function (res) {
+            if (!res.ok) throw new Error('bad status');
+            form.reset();
+            showToast('Thank you. We received your message and will be in touch.', false);
+          })
+          .catch(function () {
+            showToast('Sorry, that did not go through. Please email info@aaemass.org instead.', true);
+          })
+          .finally(function () { button.disabled = false; });
+      });
+      toast.addEventListener('click', function () { toast.hidden = true; });
+    }
+  </script>
+</Base>

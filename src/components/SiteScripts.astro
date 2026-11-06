@@ -1,0 +1,35 @@
+<script is:inline>
+  // Menu is a plain <details>. Keep it open on wide screens (where the summary is hidden)
+  // and closed on narrow ones, including when the window is resized after load.
+  var menu = document.getElementById('menu');
+  var wide = matchMedia('(min-width: 60rem)');
+  function syncMenu() { if (menu) menu.open = wide.matches; }
+  syncMenu();
+  wide.addEventListener('change', syncMenu);
+  // Overlay behavior on phones: Escape or a tap outside closes it.
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && menu && menu.open && !wide.matches) { menu.open = false; menu.querySelector('summary').focus(); }
+  });
+  document.addEventListener('click', function (e) {
+    if (menu && menu.open && !wide.matches && !menu.contains(e.target)) menu.open = false;
+  });
+  // Light/dark toggle. The inline head script applies the saved choice before first paint.
+  var toggle = document.getElementById('theme-toggle');
+  function currentTheme() {
+    return document.documentElement.dataset.theme ||
+      (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  }
+  function labelToggle() {
+    var next = currentTheme() === 'dark' ? 'light' : 'dark';
+    toggle.setAttribute('aria-label', 'Switch to ' + next + ' mode');
+  }
+  if (toggle) {
+    labelToggle();
+    toggle.addEventListener('click', function () {
+      var next = currentTheme() === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      labelToggle();
+    });
+  }
+</script>

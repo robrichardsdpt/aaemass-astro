@@ -11,10 +11,11 @@ interface Props {
   title: string;
   description: string;
   faqs?: { q: string; a: string }[];
+  noindex?: boolean;
 }
-const { title, description, faqs = [] } = Astro.props;
+const { title, description, faqs = [], noindex: pageNoindex = false } = Astro.props;
 // The GitHub Pages preview must not compete with the real site in search results.
-const noindex = Boolean(import.meta.env.PUBLIC_NOINDEX);
+const noindex = pageNoindex || Boolean(import.meta.env.PUBLIC_NOINDEX);
 // Strip the build base (the WordPress plugin path) so canonical URLs are the public ones.
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 const publicPath = Astro.url.pathname.startsWith(basePath) ? Astro.url.pathname.slice(basePath.length) || '/' : Astro.url.pathname;

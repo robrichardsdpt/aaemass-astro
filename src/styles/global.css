@@ -312,6 +312,16 @@
   }
   .field input::placeholder { color: var(--ink-muted); }
   .hp { position: absolute; inset-inline-start: -9999px; }
+  .field select, .field textarea {
+    min-block-size: 2.75rem;
+    padding: var(--s-2) var(--s-3);
+    border: 2px solid var(--ink-muted);
+    border-radius: 0.375rem;
+    background: var(--ground);
+    font: inherit;
+    color: inherit;
+  }
+  .field textarea { resize: vertical; }
 
   /* Two-column feature blocks */
   .split {
@@ -383,6 +393,27 @@
     text-decoration: none;
   }
   .inline-list a:hover { border-color: var(--accent); text-decoration: underline; }
+
+  /* Contact page */
+  .hero--compact .wrap { padding-block: var(--s-7) var(--s-6); }
+  @media (min-width: 52rem) { .hero--compact .wrap { padding-block: var(--s-8) var(--s-7); } }
+  .contact-cards { display: grid; gap: var(--s-4); }
+  @media (min-width: 52rem) { .contact-cards { grid-template-columns: repeat(3, 1fr); } }
+  .contact-cards address { font-style: normal; }
+  .directory {
+    display: grid;
+    gap: 0 var(--s-6);
+    padding: 0;
+    list-style: none;
+    border-block-start: 1px solid var(--line);
+  }
+  @media (min-width: 40rem) { .directory { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .directory { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .directory li { display: grid; gap: var(--s-1); align-content: start; padding-block: var(--s-4); border-block-end: 1px solid var(--line); }
+  .directory h3 { font-size: var(--step-0); font-family: var(--font-body); font-weight: 700; }
+  .directory a { overflow-wrap: anywhere; }
+  .contact-form { display: grid; gap: var(--s-4); }
+  .split:has(.contact-form) { align-items: start; }
 
   /* Quick links */
   .quick { display: grid; gap: var(--s-6); }
