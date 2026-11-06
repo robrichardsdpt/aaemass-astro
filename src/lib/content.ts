@@ -73,15 +73,3 @@ export const faqs: Faq[] = [
     link: { text: 'Area 30 calendar', href: `${site.url}/cal` },
   },
 ];
-
-export const glossary = [
-  { term: 'GSR', def: 'General Service Representative. Elected by a group to be its link to the district, the area and the rest of AA.' },
-  { term: 'DCM', def: 'District Committee Member. Elected by the GSRs of a district to link the district’s groups with the area.' },
-  { term: 'Delegate', def: 'The member an area elects to represent it at the General Service Conference.' },
-  { term: 'Area assembly', def: 'A meeting of GSRs, DCMs, committee chairs and officers where the area does its business and holds elections.' },
-  { term: 'General Service Conference', def: 'The yearly meeting of Delegates, trustees and General Service Office and Grapevine staff that serves as the voice of AA’s group conscience.' },
-  { term: 'General Service Office (GSO)', def: 'The office in New York that serves AA groups across the United States and Canada.' },
-  { term: 'Group conscience', def: 'The collective view of a group, reached after members have heard each other and considered the matter together.' },
-  { term: 'Third Legacy', def: 'Service. AA’s three legacies are Recovery, Unity and Service.' },
-  { term: 'Seventh Tradition', def: 'Every AA group ought to be fully self-supporting, declining outside contributions.' },
-] as const;

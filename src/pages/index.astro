@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { site, nav, committees, moreCommittees } from '../lib/site';
 import { getUpcomingEvents } from '../lib/events';
-import { serviceSteps, faqs, glossary } from '../lib/content';
+import { serviceSteps, faqs } from '../lib/content';
 
 import seal from '../assets/seal.png';
 import heroImg from '../assets/boston-2-bg.jpg';
@@ -229,33 +229,6 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
       </div>
     </section>
 
-    <section class="section" aria-labelledby="quick-title">
-      <div class="wrap">
-        <h2 id="quick-title" class="visually-hidden">Quick links</h2>
-        <div class="quick">
-          <div class="stack">
-            <h3>Events</h3>
-            <p>Area 30 events and committee meetings.</p>
-            <a href={`${site.url}/cal`}>Calendar</a>
-          </div>
-          <div class="stack">
-            <h3>Get in touch</h3>
-            <p>Contact us and see the full list of officers and committee members.</p>
-            <a href={`${site.url}/contacts`}>Contact Area 30</a>
-          </div>
-          <div class="stack">
-            <h3>7th Tradition</h3>
-            <p>Contribute to Area 30 as a member, group or district.</p>
-            <a href={`${site.url}/contributions`}>Contributions</a>
-          </div>
-          <div class="stack">
-            <h3>Links</h3>
-            <p>Resources and useful Alcoholics Anonymous links.</p>
-            <a href={`${site.url}/links`}>Resources</a>
-          </div>
-        </div>
-      </div>
-    </section>
     <section class="section" aria-labelledby="how-title">
       <div class="wrap">
         <div class="stack prose" style="margin-block-end: var(--s-6)">
@@ -292,18 +265,31 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
         </div>
       </div>
     </section>
-
-    <section class="section" aria-labelledby="glossary-title">
-      <div class="wrap prose">
-        <h2 id="glossary-title" style="margin-block-end: var(--s-5)">Alcoholics Anonymous service terms</h2>
-        <dl class="glossary">
-          {glossary.map((g) => (
-            <div>
-              <dt>{g.term}</dt>
-              <dd>{g.def}</dd>
-            </div>
-          ))}
-        </dl>
+    <section class="section" aria-labelledby="quick-title">
+      <div class="wrap">
+        <h2 id="quick-title" class="visually-hidden">Quick links</h2>
+        <div class="quick">
+          <div class="stack">
+            <h3>Events</h3>
+            <p>Area 30 events and committee meetings.</p>
+            <a href={`${site.url}/cal`}>Calendar</a>
+          </div>
+          <div class="stack">
+            <h3>Get in touch</h3>
+            <p>Contact us and see the full list of officers and committee members.</p>
+            <a href={`${site.url}/contacts`}>Contact Area 30</a>
+          </div>
+          <div class="stack">
+            <h3>7th Tradition</h3>
+            <p>Contribute to Area 30 as a member, group or district.</p>
+            <a href={`${site.url}/contributions`}>Contributions</a>
+          </div>
+          <div class="stack">
+            <h3>Links</h3>
+            <p>Resources and useful Alcoholics Anonymous links.</p>
+            <a href={`${site.url}/links`}>Resources</a>
+          </div>
+        </div>
       </div>
     </section>
   </main>

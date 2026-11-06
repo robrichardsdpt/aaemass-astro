@@ -482,11 +482,4 @@
   .faq summary::after { content: '+'; flex: none; font-size: 1.5em; line-height: 1; color: var(--accent); }
   .faq details[open] summary::after { content: '\2212'; }
   .faq details > div { padding-block-end: var(--s-5); }
-
-  /* Glossary */
-  .glossary { display: grid; gap: var(--s-4); }
-  .glossary div { display: grid; gap: var(--s-1); padding-block-end: var(--s-4); border-block-end: 1px solid var(--line); }
-  .glossary dt { font-weight: 700; }
-  .glossary dd { margin: 0; color: var(--ink-muted); }
-  @media (min-width: 40rem) { .glossary div { grid-template-columns: 12rem 1fr; gap: var(--s-5); } }
 }
