@@ -1,0 +1,7 @@
+name = "area30-decap-oauth"
+main = "index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+# Origin of the site that hosts /admin/ (scheme and host only).
+ALLOWED_ORIGIN = "https://robrichardsdpt.github.io"

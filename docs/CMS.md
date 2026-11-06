@@ -20,15 +20,17 @@ npm run dev    # terminal 2: the site
 Open http://localhost:4321/admin/ and click Login. Changes are written to `src/content/`.
 
 ## Letting editors sign in on the deployed site
-Decap signs in with GitHub, which needs a small OAuth proxy because GitHub Pages is static.
-1. Create a GitHub OAuth App (Settings > Developer settings > OAuth Apps). Homepage URL is the site URL;
-   callback URL is `<proxy>/callback`.
-2. Deploy an OAuth proxy for Decap. A Cloudflare Worker such as `sterlingwes/decap-proxy` is free and takes
-   a few minutes. Give it the OAuth App's client ID and secret.
-3. In `public/admin/config.yml`, uncomment `base_url` and set it to the proxy URL.
-4. Editors need a GitHub account with write access to this repository.
-
-Because this repo is on GitHub, editors can also use the GitHub web editor on any file in `src/content/`.
+Decap signs in with GitHub, which needs a small OAuth proxy because GitHub Pages is static. A ready-made
+Cloudflare Worker is in `oauth-worker/` (free tier is plenty).
+1. Create a GitHub OAuth App: github.com > Settings > Developer settings > OAuth Apps > New.
+   Homepage URL: `https://robrichardsdpt.github.io/aaemass-astro/`. Callback URL: fill in after step 3.
+2. `cd oauth-worker && npx wrangler login` (opens a browser to sign in to Cloudflare).
+3. `npx wrangler deploy`. It prints the worker URL, for example `https://area30-decap-oauth.<you>.workers.dev`.
+   Set the OAuth App's callback URL to `<worker URL>/callback`.
+4. `npx wrangler secret put GITHUB_CLIENT_ID` and `npx wrangler secret put GITHUB_CLIENT_SECRET`
+   (paste the values from the OAuth App when prompted).
+5. In `public/admin/config.yml`, set `base_url` to the worker URL (uncomment the line), commit and push.
+6. Editors need a GitHub account with write access to this repository. Sign in at `/admin/`.
 
 ## Adding a new block type
 1. Add it to `blockSchema` in `src/content.config.ts`.
