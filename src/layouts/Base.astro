@@ -12,7 +12,10 @@ interface Props {
   description: string;
 }
 const { title, description } = Astro.props;
-const canonical = new URL(Astro.url.pathname, site.url).href;
+// Strip the build base (the WordPress plugin path) so canonical URLs are the public ones.
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+const publicPath = Astro.url.pathname.startsWith(basePath) ? Astro.url.pathname.slice(basePath.length) || '/' : Astro.url.pathname;
+const canonical = new URL(publicPath, site.url).href;
 
 const og = await getImage({ src: heroImg, width: 1200, height: 630, format: 'jpeg', quality: 70 });
 const logo = await getImage({ src: sealImg, width: 512, format: 'png' });

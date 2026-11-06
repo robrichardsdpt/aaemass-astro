@@ -1,3 +1,5 @@
+const base = 'https://aaemass.org';
+
 export const site = {
   name: 'Area 30, Eastern Mass. Alcoholics Anonymous',
   short: 'Area 30',
@@ -24,31 +26,31 @@ export const site = {
 };
 
 export const nav = [
-  { href: '/alcoholics-anonymous', label: 'What is AA?' },
-  { href: '/cal', label: 'Calendar' },
-  { href: '/committees/registrar', label: 'Registrar' },
-  { href: '/committees', label: 'Committees' },
-  { href: '/districts', label: 'Districts' },
-  { href: '/literature', label: 'Literature' },
-  { href: '/links', label: 'Resources' },
-  { href: '/contacts', label: 'Contact' },
+  { href: `${base}/alcoholics-anonymous`, label: 'What is AA?' },
+  { href: `${base}/cal`, label: 'Calendar' },
+  { href: `${base}/committees/registrar`, label: 'Registrar' },
+  { href: `${base}/committees`, label: 'Committees' },
+  { href: `${base}/districts`, label: 'Districts' },
+  { href: `${base}/literature`, label: 'Literature' },
+  { href: `${base}/links`, label: 'Resources' },
+  { href: `${base}/contacts`, label: 'Contact' },
 ];
 
 export const committees = [
-  { name: 'Archives', href: '/committees/archives', image: 'archives' },
-  { name: 'Cooperation with the Professional Community', short: 'C.P.C.', href: '/committees/cpc', image: 'cpc' },
-  { name: 'Corrections', href: '/districts/corrections', image: 'corrections' },
-  { name: 'Grapevine', href: '/committees/grapevine', image: 'grapevine' },
-  { name: 'Literature', href: '/committees/literature', image: 'literature' },
-  { name: 'Public Information', short: 'P.I.', href: '/committees/public-information', image: 'pi' },
+  { name: 'Archives', href: `${base}/committees/archives`, image: 'archives' },
+  { name: 'Cooperation with the Professional Community', short: 'C.P.C.', href: `${base}/committees/cpc`, image: 'cpc' },
+  { name: 'Corrections', href: `${base}/districts/corrections`, image: 'corrections' },
+  { name: 'Grapevine', href: `${base}/committees/grapevine`, image: 'grapevine' },
+  { name: 'Literature', href: `${base}/committees/literature`, image: 'literature' },
+  { name: 'Public Information', short: 'P.I.', href: `${base}/committees/public-information`, image: 'pi' },
 ] as const;
 
 export const moreCommittees = [
-  { name: 'Accessibilities', href: '/committees/accessibilities' },
-  { name: 'Treatment Facilities', href: '/committees/treatment-facilities' },
-  { name: 'Mass. State Convention', href: '/committees/state-convention' },
-  { name: 'Messenger', href: '/committees/messenger' },
-  { name: 'Registrar', href: '/committees/registrar' },
-  { name: 'Service Seminar', href: '/committees/service-seminar' },
-  { name: 'Website', href: '/committees/website' },
+  { name: 'Accessibilities', href: `${base}/committees/accessibilities` },
+  { name: 'Treatment Facilities', href: `${base}/committees/treatment-facilities` },
+  { name: 'Mass. State Convention', href: `${base}/committees/state-convention` },
+  { name: 'Messenger', href: `${base}/committees/messenger` },
+  { name: 'Registrar', href: `${base}/committees/registrar` },
+  { name: 'Service Seminar', href: `${base}/committees/service-seminar` },
+  { name: 'Website', href: `${base}/committees/website` },
 ];

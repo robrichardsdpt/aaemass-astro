@@ -29,7 +29,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
 >
   <header class="site-header">
     <div class="wrap">
-      <a class="brand" href="/">
+      <a class="brand" href={`${site.url}/`}>
         <Image src={seal} width={56} height={51} alt="" loading="eager" />
         <span>Area 30<br />Eastern Massachusetts AA</span>
       </a>
@@ -38,7 +38,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
           <summary>Menu</summary>
           <ul>
             {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-            <li><a href="/contributions">Contribute</a></li>
+            <li><a href={`${site.url}/contributions`}>Contribute</a></li>
           </ul>
         </details>
       </nav>
@@ -57,7 +57,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
         </p>
         <div class="actions">
           <a class="button" href={site.links.findMeeting}>Find a meeting</a>
-          <a class="button button--quiet" href="/cal">See the calendar</a>
+          <a class="button button--quiet" href={`${site.url}/cal`}>See the calendar</a>
         </div>
       </div>
     </section>
@@ -68,7 +68,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
           <h2 id="signup-title">Join the Area 30 mailing list</h2>
           <p>Periodic emails that keep members connected to what is happening in Area 30.</p>
         </div>
-        <form method="post" action="/">
+        <form method="post" action={`${site.url}/`}>
           <div class="field">
             <label for="signup-email">Email address</label>
             <input id="signup-email" type="email" name="EMAIL" autocomplete="email" required />
@@ -167,12 +167,12 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
               Service committees focus outreach on one area: Corrections, Cooperation with the
               Professional Community, Literature, Accessibilities, Treatment, Public Information and Archives.
             </p>
-            <a href="/committees">Browse service committees</a>
+            <a href={`${site.url}/committees`}>Browse service committees</a>
           </li>
           <li>
             <h3>What is Alcoholics Anonymous?</h3>
             <p>Alcoholics Anonymous is a fellowship of people who come together to solve their drinking problem.</p>
-            <a href="/alcoholics-anonymous">Read about Alcoholics Anonymous</a>
+            <a href={`${site.url}/alcoholics-anonymous`}>Read about Alcoholics Anonymous</a>
           </li>
         </ul>
       </div>
@@ -182,7 +182,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
       <div class="wrap prose">
         <div class="section-head">
           <h2 id="events-title">Upcoming events</h2>
-          <a href="/cal">View the full calendar</a>
+          <a href={`${site.url}/cal`}>View the full calendar</a>
         </div>
         {events.length > 0 ? (
           <ul class="events">
@@ -206,7 +206,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
       <div class="wrap">
         <div class="section-head">
           <h2 id="committees-title">Service committees</h2>
-          <a href="/committees">View all committees</a>
+          <a href={`${site.url}/committees`}>View all committees</a>
         </div>
         <ul class="committee-grid">
           {committees.map((c) => (
@@ -230,22 +230,22 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
           <div class="stack">
             <h3>Events</h3>
             <p>Area 30 events and committee meetings.</p>
-            <a href="/cal">Calendar</a>
+            <a href={`${site.url}/cal`}>Calendar</a>
           </div>
           <div class="stack">
             <h3>Get in touch</h3>
             <p>Contact us and see the full list of officers and committee members.</p>
-            <a href="/contacts">Contact Area 30</a>
+            <a href={`${site.url}/contacts`}>Contact Area 30</a>
           </div>
           <div class="stack">
             <h3>7th Tradition</h3>
             <p>Contribute to Area 30 as a member, group or district.</p>
-            <a href="/contributions">Contributions</a>
+            <a href={`${site.url}/contributions`}>Contributions</a>
           </div>
           <div class="stack">
             <h3>Links</h3>
             <p>Resources and useful Alcoholics Anonymous links.</p>
-            <a href="/links">Resources</a>
+            <a href={`${site.url}/links`}>Resources</a>
           </div>
         </div>
       </div>
