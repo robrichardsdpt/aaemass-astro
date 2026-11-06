@@ -457,6 +457,13 @@
   .breadcrumbs [aria-current] { color: var(--ink-muted); font-weight: 600; }
   .button-row { display: flex; flex-wrap: wrap; gap: var(--s-3); }
   .section-intro { margin-block-end: var(--s-5); }
+  /* Whole card is one link: the title's link stretches over the card. */
+  .card-link { position: relative; transition: border-color 0.15s; }
+  .card-link a::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+  .card-link:hover { border-color: var(--accent); }
+  .card-link:has(a:focus-visible) { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .card-link a:focus-visible { outline: none; }
+  .card-link h3 { font-size: var(--step-1); }
   .anchor { scroll-margin-block-start: var(--s-5); }
   .checklist { display: grid; gap: var(--s-2); padding: 0; list-style: none; }
   .checklist li { padding-inline-start: 1.75rem; position: relative; }

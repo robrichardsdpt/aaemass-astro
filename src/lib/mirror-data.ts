@@ -478,17 +478,20 @@ export const literature = {
     {
      "title": "AA Big Book",
      "href": "https://www.aa.org/the-big-book",
-     "sub": "Fourth Edition"
+     "sub": "Fourth Edition",
+     "description": "The basic text of AA. It explains how the AA program of recovery works and includes the personal stories of men and women who found sobriety."
     },
     {
      "title": "AA Big Book (ASL)",
      "href": "https://www.aa.org/the-big-book",
-     "sub": "Fourth Edition (Deaf)"
+     "sub": "Fourth Edition (Deaf)",
+     "description": "The Big Book in American Sign Language, for Deaf members and anyone who prefers to read it in ASL."
     },
     {
      "title": "AA Big Book (Audio)",
      "href": "https://www.aa.org/the-big-book",
-     "sub": "Fourth Edition Audio"
+     "sub": "Fourth Edition Audio",
+     "description": "Listen to the Big Book read aloud, for members who prefer audio or cannot read print."
     }
    ]
   },
@@ -498,27 +501,32 @@ export const literature = {
     {
      "title": "12 & 12",
      "href": "https://www.aa.org/lit-twelve-steps-and-twelve-traditions",
-     "sub": ""
+     "sub": "",
+     "description": "Twelve Steps and Twelve Traditions. Explains each Step and Tradition and how it applies to personal recovery and to life in a group."
     },
     {
      "title": "AA Service Manual",
      "href": "https://www.aa.org/aa-service-manualtwelve-concepts-world-services",
-     "sub": ""
+     "sub": "",
+     "description": "How AA’s service structure works, with the Twelve Concepts for World Service: groups, districts, areas and the General Service Conference."
     },
     {
      "title": "AA Comes of Age",
      "href": "https://www.aa.org/alcoholics-anonymous-comes-age",
-     "sub": ""
+     "sub": "",
+     "description": "A history of AA from its beginnings in 1935 through its first International Convention in 1955."
     },
     {
      "title": "Dr. Bob & Good Oldtimers",
      "href": "https://www.aa.org/dr-bob-and-good-oldtimers",
-     "sub": ""
+     "sub": "",
+     "description": "The story of co-founder Dr. Bob and the early members who helped carry the message."
     },
     {
      "title": "Pass It On",
      "href": "https://www.aa.org/pass-it",
-     "sub": ""
+     "sub": "",
+     "description": "The story of co-founder Bill W. and how the AA message of recovery spread around the world."
     }
    ]
   },
@@ -528,47 +536,56 @@ export const literature = {
     {
      "title": "The Twelve Traditions Illustrated",
      "href": "https://www.aa.org/twelve-traditions-illustrated",
-     "sub": ""
+     "sub": "",
+     "description": "An illustrated look at each of the Twelve Traditions and how they keep groups united."
     },
     {
      "title": "Q&A On Sponsorship",
      "href": "https://www.aa.org/questions-and-answers-sponsorship",
-     "sub": ""
+     "sub": "",
+     "description": "Answers to common questions about sponsorship: what a sponsor does, how to find one and how it works."
     },
     {
      "title": "The AA Group",
      "href": "https://www.aa.org/the-aa-group",
-     "sub": ""
+     "sub": "",
+     "description": "How AA groups are formed and run, and how each group stays connected to AA as a whole."
     },
     {
      "title": "General Service Representative",
      "href": "https://www.aa.org/gsr-general-service-representative",
-     "sub": ""
+     "sub": "",
+     "description": "What a GSR does: carrying the group’s conscience to district meetings and Area Assemblies and bringing news back."
     },
     {
      "title": "Understanding Anonymity",
      "href": "https://www.aa.org/understanding-anonymity",
-     "sub": ""
+     "sub": "",
+     "description": "The spiritual meaning of anonymity in AA and how it protects members and the Fellowship, including in the media and online."
     },
     {
      "title": "Young People in AA",
      "href": "https://www.aa.org/young-people-and-aa",
-     "sub": ""
+     "sub": "",
+     "description": "Personal stories from young members, showing that alcoholism can affect people at any age."
     },
     {
      "title": "Black in AA – Experience Strength and Hope",
      "href": "https://www.aa.org/black-aa-experience-strength-and-hope",
-     "sub": ""
+     "sub": "",
+     "description": "Black members share their experience, strength and hope in recovery."
     },
     {
      "title": "LGBTQ Alcoholics in AA",
      "href": "https://www.aa.org/lgbtq-alcoholics-aa",
-     "sub": ""
+     "sub": "",
+     "description": "LGBTQ members share their stories of finding acceptance and recovery in AA."
     },
     {
      "title": "Indigenous People in AA",
      "href": "https://www.aa.org/indigenous-people-aa",
-     "sub": ""
+     "sub": "",
+     "description": "Indigenous members share their experience of recovery in AA."
     }
    ]
   }

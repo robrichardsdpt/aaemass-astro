@@ -1,6 +1,12 @@
 ---
 import Page from '../layouts/Page.astro';
 import { literature } from '../lib/mirror-data';
+
+const groupIntro: Record<string, string> = {
+  'Alcoholics Anonymous (Big Book)': 'The basic text of AA, in print, American Sign Language and audio.',
+  'AA Literature': 'Books on the Steps and Traditions, AA’s service structure and the history of the Fellowship.',
+  'AA Pamphlets': 'Short reads on sponsorship, anonymity, groups, service and members’ stories.',
+};
 ---
 
 <Page
@@ -24,13 +30,16 @@ import { literature } from '../lib/mirror-data';
   {literature.groups.map((g, i) => (
     <section class="section" aria-labelledby={`lit-${i}`}>
       <div class="wrap">
-        <h2 id={`lit-${i}`} style="margin-block-end: var(--s-5)">{g.title}</h2>
+        <div class="stack prose" style="margin-block-end: var(--s-5)">
+          <h2 id={`lit-${i}`}>{g.title}</h2>
+          <p>{groupIntro[g.title]}</p>
+        </div>
         <ul class="cards">
           {g.items.map((item) => (
-            <li class="notice stack">
-              <h3><a href={item.href}>{item.title}</a></h3>
+            <li class="notice stack card-link">
               {item.sub && <p class="eyebrow">{item.sub}</p>}
-              <p><a href={item.href}>View on aa.org<span class="visually-hidden">: {item.title}</span></a></p>
+              <h3><a href={item.href}>{item.title}<span class="visually-hidden"> (opens aa.org)</span></a></h3>
+              <p>{item.description}</p>
             </li>
           ))}
         </ul>
