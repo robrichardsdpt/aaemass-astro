@@ -356,7 +356,16 @@
   .committee-grid li { display: grid; gap: var(--s-2); align-content: start; }
   .committee-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.25rem; }
   .committee-grid a { font-weight: 700; }
-  .inline-list { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-5); padding: 0; list-style: none; }
+  .inline-list { display: flex; flex-wrap: wrap; gap: var(--s-2); padding: 0; list-style: none; }
+  .inline-list a {
+    padding-inline: var(--s-4);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .inline-list a:hover { border-color: var(--accent); text-decoration: underline; }
 
   /* Quick links */
   .quick { display: grid; gap: var(--s-6); }
