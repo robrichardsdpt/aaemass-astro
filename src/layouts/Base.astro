@@ -1,0 +1,98 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import { site } from '../lib/site';
+import heroImg from '../assets/boston-2-bg.jpg';
+import sealImg from '../assets/seal.png';
+import publicSans from '@fontsource-variable/public-sans/files/public-sans-latin-wght-normal.woff2?url';
+import sourceSerif from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2?url';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+
+const og = await getImage({ src: heroImg, width: 1200, height: 630, format: 'jpeg', quality: 70 });
+const logo = await getImage({ src: sealImg, width: 512, format: 'png' });
+const abs = (path: string) => new URL(path, site.url).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${site.url}/#website`,
+      url: site.url,
+      name: site.name,
+      inLanguage: 'en-US',
+      publisher: { '@id': `${site.url}/#org` },
+    },
+    {
+      '@type': 'NGO',
+      '@id': `${site.url}/#org`,
+      name: site.name,
+      alternateName: 'Alcoholics Anonymous General Service Committee of Eastern Massachusetts',
+      url: site.url,
+      email: site.email,
+      logo: abs(logo.src),
+      image: abs(og.src),
+      description,
+      areaServed: { '@type': 'AdministrativeArea', name: 'Eastern Massachusetts' },
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: site.address.street,
+        addressLocality: site.address.city,
+        addressRegion: site.address.region,
+        postalCode: site.address.postalCode,
+        addressCountry: 'US',
+      },
+      contactPoint: { '@type': 'ContactPoint', contactType: 'general inquiries', email: site.email },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      url: canonical,
+      name: title,
+      description,
+      isPartOf: { '@id': `${site.url}/#website` },
+      about: { '@id': `${site.url}/#org` },
+      primaryImageOfPage: abs(og.src),
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={abs(og.src)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Boston waterfront at dusk" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href={logo.src} />
+    <link rel="apple-touch-icon" href={logo.src} />
+    <link rel="preload" href={publicSans} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sourceSerif} as="font" type="font/woff2" crossorigin />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <slot />
+  </body>
+</html>

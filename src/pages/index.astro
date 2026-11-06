@@ -1,0 +1,287 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { site, nav, committees, moreCommittees } from '../lib/site';
+import { getUpcomingEvents } from '../lib/events';
+
+import seal from '../assets/seal.png';
+import heroImg from '../assets/boston-2-bg.jpg';
+import circleImg from '../assets/shutterstock_1555828898.png';
+import handsImg from '../assets/shutterstock_1710141808.png';
+import archives from '../assets/home-archives.jpg';
+import cpc from '../assets/home-cpc.jpg';
+import corrections from '../assets/home-corrections.jpg';
+import grapevine from '../assets/home-grapevine.jpg';
+import literature from '../assets/home-literature.jpg';
+import pi from '../assets/home-pi.jpg';
+
+const committeeImages = { archives, cpc, corrections, grapevine, literature, pi };
+
+const events = await getUpcomingEvents(4);
+const tz = 'America/New_York';
+const day = new Intl.DateTimeFormat('en-US', { timeZone: tz, month: 'short', day: 'numeric' });
+const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', hour: 'numeric', minute: '2-digit' });
+---
+
+<Base
+  title="Area 30, Eastern Mass. Alcoholics Anonymous"
+  description="Area 30 is the Alcoholics Anonymous General Service Committee of Eastern Massachusetts. Find a meeting, register your group, see upcoming events and learn how to get involved in service."
+>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/">
+        <Image src={seal} width={56} height={51} alt="" loading="eager" />
+        <span>Area 30<br />Eastern Mass. AA</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <details id="menu">
+          <summary>Menu</summary>
+          <ul>
+            {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+            <li><a href="/contributions">Contribute</a></li>
+          </ul>
+        </details>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <Image src={heroImg} alt="" widths={[640, 1024, 1600]} sizes="100vw" quality={55} loading="eager" fetchpriority="high" />
+      <div class="wrap">
+        <p class="eyebrow">Alcoholics Anonymous General Service Committee</p>
+        <h1 id="hero-title">Alcoholics Anonymous in Eastern Massachusetts</h1>
+        <p class="lede">
+          Area 30 connects AA groups across the eastern half of the state to each other and to the
+          General Service Office.
+        </p>
+        <div class="actions">
+          <a class="button" href={site.links.findMeeting}>Find a meeting</a>
+          <a class="button button--quiet" href="/cal">See the calendar</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="signup" aria-labelledby="signup-title">
+      <div class="wrap">
+        <div>
+          <h2 id="signup-title">Join the Area 30 mailing list</h2>
+          <p>Periodic emails that keep members connected to what is happening in Area 30.</p>
+        </div>
+        <form method="post" action="/">
+          <div class="field">
+            <label for="signup-email">Email address</label>
+            <input id="signup-email" type="email" name="EMAIL" autocomplete="email" required />
+          </div>
+          <button class="button" type="submit">Sign up</button>
+          <div class="hp" aria-hidden="true">
+            <label>Leave this field empty if you are human<input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <input type="hidden" name="_mc4wp_timestamp" id="mc-ts" value="" />
+          <input type="hidden" name="_mc4wp_form_id" value="272962" />
+          <input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1" />
+        </form>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="about-title">
+      <div class="wrap split">
+        <Image src={circleImg} alt="Members of an AA group seated in a circle, hands clasped." widths={[480, 731]} sizes="(min-width: 52rem) 40vw, 100vw" />
+        <div class="stack prose">
+          <h2 id="about-title">About Area 30</h2>
+          <p><strong>We are the Alcoholics Anonymous General Service Committee of Eastern Massachusetts.</strong></p>
+          <p>
+            An area is a geographical division within a state or province. A General Service
+            Conference Delegate comes from an area. Massachusetts has two: Eastern Mass. (Area 30)
+            and Western Mass. (Area 31). The Delegate is your voice to the General Service Office,
+            AA World Services and the Grapevine.
+          </p>
+          <p>
+            Want a new piece of literature? Want to change an existing one? Have a suggestion for a
+            better way to carry the message? Those decisions are made at the General Service
+            Conference, and our Delegate speaks for us there.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="register-title">
+      <div class="wrap prose">
+        <div class="notice stack">
+          <h3 id="register-title">Is your group registered with Area 30?</h3>
+          <p>
+            Being listed on the Meeting Guide app or with Boston Central Service does not mean your
+            group is registered with Area 30 or the General Service Office.
+          </p>
+          <p>
+            To register, complete <a href={site.links.registerForm}>the group registration form</a>
+            and email it to <a href={`mailto:${site.registrarEmail}`}>{site.registrarEmail}</a>.
+            Groups that contribute to Area 30 or the General Service Office must be registered and
+            include their ID number with each contribution. Those contributions carry the AA
+            message to members in treatment, in correctional facilities and in remote communities,
+            and to the professionals and public who meet alcoholics first.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="website-title">
+      <div class="wrap split split--flip">
+        <Image src={handsImg} alt="A circle of people reaching their hands into the center, stacked together." widths={[480, 731]} sizes="(min-width: 52rem) 45vw, 100vw" />
+        <div class="stack prose">
+          <h2 id="website-title">About this website</h2>
+          <p>
+            The Area 30 Website Committee maintains this site for G.S.R.s, committee members,
+            officers and other AA members in the area.
+          </p>
+          <p>
+            Questions about Area 30? Write to <a href={`mailto:${site.email}`}>{site.email}</a>.
+          </p>
+          <p>
+            <a class="button button--quiet" href={site.links.areaFolder}>Area documents (Google Drive)</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="service-title">
+      <div class="wrap">
+        <div class="stack prose" style="margin-block-end: var(--s-6)">
+          <p class="eyebrow">Our Third Legacy</p>
+          <h2 id="service-title">Get involved in service</h2>
+          <p>
+            AA members work together to help the alcoholic who still suffers, and helping each
+            other is a key to staying sober. The best place to start is an AA group. When a
+            person reaches out for help, a group makes sure AA is there.
+          </p>
+        </div>
+        <ul class="paths">
+          <li>
+            <h3>AA groups</h3>
+            <p>Meetings share experience and strength. Find one near you.</p>
+            <a href={site.links.findMeeting}>Find a meeting<span class="visually-hidden"> on aa.org</span></a>
+          </li>
+          <li>
+            <h3>AA service</h3>
+            <p>
+              Service committees focus outreach on one area: Corrections, Cooperation with the
+              Professional Community, Literature, Accessibilities, Treatment, Public Information and Archives.
+            </p>
+            <a href="/committees">Browse service committees</a>
+          </li>
+          <li>
+            <h3>What is Alcoholics Anonymous?</h3>
+            <p>Alcoholics Anonymous is a fellowship of people who come together to solve their drinking problem.</p>
+            <a href="/alcoholics-anonymous">Read about Alcoholics Anonymous</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="events-title">
+      <div class="wrap prose">
+        <div class="section-head">
+          <h2 id="events-title">Upcoming events</h2>
+          <a href="/cal">View the full calendar</a>
+        </div>
+        {events.length > 0 ? (
+          <ul class="events">
+            {events.map((e) => (
+              <li>
+                <time datetime={e.start.toISOString()}>{day.format(e.start)}</time>
+                <div>
+                  <a href={e.url}>{e.title}</a>
+                  <p class="when">{e.allDay ? 'All day' : clock.format(e.start)}{e.venue ? `, ${e.venue}` : ''}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No events are posted right now. Committee meetings and area events appear on the calendar as they are scheduled.</p>
+        )}
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="committees-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="committees-title">Service committees</h2>
+          <a href="/committees">View all committees</a>
+        </div>
+        <ul class="committee-grid">
+          {committees.map((c) => (
+            <li>
+              <Image src={committeeImages[c.image]} alt="" widths={[200, 300]} sizes="13rem" />
+              <a href={c.href}>{'short' in c ? `${c.short} Committee` : `${c.name} Committee`}</a>
+            </li>
+          ))}
+        </ul>
+        <p class="eyebrow" style="margin-block: var(--s-6) var(--s-2)">Also in Area 30</p>
+        <ul class="inline-list">
+          {moreCommittees.map((c) => <li><a href={c.href}>{c.name}</a></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="quick-title">
+      <div class="wrap">
+        <h2 id="quick-title" class="visually-hidden">Quick links</h2>
+        <div class="quick">
+          <div class="stack">
+            <h3>Events</h3>
+            <p>Area 30 events and committee meetings.</p>
+            <a href="/cal">Calendar</a>
+          </div>
+          <div class="stack">
+            <h3>Get in touch</h3>
+            <p>Contact us and see the full list of officers and committee members.</p>
+            <a href="/contacts">Contact Area 30</a>
+          </div>
+          <div class="stack">
+            <h3>7th Tradition</h3>
+            <p>Contribute to Area 30 as a member, group or district.</p>
+            <a href="/contributions">Contributions</a>
+          </div>
+          <div class="stack">
+            <h3>Links</h3>
+            <p>Resources and useful Alcoholics Anonymous links.</p>
+            <a href="/links">Resources</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="stack">
+        <h2 style="font-size: var(--step-1)">Area 30 committee meetings</h2>
+        <p>
+          The committee meets {site.meeting.when} at the
+          <a href={site.meeting.map}>{site.meeting.where}</a>.
+        </p>
+      </div>
+      <address class="stack">
+        <p><strong>Alcoholics Anonymous General Service Committee of Eastern Massachusetts</strong></p>
+        <p>
+          {site.address.street}<br />
+          {site.address.city}, {site.address.region} {site.address.postalCode}
+        </p>
+        <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      </address>
+      <p class="legal">
+        Join us on the broad highway. &copy; {new Date().getFullYear()} Area 30, Eastern Mass. Alcoholics Anonymous.
+        Links to other websites are provided as a convenience only; Area 30 does not manage or control them.
+      </p>
+    </div>
+  </footer>
+
+  <script is:inline>
+    // Menu is a plain <details>; open it by default on wide screens where the summary is hidden.
+    var menu = document.getElementById('menu');
+    if (menu && matchMedia('(min-width: 60rem)').matches) menu.open = true;
+    // mc4wp rejects submissions without a timestamp; set it when the page loads.
+    var ts = document.getElementById('mc-ts');
+    if (ts) ts.value = String(Math.floor(Date.now() / 1000));
+  </script>
+</Base>
