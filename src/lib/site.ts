@@ -1,7 +1,7 @@
 const base = 'https://aaemass.org';
 
 export const site = {
-  name: 'Area 30, Eastern Mass. Alcoholics Anonymous',
+  name: 'Area 30, Eastern Massachusetts Alcoholics Anonymous',
   short: 'Area 30',
   url: 'https://aaemass.org',
   email: 'info@aaemass.org',
@@ -29,7 +29,7 @@ export const nav = [
   { href: `${base}/alcoholics-anonymous`, label: 'What is AA?' },
   { href: `${base}/cal`, label: 'Calendar' },
   { href: `${base}/committees/registrar`, label: 'Registrar' },
-  { href: `${base}/committees`, label: 'Committees' },
+  { href: `${base}/services`, label: 'Committees' },
   { href: `${base}/districts`, label: 'Districts' },
   { href: `${base}/literature`, label: 'Literature' },
   { href: `${base}/links`, label: 'Resources' },

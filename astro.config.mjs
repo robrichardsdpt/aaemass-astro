@@ -5,7 +5,7 @@ export default defineConfig({
   site: 'https://aaemass.org',
   compressHTML: true,
   // Only the WordPress package is served from a plugin directory, so only it needs the prefix.
-  base: process.env.WP_BUILD ? '/wp-content/plugins/aa30-home/' : '/',
+  base: process.env.WP_BUILD ? '/wp-content/plugins/aa30-home/' : process.env.GH_PAGES ? '/aaemass-astro/' : '/',
   // WordPress build: emit absolute asset URLs so the page works wherever the HTML is served from.
   build: process.env.WP_BUILD ? { assetsPrefix: 'https://aaemass.org/wp-content/plugins/aa30-home' } : {},
 });
