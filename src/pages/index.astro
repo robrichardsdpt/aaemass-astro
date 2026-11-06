@@ -284,6 +284,13 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
     function syncMenu() { if (menu) menu.open = wide.matches; }
     syncMenu();
     wide.addEventListener('change', syncMenu);
+    // Overlay behavior on phones: Escape or a tap outside closes it.
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menu && menu.open && !wide.matches) { menu.open = false; menu.querySelector('summary').focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (menu && menu.open && !wide.matches && !menu.contains(e.target)) menu.open = false;
+    });
     // mc4wp rejects submissions without a timestamp; set it when the page loads.
     var ts = document.getElementById('mc-ts');
     if (ts) ts.value = String(Math.floor(Date.now() / 1000));

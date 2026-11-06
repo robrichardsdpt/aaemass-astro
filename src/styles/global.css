@@ -176,7 +176,7 @@
 
 @layer components {
   /* Header */
-  .site-header { border-block-end: 1px solid var(--line); }
+  .site-header { position: relative; z-index: 50; border-block-end: 1px solid var(--line); }
   .site-header .wrap {
     display: flex;
     flex-wrap: wrap;
@@ -199,14 +199,31 @@
   .site-nav summary::-webkit-details-marker { display: none; }
   .site-nav summary::after { content: '+'; font-size: 1.5em; line-height: 1; }
   .site-nav details[open] summary::after { content: '\2212'; }
-  .site-nav ul { display: grid; padding: 0; margin-block-start: var(--s-2); list-style: none; }
+  /* Phone menu overlays the page instead of pushing it down. */
+  .site-nav ul {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 100%;
+    display: grid;
+    max-block-size: calc(100dvh - 5rem);
+    overflow-y: auto;
+    padding: var(--s-2) var(--gutter) var(--s-4);
+    margin: 0;
+    list-style: none;
+    background: var(--ground);
+    border-block-end: 1px solid var(--line);
+    box-shadow: 0 1.5rem 2rem -1rem oklch(0 0 0 / 0.35);
+  }
   .site-nav li + li { border-block-start: 1px solid var(--line); }
   .site-nav li a { display: block; padding-block: var(--s-3); }
   @media (min-width: 60rem) {
     .site-nav { flex: 0 1 auto; }
     .site-nav summary { display: none; }
     .site-nav details::details-content { content-visibility: visible; display: contents; }
-    .site-nav ul { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-5); margin: 0; }
+    .site-nav ul {
+      position: static; display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-5);
+      max-block-size: none; overflow: visible; padding: 0; background: none; border: 0; box-shadow: none;
+    }
     .site-nav li + li { border: 0; }
     .site-nav li a { display: inline-block; padding-block: var(--s-2); }
   }
