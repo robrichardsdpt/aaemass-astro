@@ -5,3 +5,5 @@ compatibility_date = "2025-01-01"
 [vars]
 # Origin of the site that hosts /admin/ (scheme and host only).
 ALLOWED_ORIGIN = "https://robrichardsdpt.github.io"
+# Public identifier (it appears in the GitHub sign-in URL). The client SECRET is stored with `wrangler secret put`.
+GITHUB_CLIENT_ID = "Ov23likaQlODt0JXgonW"
