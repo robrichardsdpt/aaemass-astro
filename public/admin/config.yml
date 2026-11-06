@@ -8,7 +8,8 @@ backend:
   base_url: https://area30-decap-oauth.robrichardsdpt.workers.dev
 
 local_backend: true
-publish_mode: simple
+# Edits are saved as drafts (a pull request). Nothing goes live until someone approves and publishes.
+publish_mode: editorial_workflow
 media_folder: public/uploads
 public_folder: /uploads
 site_url: https://robrichardsdpt.github.io/aaemass-astro/

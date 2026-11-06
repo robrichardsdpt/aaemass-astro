@@ -32,6 +32,15 @@ Cloudflare Worker is in `oauth-worker/` (free tier is plenty).
 5. In `public/admin/config.yml`, set `base_url` to the worker URL (uncomment the line), commit and push.
 6. Editors need a GitHub account with write access to this repository. Sign in at `/admin/`.
 
+## Who can change the site, and the review step
+- **Collaborators:** only people added under repo Settings > Collaborators with the Write role can save anything.
+- **Review step:** the CMS runs in editorial workflow. An editor's save creates a draft (a pull request on a `cms/...`
+  branch). In the CMS, the **Workflow** tab moves it Draft > In review > Ready, and **Publish** merges it.
+- **Branch protection:** `main` requires a pull request with 1 approval. Editors cannot publish their own work:
+  the repo owner approves the pull request on GitHub (or publishes it from the Workflow tab, which owners can do
+  directly). Owners are allowed to bypass the rule so direct pushes from the command line still work.
+- Nothing deploys until a change is merged into `main`.
+
 ## Adding a new block type
 1. Add it to `blockSchema` in `src/content.config.ts`.
 2. Add its editor fields under `blocks > types` in `public/admin/config.yml`.
