@@ -35,13 +35,22 @@ const standingCommittees = [
   { name: 'Technology', user: 'technology' },
   { name: 'Website', user: 'website' },
 ];
+const contactPoints = [
+  { contactType: 'General inquiries', email: site.email },
+  ...officers.map((o) => ({ contactType: o.role, email: mail(o.user) })),
+  ...conferenceCommittees.map((c) => ({ contactType: `${c.name} Committee`, email: mail(c.user) })),
+  ...standingCommittees.map((c) => ({ contactType: `${c.name} Committee`, email: mail(c.user) })),
+].map((c) => ({ '@type': 'ContactPoint', ...c }));
+const extraLd = [{ '@type': 'NGO', '@id': `${site.url}/#org`, contactPoint: contactPoints }];
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Contact', href: '/contact/' }];
 const reasons = ['Looking for help', 'Meetings', 'General service', 'Committee', 'Website', 'Other'];
 ---
 
 <Base
-  noindex
-  title="Contact Area 30 | Eastern Massachusetts Alcoholics Anonymous"
-  description="Contact Area 30, the Alcoholics Anonymous service area for Eastern Massachusetts: mailing address, committee meeting, officers and committee email addresses."
+  crumbs={crumbs}
+  extraLd={extraLd}
+  title="Contact Area 30 | Eastern Massachusetts AA"
+  description="Contact Area 30, the AA service area for Eastern Massachusetts: mailing address, committee meeting, officers and committee email addresses."
 >
   <SiteHeader current={path('/contact')} />
 

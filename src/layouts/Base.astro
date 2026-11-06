@@ -12,8 +12,10 @@ interface Props {
   description: string;
   faqs?: { q: string; a: string }[];
   noindex?: boolean;
+  crumbs?: { name: string; href: string }[];
+  extraLd?: Record<string, unknown>[];
 }
-const { title, description, faqs = [], noindex: pageNoindex = false } = Astro.props;
+const { title, description, faqs = [], noindex: pageNoindex = false, crumbs = [], extraLd = [] } = Astro.props;
 // The GitHub Pages preview must not compete with the real site in search results.
 const noindex = pageNoindex || Boolean(import.meta.env.PUBLIC_NOINDEX);
 // Strip the build base (the WordPress plugin path) so canonical URLs are the public ones.
@@ -46,6 +48,8 @@ const jsonLd = {
       logo: abs(logo.src),
       image: abs(og.src),
       description,
+      ...(site.sameAs.length ? { sameAs: site.sameAs } : {}),
+      memberOf: { '@type': 'Organization', name: 'Alcoholics Anonymous World Services', url: 'https://www.aa.org/' },
       areaServed: { '@type': 'AdministrativeArea', name: 'Eastern Massachusetts' },
       address: {
         '@type': 'PostalAddress',
@@ -77,7 +81,17 @@ const jsonLd = {
       isPartOf: { '@id': `${site.url}/#website` },
       about: { '@id': `${site.url}/#org` },
       primaryImageOfPage: abs(og.src),
+      dateModified: new Date().toISOString().slice(0, 10),
+      ...(crumbs.length ? { breadcrumb: { '@id': `${canonical}#breadcrumb` } } : {}),
     },
+    ...(crumbs.length
+      ? [{
+          '@type': 'BreadcrumbList',
+          '@id': `${canonical}#breadcrumb`,
+          itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: new URL(c.href, site.url).href })),
+        }]
+      : []),
+    ...extraLd,
   ],
 };
 ---

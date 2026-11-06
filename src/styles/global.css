@@ -437,6 +437,11 @@
     .calendar-agenda { display: none; }
     .calendar-month { display: block; block-size: 44rem; }
   }
+  .breadcrumbs { margin-block-end: var(--s-4); font-size: var(--step--1); }
+  .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-2); padding: 0; list-style: none; }
+  .breadcrumbs li + li::before { content: '/'; margin-inline-end: var(--s-2); opacity: 0.7; }
+  .breadcrumbs a { color: var(--hero-ink); text-underline-offset: 0.2em; }
+  .breadcrumbs [aria-current] { opacity: 0.85; }
   .anchor { scroll-margin-block-start: var(--s-5); }
   .checklist { display: grid; gap: var(--s-2); padding: 0; list-style: none; }
   .checklist li { padding-inline-start: 1.75rem; position: relative; }

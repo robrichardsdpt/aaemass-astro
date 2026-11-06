@@ -14,16 +14,30 @@ interface Props {
   eyebrow?: string;
   lede?: string;
   current?: string;
+  // Visible FAQ section, also emitted as FAQPage structured data. Answers must be plain text.
+  faqs?: { q: string; a: string }[];
+  extraLd?: Record<string, unknown>[];
+  // Breadcrumb trail between Home and this page.
+  trail?: { name: string; href: string }[];
 }
-const { title, description, heading, eyebrow, lede, current } = Astro.props;
+const { title, description, heading, eyebrow, lede, current, faqs = [], extraLd = [], trail = [] } = Astro.props;
+const here = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/';
+const crumbs = [{ name: 'Home', href: '/' }, ...trail, { name: heading, href: here }];
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} faqs={faqs} crumbs={crumbs} extraLd={extraLd}>
   <SiteHeader current={current ? path(current) : undefined} />
   <main id="main">
     <section class="hero hero--compact" aria-labelledby="hero-title">
       <Image src={heroImg} alt="" widths={[640, 1024, 1600]} sizes="100vw" quality={55} loading="eager" fetchpriority="high" />
       <div class="wrap">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href={path('/')}>Home</a></li>
+            {trail.map((c) => <li><a href={path(c.href)}>{c.name}</a></li>)}
+            <li aria-current="page">{heading}</li>
+          </ol>
+        </nav>
         {eyebrow && <p class="eyebrow">{eyebrow}</p>}
         <h1 id="hero-title">{heading}</h1>
         {lede && <p class="lede">{lede}</p>}
@@ -31,6 +45,21 @@ const { title, description, heading, eyebrow, lede, current } = Astro.props;
       </div>
     </section>
     <slot />
+    {faqs.length > 0 && (
+      <section class="section" aria-labelledby="faq-title">
+        <div class="wrap prose">
+          <h2 id="faq-title" style="margin-block-end: var(--s-5)">Frequently asked questions</h2>
+          <div class="faq">
+            {faqs.map((f) => (
+              <details>
+                <summary>{f.q}</summary>
+                <div class="stack"><p>{f.a}</p></div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
   </main>
   <SiteFooter />
   <SiteScripts />

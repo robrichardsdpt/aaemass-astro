@@ -4,22 +4,53 @@ import { path } from '../../lib/site';
 import { committees } from '../../lib/committee-pages';
 import { linkify } from '../../lib/links';
 import { termify } from '../../lib/term-match';
+import { site } from '../../lib/site';
+import { nextOccurrence, scheduleLd } from '../../lib/schedule';
 
 export function getStaticPaths() {
-  return Object.entries(committees).map(([slug, c]) => ({ params: { slug }, props: { c } }));
+  return Object.entries(committees).map(([slug, c]) => ({ params: { slug }, props: { slug, c } }));
 }
-const { c } = Astro.props;
+const { slug, c } = Astro.props;
+const url = `${site.url}/committees/${slug}/`;
+const orgId = `${url}#committee`;
+const extraLd: Record<string, unknown>[] = [
+  {
+    '@type': 'Organization',
+    '@id': orgId,
+    name: `${c.title} Committee, Area 30`,
+    url,
+    email: c.email,
+    parentOrganization: { '@id': `${site.url}/#org` },
+    contactPoint: { '@type': 'ContactPoint', contactType: `${c.title} Committee`, email: c.email },
+  },
+  ...(c.schedule
+    ? [{
+        '@type': 'Event',
+        name: `${c.title} Committee meeting`,
+        description: c.description,
+        startDate: nextOccurrence(c.schedule),
+        eventSchedule: scheduleLd(c.schedule),
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+        location: { '@type': 'VirtualLocation', url },
+        organizer: { '@id': orgId },
+        isAccessibleForFree: true,
+      }]
+    : []),
+];
 const seen = new Set<string>();
 const rich = (text: string) => termify(linkify(text), seen);
 ---
 
 <Page
-  title={`${c.title} | Area 30 Eastern Massachusetts AA`}
+  title={c.seoTitle ?? `${c.title} Committee | Area 30 Eastern Mass. AA`}
   description={c.description}
   heading={c.title}
   eyebrow={c.eyebrow}
   lede={c.lede}
   current="/committees"
+  extraLd={extraLd}
+  trail={[{ name: 'Committees', href: '/committees' }]}
 >
   <div slot="actions" class="actions">
     <a class="button" href={`mailto:${c.email}`}>Email the committee</a>
@@ -52,7 +83,7 @@ const rich = (text: string) => termify(linkify(text), seen);
     <section class="section" aria-labelledby="meeting-title">
       <div class="wrap prose">
         <div class="notice stack">
-          <h2 id="meeting-title" style="font-size: var(--step-1)">Meetings</h2>
+          <h2 id="meeting-title" style="font-size: var(--step-1)">When does the committee meet?</h2>
           {c.meeting.intro && <p>{c.meeting.intro}</p>}
           {c.meeting.chips && <ul class="inline-list">{c.meeting.chips.map((d) => <li><span class="chip">{d}</span></li>)}</ul>}
           {c.meeting.lines.map((l) => <p>{l}</p>)}
@@ -67,7 +98,7 @@ const rich = (text: string) => termify(linkify(text), seen);
 
   <section class="section" aria-labelledby="contact-title">
     <div class="wrap prose stack">
-      <h2 id="contact-title">How can we help?</h2>
+      <h2 id="contact-title">How do I contact the committee?</h2>
       <p>{c.cta}</p>
       <p>
         <a class="button" href={`mailto:${c.email}`}>{c.email}</a>

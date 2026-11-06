@@ -3,14 +3,22 @@ import Page from '../layouts/Page.astro';
 import Rich from '../components/Rich.astro';
 import { site, path } from '../lib/site';
 const seen = new Set<string>();
+const faqs = [
+  { q: 'What is Alcoholics Anonymous?', a: 'Alcoholics Anonymous is a fellowship of people who come together to solve their drinking problem. Its primary purpose is to help alcoholics achieve sobriety.' },
+  { q: 'Does it cost anything to attend AA?', a: 'No. It doesn’t cost anything to attend AA meetings, and there are no dues or fees for membership. AA is supported through member contributions.' },
+  { q: 'Who can join AA?', a: 'Anyone with a desire to stop drinking is welcome, regardless of race, gender, sexual orientation, religion, income or profession. There are no age or education requirements.' },
+  { q: 'What happens at a first AA meeting?', a: 'You can just sit and listen and learn more about recovery, or you can share about your situation. It is completely up to you.' },
+  { q: 'How do I find an AA meeting near me?', a: 'Use the meeting finder on aa.org, which lists meetings across North America. Area 30 is the service area for Eastern Massachusetts and is not itself a meeting.' },
+];
 ---
 
 <Page
-  title="What is AA? | Area 30 Eastern Massachusetts Alcoholics Anonymous"
-  description="Alcoholics Anonymous is a fellowship of people who come together to solve their drinking problem. It costs nothing to attend. Learn how AA works and find a meeting in Eastern Massachusetts."
+  title="What is AA? Alcoholics Anonymous in Eastern Mass."
+  description="Alcoholics Anonymous is a fellowship that costs nothing to join. Learn how AA works and find a first meeting in Eastern Massachusetts."
   heading="What is AA?"
   eyebrow="Alcoholics Anonymous"
   lede="A fellowship of people who come together to solve their drinking problem."
+  faqs={faqs}
   current="/alcoholics-anonymous"
 >
   <div slot="actions" class="actions">
@@ -20,7 +28,7 @@ const seen = new Set<string>();
 
   <section class="section" aria-labelledby="what-title">
     <div class="wrap prose stack">
-      <h2 id="what-title">It doesn’t cost anything</h2>
+      <h2 id="what-title">Does AA cost anything?</h2>
       <p>
         There are no age or education requirements to participate. Membership is open to anyone
         who wants to do something about their drinking problem. AA’s primary purpose is to help

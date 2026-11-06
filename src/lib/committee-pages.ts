@@ -1,6 +1,7 @@
 // Committee pages mirrored from aaemass.org/committees/<slug> (Corrections lived under /districts/).
 // Cleaned for the new site: duplicated or copy-pasted text removed, pandemic-era copy condensed.
 import { path } from './site';
+import type { MonthlySchedule } from './schedule';
 
 export interface CommitteePage {
   title: string;
@@ -10,6 +11,8 @@ export interface CommitteePage {
   description: string;
   quote?: { text: string; by: string };
   sections: { title: string; paras?: string[]; items?: string[]; links?: { text: string; href: string }[] }[];
+  seoTitle?: string;
+  schedule?: MonthlySchedule;
   meeting?: { intro?: string; chips?: string[]; lines: string[]; join?: { text: string; href: string }; calendar?: boolean };
   cta: string;
   more?: { text: string; href: string };
@@ -18,6 +21,7 @@ export interface CommitteePage {
 export const committees: Record<string, CommitteePage> = {
   archives: {
     title: 'Archives',
+    schedule: { weekday: 2, week: 3, time: '19:30' },
     eyebrow: 'Conference committee',
     email: 'archives@aaemass.org',
     lede: 'Eastern Mass. has a rich history in Alcoholics Anonymous. We preserve it so we can share it with the alcoholics who come after us.',
@@ -48,10 +52,12 @@ export const committees: Record<string, CommitteePage> = {
   },
   cpc: {
     title: 'Cooperation with the Professional Community',
+    seoTitle: 'C.P.C. Committee | Area 30 Eastern Mass. AA',
+    schedule: { weekday: 4, week: 2, time: '19:00' },
     eyebrow: 'Conference committee · C.P.C.',
     email: 'cpc@aaemass.org',
     lede: 'C.P.C. is AA’s official contact with members of the professional community.',
-    description: 'The Area 30 C.P.C. committee brings the AA message to health care, legal, clergy, education and other professionals. Meets the 2nd Thursday of the month at 7:00 PM.',
+    description: 'The Area 30 C.P.C. committee brings the AA message to health care, legal, clergy and education professionals. Meets the 2nd Thursday at 7 PM.',
     sections: [
       {
         title: 'Who we work with',
@@ -74,10 +80,11 @@ export const committees: Record<string, CommitteePage> = {
   },
   corrections: {
     title: 'Corrections',
+    schedule: { weekday: 4, week: 4, time: '19:00' },
     eyebrow: 'Conference committee',
     email: 'corrections@aaemass.org',
     lede: 'Carrying the AA message behind the walls.',
-    description: 'The Area 30 Corrections Committee arranges AA meetings and literature for prisons, jails and halfway houses in Eastern Massachusetts. Meets the 4th Thursday at 7:00 PM.',
+    description: 'The Area 30 Corrections Committee arranges AA meetings and literature for prisons, jails and halfway houses in Eastern Mass. Meets the 4th Thursday at 7 PM.',
     sections: [
       {
         title: 'What we do',
@@ -108,6 +115,7 @@ export const committees: Record<string, CommitteePage> = {
   },
   grapevine: {
     title: 'Grapevine',
+    schedule: { weekday: 3, week: 1, time: '19:00' },
     eyebrow: 'Conference committee',
     email: 'grapevine@aaemass.org',
     lede: 'The AA Grapevine is the international journal of Alcoholics Anonymous, our “meeting in print.”',
@@ -142,6 +150,7 @@ export const committees: Record<string, CommitteePage> = {
   },
   literature: {
     title: 'Literature',
+    schedule: { weekday: 1, week: 1, time: '19:00' },
     eyebrow: 'Conference committee',
     email: 'literature@aaemass.org',
     lede: 'Letting the membership know what conference-approved literature is available.',
@@ -165,6 +174,7 @@ export const committees: Record<string, CommitteePage> = {
   },
   'public-information': {
     title: 'Public Information',
+    schedule: { weekday: 4, week: 1, time: '19:00' },
     eyebrow: 'Conference committee · P.I.',
     email: 'pi@aaemass.org',
     lede: 'Carrying the message of recovery to the still-suffering alcoholic by informing the public about AA.',
@@ -198,10 +208,11 @@ export const committees: Record<string, CommitteePage> = {
   },
   'treatment-facilities': {
     title: 'Treatment Facilities',
+    schedule: { weekday: 5, week: 3, time: '19:00' },
     eyebrow: 'Conference committee',
     email: 'treatment@aaemass.org',
     lede: 'Bringing AA meetings to people in hospitals and treatment programs.',
-    description: 'The Area 30 Treatment Facilities Committee coordinates AA members and groups carrying the message into treatment settings. Meets the 3rd Friday of the month at 7:00 PM.',
+    description: 'The Area 30 Treatment Facilities Committee coordinates AA members carrying the message into treatment settings. Meets the 3rd Friday at 7 PM.',
     sections: [
       {
         title: 'Mission',
@@ -229,6 +240,7 @@ export const committees: Record<string, CommitteePage> = {
   },
   accessibilities: {
     title: 'Accessibilities',
+    schedule: { weekday: 1, week: 3, time: '19:30' },
     eyebrow: 'Conference committee',
     email: 'accessibilities@aaemass.org',
     lede: 'Working toward a future where everyone who wants to take part in AA in Eastern Massachusetts can.',
@@ -312,14 +324,15 @@ export const committees: Record<string, CommitteePage> = {
       },
     ],
     meeting: {
-      intro: 'The Convention Planning Committee meets hybrid, in person and online. Dates listed on the committee’s page:',
-      chips: ['Jan 28', 'Mar 25', 'May 27', 'Jul 29', 'Sep 30', 'Oct 28'],
+      intro: 'The Convention Planning Committee meets monthly, hybrid, in person and online. Check the calendar or the convention website for the next meeting date.',
       lines: ['In person: Royal Plaza, 181 Boston Post Road W., Marlborough', 'Online: Meeting ID 878 4199 4146, passcode hkJvj8'],
+      calendar: true,
     },
     cta: 'To ask a question or get involved, email the Convention Committee.',
   },
   website: {
     title: 'Website',
+    schedule: { weekday: 1, week: 1, time: '18:00' },
     eyebrow: 'Standing committee',
     email: 'website@aaemass.org',
     lede: 'The committee that maintains this website for Area 30.',

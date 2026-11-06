@@ -10,14 +10,21 @@ const forms = [
   { title: 'Updated Group Change Form', text: 'Fillable group change form (Word document).', href: path('/forms/group-change-form.docx') },
 ];
 const seen = new Set<string>();
+const faqs = [
+  { q: 'How do I register my AA group with Area 30?', a: 'Complete the New Group Form and email it to registrar@aaemass.org. Being listed on the Meeting Guide app or with Boston Central Service does not by itself register a group with Area 30 or the General Service Office.' },
+  { q: 'Why does my group need a service number?', a: 'If you send a contribution to the General Service Office in New York without your group’s service number, your group will not get credit for the donation. The Registrar can look up your group’s number.' },
+  { q: 'How do I update my group’s information or change a DCM?', a: 'Download the Group Update Form or the DCM Change Form below, complete it and email it to the Registrar.' },
+  { q: 'What does the Area Registrar do?', a: 'The Registrar maintains the Confidential Area List, coordinates with the General Service Office, the Delegate and Districts on group updates, and manages the registration desk at Area Assemblies.' },
+];
 ---
 
 <Page
-  title="Registrar | Area 30 Eastern Massachusetts Alcoholics Anonymous"
-  description="Register your AA group with Area 30, update group information, and download Registrar forms. Contact the Area 30 Registrar at registrar@aaemass.org."
+  title="Registrar: Register an AA Group | Area 30"
+  description="Register your AA group with Area 30, update group or DCM information, and download the Registrar’s forms. Email registrar@aaemass.org."
   heading="Registrar"
   eyebrow="Standing committee"
   lede="We are here to assist with the registration process."
+  faqs={faqs}
   current="/committees/registrar"
 >
   <section class="section" aria-labelledby="number-title">
@@ -45,7 +52,7 @@ const seen = new Set<string>();
   <section class="section" aria-labelledby="forms-title">
     <div class="wrap">
       <div class="stack prose" style="margin-block-end: var(--s-5)">
-        <h2 id="forms-title">Registrar forms</h2>
+        <h2 id="forms-title">How do I register or update my group?</h2>
         <p>Download a form below, or email the Registrar to request one.</p>
       </div>
       <ul class="cards">
