@@ -211,7 +211,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
         <ul class="committee-grid">
           {committees.map((c) => (
             <li>
-              <Image src={committeeImages[c.image]} alt="" widths={[200, 300]} sizes="13rem" />
+              <Image src={committeeImages[c.image]} alt="" widths={[200, 300, 400]} sizes="(min-width: 64rem) 11rem, (min-width: 36rem) 30vw, 46vw" />
               <a href={c.href}>{'short' in c ? `${c.short} Committee` : `${c.name} Committee`}</a>
             </li>
           ))}

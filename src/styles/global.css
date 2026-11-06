@@ -346,11 +346,13 @@
   /* Committees */
   .committee-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
-    gap: var(--s-5);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-4);
     padding: 0;
     list-style: none;
   }
+  @media (min-width: 36rem) { .committee-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-5); } }
+  @media (min-width: 64rem) { .committee-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
   .committee-grid li { display: grid; gap: var(--s-2); align-content: start; }
   .committee-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.25rem; }
   .committee-grid a { font-weight: 700; }
