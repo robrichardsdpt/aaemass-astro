@@ -3,6 +3,7 @@ import Page from '../layouts/Page.astro';
 import { services } from '../lib/mirror-data';
 import { linkify } from '../lib/links';
 import { path } from '../lib/site';
+import { committees } from '../lib/committee-pages';
 
 // Short, stable anchors that the committee tiles on the home and committees pages link to.
 const ids: Record<string, string> = {
@@ -15,11 +16,11 @@ const sections = services.sections.map((s) => ({ ...s, id: idOf(s.title) }));
 ---
 
 <Page
-  title="Services and Committee Reports | Area 30 Eastern Massachusetts A.A."
+  title="Services and Committee Reports | Area 30 Eastern Massachusetts AA"
   description="Service opportunities in Area 30: what the Delegate, Alternate Delegate, Secretary and committees do, when they meet and how to reach them."
   heading="Services"
   eyebrow="Get involved"
-  lede="Opportunity abounds for Eastern Massachusetts A.A. members who want to take part in service beyond their home group."
+  lede="Opportunity abounds for Eastern Massachusetts AA members who want to take part in service beyond their home group."
   current="/committees"
 >
   <section class="section" aria-labelledby="intro-title">
@@ -32,7 +33,7 @@ const sections = services.sections.map((s) => ({ ...s, id: idOf(s.title) }));
       </p>
       <p>
         A complete list of conference and standing committees, with a way to reach each one, is on
-        the <a href={path('/contacts-new')}>contact page</a>.
+        the <a href={path('/contact')}>contact page</a>.
       </p>
       <nav aria-label="On this page" class="stack">
         <p class="eyebrow">Jump to</p>
@@ -51,6 +52,9 @@ const sections = services.sections.map((s) => ({ ...s, id: idOf(s.title) }));
           i === 0 && s.title === 'Why Service?' ? <p>{p}</p> :
           <p set:html={linkify(p)} />
         ))}
+        {(s.id in committees || s.id === 'registrar') && (
+          <p><a href={path(s.id === 'registrar' ? '/committees/registrar' : `/committees/${s.id}`)}>Full {s.title} committee page</a></p>
+        )}
         {s.contact && (
           <p><a class="button button--quiet" href={`mailto:${s.contact}`}>Email {s.contact}</a></p>
         )}

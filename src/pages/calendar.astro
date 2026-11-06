@@ -1,0 +1,40 @@
+---
+import Page from '../layouts/Page.astro';
+import { site } from '../lib/site';
+
+// Area 30's public Google Calendar (the same one embedded on aaemass.org/cal).
+const calendarId = 'Y19lNDBlMzBmZmQ1ZWI5MjMwYzZiOTlhZGJmNDA4YjUwZGNiMGFjNzIyYjQ5ZDIzNmY5NThkMjg2NWViOWRmYWJkQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20';
+const embed = (mode: 'AGENDA' | 'MONTH') =>
+  `https://calendar.google.com/calendar/embed?${new URLSearchParams({
+    height: '700', wkst: '1', ctz: 'America/New_York', mode, showTitle: '0', showPrint: '0', showTz: '0', src: atob(calendarId), color: '#1d4ed8',
+  })}`;
+const subscribe = `https://calendar.google.com/calendar/u/0?cid=${calendarId}`;
+---
+
+<Page
+  title="Calendar | Area 30 Eastern Massachusetts Alcoholics Anonymous"
+  description="The Area 30 calendar: upcoming events, assemblies and committee meetings for Eastern Massachusetts Alcoholics Anonymous."
+  heading="Area 30 calendar"
+  eyebrow="Events"
+  lede="Upcoming events, assemblies and committee meetings across Eastern Massachusetts. Times are Eastern."
+  current="/calendar"
+>
+  <div slot="actions" class="actions">
+    <a class="button" href={subscribe}>Add to Google Calendar</a>
+  </div>
+
+  <section class="section" aria-labelledby="calendar-title">
+    <div class="wrap">
+      <h2 id="calendar-title" class="visually-hidden">Calendar</h2>
+      <div class="calendar-frame">
+        <iframe class="calendar-agenda" title="Area 30 calendar, agenda view" src={embed('AGENDA')} loading="lazy"></iframe>
+        <iframe class="calendar-month" title="Area 30 calendar, month view" src={embed('MONTH')} loading="lazy"></iframe>
+      </div>
+      <p class="prose" style="margin-block-start: var(--s-4)">
+        The Area 30 committee meets {site.meeting.when} at the
+        <a href={site.meeting.map}>{site.meeting.where}</a>. Each committee’s own meeting time is on
+        its page under <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/committees`}>Committees</a>.
+      </p>
+    </div>
+  </section>
+</Page>

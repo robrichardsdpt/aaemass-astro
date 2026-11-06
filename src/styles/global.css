@@ -428,6 +428,15 @@
   .district-grid .stack > * + * { margin-block-start: var(--s-2); }
   .district-grid h3 { font-size: var(--step-1); margin-block-end: var(--s-1); }
   .chip { display: inline-block; padding: var(--s-1) var(--s-4); border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-weight: 600; }
+  .quote { margin: 0; padding-inline-start: var(--s-5); border-inline-start: 4px solid var(--accent); font-family: var(--font-display); font-size: var(--step-1); line-height: 1.4; }
+  .quote footer { margin-block-start: var(--s-3); font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; color: var(--ink-muted); }
+  .quote footer::before { content: '\2014\00a0'; }
+  .calendar-frame iframe { inline-size: 100%; block-size: min(75dvh, 42rem); border: 1px solid var(--line); border-radius: 0.5rem; background: #fff; }
+  .calendar-month { display: none; }
+  @media (min-width: 52rem) {
+    .calendar-agenda { display: none; }
+    .calendar-month { display: block; block-size: 44rem; }
+  }
   .anchor { scroll-margin-block-start: var(--s-5); }
   .checklist { display: grid; gap: var(--s-2); padding: 0; list-style: none; }
   .checklist li { padding-inline-start: 1.75rem; position: relative; }

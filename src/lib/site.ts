@@ -1,7 +1,11 @@
 const base = 'https://aaemass.org';
 
 // Internal links for this site. BASE_URL is '/' locally, '/aaemass-astro/' on GitHub Pages and the plugin path in WordPress.
-export const path = (p: string) => `${import.meta.env.BASE_URL.replace(/\/$/, '')}${p === '/' ? '/' : p}`;
+export const path = (p: string) => {
+  const [route, hash] = p.split('#');
+  const withSlash = route === '/' || route.endsWith('/') || route.includes('.') ? route : `${route}/`;
+  return `${import.meta.env.BASE_URL.replace(/\/$/, '')}${withSlash}${hash ? `#${hash}` : ''}`;
+};
 
 export const site = {
   name: 'Area 30, Eastern Massachusetts Alcoholics Anonymous',
@@ -33,30 +37,30 @@ export const site = {
 
 export const nav = [
   { href: path('/alcoholics-anonymous'), label: 'What is AA?' },
-  { href: path('/cal'), label: 'Calendar' },
+  { href: path('/calendar'), label: 'Calendar' },
   { href: path('/committees/registrar'), label: 'Registrar' },
   { href: path('/committees'), label: 'Committees' },
   { href: path('/districts'), label: 'Districts' },
   { href: path('/literature'), label: 'Literature' },
-  { href: path('/links'), label: 'Resources' },
-  { href: path('/contacts-new'), label: 'Contact' },
-  { href: path('/contributions'), label: 'Contribute' },
+  { href: path('/resources'), label: 'Resources' },
+  { href: path('/contact'), label: 'Contact' },
+  { href: path('/contribute'), label: 'Contribute' },
 ];
 
 export const committees = [
-  { name: 'Archives', href: path('/services#archives'), image: 'archives' },
-  { name: 'Cooperation with the Professional Community', short: 'C.P.C.', href: path('/services#cpc'), image: 'cpc' },
-  { name: 'Corrections', href: path('/services#corrections'), image: 'corrections' },
-  { name: 'Grapevine', href: path('/services#grapevine'), image: 'grapevine' },
-  { name: 'Literature', href: path('/services#literature'), image: 'literature' },
-  { name: 'Public Information', short: 'P.I.', href: path('/services#public-information'), image: 'pi' },
+  { name: 'Archives', href: path('/committees/archives'), image: 'archives' },
+  { name: 'Cooperation with the Professional Community', short: 'C.P.C.', href: path('/committees/cpc'), image: 'cpc' },
+  { name: 'Corrections', href: path('/committees/corrections'), image: 'corrections' },
+  { name: 'Grapevine', href: path('/committees/grapevine'), image: 'grapevine' },
+  { name: 'Literature', href: path('/committees/literature'), image: 'literature' },
+  { name: 'Public Information', short: 'P.I.', href: path('/committees/public-information'), image: 'pi' },
 ] as const;
 
 export const moreCommittees = [
-  { name: 'Accessibilities', href: path('/services#accessibilities') },
-  { name: 'Treatment Facilities', href: path('/services#treatment-facilities') },
+  { name: 'Accessibilities', href: path('/committees/accessibilities') },
+  { name: 'Treatment Facilities', href: path('/committees/treatment-facilities') },
   { name: 'Mass. State Convention', href: path('/committees/state-convention') },
-  { name: 'Messenger', href: path('/services#messenger') },
+  { name: 'Messenger', href: path('/committees/messenger') },
   { name: 'Registrar', href: path('/committees/registrar') },
   { name: 'Service Seminar', href: path('/committees/service-seminar') },
   { name: 'Website', href: path('/committees/website') },

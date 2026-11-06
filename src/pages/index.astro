@@ -48,7 +48,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
         </p>
         <div class="actions">
           <a class="button" href={site.links.findMeeting}>Find a meeting</a>
-          <a class="button button--quiet" href={path('/cal')}>See the calendar</a>
+          <a class="button button--quiet" href={path('/calendar')}>See the calendar</a>
         </div>
       </div>
     </section>
@@ -160,7 +160,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
               Service committees focus outreach on one area: Corrections, Cooperation with the
               Professional Community, Literature, Accessibilities, Treatment, Public Information and Archives.
             </p>
-            <a href={path('/services')}>Browse service committees</a>
+            <a href={path('/service')}>Browse service committees</a>
           </li>
           <li>
             <h3>What is Alcoholics Anonymous?</h3>
@@ -175,7 +175,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
       <div class="wrap prose">
         <div class="section-head">
           <h2 id="events-title">Upcoming events</h2>
-          <a href={path('/cal')}>View the full calendar</a>
+          <a href={path('/calendar')}>View the full calendar</a>
         </div>
         {events.length > 0 ? (
           <ul class="events">
@@ -199,7 +199,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
       <div class="wrap">
         <div class="section-head">
           <h2 id="committees-title">Service committees</h2>
-          <a href={path('/services')}>View all committees</a>
+          <a href={path('/service')}>View all committees</a>
         </div>
         <ul class="committee-grid">
           {committees.map((c) => (
@@ -259,22 +259,22 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
           <div class="stack">
             <h3>Events</h3>
             <p>Area 30 events and committee meetings.</p>
-            <a href={path('/cal')}>Calendar</a>
+            <a href={path('/calendar')}>Calendar</a>
           </div>
           <div class="stack">
             <h3>Get in touch</h3>
             <p>Contact us and see the full list of officers and committee members.</p>
-            <a href={path('/contacts-new')}>Contact Area 30</a>
+            <a href={path('/contact')}>Contact Area 30</a>
           </div>
           <div class="stack">
             <h3>7th Tradition</h3>
             <p>Contribute to Area 30 as a member, group or district.</p>
-            <a href={path('/contributions')}>Contributions</a>
+            <a href={path('/contribute')}>Contributions</a>
           </div>
           <div class="stack">
             <h3>Links</h3>
             <p>Resources and useful Alcoholics Anonymous links.</p>
-            <a href={path('/links')}>Resources</a>
+            <a href={path('/resources')}>Resources</a>
           </div>
         </div>
       </div>

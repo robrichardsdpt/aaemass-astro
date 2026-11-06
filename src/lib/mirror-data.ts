@@ -61,10 +61,10 @@ export const services = {
   {
    "title": "Cooperation with the Professional Community",
    "paras": [
-    "The Cooperation with the Professional Community (C.P.C.) committee can bring the A.A. message to professionals and to students at professional schools, helping them to understand how and why A.A. works.",
-    "A.A. has always valued friends in all professional fields. These associations have been mutually beneficial and completely in keeping with the A.A. Traditions.",
-    "Members of C.P.C. committees inform professionals and future professionals about A.A. — what we are, where we are, what we can do, and what we cannot do. They attempt to establish better communication between A.A.s and professionals, and to find simple, effective ways of cooperating without affiliating.",
-    "All A.A. members are welcome to attend the monthly C.P.C. committee meeting, which is held the second Thursday of the month, at 7:00 PM, at Central Service, 12 Channel Street, Suite 604, Boston, MA, 02210."
+    "The Cooperation with the Professional Community (C.P.C.) committee can bring the AA message to professionals and to students at professional schools, helping them to understand how and why AA works.",
+    "AA has always valued friends in all professional fields. These associations have been mutually beneficial and completely in keeping with the AA Traditions.",
+    "Members of C.P.C. committees inform professionals and future professionals about AA — what we are, where we are, what we can do, and what we cannot do. They attempt to establish better communication between AAs and professionals, and to find simple, effective ways of cooperating without affiliating.",
+    "All AA members are welcome to attend the monthly C.P.C. committee meeting, which is held the second Thursday of the month, at 7:00 PM, at Central Service, 12 Channel Street, Suite 604, Boston, MA, 02210."
    ],
    "contact": "cpc@aaemass.org"
   },
@@ -103,11 +103,11 @@ export const services = {
   {
    "title": "Public Information Committee",
    "paras": [
-    "What is Public Information work and Why Should A.A.s Do It?",
-    "Public Information (P.I.) in Alcoholics Anonymous means carrying the message of recovery to the still-suffering alcoholic by informing the general public about the A.A. program. We carry the message by getting in touch with the media, schools, industry, and other organizations which can report on the nature and purpose of A.A. and what it can do for alcoholics. The first Public Information committee in A.A. was formed by the General Service Board in 1956. At that time, the following statement of “A.A.’s movement wide public information policy” was written and approved by the General Service Conference:",
-    "In all public relations, A.A.’s sole objective is to help the still suffering alcoholic. Always mindful of the importance of personal anonymity we believe this can be done by making known to him, and to those who may be interested in his problems, our own experience as individuals and as a Fellowship in learning to live without alcohol. We believe that our experience should be made available freely to all who express sincere interest. We believe further that all efforts in this field should always reflect our gratitude for the gift of sobriety and our awareness that many outside A.A. are equally concerned with the serious problem of alcoholism.",
-    "As our co-founder Bill W. wrote: Public Information takes many forms – the simple sign outside a meeting place that says “A.A. meeting tonight;” listing in local phone directories; distribution of A.A. literature; and radio and television shows using sophisticated media techniques. Whatever the form, it comes down to “one drunk carrying the message to another drunk,” whether through personal contact or through the use of third parties and the media.",
-    "For those A.A. members who decide to speak about A.A. at a non-A.A. meeting….you assume a serious responsibility. Even though you are careful to explain that you are not speaking for A.A. as a whole, many members of the audience will base their good or bad opinion of the Fellowship on what is said and how it is said. The reaction of nonalcoholic listeners and their consequent referring or failure to refer alcoholics to A.A. may someday mean the difference between life and death to still-suffering alcoholics."
+    "What is Public Information work and Why Should AAs Do It?",
+    "Public Information (P.I.) in Alcoholics Anonymous means carrying the message of recovery to the still-suffering alcoholic by informing the general public about the AA program. We carry the message by getting in touch with the media, schools, industry, and other organizations which can report on the nature and purpose of AA and what it can do for alcoholics. The first Public Information committee in AA was formed by the General Service Board in 1956. At that time, the following statement of “AA’s movement wide public information policy” was written and approved by the General Service Conference:",
+    "In all public relations, AA’s sole objective is to help the still suffering alcoholic. Always mindful of the importance of personal anonymity we believe this can be done by making known to him, and to those who may be interested in his problems, our own experience as individuals and as a Fellowship in learning to live without alcohol. We believe that our experience should be made available freely to all who express sincere interest. We believe further that all efforts in this field should always reflect our gratitude for the gift of sobriety and our awareness that many outside AA are equally concerned with the serious problem of alcoholism.",
+    "As our co-founder Bill W. wrote: Public Information takes many forms – the simple sign outside a meeting place that says “AA meeting tonight;” listing in local phone directories; distribution of AA literature; and radio and television shows using sophisticated media techniques. Whatever the form, it comes down to “one drunk carrying the message to another drunk,” whether through personal contact or through the use of third parties and the media.",
+    "For those AA members who decide to speak about AA at a non-AA meeting….you assume a serious responsibility. Even though you are careful to explain that you are not speaking for AA as a whole, many members of the audience will base their good or bad opinion of the Fellowship on what is said and how it is said. The reaction of nonalcoholic listeners and their consequent referring or failure to refer alcoholics to AA may someday mean the difference between life and death to still-suffering alcoholics."
    ],
    "contact": "pi@aaemass.org"
   },
@@ -130,13 +130,13 @@ export const services = {
    "title": "Why Service?",
    "paras": [
     "The following excerpt is from Dr. Bob’s final message delivered at the first International Conference of Alcoholics Anonymous at Cleveland, Ohio in 1950:",
-    "I get a big thrill out of looking over a vast sea of faces like this with a feeling that possibly some small thing I did a number of years ago played an infinitely small part in making this meeting possible…There are two or three things which flashed into my mind on which it would be fitting to lay a little emphasis. One is the simplicity of our program. Let’s not louse it up with…complexes and things that…have very little to do with our actual A.A. work.",
+    "I get a big thrill out of looking over a vast sea of faces like this with a feeling that possibly some small thing I did a number of years ago played an infinitely small part in making this meeting possible…There are two or three things which flashed into my mind on which it would be fitting to lay a little emphasis. One is the simplicity of our program. Let’s not louse it up with…complexes and things that…have very little to do with our actual AA work.",
     "Our Twelve Steps, when simmered down to the last, resolve themselves into the words ‘love’ and ‘service’. We understand what love is and we understand what service is. So let’s bear those two things in mind.",
-    "Reprinted from Pass It On: The story of Bill Wilson and how the A.A. message reached the world, ©1984, pp. 339-342, with permission of AA World Services, Inc.",
+    "Reprinted from Pass It On: The story of Bill Wilson and how the AA message reached the world, ©1984, pp. 339-342, with permission of AA World Services, Inc.",
     "## Join Us On the Broad Highway",
     "[Contact Area 30](/contacts)",
-    "[FInd A.A. Near You](https://www.aa.org/find-aa/north-america)",
-    "#### Copyright Ⓒ 2025 Area 30 Eastern Mass A.A. All Right Reserved.",
+    "[FInd AA Near You](https://www.aa.org/find-aa/north-america)",
+    "#### Copyright Ⓒ 2025 Area 30 Eastern Mass AA All Right Reserved.",
     "Thank you for visiting our website.",
     "Selecting OK will redirect you outside the AAEMASS.org; selecting cancel will allow you to remain our site.",
     "NOTICE ABOUT LINKS",
@@ -152,7 +152,7 @@ export const services = {
 
 export const districtsAbout = {
  "paras": [
-  "A District is a geographical division within an Area that provides an opportunity for the groups in that vicinity to have a voice in matters affecting other groups and A.A. as a whole. Each District has a District Committee that is made up of representatives from its many A.A. groups. These representatives are called General Service Representatives or G.S.R.s. Each group may elect a G.S.R. who will attend the District meetings and Area assemblies in order to represent the group and vote the group’s conscience. The District Committee elects a representative — a District Committee Member, or D.C.M., who is an experienced G.S.R., to serve as an essential link between the group G.S.R. and the Area Delegate. As a member of the area committee, the D.C.M. is able to pass on the District’s thinking to the delegate and the committee."
+  "A District is a geographical division within an Area that provides an opportunity for the groups in that vicinity to have a voice in matters affecting other groups and AA as a whole. Each District has a District Committee that is made up of representatives from its many AA groups. These representatives are called General Service Representatives or G.S.R.s. Each group may elect a G.S.R. who will attend the District meetings and Area assemblies in order to represent the group and vote the group’s conscience. The District Committee elects a representative — a District Committee Member, or D.C.M., who is an experienced G.S.R., to serve as an essential link between the group G.S.R. and the Area Delegate. As a member of the area committee, the D.C.M. is able to pass on the District’s thinking to the delegate and the committee."
  ],
  "link": {
   "text": "What District am I in?",
@@ -469,31 +469,31 @@ export const districts = [
 
 export const literature = {
  "intro": [
-  "Literature published by A.A. World Services, Inc., is a resource for recovering alcoholics and other individuals. In our materials, you can find out more about Alcoholics Anonymous, its history, and how it works. We publish items in English, Spanish and French. We also publish and license translations in international languages for recovering alcoholics around the world. Many of our translated materials are in our literature catalog."
+  "Literature published by AA World Services, Inc., is a resource for recovering alcoholics and other individuals. In our materials, you can find out more about Alcoholics Anonymous, its history, and how it works. We publish items in English, Spanish and French. We also publish and license translations in international languages for recovering alcoholics around the world. Many of our translated materials are in our literature catalog."
  ],
  "groups": [
   {
    "title": "Alcoholics Anonymous (Big Book)",
    "items": [
     {
-     "title": "A.A. Big Book",
+     "title": "AA Big Book",
      "href": "https://www.aa.org/the-big-book",
      "sub": "Fourth Edition"
     },
     {
-     "title": "A.A. Big Book (ASL)",
+     "title": "AA Big Book (ASL)",
      "href": "https://www.aa.org/the-big-book",
      "sub": "Fourth Edition (Deaf)"
     },
     {
-     "title": "A.A. Big Book (Audio)",
+     "title": "AA Big Book (Audio)",
      "href": "https://www.aa.org/the-big-book",
      "sub": "Fourth Edition Audio"
     }
    ]
   },
   {
-   "title": "A.A. Literature",
+   "title": "AA Literature",
    "items": [
     {
      "title": "12 & 12",
@@ -501,12 +501,12 @@ export const literature = {
      "sub": ""
     },
     {
-     "title": "A.A. Service Manual",
+     "title": "AA Service Manual",
      "href": "https://www.aa.org/aa-service-manualtwelve-concepts-world-services",
      "sub": ""
     },
     {
-     "title": "A.A. Comes of Age",
+     "title": "AA Comes of Age",
      "href": "https://www.aa.org/alcoholics-anonymous-comes-age",
      "sub": ""
     },
@@ -523,7 +523,7 @@ export const literature = {
    ]
   },
   {
-   "title": "A.A. Pamphlets",
+   "title": "AA Pamphlets",
    "items": [
     {
      "title": "The Twelve Traditions Illustrated",
@@ -536,7 +536,7 @@ export const literature = {
      "sub": ""
     },
     {
-     "title": "The A.A. Group",
+     "title": "The AA Group",
      "href": "https://www.aa.org/the-aa-group",
      "sub": ""
     },
@@ -551,7 +551,7 @@ export const literature = {
      "sub": ""
     },
     {
-     "title": "Young People in A.A.",
+     "title": "Young People in AA",
      "href": "https://www.aa.org/young-people-and-aa",
      "sub": ""
     },
@@ -561,12 +561,12 @@ export const literature = {
      "sub": ""
     },
     {
-     "title": "LGBTQ Alcoholics in A.A.",
+     "title": "LGBTQ Alcoholics in AA",
      "href": "https://www.aa.org/lgbtq-alcoholics-aa",
      "sub": ""
     },
     {
-     "title": "Indigenous People in A.A.",
+     "title": "Indigenous People in AA",
      "href": "https://www.aa.org/indigenous-people-aa",
      "sub": ""
     }

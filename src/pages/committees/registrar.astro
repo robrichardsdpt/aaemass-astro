@@ -1,18 +1,18 @@
 ---
 import Page from '../../layouts/Page.astro';
-import { site } from '../../lib/site';
+import { site, path } from '../../lib/site';
 
 const forms = [
-  { title: 'New Group Form', text: 'Fill this out to register a new group.', href: 'https://area30.org/wp-content/uploads/2022/10/New_Group_Form.pdf' },
-  { title: 'Group Update Form', text: 'Update your group’s information.', href: 'https://area30.org/wp-content/uploads/2022/10/Group_Update_Form.pdf' },
-  { title: 'DCM Change Form', text: 'Report a change of District Committee Member.', href: 'https://area30.org/wp-content/uploads/2022/10/DCM-Change-From.pdf' },
-  { title: 'Updated Group Change Form', text: 'Fillable group change form (Word document).', href: 'https://area30.org/wp-content/uploads/2022/10/Fillable-Group-Change-Form-Update-1.docx' },
+  { title: 'New Group Form', text: 'Fill this out to register a new group.', href: path('/forms/new-group-form.pdf') },
+  { title: 'Group Update Form', text: 'Update your group’s information.', href: path('/forms/group-update-form.pdf') },
+  { title: 'DCM Change Form', text: 'Report a change of District Committee Member.', href: path('/forms/dcm-change-form.pdf') },
+  { title: 'Updated Group Change Form', text: 'Fillable group change form (Word document).', href: path('/forms/group-change-form.docx') },
 ];
 ---
 
 <Page
   title="Registrar | Area 30 Eastern Massachusetts Alcoholics Anonymous"
-  description="Register your A.A. group with Area 30, update group information, and download Registrar forms. Contact the Area 30 Registrar at registrar@aaemass.org."
+  description="Register your AA group with Area 30, update group information, and download Registrar forms. Contact the Area 30 Registrar at registrar@aaemass.org."
   heading="Registrar"
   eyebrow="Standing committee"
   lede="We are here to assist with the registration process."
