@@ -36,7 +36,7 @@
 
     /* The hero photo is dark in both themes, so its text tokens are fixed. */
     --hero-ink: oklch(0.99 0.005 255);
-    --hero-scrim: oklch(0.2 0.05 258 / 0.62);
+    --hero-scrim: oklch(0.2 0.05 258 / 0.72);
 
     --step--1: clamp(0.875rem, 0.85rem + 0.12vw, 0.95rem);
     --step-0: clamp(1.0625rem, 1.03rem + 0.17vw, 1.1875rem);
@@ -286,8 +286,7 @@
   .hero .wrap { padding-block: var(--s-8) var(--s-7); }
   @media (min-width: 52rem) { .hero .wrap { padding-block: var(--s-9) var(--s-8); } }
   .hero h1 { max-width: 20ch; }
-  .hero 
-  .hero .eyebrow { color: oklch(0.9 0.02 255); margin-block-end: var(--s-3); }
+  .hero .eyebrow { color: var(--hero-ink); margin-block-end: var(--s-3); text-shadow: 0 1px 2px oklch(0.15 0.05 258 / 0.6); }
   .hero p.lede { margin-block-start: var(--s-4); max-width: 46ch; font-size: var(--step-1); line-height: 1.45; }
   .hero .actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-block-start: var(--s-6); }
 
