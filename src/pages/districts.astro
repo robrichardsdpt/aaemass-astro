@@ -38,11 +38,6 @@ const faqs = [
     <div class="wrap">
       <div class="stack prose" style="margin-block-end: var(--s-5)">
         <h2 id="meet-title">Where and when does each district meet?</h2>
-        <nav aria-label="Districts">
-          <ul class="inline-list">
-            {districts.map((d) => <li><a href={`#${idOf(d.name)}`}>{d.name.replace('District ', '')}</a></li>)}
-          </ul>
-        </nav>
       </div>
       <ul class="district-grid">
         {districts.map((d) => (
