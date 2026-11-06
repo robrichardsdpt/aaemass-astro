@@ -1,0 +1,113 @@
+---
+import Page from '../layouts/Page.astro';
+import { site } from '../lib/site';
+
+const live = `${site.url}/contributions`;
+const forms = [
+  { title: 'Group contribution', text: 'Contribute to Area 30 as an A.A. group.', href: `${live}#GCF` },
+  { title: 'Member contribution', text: 'Contribute as an individual A.A. member.', href: `${live}#MCF` },
+  { title: 'District contribution', text: 'Contribute to Area 30 as a District.', href: `${live}#DCF` },
+];
+const gives = [
+  'Groups get meeting space',
+  'Phones get answered',
+  'Alcoholic persons in custody get Big Books',
+  'Professionals get correct information about A.A.',
+  'Lone A.A. members get letters',
+  'Newcomers get literature and meeting lists',
+  'A.A.s around the globe share experience, strength and hope',
+];
+const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-mix';
+---
+
+<Page
+  title="Contributions and Self-Support | Area 30 Eastern Massachusetts A.A."
+  description="Contribute to Area 30 as an A.A. group, member or District. Learn how the Seventh Tradition keeps A.A. self-supporting."
+  heading="Contributions and self-support"
+  eyebrow="Seventh Tradition"
+  lede="Every A.A. group ought to be fully self-supporting, declining outside contributions."
+  current="/contributions"
+>
+  <div slot="actions" class="actions">
+    <a class="button" href="#contribute">Contribute online</a>
+    <a class="button button--quiet" href={pamphlet}>Read the pamphlet</a>
+  </div>
+
+  <section class="section" aria-labelledby="tradition-title">
+    <div class="wrap prose stack">
+      <h2 id="tradition-title">Contributions and self-support</h2>
+      <p>
+        A.A.’s Seventh Tradition states: “Every A.A. group ought to be fully self-supporting,
+        declining outside contributions.” This means that only A.A. members contribute financially
+        to A.A., and even A.A. members are limited in the amount they can contribute. This keeps
+        A.A. free of outside influences that might divert us from our primary purpose: to help the
+        alcoholic who still suffers. The amount of the contribution is secondary to the spiritual
+        connection that unites all groups around the world.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="money-title">
+    <div class="wrap split">
+      <div class="stack prose">
+        <h2 id="money-title">Where money and spirituality mix</h2>
+        <p>
+          Members celebrate sobriety by giving time, energy and money in support of carrying the
+          A.A. message. Members assure that group expenses are paid by voluntarily putting money
+          into the basket passed at each meeting. Contributions support the group and A.A.
+          worldwide.
+        </p>
+        <p><a href={pamphlet}>Read the pamphlet on aa.org</a></p>
+      </div>
+      <div class="notice stack">
+        <h3>Contributions ensure that</h3>
+        <ul class="checklist">
+          {gives.map((g) => <li>{g}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contribute" aria-labelledby="online-title">
+    <div class="wrap">
+      <div class="stack prose" style="margin-block-end: var(--s-5)">
+        <h2 id="online-title">Contribute online</h2>
+        <p>
+          Use the form that matches who is giving. If you do not know your group number, email
+          <a href={`mailto:${site.registrarEmail}`}>{site.registrarEmail}</a>. A committee or a cluster
+          of groups should use the District form and add details in the sub-district field. Questions
+          about finances go to <a href="mailto:treasurer@aaemass.org">treasurer@aaemass.org</a>.
+        </p>
+      </div>
+      <ul class="cards">
+        {forms.map((f) => (
+          <li class="notice stack">
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+            <a href={f.href}>Open the form on aaemass.org<span class="visually-hidden">: {f.title}</span></a>
+          </li>
+        ))}
+      </ul>
+      <p class="prose" style="margin-block-start: var(--s-4)">
+        These forms hand off to PayPal’s secure payment gateway on aaemass.org, so they stay on
+        the live site until payments are moved over.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="non-title">
+    <div class="wrap prose stack">
+      <h2 id="non-title">Non-A.A. members</h2>
+      <p>
+        Area 30 respectfully declines contributions from non-A.A. members in accordance with our
+        Seventh Tradition and self-support. If you are interested in learning more about our
+        recovery program, please reach out.
+      </p>
+      <ul class="inline-list">
+        <li><a href="mailto:cpc@aaemass.org">Professionals</a></li>
+        <li><a href="mailto:pi@aaemass.org">Individuals and families</a></li>
+        <li><a href="mailto:treasurer@aaemass.org">Questions on finances</a></li>
+      </ul>
+    </div>
+  </section>
+</Page>

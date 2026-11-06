@@ -1,0 +1,69 @@
+---
+import Page from '../layouts/Page.astro';
+
+const official = [
+  { name: 'A.A. General Service Office (G.S.O.)', href: 'https://www.aa.org/' },
+  { name: 'A.A. Grapevine Magazine', href: 'https://www.aagrapevine.org/' },
+];
+const quick = [
+  {
+    title: 'A.A. Guidelines',
+    href: 'http://www.aa.org/pages/en_US/aa-guidelines',
+    text: 'Download or view the A.A. Guidelines. They represent the shared experience of A.A. members and groups throughout the service areas in the United States and Canada, and reflect guidance from the Twelve Traditions and the General Service Conference. The purpose of the Guidelines is to help a group reach an informed group conscience.',
+  },
+  {
+    title: 'Box 459',
+    href: 'https://www.aa.org/news-and-announcements',
+    text: 'News and Notes from G.S.O. Download or view Box 459.',
+  },
+  {
+    title: 'Area web sites',
+    href: 'https://www.aa.org/en_find_meeting.cfm?PageID=72',
+    text: 'A.A.W.S.’s list of General Service Conference area web sites.',
+  },
+  {
+    title: 'Fact sheets and pamphlets',
+    href: 'https://www.aa.org/resources/literature',
+    text: 'Information on A.A. from A.A.W.S., including fact sheets and some pamphlets.',
+  },
+];
+---
+
+<Page
+  title="Resources and Links | Area 30 Eastern Massachusetts A.A."
+  description="Useful Alcoholics Anonymous links for Area 30 members: the General Service Office, Grapevine, A.A. Guidelines, Box 459 and area web sites."
+  heading="Resources"
+  eyebrow="Links"
+  lede="Useful Alcoholics Anonymous links for members in Area 30."
+  current="/links"
+>
+  <section class="section" aria-labelledby="official-title">
+    <div class="wrap">
+      <h2 id="official-title" style="margin-block-end: var(--s-4)">Official Alcoholics Anonymous</h2>
+      <ul class="inline-list">
+        {official.map((l) => <li><a href={l.href}>{l.name}</a></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="quick-title">
+    <div class="wrap">
+      <div class="stack prose" style="margin-block-end: var(--s-5)">
+        <h2 id="quick-title">Frequently requested information</h2>
+        <p>
+          Direct links to information on the A.A.W.S. and A.A. Grapevine web sites that is often
+          requested by members in Area 30.
+        </p>
+      </div>
+      <ul class="cards">
+        {quick.map((l) => (
+          <li class="notice stack">
+            <h3>{l.title}</h3>
+            <p>{l.text}</p>
+            <a href={l.href}>Go to {l.title}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Page>

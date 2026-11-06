@@ -1,0 +1,59 @@
+---
+import Page from '../layouts/Page.astro';
+import { site } from '../lib/site';
+import { getUpcomingEvents } from '../lib/events';
+
+const events = await getUpcomingEvents(24);
+const tz = 'America/New_York';
+const month = new Intl.DateTimeFormat('en-US', { timeZone: tz, month: 'long', year: 'numeric' });
+const day = new Intl.DateTimeFormat('en-US', { timeZone: tz, month: 'short', day: 'numeric' });
+const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', hour: 'numeric', minute: '2-digit' });
+
+const groups = new Map<string, typeof events>();
+for (const e of events) {
+  const key = month.format(e.start);
+  groups.set(key, [...(groups.get(key) ?? []), e]);
+}
+---
+
+<Page
+  title="Calendar | Area 30 Eastern Massachusetts Alcoholics Anonymous"
+  description="Upcoming Area 30 events and committee meetings for Eastern Massachusetts Alcoholics Anonymous."
+  heading="Area 30 calendar"
+  eyebrow="Events"
+  lede="Upcoming events and committee meetings across Eastern Massachusetts."
+  current="/cal"
+>
+  <section class="section" aria-labelledby="events-title">
+    <div class="wrap prose">
+      <h2 id="events-title" class="visually-hidden">Upcoming events</h2>
+      {events.length > 0 ? (
+        Array.from(groups).map(([name, list]) => (
+          <div style="margin-block-end: var(--s-6)">
+            <h3 style="margin-block-end: var(--s-3)">{name}</h3>
+            <ul class="events">
+              {list.map((e) => (
+                <li>
+                  <time datetime={e.start.toISOString()}>{day.format(e.start)}</time>
+                  <div>
+                    <a href={e.url}>{e.title}</a>
+                    <p class="when">{e.allDay ? 'All day' : clock.format(e.start)}{e.venue ? `, ${e.venue}` : ''}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      ) : (
+        <div class="notice stack">
+          <h3>Nothing is scheduled right now</h3>
+          <p>
+            No events are posted at the moment. Committee meetings and area events appear here as
+            they are scheduled. The Area 30 committee meets {site.meeting.when} at the
+            <a href={site.meeting.map}>{site.meeting.where}</a>.
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+</Page>

@@ -1,0 +1,40 @@
+---
+import Page from '../layouts/Page.astro';
+import { literature } from '../lib/mirror-data';
+---
+
+<Page
+  title="A.A. Literature | Area 30 Eastern Massachusetts Alcoholics Anonymous"
+  description="Conference-approved A.A. literature: the Big Book, Twelve Steps and Twelve Traditions, service manual and pamphlets, with links to read each on aa.org."
+  heading="A.A. literature"
+  eyebrow="Resources"
+  lede="Literature published by A.A. World Services is a resource for recovering alcoholics and other individuals."
+  current="/literature"
+>
+  <section class="section" aria-labelledby="intro-title">
+    <div class="wrap prose stack">
+      <h2 id="intro-title" class="visually-hidden">About A.A. literature</h2>
+      <p>
+        In these materials you can find out more about Alcoholics Anonymous, its history and how it
+        works. Items are published in English, Spanish and French. Each link opens the item on aa.org.
+      </p>
+    </div>
+  </section>
+
+  {literature.groups.map((g, i) => (
+    <section class="section" aria-labelledby={`lit-${i}`}>
+      <div class="wrap">
+        <h2 id={`lit-${i}`} style="margin-block-end: var(--s-5)">{g.title}</h2>
+        <ul class="cards">
+          {g.items.map((item) => (
+            <li class="notice stack">
+              <h3><a href={item.href}>{item.title}</a></h3>
+              {item.sub && <p class="eyebrow">{item.sub}</p>}
+              <p><a href={item.href}>View on aa.org<span class="visually-hidden">: {item.title}</span></a></p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  ))}
+</Page>

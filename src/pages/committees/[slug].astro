@@ -1,0 +1,55 @@
+---
+import Page from '../../layouts/Page.astro';
+import { path } from '../../lib/site';
+import { committees } from '../../lib/committee-pages';
+
+export function getStaticPaths() {
+  return Object.entries(committees).map(([slug, c]) => ({ params: { slug }, props: { slug, c } }));
+}
+const { slug, c } = Astro.props;
+---
+
+<Page
+  title={`${c.title} Committee | Area 30 Eastern Massachusetts A.A.`}
+  description={c.description}
+  heading={c.title}
+  eyebrow={c.eyebrow}
+  lede={c.lede}
+  current="/committees"
+>
+  <div slot="actions" class="actions">
+    <a class="button" href={`mailto:${c.email}`}>Email {c.email}</a>
+  </div>
+
+  <section class="section" aria-labelledby="mission-title">
+    <div class="wrap prose stack">
+      <h2 id="mission-title">Mission</h2>
+      <p>{c.mission}</p>
+      {'link' in c && c.link && <p>More information: <a href={c.link.href}>{c.link.text}</a></p>}
+    </div>
+  </section>
+
+  {c.meeting && (
+    <section class="section" aria-labelledby="meeting-title">
+      <div class="wrap prose stack">
+        <h2 id="meeting-title">Meetings</h2>
+        <p>{c.meeting.intro}</p>
+        {c.meeting.dates.length > 0 && (
+          <ul class="inline-list">{c.meeting.dates.map((d) => <li><span class="chip">{d}</span></li>)}</ul>
+        )}
+        {c.meeting.lines.map((l) => <p>{l}</p>)}
+        {slug === 'website' && <p><a href={path('/cal')}>Open the calendar</a></p>}
+      </div>
+    </section>
+  )}
+
+  <section class="section" aria-labelledby="contact-title">
+    <div class="wrap prose stack">
+      <h2 id="contact-title">How can we help?</h2>
+      <p>{c.cta}</p>
+      {'pitch' in c && c.pitch && <p>{c.pitch}</p>}
+      <p><a class="button" href={`mailto:${c.email}`}>Email {c.email}</a></p>
+      <p><a href={path('/committees')}>Back to all committees</a></p>
+    </div>
+  </section>
+</Page>

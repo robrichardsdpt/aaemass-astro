@@ -1,0 +1,47 @@
+---
+import Page from '../layouts/Page.astro';
+import { districtsAbout, districts } from '../lib/mirror-data';
+import { linkify } from '../lib/links';
+
+const idOf = (name: string) => name.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+---
+
+<Page
+  title="Districts | Area 30 Eastern Massachusetts Alcoholics Anonymous"
+  description="Area 30 districts in Eastern Massachusetts: when and where each District meets, how to join online, and where to mail contributions."
+  heading="Districts"
+  eyebrow="Area 30"
+  lede="Districts give the groups in each part of Eastern Massachusetts a voice in matters that affect A.A. as a whole."
+  current="/districts"
+>
+  <section class="section" aria-labelledby="what-title">
+    <div class="wrap prose stack">
+      <h2 id="what-title">What are Districts?</h2>
+      {districtsAbout.paras.map((p) => <p>{p}</p>)}
+      <p>
+        <a class="button button--quiet" href={districtsAbout.link.href}>{districtsAbout.link.text}</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="meet-title">
+    <div class="wrap">
+      <div class="stack prose" style="margin-block-end: var(--s-5)">
+        <h2 id="meet-title">Meeting places and mailing addresses</h2>
+        <nav aria-label="Districts">
+          <ul class="inline-list">
+            {districts.map((d) => <li><a href={`#${idOf(d.name)}`}>{d.name.replace('District ', '')}</a></li>)}
+          </ul>
+        </nav>
+      </div>
+      <ul class="district-grid">
+        {districts.map((d) => (
+          <li class="notice stack anchor" id={idOf(d.name)}>
+            <h3>{d.name}</h3>
+            {d.lines.map((l) => <p set:html={linkify(l)} />)}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Page>

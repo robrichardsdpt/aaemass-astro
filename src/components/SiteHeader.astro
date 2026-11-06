@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { site, nav } from '../lib/site';
+import { nav, path } from '../lib/site';
 import seal from '../assets/seal.png';
 
 interface Props { current?: string }
@@ -9,7 +9,7 @@ const { current } = Astro.props;
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href={`${site.url}/`}>
+    <a class="brand" href={path('/')}>
       <Image src={seal} width={56} height={51} alt="" loading="eager" />
       <span>Area 30<br />Eastern Massachusetts AA</span>
     </a>
@@ -22,8 +22,7 @@ const { current } = Astro.props;
         <summary>Menu</summary>
         <ul>
           {nav.map((item) => <li><a href={item.href} aria-current={current === item.href ? 'page' : undefined}>{item.label}</a></li>)}
-          <li><a href={`${site.url}/contributions`}>Contribute</a></li>
-        </ul>
+                  </ul>
       </details>
     </nav>
   </div>

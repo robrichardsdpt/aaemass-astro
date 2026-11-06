@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteScripts from '../components/SiteScripts.astro';
-import { site } from '../lib/site';
+import { site, path } from '../lib/site';
 import heroImg from '../assets/boston-2-bg.jpg';
 
 const mail = (user: string) => `${user}@aaemass.org`;
@@ -43,7 +43,7 @@ const reasons = ['Looking for help', 'Meetings', 'General service', 'Committee',
   title="Contact Area 30 | Eastern Massachusetts Alcoholics Anonymous"
   description="Contact Area 30, the Alcoholics Anonymous service area for Eastern Massachusetts: mailing address, committee meeting, officers and committee email addresses."
 >
-  <SiteHeader current={`${site.url}/contacts`} />
+  <SiteHeader current={path('/contacts-new')} />
 
   <main id="main">
     <section class="hero hero--compact" aria-labelledby="hero-title">

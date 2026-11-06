@@ -1,0 +1,74 @@
+---
+import Page from '../../layouts/Page.astro';
+import { site } from '../../lib/site';
+
+const forms = [
+  { title: 'New Group Form', text: 'Fill this out to register a new group.', href: 'https://area30.org/wp-content/uploads/2022/10/New_Group_Form.pdf' },
+  { title: 'Group Update Form', text: 'Update your group’s information.', href: 'https://area30.org/wp-content/uploads/2022/10/Group_Update_Form.pdf' },
+  { title: 'DCM Change Form', text: 'Report a change of District Committee Member.', href: 'https://area30.org/wp-content/uploads/2022/10/DCM-Change-From.pdf' },
+  { title: 'Updated Group Change Form', text: 'Fillable group change form (Word document).', href: 'https://area30.org/wp-content/uploads/2022/10/Fillable-Group-Change-Form-Update-1.docx' },
+];
+---
+
+<Page
+  title="Registrar | Area 30 Eastern Massachusetts Alcoholics Anonymous"
+  description="Register your A.A. group with Area 30, update group information, and download Registrar forms. Contact the Area 30 Registrar at registrar@aaemass.org."
+  heading="Registrar"
+  eyebrow="Standing committee"
+  lede="We are here to assist with the registration process."
+  current="/committees/registrar"
+>
+  <section class="section" aria-labelledby="number-title">
+    <div class="wrap prose">
+      <div class="notice stack">
+        <h2 id="number-title" style="font-size: var(--step-1)">Does your group have a service number?</h2>
+        <p>
+          If you send a contribution to the General Service Office in New York without your
+          group’s service number, your group will not get credit for the donation. If you are not
+          sure, email <a href={`mailto:${site.registrarEmail}`}>{site.registrarEmail}</a> and we
+          can help look up your group’s information.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="mission-title">
+    <div class="wrap prose stack">
+      <h2 id="mission-title">Mission</h2>
+      <p>
+        The Registrar maintains the Confidential Area List, coordinates with the General Service
+        Office, the Delegate and Districts regarding group updates, and manages the registration
+        desk at area assemblies.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="forms-title">
+    <div class="wrap">
+      <div class="stack prose" style="margin-block-end: var(--s-5)">
+        <h2 id="forms-title">Registrar forms</h2>
+        <p>Download a form below, or email the Registrar to request one.</p>
+      </div>
+      <ul class="cards">
+        {forms.map((f) => (
+          <li class="notice stack">
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+            <a href={f.href}>Open form</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="help-title">
+    <div class="wrap prose stack">
+      <h2 id="help-title">How can we help?</h2>
+      <p>
+        Contact Area 30’s Registrar with any questions, form requests, or for additional
+        information.
+      </p>
+      <p><a class="button" href={`mailto:${site.registrarEmail}`}>Email {site.registrarEmail}</a></p>
+    </div>
+  </section>
+</Page>

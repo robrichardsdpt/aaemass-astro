@@ -415,6 +415,25 @@
   .contact-form { display: grid; gap: var(--s-4); }
   .split:has(.contact-form) { align-items: start; }
 
+  /* Mirrored content pages */
+  .cards { display: grid; gap: var(--s-4); padding: 0; list-style: none; }
+  @media (min-width: 40rem) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .cards .notice { align-content: start; }
+  .cards h3 { font-size: var(--step-1); }
+  .district-grid { display: grid; gap: var(--s-4); padding: 0; list-style: none; }
+  @media (min-width: 40rem) { .district-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .district-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .district-grid .notice { align-content: start; overflow-wrap: anywhere; }
+  .district-grid .stack > * + * { margin-block-start: var(--s-2); }
+  .district-grid h3 { font-size: var(--step-1); margin-block-end: var(--s-1); }
+  .chip { display: inline-block; padding: var(--s-1) var(--s-4); border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-weight: 600; }
+  .anchor { scroll-margin-block-start: var(--s-5); }
+  .checklist { display: grid; gap: var(--s-2); padding: 0; list-style: none; }
+  .checklist li { padding-inline-start: 1.75rem; position: relative; }
+  .checklist li::before { content: '\2713'; position: absolute; inset-inline-start: 0; color: var(--accent); font-weight: 700; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
   /* Quick links */
   .quick { display: grid; gap: var(--s-6); }
   @media (min-width: 52rem) { .quick { grid-template-columns: repeat(4, 1fr); } }
@@ -430,7 +449,7 @@
   .section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--s-2) var(--s-5); margin-block-end: var(--s-5); }
 
   /* Standalone links get a 44px tap area; links inside paragraphs stay inline. */
-  .paths a, .quick a, .section-head a, .committee-grid a, .inline-list a, .signup a {
+  .paths a, .quick a, .cards a, .section-head a, .committee-grid a, .inline-list a, .signup a {
     display: inline-flex;
     align-items: center;
     min-block-size: 2.75rem;

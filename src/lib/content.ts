@@ -1,6 +1,6 @@
 // Long-form homepage copy. DRAFT: written from AA's public descriptions of general service
 // and Area 30's own site. Have the Area 30 Website Committee review before publishing.
-import { site } from './site';
+import { site, path } from './site';
 
 export const serviceSteps = [
   {
@@ -65,12 +65,12 @@ export const faqs: Faq[] = [
   {
     q: 'How can I contribute to Area 30?',
     a: 'AA members, groups and districts can all contribute under the Seventh Tradition. Contribution details are on the Contributions page.',
-    link: { text: 'Contributions', href: `${site.url}/contributions` },
+    link: { text: 'Contributions', href: path('/contributions') },
   },
   {
     q: 'When does the Area 30 committee meet?',
     a: `The committee meets ${site.meeting.when} at the ${site.meeting.where}. Area events, including assemblies, are listed on the calendar.`,
-    link: { text: 'Area 30 calendar', href: `${site.url}/cal` },
+    link: { text: 'Area 30 calendar', href: path('/cal') },
   },
 ];
 
