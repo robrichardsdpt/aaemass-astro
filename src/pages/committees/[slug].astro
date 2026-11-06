@@ -2,11 +2,15 @@
 import Page from '../../layouts/Page.astro';
 import { path } from '../../lib/site';
 import { committees } from '../../lib/committee-pages';
+import { linkify } from '../../lib/links';
+import { termify } from '../../lib/term-match';
 
 export function getStaticPaths() {
   return Object.entries(committees).map(([slug, c]) => ({ params: { slug }, props: { c } }));
 }
 const { c } = Astro.props;
+const seen = new Set<string>();
+const rich = (text: string) => termify(linkify(text), seen);
 ---
 
 <Page
@@ -37,8 +41,8 @@ const { c } = Astro.props;
     <section class="section" aria-labelledby={`s${i}`}>
       <div class="wrap prose stack">
         <h2 id={`s${i}`}>{s.title}</h2>
-        {s.paras?.map((p) => <p>{p}</p>)}
-        {s.items && <ul class="checklist">{s.items.map((x) => <li>{x}</li>)}</ul>}
+        {s.paras?.map((p) => <p set:html={rich(p)} />)}
+        {s.items && <ul class="checklist">{s.items.map((x) => <li set:html={rich(x)} />)}</ul>}
         {s.links && <ul class="inline-list">{s.links.map((l) => <li><a href={l.href}>{l.text}</a></li>)}</ul>}
       </div>
     </section>

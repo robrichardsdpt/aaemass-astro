@@ -2,6 +2,9 @@
 import Page from '../layouts/Page.astro';
 import { districtsAbout, districts } from '../lib/mirror-data';
 import { linkify } from '../lib/links';
+import Rich from '../components/Rich.astro';
+
+const seen = new Set<string>();
 
 const idOf = (name: string) => name.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 ---
@@ -17,7 +20,7 @@ const idOf = (name: string) => name.toLowerCase().replace(/&/g, 'and').replace(/
   <section class="section" aria-labelledby="what-title">
     <div class="wrap prose stack">
       <h2 id="what-title">What are Districts?</h2>
-      {districtsAbout.paras.map((p) => <p>{p}</p>)}
+      {districtsAbout.paras.map((p) => <p><Rich text={p} seen={seen} /></p>)}
       <p>
         <a class="button button--quiet" href={districtsAbout.link.href}>{districtsAbout.link.text}</a>
       </p>

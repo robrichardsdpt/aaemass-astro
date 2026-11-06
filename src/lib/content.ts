@@ -74,7 +74,9 @@ export const faqs: Faq[] = [
   },
 ];
 
-export type TermId = 'gsr' | 'dcm' | 'delegate' | 'seventh';
+export type TermId =
+  | 'gsr' | 'dcm' | 'delegate' | 'seventh' | 'gso' | 'gsc' | 'aaws' | 'cpc' | 'pi' | 'lips' | 'btg'
+  | 'assembly' | 'conscience' | 'steps' | 'traditions' | 'bigbook';
 
 // Definitions shown in tap-to-open popovers on first mention. Draft: have the Website Committee review.
 export const terms: Record<TermId, { full: string; def: string }> = {
@@ -93,5 +95,53 @@ export const terms: Record<TermId, { full: string; def: string }> = {
   seventh: {
     full: 'Seventh Tradition',
     def: 'Every AA group ought to be fully self-supporting, declining outside contributions.',
+  },
+  gso: {
+    full: 'General Service Office (GSO)',
+    def: 'The office in New York that serves AA groups worldwide: it keeps the group registry, publishes literature and answers requests for help.',
+  },
+  gsc: {
+    full: 'General Service Conference',
+    def: 'The yearly meeting where Delegates from areas across the United States and Canada consider the needs of AA as a whole.',
+  },
+  aaws: {
+    full: 'AA World Services (AAWS)',
+    def: 'The corporation that publishes conference-approved AA literature and runs the General Service Office.',
+  },
+  cpc: {
+    full: 'Cooperation with the Professional Community (C.P.C.)',
+    def: 'The committee that gives information about AA to doctors, clergy, educators, courts and other professionals. Cooperation, but not affiliation.',
+  },
+  pi: {
+    full: 'Public Information (P.I.)',
+    def: 'The committee that carries the AA message to the public through the media, schools and community organizations.',
+  },
+  lips: {
+    full: 'Literature in Prisons Service (LIPS)',
+    def: 'A program that collects conference-approved literature from groups and sends it to AA members in prisons.',
+  },
+  btg: {
+    full: 'Bridge the Gap (BTG)',
+    def: 'A temporary contact program that pairs a newcomer leaving a treatment facility with an AA member who takes them to their first meetings.',
+  },
+  assembly: {
+    full: 'Area Assembly',
+    def: 'A meeting of GSRs, DCMs, committee chairs and officers where Area 30 conducts its business and elects its officers.',
+  },
+  conscience: {
+    full: 'Group conscience',
+    def: 'The collective conscience of an AA group: members hear all points of view, then decide together, guided by the Traditions.',
+  },
+  steps: {
+    full: 'The Twelve Steps',
+    def: 'The suggested program of recovery from alcoholism, practiced as a way of life.',
+  },
+  traditions: {
+    full: 'The Twelve Traditions',
+    def: 'The principles that keep AA groups unified and describe how AA relates to the world around it.',
+  },
+  bigbook: {
+    full: 'The Big Book',
+    def: 'The book Alcoholics Anonymous, which describes the AA program of recovery and contains members’ personal stories.',
   },
 };

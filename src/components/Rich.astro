@@ -1,19 +1,17 @@
 ---
 // Renders a plain string, turning the first mention of each defined term into a popover.
 import Term from './Term.astro';
-import type { TermId } from '../lib/content';
+import { termRegex, termIdFor } from '../lib/term-match';
 
 interface Props {
   text: string;
   seen: Set<string>;
 }
 const { text, seen } = Astro.props;
-
-const lookup: Record<string, TermId> = {
-  GSR: 'gsr', GSRs: 'gsr', DCM: 'dcm', DCMs: 'dcm',
-  Delegate: 'delegate', Delegates: 'delegate', 'Seventh Tradition': 'seventh',
-};
-const parts = text.split(/\b(GSRs?|DCMs?|Delegates?|Seventh Tradition)\b/);
+const parts = text.split(termRegex);
 ---
 
-{parts.map((part, i) => (i % 2 === 1 ? <Term id={lookup[part]} seen={seen}>{part}</Term> : part))}
+{parts.map((part, i) => {
+  const id = i % 2 === 1 ? termIdFor(part) : undefined;
+  return id ? <Term id={id} seen={seen}>{part}</Term> : part;
+})}

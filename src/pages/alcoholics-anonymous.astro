@@ -1,6 +1,8 @@
 ---
 import Page from '../layouts/Page.astro';
+import Rich from '../components/Rich.astro';
 import { site, path } from '../lib/site';
+const seen = new Set<string>();
 ---
 
 <Page
@@ -45,8 +47,7 @@ import { site, path } from '../lib/site';
         </li>
       </ul>
       <p style="margin-block-start: var(--s-5)" class="prose">
-        Members use the Twelve Steps to maintain sobriety, and groups use the Twelve Traditions to
-        stay unified. Area 30 is Eastern Massachusetts Alcoholics Anonymous General Service.
+        <Rich text="Members use the Twelve Steps to maintain sobriety, and groups use the Twelve Traditions to stay unified." seen={seen} /> Area 30 is Eastern Massachusetts Alcoholics Anonymous General Service.
         <a href="https://www.aa.org/what-is-aa">Learn more about AA.</a>
       </p>
     </div>

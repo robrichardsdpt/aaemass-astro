@@ -1,5 +1,6 @@
 ---
 import Page from '../../layouts/Page.astro';
+import Rich from '../../components/Rich.astro';
 import { site, path } from '../../lib/site';
 
 const forms = [
@@ -8,6 +9,7 @@ const forms = [
   { title: 'DCM Change Form', text: 'Report a change of District Committee Member.', href: path('/forms/dcm-change-form.pdf') },
   { title: 'Updated Group Change Form', text: 'Fillable group change form (Word document).', href: path('/forms/group-change-form.docx') },
 ];
+const seen = new Set<string>();
 ---
 
 <Page
@@ -23,8 +25,7 @@ const forms = [
       <div class="notice stack">
         <h2 id="number-title" style="font-size: var(--step-1)">Does your group have a service number?</h2>
         <p>
-          If you send a contribution to the General Service Office in New York without your
-          group’s service number, your group will not get credit for the donation. If you are not
+          <Rich text="If you send a contribution to the General Service Office in New York without your group’s service number, your group will not get credit for the donation." seen={seen} /> If you are not
           sure, email <a href={`mailto:${site.registrarEmail}`}>{site.registrarEmail}</a> and we
           can help look up your group’s information.
         </p>
@@ -36,9 +37,7 @@ const forms = [
     <div class="wrap prose stack">
       <h2 id="mission-title">Mission</h2>
       <p>
-        The Registrar maintains the Confidential Area List, coordinates with the General Service
-        Office, the Delegate and Districts regarding group updates, and manages the registration
-        desk at area assemblies.
+        <Rich text="The Registrar maintains the Confidential Area List, coordinates with the General Service Office, the Delegate and Districts regarding group updates, and manages the registration desk at Area Assemblies." seen={seen} />
       </p>
     </div>
   </section>

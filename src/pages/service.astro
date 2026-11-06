@@ -4,6 +4,9 @@ import { services } from '../lib/mirror-data';
 import { linkify } from '../lib/links';
 import { path } from '../lib/site';
 import { committees } from '../lib/committee-pages';
+import { termify } from '../lib/term-match';
+
+const seen = new Set<string>();
 
 // Short, stable anchors that the committee tiles on the home and committees pages link to.
 const ids: Record<string, string> = {
@@ -49,8 +52,7 @@ const sections = services.sections.map((s) => ({ ...s, id: idOf(s.title) }));
       <div class="wrap prose stack">
         <h2 id={`${s.id}-title`}>{s.title}</h2>
         {s.paras.map((p, i) => (
-          i === 0 && s.title === 'Why Service?' ? <p>{p}</p> :
-          <p set:html={linkify(p)} />
+          <p set:html={termify(linkify(p), seen)} />
         ))}
         {(s.id in committees || s.id === 'registrar') && (
           <p><a href={path(s.id === 'registrar' ? '/committees/registrar' : `/committees/${s.id}`)}>Full {s.title} committee page</a></p>

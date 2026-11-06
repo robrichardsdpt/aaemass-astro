@@ -1,5 +1,6 @@
 ---
 import Page from '../layouts/Page.astro';
+import Rich from '../components/Rich.astro';
 
 const official = [
   { name: 'AA General Service Office (G.S.O.)', href: 'https://www.aa.org/' },
@@ -27,6 +28,7 @@ const quick = [
     text: 'Information on AA from AAWS, including fact sheets and some pamphlets.',
   },
 ];
+const seen = new Set<string>();
 ---
 
 <Page
@@ -51,15 +53,14 @@ const quick = [
       <div class="stack prose" style="margin-block-end: var(--s-5)">
         <h2 id="quick-title">Frequently requested information</h2>
         <p>
-          Direct links to information on the AAWS and AA Grapevine web sites that is often
-          requested by members in Area 30.
+          <Rich text="Direct links to information on the AAWS and AA Grapevine web sites that is often requested by members in Area 30." seen={seen} />
         </p>
       </div>
       <ul class="cards">
         {quick.map((l) => (
           <li class="notice stack">
             <h3>{l.title}</h3>
-            <p>{l.text}</p>
+            <p><Rich text={l.text} seen={seen} /></p>
             <a href={l.href}>Go to {l.title}</a>
           </li>
         ))}
