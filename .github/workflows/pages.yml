@@ -33,6 +33,8 @@ jobs:
           GH_PAGES: '1'
           # The preview must never compete with aaemass.org in search results.
           PUBLIC_NOINDEX: '1'
+          # Optional: repo variable holding the signup form endpoint (see README). Empty shows a mailto link.
+          PUBLIC_SIGNUP_ENDPOINT: ${{ vars.PUBLIC_SIGNUP_ENDPOINT }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

@@ -5,6 +5,9 @@ export const site = {
   short: 'Area 30',
   url: 'https://aaemass.org',
   email: 'info@aaemass.org',
+  // Mailing-list signups POST here as JSON (e.g. a Formspree form that emails info@aaemass.org).
+  // Leave empty until the endpoint exists: the page then shows a mailto link instead of a form.
+  signupEndpoint: import.meta.env.PUBLIC_SIGNUP_ENDPOINT || '',
   registrarEmail: 'registrar@aaemass.org',
   address: {
     street: 'P.O. Box 51411',

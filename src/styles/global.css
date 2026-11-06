@@ -527,4 +527,24 @@
   .term-close:hover { background: var(--surface); }
   /* Browsers without the Popover API: show plain text, never an inline definition. */
   @supports not selector(:popover-open) { .term-card { display: none; } }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    inset-block-end: var(--s-5);
+    inset-inline: var(--gutter);
+    z-index: 200;
+    max-inline-size: 28rem;
+    margin-inline: auto;
+    padding: var(--s-4) var(--s-5);
+    border: 2px solid var(--accent);
+    border-radius: 0.5rem;
+    background: var(--ground);
+    color: var(--ink);
+    font-weight: 600;
+    box-shadow: 0 1rem 3rem oklch(0 0 0 / 0.35);
+    cursor: pointer;
+  }
+  .toast[hidden] { display: none; }
+  .toast[data-state='error'] { border-color: oklch(0.6 0.2 25); }
 }

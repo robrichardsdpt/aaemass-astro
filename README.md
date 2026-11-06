@@ -41,3 +41,14 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Mailing-list signup
+
+The homepage form posts JSON to `PUBLIC_SIGNUP_ENDPOINT` (for example a Formspree form that emails
+info@aaemass.org) and shows a toast. With no endpoint set, the page shows a mailto link instead.
+
+- Local/WordPress build: `PUBLIC_SIGNUP_ENDPOINT=https://formspree.io/f/xxxx ./build-plugin.sh`
+- GitHub Pages preview: add a repository variable named `PUBLIC_SIGNUP_ENDPOINT` (Settings, Secrets and variables, Actions, Variables).
+
+The form no longer touches aaemass.org or the WordPress Mailchimp plugin. Note that signups sent to a
+mailbox are not added to the Mailchimp audience automatically.

@@ -77,19 +77,21 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
           <h2 id="signup-title">Join the Area 30 mailing list</h2>
           <p>Periodic emails that keep members connected to what is happening in Area 30.</p>
         </div>
-        <form method="post" action={`${site.url}/`}>
-          <div class="field">
-            <label for="signup-email">Email address</label>
-            <input id="signup-email" type="email" name="EMAIL" autocomplete="email" required />
-          </div>
-          <button class="button" type="submit">Sign up</button>
-          <div class="hp" aria-hidden="true">
-            <label>Leave this field empty if you are human<input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off" /></label>
-          </div>
-          <input type="hidden" name="_mc4wp_timestamp" id="mc-ts" value="" />
-          <input type="hidden" name="_mc4wp_form_id" value="272962" />
-          <input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1" />
-        </form>
+        {site.signupEndpoint ? (
+          <form id="signup-form" method="post" action={site.signupEndpoint} novalidate>
+            <div class="field">
+              <label for="signup-email">Email address</label>
+              <input id="signup-email" type="email" name="email" autocomplete="email" required />
+            </div>
+            <button class="button" type="submit">Sign up</button>
+            <div class="hp" aria-hidden="true">
+              <label>Leave this field empty if you are human<input type="text" name="_gotcha" value="" tabindex="-1" autocomplete="off" /></label>
+            </div>
+            <input type="hidden" name="_subject" value="Area 30 mailing list signup" />
+          </form>
+        ) : (
+          <p>To join, email <a href={`mailto:${site.email}?subject=Area%2030%20mailing%20list`}>{site.email}</a>.</p>
+        )}
       </div>
     </section>
 
@@ -321,6 +323,8 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
     </div>
   </footer>
 
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
   <script is:inline>
     // Menu is a plain <details>. Keep it open on wide screens (where the summary is hidden)
     // and closed on narrow ones, including when the window is resized after load.
@@ -355,8 +359,40 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
         labelToggle();
       });
     }
-    // mc4wp rejects submissions without a timestamp; set it when the page loads.
-    var ts = document.getElementById('mc-ts');
-    if (ts) ts.value = String(Math.floor(Date.now() / 1000));
+    // Mailing-list signup: send without leaving the page, then confirm with a toast.
+    var form = document.getElementById('signup-form');
+    var toast = document.getElementById('toast');
+    var toastTimer;
+    function showToast(message, isError) {
+      toast.textContent = message;
+      toast.dataset.state = isError ? 'error' : 'ok';
+      toast.hidden = false;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.hidden = true; }, 7000);
+    }
+    if (form && toast) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var email = form.elements.email;
+        if (!email.value || !email.checkValidity()) {
+          email.focus();
+          showToast('Please enter a valid email address.', true);
+          return;
+        }
+        var button = form.querySelector('button[type=submit]');
+        button.disabled = true;
+        fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+          .then(function (res) {
+            if (!res.ok) throw new Error('bad status');
+            form.reset();
+            showToast('Thank you. We received your email and will add you to the mailing list.', false);
+          })
+          .catch(function () {
+            showToast('Sorry, that did not go through. Please email info@aaemass.org instead.', true);
+          })
+          .finally(function () { button.disabled = false; });
+      });
+      toast.addEventListener('click', function () { toast.hidden = true; });
+    }
   </script>
 </Base>
