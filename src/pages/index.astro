@@ -4,6 +4,8 @@ import Base from '../layouts/Base.astro';
 import { site, nav, committees, moreCommittees } from '../lib/site';
 import { getUpcomingEvents } from '../lib/events';
 import { serviceSteps, faqs } from '../lib/content';
+import Term from '../components/Term.astro';
+import Rich from '../components/Rich.astro';
 
 import seal from '../assets/seal.png';
 import heroImg from '../assets/boston-2-bg.jpg';
@@ -18,6 +20,7 @@ import pi from '../assets/home-pi.jpg';
 
 const committeeImages = { archives, cpc, corrections, grapevine, literature, pi };
 
+const seen = new Set<string>();
 const events = await getUpcomingEvents(4);
 const tz = 'America/New_York';
 const day = new Intl.DateTimeFormat('en-US', { timeZone: tz, month: 'short', day: 'numeric' });
@@ -98,7 +101,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
           <p><strong>We are the Alcoholics Anonymous General Service Committee of Eastern Massachusetts.</strong></p>
           <p>
             An area is a geographical division within a state or province. A General Service
-            Conference Delegate comes from an area. Massachusetts has two: Eastern Mass. (Area 30)
+            Conference <Term id="delegate" seen={seen}>Delegate</Term> comes from an area. Massachusetts has two: Eastern Mass. (Area 30)
             and Western Mass. (Area 31). The Delegate is your voice to the General Service Office,
             AA World Services and the Grapevine.
           </p>
@@ -137,7 +140,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
         <div class="stack prose">
           <h2 id="website-title">About this website</h2>
           <p>
-            The Area 30 Website Committee maintains this site for G.S.R.s, committee members,
+            The Area 30 Website Committee maintains this site for <Term id="gsr" seen={seen}>GSRs</Term>, committee members,
             officers and other AA members in the area.
           </p>
           <p>
@@ -242,7 +245,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
           {serviceSteps.map((step) => (
             <li>
               <h3>{step.title}</h3>
-              <p>{step.text}</p>
+              <p><Rich text={step.text} seen={seen} /></p>
             </li>
           ))}
         </ol>
@@ -257,7 +260,7 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
             <details>
               <summary>{f.q}</summary>
               <div class="stack">
-                <p>{f.a}</p>
+                <p><Rich text={f.a} seen={seen} /></p>
                 {f.link && <p><a href={f.link.href}>{f.link.text}</a></p>}
               </div>
             </details>

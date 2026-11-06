@@ -73,3 +73,25 @@ export const faqs: Faq[] = [
     link: { text: 'Area 30 calendar', href: `${site.url}/cal` },
   },
 ];
+
+export type TermId = 'gsr' | 'dcm' | 'delegate' | 'seventh';
+
+// Definitions shown in tap-to-open popovers on first mention. Draft: have the Website Committee review.
+export const terms: Record<TermId, { full: string; def: string }> = {
+  gsr: {
+    full: 'General Service Representative (GSR)',
+    def: 'The member a group elects to be its link to the district, the area and the rest of AA.',
+  },
+  dcm: {
+    full: 'District Committee Member (DCM)',
+    def: 'Elected by the GSRs of a district to link the district’s groups with the area.',
+  },
+  delegate: {
+    full: 'Delegate',
+    def: 'The member an area elects to represent it at the yearly General Service Conference.',
+  },
+  seventh: {
+    full: 'Seventh Tradition',
+    def: 'Every AA group ought to be fully self-supporting, declining outside contributions.',
+  },
+};
