@@ -343,7 +343,8 @@
     border-block-end: 1px solid var(--line);
     align-items: baseline;
   }
-  @media (min-width: 52rem) { .paths > li { grid-template-columns: 1.1fr 2fr auto; } }
+  /* Fixed columns so the middle column lines up across rows (an auto column sizes per row). */
+  @media (min-width: 52rem) { .paths > li { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) 15rem; } }
   .paths { padding: 0; list-style: none; }
 
   /* Events */
