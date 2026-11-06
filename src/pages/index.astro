@@ -277,9 +277,13 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
   </footer>
 
   <script is:inline>
-    // Menu is a plain <details>; open it by default on wide screens where the summary is hidden.
+    // Menu is a plain <details>. Keep it open on wide screens (where the summary is hidden)
+    // and closed on narrow ones, including when the window is resized after load.
     var menu = document.getElementById('menu');
-    if (menu && matchMedia('(min-width: 60rem)').matches) menu.open = true;
+    var wide = matchMedia('(min-width: 60rem)');
+    function syncMenu() { if (menu) menu.open = wide.matches; }
+    syncMenu();
+    wide.addEventListener('change', syncMenu);
     // mc4wp rejects submissions without a timestamp; set it when the page loads.
     var ts = document.getElementById('mc-ts');
     if (ts) ts.value = String(Math.floor(Date.now() / 1000));
