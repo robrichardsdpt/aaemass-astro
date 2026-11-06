@@ -1,6 +1,6 @@
 ---
 import Page from '../layouts/Page.astro';
-import { site } from '../lib/site';
+import { site, path } from '../lib/site';
 
 // Area 30's public Google Calendar (the same one embedded on aaemass.org/cal).
 const calendarId = 'Y19lNDBlMzBmZmQ1ZWI5MjMwYzZiOTlhZGJmNDA4YjUwZGNiMGFjNzIyYjQ5ZDIzNmY5NThkMjg2NWViOWRmYWJkQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20';
@@ -33,7 +33,7 @@ const subscribe = `https://calendar.google.com/calendar/u/0?cid=${calendarId}`;
       <p class="prose" style="margin-block-start: var(--s-4)">
         The Area 30 committee meets {site.meeting.when} at the
         <a href={site.meeting.map}>{site.meeting.where}</a>. Each committee’s own meeting time is on
-        its page under <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/committees`}>Committees</a>.
+        its page under <a href={path('/committees')}>Committees</a>.
       </p>
     </div>
   </section>
