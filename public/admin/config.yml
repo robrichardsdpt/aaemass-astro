@@ -5,7 +5,7 @@ backend:
   name: github
   repo: robrichardsdpt/aaemass-astro
   branch: main
-  # base_url: https://YOUR-OAUTH-PROXY.example.workers.dev   # see docs/CMS.md
+  base_url: https://area30-decap-oauth.robrichardsdpt.workers.dev
 
 local_backend: true
 publish_mode: simple
