@@ -16,8 +16,8 @@ export const serviceSteps = [
     text: 'GSRs, DCMs, committee chairs and officers meet at area assemblies. Area 30 serves Eastern Massachusetts, and the area elects a Delegate to represent it.',
   },
   {
-    title: 'The General Service Conference',
-    text: 'Delegates from areas across the United States and Canada meet once a year with trustees and staff of the General Service Office and the Grapevine to consider the needs of Alcoholics Anonymous as a whole.',
+    title: 'The Conference',
+    text: 'Delegates from areas across the United States and Canada meet once a year at the General Service Conference, with trustees and staff of the General Service Office and the Grapevine, to consider the needs of Alcoholics Anonymous as a whole.',
   },
 ] as const;
 

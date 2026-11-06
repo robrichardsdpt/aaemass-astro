@@ -441,10 +441,15 @@
 
   /* Service steps */
   .steps { display: grid; gap: var(--s-4); padding: 0; list-style: none; counter-reset: step; }
+  .steps li > h3 { align-self: start; }
   .steps li {
     counter-increment: step;
+    /* Subgrid: badge, title and text rows line up across neighbouring cards. */
     display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
     gap: var(--s-2);
+    align-content: start;
     padding: var(--s-5);
     background: var(--surface);
     border: 1px solid var(--line);
