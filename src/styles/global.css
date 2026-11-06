@@ -440,7 +440,7 @@
   }
 
   /* Service steps */
-  .steps { display: grid; gap: var(--s-4); padding: 0; list-style: none; counter-reset: step; }
+  .steps { display: grid; gap: var(--s-4); row-gap: var(--s-4); padding: 0; list-style: none; counter-reset: step; }
   .steps li > h3 { align-self: start; }
   .steps li {
     counter-increment: step;
@@ -448,7 +448,7 @@
     display: grid;
     grid-row: span 3;
     grid-template-rows: subgrid;
-    gap: var(--s-2);
+    row-gap: var(--s-4);
     align-content: start;
     padding: var(--s-5);
     background: var(--surface);
