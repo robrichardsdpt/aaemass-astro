@@ -425,6 +425,7 @@
   .cards { display: grid; gap: var(--s-4); padding: 0; list-style: none; }
   @media (min-width: 40rem) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 64rem) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .cards .notice { align-content: start; }
   .cards h3 { font-size: var(--step-1); }
   .district-grid { display: grid; gap: var(--s-4); padding: 0; list-style: none; }
@@ -464,6 +465,8 @@
   .card-link:has(a:focus-visible) { outline: 3px solid var(--accent); outline-offset: 3px; }
   .card-link a:focus-visible { outline: none; }
   .card-link h3 { font-size: var(--step-1); }
+  /* Popover terms inside a card stay clickable above the stretched link. */
+  .card-link .term, .card-link .term-card { position: relative; z-index: 1; }
   .anchor { scroll-margin-block-start: var(--s-5); }
   .checklist { display: grid; gap: var(--s-2); padding: 0; list-style: none; }
   .checklist li { padding-inline-start: 1.75rem; position: relative; }

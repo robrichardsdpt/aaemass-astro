@@ -90,10 +90,10 @@ const faqs = [
       </div>
       <ul class="cards">
         {forms.map((f) => (
-          <li class="notice stack">
-            <h3>{f.title}</h3>
+          <li class="notice stack card-link">
+            <p class="eyebrow">Secure form on aaemass.org</p>
+            <h3><a href={f.href}>{f.title}</a></h3>
             <p>{f.text}</p>
-            <a href={f.href}>Open the form on aaemass.org<span class="visually-hidden">: {f.title}</span></a>
           </li>
         ))}
       </ul>

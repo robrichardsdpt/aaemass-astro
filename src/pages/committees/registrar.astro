@@ -4,10 +4,10 @@ import Rich from '../../components/Rich.astro';
 import { site, path } from '../../lib/site';
 
 const forms = [
-  { title: 'New Group Form', text: 'Fill this out to register a new group.', href: path('/forms/new-group-form.pdf') },
-  { title: 'Group Update Form', text: 'Update your group’s information.', href: path('/forms/group-update-form.pdf') },
-  { title: 'DCM Change Form', text: 'Report a change of District Committee Member.', href: path('/forms/dcm-change-form.pdf') },
-  { title: 'Updated Group Change Form', text: 'Fillable group change form (Word document).', href: path('/forms/group-change-form.docx') },
+  { title: 'New Group Form', kind: 'PDF', text: 'Register a new AA group with Area 30. Fill it out and email it to the Registrar.', href: path('/forms/new-group-form.pdf') },
+  { title: 'Group Update Form', kind: 'PDF', text: 'Update your group’s meeting details or contact information.', href: path('/forms/group-update-form.pdf') },
+  { title: 'DCM Change Form', kind: 'PDF', text: 'Report a change of District Committee Member (DCM) for your district.', href: path('/forms/dcm-change-form.pdf') },
+  { title: 'Group Change Form (fillable)', kind: 'Word document', text: 'A fillable version of the group change form. Type in your changes and email it back.', href: path('/forms/group-change-form.docx') },
 ];
 const seen = new Set<string>();
 const faqs = [
@@ -55,12 +55,12 @@ const faqs = [
         <h2 id="forms-title">How do I register or update my group?</h2>
         <p>Download a form below, or email the Registrar to request one.</p>
       </div>
-      <ul class="cards">
+      <ul class="cards cards--2">
         {forms.map((f) => (
-          <li class="notice stack">
-            <h3>{f.title}</h3>
+          <li class="notice stack card-link">
+            <p class="eyebrow">{f.kind}</p>
+            <h3><a href={f.href}>{f.title}</a></h3>
             <p>{f.text}</p>
-            <a href={f.href}>Open form</a>
           </li>
         ))}
       </ul>

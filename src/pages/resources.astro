@@ -58,10 +58,10 @@ const seen = new Set<string>();
       </div>
       <ul class="cards">
         {quick.map((l) => (
-          <li class="notice stack">
-            <h3>{l.title}</h3>
+          <li class="notice stack card-link">
+            <p class="eyebrow">aa.org</p>
+            <h3><a href={l.href}>{l.title}<span class="visually-hidden"> (opens aa.org)</span></a></h3>
             <p><Rich text={l.text} seen={seen} /></p>
-            <a href={l.href}>Go to {l.title}</a>
           </li>
         ))}
       </ul>
