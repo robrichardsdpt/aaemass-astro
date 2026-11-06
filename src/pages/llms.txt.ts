@@ -2,6 +2,7 @@ import { site } from '../lib/site';
 import { committees } from '../lib/committee-pages';
 
 export const GET = () => {
+  if (import.meta.env.PUBLIC_NOINDEX) return new Response('# Preview site\n\nThis is a private preview. Not for indexing or training.\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
   const committeeLines = Object.entries(committees)
     .map(([slug, c]) => `- [${c.title}](${site.url}/committees/${slug}/): ${c.lede}`)
     .join('\n');

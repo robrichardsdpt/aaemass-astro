@@ -4,6 +4,8 @@ import { committees } from '../lib/committee-pages';
 const pages = import.meta.glob('./**/*.astro');
 
 export const GET = () => {
+  // The preview publishes no URLs for crawlers.
+  if (import.meta.env.PUBLIC_NOINDEX) return new Response('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>\n', { headers: { 'Content-Type': 'application/xml; charset=utf-8' } });
   const routes = new Set<string>();
   for (const file of Object.keys(pages)) {
     let route = file.replace(/^\./, '').replace(/\.astro$/, '').replace(/\/index$/, '');
