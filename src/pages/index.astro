@@ -184,57 +184,6 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
       </div>
     </section>
 
-    <section class="section" aria-labelledby="how-title">
-      <div class="wrap">
-        <div class="stack prose" style="margin-block-end: var(--s-6)">
-          <h2 id="how-title">How Alcoholics Anonymous service works</h2>
-          <p>
-            Alcoholics Anonymous groups are connected through a simple structure of general service.
-            Each step is made up of members who volunteer and are elected by the step below.
-          </p>
-        </div>
-        <ol class="steps">
-          {serviceSteps.map((step) => (
-            <li>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="faq-title">
-      <div class="wrap prose">
-        <h2 id="faq-title" style="margin-block-end: var(--s-5)">Frequently asked questions</h2>
-        <div class="faq">
-          {faqs.map((f) => (
-            <details>
-              <summary>{f.q}</summary>
-              <div class="stack">
-                <p>{f.a}</p>
-                {f.link && <p><a href={f.link.href}>{f.link.text}</a></p>}
-              </div>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="glossary-title">
-      <div class="wrap prose">
-        <h2 id="glossary-title" style="margin-block-end: var(--s-5)">Alcoholics Anonymous service terms</h2>
-        <dl class="glossary">
-          {glossary.map((g) => (
-            <div>
-              <dt>{g.term}</dt>
-              <dd>{g.def}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-    </section>
-
     <section class="section" aria-labelledby="events-title">
       <div class="wrap prose">
         <div class="section-head">
@@ -305,6 +254,56 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
             <a href={`${site.url}/links`}>Resources</a>
           </div>
         </div>
+      </div>
+    </section>
+    <section class="section" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="stack prose" style="margin-block-end: var(--s-6)">
+          <h2 id="how-title">How Alcoholics Anonymous service works</h2>
+          <p>
+            Alcoholics Anonymous groups are connected through a simple structure of general service.
+            Each step is made up of members who volunteer and are elected by the step below.
+          </p>
+        </div>
+        <ol class="steps">
+          {serviceSteps.map((step) => (
+            <li>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-title">
+      <div class="wrap prose">
+        <h2 id="faq-title" style="margin-block-end: var(--s-5)">Frequently asked questions</h2>
+        <div class="faq">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <div class="stack">
+                <p>{f.a}</p>
+                {f.link && <p><a href={f.link.href}>{f.link.text}</a></p>}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="glossary-title">
+      <div class="wrap prose">
+        <h2 id="glossary-title" style="margin-block-end: var(--s-5)">Alcoholics Anonymous service terms</h2>
+        <dl class="glossary">
+          {glossary.map((g) => (
+            <div>
+              <dt>{g.term}</dt>
+              <dd>{g.def}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   </main>
