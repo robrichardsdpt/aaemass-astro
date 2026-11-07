@@ -30,13 +30,15 @@ export interface Ui {
   meetingWhere: string;
   addressOrg: string;
   nav: Record<string, string>;
-  formNotLive: string;
-  formNotLiveBody: string;
-  formPreview: string;
+  formSending: string;
+  formThanks: string;
+  formError: string; // {email}
+  formInvalid: string;
+  formRedirecting: string;
   formChoose: string;
   formSubmit: string;
   formSendTo: string; // {to}
-  formReachToday: string;
+  formEmailInstead: string;
   formName: string;
   formEmail: string;
   formMessage: string;
@@ -71,13 +73,15 @@ const en: Ui = {
   meetingWhere: 'Boston Central Service office, 12 Channel St, Boston, MA 02210',
   addressOrg: 'AA General Service Committee of Eastern Massachusetts',
   nav: {},
-  formNotLive: 'Not functional yet',
-  formNotLiveBody: 'This form shows what is coming. Nothing you type here is sent.',
-  formPreview: 'Preview of the form, not functional yet',
+  formSending: 'Sending…',
+  formThanks: 'Thank you. Your message was sent.',
+  formError: 'Sorry, that did not go through. Please email {email} instead.',
+  formInvalid: 'Please check the highlighted fields.',
+  formRedirecting: 'Taking you to PayPal…',
   formChoose: 'Choose…',
   formSubmit: 'Submit',
   formSendTo: 'Send to {to}',
-  formReachToday: 'To reach them today, email',
+  formEmailInstead: 'Or email',
   formName: 'Name',
   formEmail: 'Email address',
   formMessage: 'Message',
@@ -123,13 +127,15 @@ const es: Ui = {
     '/contribute/': 'Contribuciones',
     '/get-involved/': 'Participe en el servicio',
   },
-  formNotLive: 'Todavía no funciona',
-  formNotLiveBody: 'Este formulario muestra lo que viene. Nada de lo que escriba aquí se envía.',
-  formPreview: 'Vista previa del formulario, todavía no funciona',
+  formSending: 'Enviando…',
+  formThanks: 'Gracias. Su mensaje fue enviado.',
+  formError: 'Lo sentimos, no se pudo enviar. Escriba a {email}.',
+  formInvalid: 'Revise los campos resaltados.',
+  formRedirecting: 'Llevándole a PayPal…',
   formChoose: 'Elija…',
   formSubmit: 'Enviar',
   formSendTo: 'Enviar a {to}',
-  formReachToday: 'Para comunicarse hoy mismo, escriba a',
+  formEmailInstead: 'O escriba a',
   formName: 'Nombre',
   formEmail: 'Correo electrónico',
   formMessage: 'Mensaje',
@@ -175,13 +181,15 @@ const fr: Ui = {
     '/contribute/': 'Contributions',
     '/get-involved/': 'S’engager dans le service',
   },
-  formNotLive: 'Pas encore fonctionnel',
-  formNotLiveBody: 'Ce formulaire montre ce qui s’en vient. Rien de ce que vous saisissez ici n’est envoyé.',
-  formPreview: 'Aperçu du formulaire, pas encore fonctionnel',
+  formSending: 'Envoi en cours…',
+  formThanks: 'Merci. Votre message a été envoyé.',
+  formError: 'Désolé, l’envoi a échoué. Écrivez plutôt à {email}.',
+  formInvalid: 'Vérifiez les champs en surbrillance.',
+  formRedirecting: 'Redirection vers PayPal…',
   formChoose: 'Choisir…',
   formSubmit: 'Envoyer',
   formSendTo: 'Envoyer à {to}',
-  formReachToday: 'Pour les joindre dès aujourd’hui, écrivez à',
+  formEmailInstead: 'Ou écrivez à',
   formName: 'Nom',
   formEmail: 'Adresse courriel',
   formMessage: 'Message',

@@ -112,9 +112,9 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Forms may only submit to this site, PayPal, or the configured signup endpoint; no <base> tricks; no plugins.
+    <!-- Forms may only submit to this site; no <base> tricks; no plugins.
          (Only directives that work in a meta tag. Set frame-ancestors / full script-src as real headers if the host allows.) -->
-    <meta http-equiv="Content-Security-Policy" content={`form-action 'self' https://www.paypal.com${site.signupEndpoint ? ' ' + new URL(site.signupEndpoint).origin : ''}; base-uri 'none'; object-src 'none'`} />
+    <meta http-equiv="Content-Security-Policy" content="form-action 'self'; base-uri 'none'; object-src 'none'" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>{title}</title>
     <meta name="description" content={description} />

@@ -27,3 +27,7 @@ pnpm-debug.log*
 aa30-home.zip
 wp-plugin/aa30-home/_astro/
 wp-plugin/aa30-home/dist/
+
+# WordPress plugin build output
+wp-plugin/aa30-home/prefix.txt
+aa30-home.zip

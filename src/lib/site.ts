@@ -14,9 +14,9 @@ export const site = {
   email: 'info@aaemass.org',
   // Add Area 30's own profile URLs here (social media, etc.) and they appear as schema.org sameAs.
   sameAs: [] as string[],
-  // Mailing-list signups POST here as JSON (e.g. a Formspree form that emails info@aaemass.org).
-  // Leave empty until the endpoint exists: the page then shows a mailto link instead of a form.
-  signupEndpoint: import.meta.env.PUBLIC_SIGNUP_ENDPOINT || '',
+  // Base URL of the form endpoints provided by the aa30-home WordPress plugin ('/wp-json/aa30/v1' when the
+  // site is served from WordPress). Empty everywhere else: forms then fall back to a plain mailto link.
+  formsEndpoint: import.meta.env.PUBLIC_FORMS_ENDPOINT || '',
   registrarEmail: 'registrar@aaemass.org',
   address: {
     street: 'P.O. Box 51411',

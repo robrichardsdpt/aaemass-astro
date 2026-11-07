@@ -42,13 +42,11 @@ All commands are run from the root of the project, from a terminal:
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
 
-## Mailing-list signup
+## Forms and the WordPress preview
 
-The homepage form posts JSON to `PUBLIC_SIGNUP_ENDPOINT` (for example a Formspree form that emails
-info@aaemass.org) and shows a toast. With no endpoint set, the page shows a mailto link instead.
+Every form (contributions, mailing-list signup, contact and the "send a message" forms) posts to the
+`aa30-home` WordPress plugin, which uses Gravity Forms and PayPal, Mailchimp for WP and `wp_mail`. No API keys
+are involved. Build and install it with `./build-plugin.sh`; see [docs/WORDPRESS.md](docs/WORDPRESS.md).
 
-- Local/WordPress build: `PUBLIC_SIGNUP_ENDPOINT=https://formspree.io/f/xxxx ./build-plugin.sh`
-- GitHub Pages preview: add a repository variable named `PUBLIC_SIGNUP_ENDPOINT` (Settings, Secrets and variables, Actions, Variables).
-
-The form no longer touches aaemass.org or the WordPress Mailchimp plugin. Note that signups sent to a
-mailbox are not added to the Mailchimp audience automatically.
+Anywhere the plugin is not present (local `npm run dev`, the GitHub Pages preview) the forms are replaced by a
+plain email link, so nothing on the page looks like it works when it does not.

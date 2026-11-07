@@ -477,14 +477,14 @@
   .card-link h3 { font-size: var(--step-1); }
   /* Popover terms inside a card stay clickable above the stretched link. */
   .card-link .term abbr, .card-link .term-card { position: relative; z-index: 1; }
-  /* Placeholder forms: look like the real thing, clearly switched off. */
-  .placeholder-form { display: grid; gap: var(--s-4); }
-  .not-live { padding: var(--s-4) var(--s-5); border: 2px dashed var(--accent); border-radius: 0.5rem; background: var(--surface); }
-  .not-live p + p { margin-block-start: var(--s-2); }
-  .badge-soon { display: inline-block; padding: var(--s-1) var(--s-3); border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-  .placeholder-form fieldset { min-inline-size: 0; padding: 0; border: 0; display: grid; gap: var(--s-4); }
-  .placeholder-form fieldset:disabled { opacity: 0.6; }
-  .placeholder-form fieldset:disabled * { cursor: not-allowed; }
+  /* Live forms */
+  .live-form { display: grid; gap: var(--s-4); }
+  .form-status { padding: var(--s-3) var(--s-4); border: 2px solid var(--accent); border-radius: 0.5rem; background: var(--surface); font-weight: 600; }
+  .form-status[hidden] { display: none; }
+  .form-status[data-state='error'] { border-color: oklch(0.6 0.2 25); }
+  .form-status[data-state='ok'] { border-color: oklch(0.6 0.15 150); }
+  .live-form [aria-invalid='true'], .contact-form [aria-invalid='true'], #signup-form [aria-invalid='true'] { border-color: oklch(0.6 0.2 25); }
+  .form-fallback { font-weight: 600; }
   .field-grid { display: grid; gap: var(--s-4); }
   @media (min-width: 40rem) { .field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .field-grid > .field:not(.field--half) { grid-column: 1 / -1; } }
   .field--check label { display: flex; align-items: flex-start; gap: var(--s-3); font-weight: 600; }
@@ -705,23 +705,4 @@
   /* Browsers without the Popover API: show plain text, never an inline definition. */
   @supports not selector(:popover-open) { .term-card { display: none; } }
 
-  /* Toast */
-  .toast {
-    position: fixed;
-    inset-block-end: var(--s-5);
-    inset-inline: var(--gutter);
-    z-index: 200;
-    max-inline-size: 28rem;
-    margin-inline: auto;
-    padding: var(--s-4) var(--s-5);
-    border: 2px solid var(--accent);
-    border-radius: 0.5rem;
-    background: var(--ground);
-    color: var(--ink);
-    font-weight: 600;
-    box-shadow: 0 1rem 3rem oklch(0 0 0 / 0.35);
-    cursor: pointer;
-  }
-  .toast[hidden] { display: none; }
-  .toast[data-state='error'] { border-color: oklch(0.6 0.2 25); }
 }

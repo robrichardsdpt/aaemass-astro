@@ -2,8 +2,8 @@
 import Page from '../layouts/Page.astro';
 import Msg from '../components/Msg.astro';
 import { site } from '../lib/site';
-import PlaceholderForm from '../components/ui/PlaceholderForm.astro';
-import MessagePlaceholder from '../components/ui/MessagePlaceholder.astro';
+import LiveForm from '../components/ui/LiveForm.astro';
+import MessageForm from '../components/ui/MessageForm.astro';
 import { districts } from '../lib/mirror-data';
 import { getLang, pick } from '../i18n';
 import { ui } from '../i18n/ui';
@@ -19,13 +19,8 @@ const vars = { registrarEmail: site.registrarEmail };
 const districtOptions = districts.map((d) => districtName(d.name, lang));
 const live = `${site.url}/contributions`;
 const hrefs = [`${live}#GCF`, `${live}#MCF`, `${live}#DCF`];
-const paypal = (itemName: string) => ({
-  business: 'treasurer@aaemass.org',
-  itemName,
-  returnUrl: `${site.url}/contribute`,
-  cancelUrl: `${site.url}/contribute`,
-  lc: lang === 'es' ? 'ES' : lang === 'fr' ? 'FR' : 'US',
-});
+const types = ['grp', 'mem', 'dist'];
+const online = Boolean(site.formsEndpoint);
 const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-mix';
 ---
 
@@ -68,12 +63,13 @@ const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-m
         {m.forms.map((f, i) => (
           <li class="notice stack card-link">
             <p class="eyebrow">{m.secureForm}</p>
-            <h3><a href={hrefs[i]}>{f.title}</a></h3>
+            <h3><a href={online ? '#contribute-form' : hrefs[i]} data-open-type={online ? types[i] : undefined}>{f.title}</a></h3>
             <p>{f.text}</p>
           </li>
         ))}
       </ul>
       <p class="prose" style="margin-block-start: var(--s-4)">{m.paypalNote}</p>
+      {online && <p style="margin-block-start: var(--s-4)"><button class="button" type="button" id="open-contribute" aria-haspopup="dialog">{m.soonCta}</button></p>}
     </div>
   </section>
 
@@ -84,15 +80,8 @@ const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-m
     </div>
   </section>
 
-  <section class="section" id="coming-soon" aria-labelledby="soon-title">
-    <div class="wrap prose stack">
-      <h2 id="soon-title">{m.soonTitle}</h2>
-      <p><Msg text={m.soon} /></p>
-      <p><button class="button" type="button" id="open-contribute" aria-haspopup="dialog">{m.soonCta}</button></p>
-    </div>
-  </section>
-
-  <dialog id="contribute-sheet" class="sheet" aria-labelledby="sheet-title">
+  {online && (<>
+  <dialog id="contribute-form" class="sheet" aria-labelledby="sheet-title">
     <div class="sheet__bar">
       <h2 id="sheet-title">{m.sheetTitle}</h2>
       <button class="sheet__close" type="button" data-close aria-label={u.close}>
@@ -109,52 +98,60 @@ const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-m
         </select>
       </div>
       <div data-panel="grp">
-        <PlaceholderForm
+        <LiveForm
           id="grp"
+          kind="contribute"
+          hidden={{ type: 'grp', lang }}
           submitLabel={m.continuePayPal}
-          paypal={paypal('Area 30 Group Contribution')}
+          fallback={{ text: m.liveAlt, href: live, label: live.replace('https://', '') }}
           fields={[
             { name: 'member', label: m.group.member, type: 'checkbox', required: true },
             { name: 'group', label: m.group.name, required: true, half: true },
-            { name: 'number', label: m.group.number, required: true, half: true, hint: m.group.numberHint },
-            { name: 'street', pp: 'address1', label: m.group.street },
-            { name: 'town', pp: 'city', label: m.group.town, half: true },
-            { name: 'zip', label: m.group.zip, half: true },
-            { name: 'email', pp: 'email', label: m.group.email, type: 'email', required: true },
+            { name: 'number', label: m.group.number, required: true, half: true, hint: m.group.numberHint, max: 20 },
+            { name: 'street', label: m.group.street, required: true, autocomplete: 'street-address' },
+            { name: 'town', label: m.group.town, required: true, half: true, autocomplete: 'address-level2' },
+            { name: 'state', label: m.group.state, required: true, half: true, value: 'MA', max: 30, autocomplete: 'address-level1' },
+            { name: 'zip', label: m.group.zip, required: true, half: true, max: 10, autocomplete: 'postal-code' },
+            { name: 'email', label: m.group.email, type: 'email', required: true, autocomplete: 'email' },
             { name: 'day', label: m.group.day, type: 'select', options: m.days, required: true, half: true },
             { name: 'time', label: m.group.time, type: 'time', required: true, half: true },
-            { name: 'amount', pp: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
+            { name: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
           ]}
         />
       </div>
       <div data-panel="mem" hidden>
-        <PlaceholderForm
+        <LiveForm
           id="mem"
+          kind="contribute"
+          hidden={{ type: 'mem', lang }}
           submitLabel={m.continuePayPal}
-          paypal={paypal('Area 30 Member Contribution')}
+          fallback={{ text: m.liveAlt, href: live, label: live.replace('https://', '') }}
           fields={[
             { name: 'member', label: m.member.member, type: 'checkbox', required: true },
-            { name: 'first', pp: 'first_name', label: m.member.first, required: true, half: true },
-            { name: 'last', pp: 'last_name', label: m.member.last, required: true, half: true },
-            { name: 'street', pp: 'address1', label: m.member.street, required: true },
-            { name: 'town', pp: 'city', label: m.group.town, required: true, half: true },
-            { name: 'zip', label: m.group.zip, required: true, half: true },
-            { name: 'email', pp: 'email', label: m.group.email, type: 'email', required: true },
-            { name: 'amount', pp: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
+            { name: 'first', label: m.member.first, required: true, half: true, autocomplete: 'given-name' },
+            { name: 'last', label: m.member.last, required: true, half: true, autocomplete: 'family-name' },
+            { name: 'street', label: m.member.street, required: true, autocomplete: 'street-address' },
+            { name: 'town', label: m.group.town, required: true, half: true, autocomplete: 'address-level2' },
+            { name: 'state', label: m.group.state, required: true, half: true, value: 'MA', max: 30, autocomplete: 'address-level1' },
+            { name: 'zip', label: m.group.zip, required: true, half: true, max: 10, autocomplete: 'postal-code' },
+            { name: 'email', label: m.group.email, type: 'email', required: true, autocomplete: 'email' },
+            { name: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
           ]}
         />
       </div>
       <div data-panel="dist" hidden>
-        <PlaceholderForm
+        <LiveForm
           id="dist"
+          kind="contribute"
+          hidden={{ type: 'dist', lang }}
           submitLabel={m.continuePayPal}
-          paypal={paypal('Area 30 District Contribution')}
+          fallback={{ text: m.liveAlt, href: live, label: live.replace('https://', '') }}
           fields={[
             { name: 'member', label: m.district.member, type: 'checkbox', required: true },
             { name: 'district', label: m.district.label, type: 'select', options: districtOptions, required: true, hint: m.district.hint },
             { name: 'subdistrict', label: m.district.sub, hint: m.district.subHint },
-            { name: 'email', pp: 'email', label: m.group.email, type: 'email', required: true },
-            { name: 'amount', pp: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
+            { name: 'email', label: m.group.email, type: 'email', required: true, autocomplete: 'email' },
+            { name: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
           ]}
         />
       </div>
@@ -164,15 +161,21 @@ const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-m
   <script is:inline>
     // One button opens the sheet; the dropdown shows the form for the chosen type of contribution.
     (function () {
-      var sheet = document.getElementById('contribute-sheet');
+      var sheet = document.getElementById('contribute-form');
       var open = document.getElementById('open-contribute');
       var type = document.getElementById('contribution-type');
-      if (!sheet || !open || !type || typeof sheet.showModal !== 'function') return;
+      if (!sheet || !type || typeof sheet.showModal !== 'function') return;
+      open = open || document.createElement('button');
       function show() {
         sheet.querySelectorAll('[data-panel]').forEach(function (p) { p.hidden = p.dataset.panel !== type.value; });
       }
       type.addEventListener('change', show);
-      open.addEventListener('click', function () { show(); sheet.showModal(); });
+      function openSheet(t) { if (t) type.value = t; show(); sheet.showModal(); }
+      open.addEventListener('click', function () { openSheet(); });
+      // The three cards open the same sheet with their form already chosen.
+      document.querySelectorAll('[data-open-type]').forEach(function (a) {
+        a.addEventListener('click', function (e) { e.preventDefault(); openSheet(a.dataset.openType); });
+      });
       sheet.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', function () { sheet.close(); }); });
       // A click on the dimmed backdrop (outside the sheet's box) closes it.
       sheet.addEventListener('click', function (e) {
@@ -181,6 +184,7 @@ const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-m
       });
     })();
   </script>
+  </>)}
 
   <section class="section" aria-labelledby="treasurer-title">
     <div class="wrap">
@@ -188,7 +192,7 @@ const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-m
         <h2 id="treasurer-title">{m.treasurerTitle}</h2>
         <p>{m.treasurer}</p>
       </div>
-      <div class="prose"><MessagePlaceholder id="treasurer" to={m.treasurerTo} email="treasurer@aaemass.org" /></div>
+      <div class="prose"><MessageForm id="treasurer" to={m.treasurerTo} email="treasurer@aaemass.org" /></div>
     </div>
   </section>
 

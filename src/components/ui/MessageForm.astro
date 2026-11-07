@@ -1,0 +1,23 @@
+---
+// "Send a message to <who>": a live form that emails one fixed @aaemass.org mailbox through the WordPress
+// plugin. The page only names the mailbox (its part before the @); the plugin holds the allowlist.
+import LiveForm from './LiveForm.astro';
+import { getLang, fmt } from '../../i18n';
+import { ui } from '../../i18n/ui';
+interface Props { id: string; to: string; email: string }
+const { id, to, email } = Astro.props;
+const u = ui[getLang(Astro)];
+---
+<LiveForm
+  id={id}
+  kind="message"
+  email={email}
+  hidden={{ to: email.split('@')[0], lang: getLang(Astro) }}
+  submitLabel={fmt(u.formSendTo, { to })}
+  fallback={{ text: u.formEmailInstead, href: `mailto:${email}`, label: email }}
+  fields={[
+    { name: 'name', label: u.formName, required: true, autocomplete: 'name' },
+    { name: 'email', label: u.formEmail, type: 'email', required: true, autocomplete: 'email' },
+    { name: 'message', label: u.formMessage, type: 'textarea', required: true },
+  ]}
+/>
