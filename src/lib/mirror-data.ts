@@ -122,7 +122,7 @@ export const services = {
   {
    "title": "Accessibilities",
    "paras": [
-    "Some alcoholics experience barriers to participating in AA due to cultural, geographic, mental, physical, or social factors, or other reasons. This committee is working toward a future where all who want to participate in AA meetings (and other AA services) in Eastern Massachusetts are in fact able to fully participate. Please visit [www.area30accessibilities.org](www.area30accessibilities.org)"
+    "Some alcoholics experience barriers to participating in AA due to cultural, geographic, mental, physical, or social factors, or other reasons. This committee is working toward a future where all who want to participate in AA meetings (and other AA services) in Eastern Massachusetts are in fact able to fully participate."
    ],
    "contact": "accessibilities@aaemass.org"
   },

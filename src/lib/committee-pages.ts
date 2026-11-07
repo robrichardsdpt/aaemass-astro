@@ -252,7 +252,6 @@ export const committees: Record<string, CommitteePage> = {
           'Some alcoholics face barriers to taking part in AA for cultural, geographic, mental, physical or social reasons, among others. This committee works toward a future where everyone who wants to take part in AA meetings and other AA services in Eastern Massachusetts can do so, in a welcoming and accepting environment.',
         ],
         links: [
-          { text: 'area30accessibilities.org', href: 'https://area30accessibilities.org' },
           { text: 'Accessibilities checklist (PDF)', href: path('/forms/accessibilities-checklist.pdf') },
         ],
       },
@@ -262,13 +261,12 @@ export const committees: Record<string, CommitteePage> = {
           'The committee meets monthly. You are welcome to join, or simply to attend as an interested AA member.',
           'Planning a District event or another AA event in Area 30? We would be happy to come and do outreach.',
         ],
-        links: [{ text: 'Committee meeting information', href: 'https://area30accessibilities.org/committee-meetings' }],
       },
       {
         title: 'Online and phone meetings',
         paras: [
           'Not every member can or wants to attend online. Some find technology a barrier and feel left out or judged. Home groups can check in with those members with love and support, schedule phone “talk times,” or have a member adopt a non-techie member to keep them up to date.',
-          'The committee’s website collects shared resources from across the fellowship, including guidance on running online and telephone meetings while protecting anonymity and safety. We cannot endorse one resource over another, and we welcome suggestions you would like us to share.',
+          'The committee gathers shared resources from across the fellowship, including guidance on running online and telephone meetings while protecting anonymity and safety. We cannot endorse one resource over another, and we welcome suggestions you would like us to share. Email the committee to send one.',
         ],
       },
     ],

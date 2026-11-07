@@ -132,9 +132,6 @@ const reasons = ['Looking for help', 'Meetings', 'General service', 'Committee',
             <li>
               <h3>{c.name}</h3>
               <a href={`mailto:${mail(c.user)}`}>{mail(c.user)}</a>
-              {c.user === 'accessibilities' && (
-                <a href="https://www.area30accessibilities.org">area30accessibilities.org</a>
-              )}
             </li>
           ))}
         </ul>
