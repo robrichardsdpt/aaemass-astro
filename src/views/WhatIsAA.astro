@@ -1,0 +1,77 @@
+---
+import Page from '../layouts/Page.astro';
+import Rich from '../components/Rich.astro';
+import { site } from '../lib/site';
+import { getLang, lp, pick } from '../i18n';
+import { aa } from '../i18n/pages/aa';
+
+const lang = getLang(Astro);
+const m = pick(aa, lang);
+const seen = new Set<string>();
+---
+
+<Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/alcoholics-anonymous">
+  <div slot="actions" class="actions">
+    <a class="button" href={site.links.findMeeting}>{m.findNear}</a>
+    <a class="button button--quiet" href="https://www.aa.org/what-is-aa">{m.learnAa}</a>
+  </div>
+
+  <section class="section" aria-labelledby="what-title">
+    <div class="wrap prose stack">
+      <h2 id="what-title">{m.costTitle}</h2>
+      <p>{m.costText}</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="more-title">
+    <div class="wrap">
+      <h2 id="more-title" style="margin-block-end: var(--s-5)">{m.moreTitle}</h2>
+      <ul class="cards">
+        <li class="notice stack">
+          <h3>{m.steps.title}</h3>
+          <p>{m.steps.text}</p>
+        </li>
+        <li class="notice stack">
+          <h3>{m.traditions.title}</h3>
+          <p>{m.traditions.text}</p>
+        </li>
+        <li class="notice stack">
+          <h3>{m.bigbook.title}</h3>
+          <p>{m.bigbook.text}</p>
+        </li>
+      </ul>
+      <p style="margin-block-start: var(--s-5)" class="prose">
+        <Rich text={m.members} seen={seen} /> {m.area}
+        <a href="https://www.aa.org/what-is-aa">{m.learnMore}</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="help-title">
+    <div class="wrap split">
+      <div class="stack prose">
+        <h2 id="help-title">{m.helpTitle}</h2>
+        <p>{m.help1}</p>
+        <p><a class="button button--quiet" href="https://www.aa.org/new-to-aa">{m.newToAa}</a></p>
+      </div>
+      <div class="stack prose">
+        <h2>{m.firstTitle}</h2>
+        <p>{m.first1}</p>
+        <p>{m.first2}</p>
+        <p><a class="button" href={site.links.findMeeting}>{m.findNear}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="enduring-title">
+    <div class="wrap prose stack">
+      <h2 id="enduring-title">{m.enduringTitle}</h2>
+      <p>{m.enduring}</p>
+      <p class="actions" style="display:flex;flex-wrap:wrap;gap:var(--s-3)">
+        <a class="button button--quiet" href="http://aa.org/the-big-book">{m.bigBookStories}</a>
+        <a class="button button--quiet" href="http://aagrapevine.org">{m.grapevineStories}</a>
+        <a class="button button--quiet" href={lp(lang, '/contact')}>{m.contact}</a>
+      </p>
+    </div>
+  </section>
+</Page>

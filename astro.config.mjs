@@ -4,6 +4,8 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://aaemass.org',
   compressHTML: true,
+  // English at the root; Spanish and French under /es/ and /fr/ (see src/i18n).
+  i18n: { defaultLocale: 'en', locales: ['en', 'es', 'fr'], routing: { prefixDefaultLocale: false } },
   // One canonical form per URL: directory-style with a trailing slash.
   trailingSlash: 'always',
   // Only the WordPress package is served from a plugin directory, so only it needs the prefix.

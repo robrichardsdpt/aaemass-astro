@@ -1,0 +1,35 @@
+title: Engagez-vous dans le service | Région 30
+description: Des façons de vous engager dans le service des A.A. dans l’Est du Massachusetts, de votre groupe d’attache aux comités de la Région 30 et à la Conférence des services généraux.
+eyebrow: Service
+lede: Le meilleur endroit pour commencer est votre groupe d’attache. De là, le service n’est qu’à un pas.
+blocks:
+  - type: text
+    heading: Pourquoi le service?
+    body: |
+      Les membres des A.A. travaillent ensemble pour aider l’alcoolique qui souffre encore, et s’entraider est une clé pour rester sobre.
+
+      Le service prend de nombreuses formes : disposer les chaises, servir comme représentant des services généraux (RSG) de votre groupe ou se joindre à un comité de la Région 30.
+  - type: cards
+    heading: Par où commencer
+    cards:
+      - title: Votre groupe d’attache
+        text: Demandez quels postes de service sont ouverts, de l’accueil au poste de RSG.
+        link_text: Trouver une réunion
+        link_url: https://www.aa.org/find-aa/north-america
+      - title: Un district
+        text: Les districts réunissent les groupes voisins. Votre RSG assiste aux réunions de district.
+        link_text: Voir les districts
+        link_url: /districts/
+      - title: Un comité de la Région 30
+        text: Les comités portent le message aux prisons, aux centres de traitement, aux écoles et aux professionnels.
+        link_text: Parcourir les comités
+        link_url: /committees/
+  - type: callout
+    title: Vous ne savez pas où vous situer?
+    body: Écrivez à [info@aaemass.org](mailto:info@aaemass.org) et nous vous dirigerons vers un comité qui a besoin de vos compétences.
+  - type: faq
+    items:
+      - q: Dois-je avoir un certain temps de sobriété pour faire du service?
+        a: Les exigences varient selon le poste. De nombreux postes de service, comme accueillir les nouveaux ou aider lors d’un événement, sont ouverts à tout membre des A.A. Les présidents de comités et les officiers peuvent devoir respecter des exigences de sobriété fixées par la Région.
+      - q: Combien de temps le service demande-t-il?
+        a: Cela dépend du poste. Les comités se réunissent habituellement une fois par mois, et l’aide lors d’un événement peut se limiter à un après-midi.

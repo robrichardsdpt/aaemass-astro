@@ -1,27 +1,26 @@
 ---
 import { site } from '../lib/site';
+import { getLang, fmt } from '../i18n';
+import { ui } from '../i18n/ui';
+const u = ui[getLang(Astro)];
 ---
 
 <footer class="site-footer">
   <div class="wrap">
     <div class="stack">
-      <h2 style="font-size: var(--step-1)">Area 30 committee meetings</h2>
+      <h2 style="font-size: var(--step-1)">{u.footerMeetingTitle}</h2>
       <p>
-        The committee meets {site.meeting.when} at the
-        <a href={site.meeting.map}>{site.meeting.where}</a>.
+        <Fragment set:html={fmt(u.footerMeets, { when: u.meetingWhen, where: `<a href="${site.meeting.map.replace(/&/g, '&amp;')}">${u.meetingWhere}</a>` })} />
       </p>
     </div>
     <address class="stack">
-      <p><strong>Alcoholics Anonymous General Service Committee of Eastern Massachusetts</strong></p>
+      <p><strong>{u.footerOrg}</strong></p>
       <p>
         {site.address.street}<br />
         {site.address.city}, {site.address.region} {site.address.postalCode}
       </p>
       <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
     </address>
-    <p class="legal">
-      Join us on the broad highway. &copy; {new Date().getFullYear()} Area 30, Eastern Mass. Alcoholics Anonymous.
-      Links to other websites are provided as a convenience only; Area 30 does not manage or control them.
-    </p>
+    <p class="legal">{fmt(u.footerLegal, { year: new Date().getFullYear() })}</p>
   </div>
 </footer>

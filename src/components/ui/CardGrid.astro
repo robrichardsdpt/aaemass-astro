@@ -1,15 +1,17 @@
 ---
 // Responsive grid of cards: 1 column on phones, 2 on tablets, 3 on desktop.
+import { getLang } from '../../i18n';
 interface Card { title: string; text?: string; href?: string; linkText?: string }
 interface Props { cards: Card[] }
 const { cards } = Astro.props;
+const more = { en: 'Learn more', es: 'Más información', fr: 'En savoir plus' }[getLang(Astro)];
 ---
 <ul class="cards">
   {cards.map((c) => (
     <li class="notice stack">
       <h3>{c.title}</h3>
       {c.text && <p>{c.text}</p>}
-      {c.href && <a href={c.href}>{c.linkText || 'Learn more'}<span class="visually-hidden">: {c.title}</span></a>}
+      {c.href && <a href={c.href}>{c.linkText || more}<span class="visually-hidden">: {c.title}</span></a>}
     </li>
   ))}
 </ul>

@@ -1,0 +1,5 @@
+{
+  "_comment": "Route keys a bilingual AA member has reviewed, per language. Use \"all\" once a language is fully reviewed. Unreviewed pages are served with noindex, left out of the sitemap and out of hreflang. See docs/TRANSLATION.md.",
+  "es": [],
+  "fr": []
+}

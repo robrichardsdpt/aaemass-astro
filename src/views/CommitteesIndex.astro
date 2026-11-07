@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import Page from '../layouts/Page.astro';
+import Msg from '../components/Msg.astro';
+import { committees, moreCommittees } from '../lib/site';
+import { getLang, lp, pick } from '../i18n';
+import { committeesIndex } from '../i18n/pages/committeesIndex';
+import { committeeNames } from '../i18n/committees';
+import archives from '../assets/home-archives.jpg';
+import cpc from '../assets/home-cpc.jpg';
+import corrections from '../assets/home-corrections.jpg';
+import grapevine from '../assets/home-grapevine.jpg';
+import literature from '../assets/home-literature.jpg';
+import pi from '../assets/home-pi.jpg';
+
+const lang = getLang(Astro);
+const m = pick(committeesIndex, lang);
+const names = committeeNames[lang];
+const images = { archives, cpc, corrections, grapevine, literature, pi };
+---
+
+<Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} current="/committees">
+  <section class="section" aria-labelledby="conf-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="conf-title">{m.confTitle}</h2>
+        <a href={lp(lang, '/service')}>{m.reports}</a>
+      </div>
+      <ul class="committee-grid">
+        {committees.map((c) => (
+          <li>
+            <Image src={images[c.image]} alt="" widths={[200, 300, 400]} sizes="(min-width: 64rem) 11rem, (min-width: 36rem) 30vw, 46vw" />
+            <a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].tile}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="more-title">
+    <div class="wrap">
+      <h2 id="more-title" style="margin-block-end: var(--s-4)">{m.moreTitle}</h2>
+      <ul class="inline-list">
+        {moreCommittees.map((c) => <li><a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].name}</a></li>)}
+      </ul>
+      <p class="prose" style="margin-block-start: var(--s-5)"><Msg text={m.email} /></p>
+    </div>
+  </section>
+</Page>

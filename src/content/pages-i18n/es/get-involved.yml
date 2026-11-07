@@ -1,0 +1,35 @@
+title: Participe en el servicio | Área 30
+description: Maneras de participar en el servicio de A.A. en el Este de Massachusetts, desde su grupo base hasta los comités del Área 30 y la Conferencia de Servicios Generales.
+eyebrow: Servicio
+lede: El mejor lugar para empezar es su grupo base. Desde allí, el servicio está a un paso.
+blocks:
+  - type: text
+    heading: ¿Por qué prestar servicio?
+    body: |
+      Los miembros de A.A. trabajamos juntos para ayudar al alcohólico que aún sufre, y ayudarnos unos a otros es una clave para mantenernos sobrios.
+
+      El servicio toma muchas formas: poner las sillas, servir como Representante de Servicios Generales (RSG) de su grupo o unirse a un comité del Área 30.
+  - type: cards
+    heading: Dónde empezar
+    cards:
+      - title: Su grupo base
+        text: Pregunte qué puestos de servicio están abiertos, desde recibidor hasta RSG.
+        link_text: Encontrar una reunión
+        link_url: https://www.aa.org/find-aa/north-america
+      - title: Un distrito
+        text: Los distritos reúnen a los grupos cercanos. Su RSG asiste a las reuniones del distrito.
+        link_text: Ver los distritos
+        link_url: /districts/
+      - title: Un comité del Área 30
+        text: Los comités llevan el mensaje a prisiones, centros de tratamiento, escuelas y profesionales.
+        link_text: Ver los comités
+        link_url: /committees/
+  - type: callout
+    title: ¿No sabe dónde encajar?
+    body: Escriba a [info@aaemass.org](mailto:info@aaemass.org) y le indicaremos un comité que necesite sus habilidades.
+  - type: faq
+    items:
+      - q: ¿Necesito llevar cierto tiempo sobrio para prestar servicio?
+        a: Los requisitos varían según el puesto. Muchos puestos de servicio, como recibir a los recién llegados o ayudar en un evento, están abiertos a cualquier miembro de A.A. Los presidentes de comités y los oficiales pueden tener requisitos de sobriedad establecidos por el Área.
+      - q: ¿Cuánto tiempo requiere el servicio?
+        a: Depende del puesto. Los comités suelen reunirse una vez al mes, y la ayuda en un evento puede ser una sola tarde.

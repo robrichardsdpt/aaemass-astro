@@ -1,0 +1,54 @@
+---
+// Spanish and French pages. One route table drives every translated URL (see src/i18n/index.ts).
+// English pages stay as the files in src/pages/; each page body is a shared view in src/views/.
+import { getCollection } from 'astro:content';
+import { otherLangs, publicPath, translatedKeys } from '../../i18n';
+import Home from '../../views/Home.astro';
+import Resources from '../../views/Resources.astro';
+import Literature from '../../views/Literature.astro';
+import Calendar from '../../views/Calendar.astro';
+import WhatIsAA from '../../views/WhatIsAA.astro';
+import Districts from '../../views/Districts.astro';
+import Contribute from '../../views/Contribute.astro';
+import Contact from '../../views/Contact.astro';
+import CommitteesIndex from '../../views/CommitteesIndex.astro';
+import Registrar from '../../views/Registrar.astro';
+import Service from '../../views/Service.astro';
+import Committee from '../../views/Committee.astro';
+import CmsPage from '../../views/CmsPage.astro';
+import { committees } from '../../lib/committee-pages';
+
+export async function getStaticPaths() {
+  const entries: { key: string; view: any; props?: Record<string, unknown> }[] = [
+    { key: '', view: Home },
+    { key: 'resources', view: Resources },
+    { key: 'literature', view: Literature },
+    { key: 'calendar', view: Calendar },
+    { key: 'alcoholics-anonymous', view: WhatIsAA },
+    { key: 'districts', view: Districts },
+    { key: 'contribute', view: Contribute },
+    { key: 'contact', view: Contact },
+    { key: 'committees', view: CommitteesIndex },
+    { key: 'committees/registrar', view: Registrar },
+    { key: 'service', view: Service },
+    ...Object.keys(committees).map((slug) => ({ key: `committees/${slug}`, view: Committee, props: { slug } })),
+  ];
+  const toSlug = (lang: string, key: string) => {
+    const full = translatedKeys.includes(key) ? publicPath(key, lang as 'es' | 'fr') : `/${lang}/${key}/`;
+    return full.replace(`/${lang}/`, '').replace(/\/$/, '');
+  };
+  const paths = otherLangs.flatMap((lang) =>
+    entries.map(({ key, view, props }) => ({ params: { lang, slug: toSlug(lang, key) || undefined }, props: { view, viewProps: props ?? {} } })),
+  );
+  // CMS pages translated under src/content/pages-i18n/<lang>/<name>.yml
+  for (const entry of await getCollection('pagesI18n')) {
+    const [lang, ...rest] = entry.id.split('/');
+    if (!(otherLangs as readonly string[]).includes(lang)) continue;
+    paths.push({ params: { lang, slug: toSlug(lang, rest.join('/')) }, props: { view: CmsPage, viewProps: { data: entry.data } } });
+  }
+  return paths;
+}
+const { view: View, viewProps } = Astro.props;
+---
+
+<View {...viewProps} />

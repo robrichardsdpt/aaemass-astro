@@ -1,0 +1,43 @@
+---
+import Page from '../layouts/Page.astro';
+import { districtsAbout, districts } from '../lib/mirror-data';
+import { linkify } from '../lib/links';
+import Rich from '../components/Rich.astro';
+import { getLang, pick } from '../i18n';
+import { districtMsgs } from '../i18n/pages/districts';
+import { translateDistrictLine, districtName } from '../i18n/districts';
+
+const lang = getLang(Astro);
+const m = pick(districtMsgs, lang);
+const seen = new Set<string>();
+
+const idOf = (name: string) => name.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+---
+
+<Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/districts">
+  <section class="section" aria-labelledby="what-title">
+    <div class="wrap prose stack">
+      <h2 id="what-title">{m.whatTitle}</h2>
+      <p><Rich text={m.about} seen={seen} /></p>
+      <p>
+        <a class="button button--quiet" href={districtsAbout.link.href}>{m.linkText}</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="meet-title">
+    <div class="wrap">
+      <div class="stack prose" style="margin-block-end: var(--s-5)">
+        <h2 id="meet-title">{m.meetTitle}</h2>
+      </div>
+      <ul class="district-grid">
+        {districts.map((d) => (
+          <li class="notice stack anchor" id={idOf(d.name)}>
+            <h3>{districtName(d.name, lang)}</h3>
+            {d.lines.map((l) => translateDistrictLine(l, lang)).filter(Boolean).map((l) => <p set:html={linkify(l)} />)}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Page>

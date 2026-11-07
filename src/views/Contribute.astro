@@ -1,0 +1,200 @@
+---
+import Page from '../layouts/Page.astro';
+import Msg from '../components/Msg.astro';
+import { site } from '../lib/site';
+import PlaceholderForm from '../components/ui/PlaceholderForm.astro';
+import MessagePlaceholder from '../components/ui/MessagePlaceholder.astro';
+import { districts } from '../lib/mirror-data';
+import { getLang, pick } from '../i18n';
+import { ui } from '../i18n/ui';
+import { contribute } from '../i18n/pages/contribute';
+import { districtName } from '../i18n/districts';
+
+const lang = getLang(Astro);
+const m = pick(contribute, lang);
+const u = ui[lang];
+const seen = new Set<string>();
+const vars = { registrarEmail: site.registrarEmail };
+
+const districtOptions = districts.map((d) => districtName(d.name, lang));
+const live = `${site.url}/contributions`;
+const formAlt = (label: string) => ({ text: m.liveAlt, href: live, label });
+const hrefs = [`${live}#GCF`, `${live}#MCF`, `${live}#DCF`];
+const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-mix';
+---
+
+<Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/contribute">
+  <div slot="actions" class="actions">
+    <a class="button" href="#contribute">{m.contributeOnline}</a>
+    <a class="button button--quiet" href={pamphlet}>{m.readPamphlet}</a>
+  </div>
+
+  <section class="section" aria-labelledby="tradition-title">
+    <div class="wrap prose stack">
+      <h2 id="tradition-title">{m.traditionTitle}</h2>
+      <p><Msg text={m.tradition} seen={seen} /></p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="money-title">
+    <div class="wrap split">
+      <div class="stack prose">
+        <h2 id="money-title">{m.moneyTitle}</h2>
+        <p>{m.money}</p>
+        <p><a href={pamphlet}>{m.pamphletLink}</a></p>
+      </div>
+      <div class="notice stack">
+        <h3>{m.ensure}</h3>
+        <ul class="checklist">
+          {m.gives.map((g) => <li>{g}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contribute" aria-labelledby="online-title">
+    <div class="wrap">
+      <div class="stack prose" style="margin-block-end: var(--s-5)">
+        <h2 id="online-title">{m.onlineTitle}</h2>
+        <p><Msg text={m.online} vars={vars} /></p>
+      </div>
+      <ul class="cards">
+        {m.forms.map((f, i) => (
+          <li class="notice stack card-link">
+            <p class="eyebrow">{m.secureForm}</p>
+            <h3><a href={hrefs[i]}>{f.title}</a></h3>
+            <p>{f.text}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="prose" style="margin-block-start: var(--s-4)">{m.paypalNote}</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="mail-title">
+    <div class="wrap prose stack">
+      <h2 id="mail-title">{m.mailTitle}</h2>
+      <p><Msg text={m.mail} /></p>
+    </div>
+  </section>
+
+  <section class="section" id="coming-soon" aria-labelledby="soon-title">
+    <div class="wrap prose stack">
+      <h2 id="soon-title">{m.soonTitle}</h2>
+      <p><Msg text={m.soon} /></p>
+      <p><button class="button" type="button" id="open-contribute" aria-haspopup="dialog">{m.soonCta}</button></p>
+    </div>
+  </section>
+
+  <dialog id="contribute-sheet" class="sheet" aria-labelledby="sheet-title">
+    <div class="sheet__bar">
+      <h2 id="sheet-title">{m.sheetTitle}</h2>
+      <button class="sheet__close" type="button" data-close aria-label={u.close}>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="sheet__body stack">
+      <div class="field">
+        <label for="contribution-type">{m.typeLabel}</label>
+        <select id="contribution-type">
+          <option value="grp">{m.group.summary}</option>
+          <option value="mem">{m.member.summary}</option>
+          <option value="dist">{m.district.summary}</option>
+        </select>
+      </div>
+      <div data-panel="grp">
+        <PlaceholderForm
+          id="grp"
+          submitLabel={m.continuePayPal}
+          alternative={formAlt(m.group.alt)}
+          fields={[
+            { name: 'member', label: m.group.member, type: 'checkbox', required: true },
+            { name: 'group', label: m.group.name, required: true, half: true },
+            { name: 'number', label: m.group.number, required: true, half: true, hint: m.group.numberHint },
+            { name: 'street', label: m.group.street },
+            { name: 'town', label: m.group.town, half: true },
+            { name: 'zip', label: m.group.zip, half: true },
+            { name: 'email', label: m.group.email, type: 'email', required: true },
+            { name: 'day', label: m.group.day, type: 'select', options: m.days, required: true, half: true },
+            { name: 'time', label: m.group.time, type: 'time', required: true, half: true },
+            { name: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
+          ]}
+        />
+      </div>
+      <div data-panel="mem" hidden>
+        <PlaceholderForm
+          id="mem"
+          submitLabel={m.continuePayPal}
+          alternative={formAlt(m.member.alt)}
+          fields={[
+            { name: 'member', label: m.member.member, type: 'checkbox', required: true },
+            { name: 'first', label: m.member.first, required: true, half: true },
+            { name: 'last', label: m.member.last, required: true, half: true },
+            { name: 'street', label: m.member.street, required: true },
+            { name: 'town', label: m.group.town, required: true, half: true },
+            { name: 'zip', label: m.group.zip, required: true, half: true },
+            { name: 'email', label: m.group.email, type: 'email', required: true },
+            { name: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
+          ]}
+        />
+      </div>
+      <div data-panel="dist" hidden>
+        <PlaceholderForm
+          id="dist"
+          submitLabel={m.continuePayPal}
+          alternative={formAlt(m.district.alt)}
+          fields={[
+            { name: 'member', label: m.district.member, type: 'checkbox', required: true },
+            { name: 'district', label: m.district.label, type: 'select', options: districtOptions, required: true, hint: m.district.hint },
+            { name: 'subdistrict', label: m.district.sub, hint: m.district.subHint },
+            { name: 'email', label: m.group.email, type: 'email', required: true },
+            { name: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
+          ]}
+        />
+      </div>
+    </div>
+  </dialog>
+
+  <script is:inline>
+    // One button opens the sheet; the dropdown shows the form for the chosen type of contribution.
+    (function () {
+      var sheet = document.getElementById('contribute-sheet');
+      var open = document.getElementById('open-contribute');
+      var type = document.getElementById('contribution-type');
+      if (!sheet || !open || !type || typeof sheet.showModal !== 'function') return;
+      function show() {
+        sheet.querySelectorAll('[data-panel]').forEach(function (p) { p.hidden = p.dataset.panel !== type.value; });
+      }
+      type.addEventListener('change', show);
+      open.addEventListener('click', function () { show(); sheet.showModal(); });
+      sheet.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', function () { sheet.close(); }); });
+      // A click on the dimmed backdrop (outside the sheet's box) closes it.
+      sheet.addEventListener('click', function (e) {
+        var r = sheet.getBoundingClientRect();
+        if (e.target === sheet && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom)) sheet.close();
+      });
+    })();
+  </script>
+
+  <section class="section" aria-labelledby="treasurer-title">
+    <div class="wrap">
+      <div class="stack prose" style="margin-block-end: var(--s-5)">
+        <h2 id="treasurer-title">{m.treasurerTitle}</h2>
+        <p>{m.treasurer}</p>
+      </div>
+      <div class="prose"><MessagePlaceholder id="treasurer" to={m.treasurerTo} email="treasurer@aaemass.org" /></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="non-title">
+    <div class="wrap prose stack">
+      <h2 id="non-title">{m.nonTitle}</h2>
+      <p>{m.non}</p>
+      <ul class="inline-list">
+        <li><a href="mailto:cpc@aaemass.org">{m.nonLinks.pro}</a></li>
+        <li><a href="mailto:pi@aaemass.org">{m.nonLinks.ind}</a></li>
+        <li><a href="mailto:treasurer@aaemass.org">{m.nonLinks.fin}</a></li>
+      </ul>
+    </div>
+  </section>
+</Page>

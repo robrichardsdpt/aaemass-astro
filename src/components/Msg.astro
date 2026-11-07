@@ -1,0 +1,31 @@
+---
+// Renders a message string from src/i18n/pages: first mentions of AA terms become popovers via [[id|label]],
+// [text](url) becomes a link (site paths like /calendar are localized), **bold** becomes <strong>, {name} fills vars.
+import Term from './Term.astro';
+import { getLang, lp } from '../i18n';
+import type { TermId } from '../lib/content';
+
+interface Props {
+  text: string;
+  seen?: Set<string>;
+  vars?: Record<string, string | number>;
+}
+const { text, seen = new Set<string>(), vars = {} } = Astro.props;
+const lang = getLang(Astro);
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const fill = (s: string) => s.replace(/\{(\w+)\}/g, (_, k) => (k in vars ? String(vars[k]) : `{${k}}`));
+const html = (s: string) =>
+  esc(fill(s))
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label: string, url: string) => {
+      const u = url.replace(/&amp;/g, '&');
+      const href = u.startsWith('/') ? lp(lang, u) : u;
+      return `<a href="${esc(href)}">${label}</a>`;
+    })
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+const parts = text.split(/(\[\[\w+\|[^\]]+\]\])/);
+---
+
+{parts.map((p) => {
+  const m = p.match(/^\[\[(\w+)\|([^\]]+)\]\]$/);
+  return m ? <Term id={m[1] as TermId} seen={seen}>{m[2]}</Term> : <Fragment set:html={html(p)} />;
+})}

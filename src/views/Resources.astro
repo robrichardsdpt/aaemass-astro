@@ -1,0 +1,43 @@
+---
+import Page from '../layouts/Page.astro';
+import Rich from '../components/Rich.astro';
+import { getLang, pick } from '../i18n';
+import { ui } from '../i18n/ui';
+import { resources } from '../i18n/pages/resources';
+
+const lang = getLang(Astro);
+const m = pick(resources, lang);
+const u = ui[lang];
+const seen = new Set<string>();
+---
+
+<Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} current="/resources">
+  <section class="section" aria-labelledby="official-title">
+    <div class="wrap">
+      <h2 id="official-title" style="margin-block-end: var(--s-4)">{m.officialTitle}</h2>
+      <ul class="inline-list">
+        {m.official.map((l) => <li><a href={l.href}>{l.name}</a></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="quick-title">
+    <div class="wrap">
+      <div class="stack prose" style="margin-block-end: var(--s-5)">
+        <h2 id="quick-title">{m.quickTitle}</h2>
+        <p>
+          <Rich text={m.quickIntro} seen={seen} />
+        </p>
+      </div>
+      <ul class="cards">
+        {m.quick.map((l) => (
+          <li class="notice stack card-link">
+            <p class="eyebrow">aa.org</p>
+            <h3><a href={l.href}>{l.title}<span class="visually-hidden">{u.opensAaOrg}</span></a></h3>
+            <p><Rich text={l.text} seen={seen} /></p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Page>

@@ -1,5 +1,8 @@
 ---
-import { terms, type TermId } from '../lib/content';
+import type { TermId } from '../lib/content';
+import { termDefs } from '../i18n/terms';
+import { getLang } from '../i18n';
+import { ui } from '../i18n/ui';
 
 interface Props {
   id: TermId;
@@ -7,10 +10,11 @@ interface Props {
   seen: Set<string>;
 }
 const { id, seen } = Astro.props;
-const term = terms[id];
+const lang = getLang(Astro);
+const term = termDefs[lang][id];
 const first = !seen.has(id);
 seen.add(id);
 const popId = `term-${id}`;
 ---
 
-{first ? <><button type="button" class="term" popovertarget={popId} aria-haspopup="dialog"><abbr title={term.full}><slot /></abbr></button><span id={popId} popover class="term-card" role="dialog" aria-label={term.full}><strong>{term.full}</strong><span>{term.def}</span><button type="button" class="term-close" popovertarget={popId} popovertargetaction="hide">Close</button></span></> : <slot />}
+{first ? <><button type="button" class="term" popovertarget={popId} aria-haspopup="dialog"><abbr title={term.full}><slot /></abbr></button><span id={popId} popover class="term-card" role="dialog" aria-label={term.full}><strong>{term.full}</strong><span>{term.def}</span><button type="button" class="term-close" popovertarget={popId} popovertargetaction="hide">{ui[lang].close}</button></span></> : <slot />}

@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import { getImage } from 'astro:assets';
 import { site } from '../lib/site';
+import { getLang, htmlLang, ogLocale, resolve, isIndexable, seoAlternates, locales } from '../i18n';
+import { ui } from '../i18n/ui';
 import heroImg from '../assets/boston-2-bg.jpg';
 import sealImg from '../assets/seal.png';
 import publicSans from '@fontsource-variable/public-sans/files/public-sans-latin-wght-normal.woff2?url';
@@ -17,7 +19,13 @@ interface Props {
 }
 const { title, description, faqs = [], noindex: pageNoindex = false, crumbs = [], extraLd = [] } = Astro.props;
 // The GitHub Pages preview must not compete with the real site in search results.
-const noindex = pageNoindex || Boolean(import.meta.env.PUBLIC_NOINDEX);
+const lang = getLang(Astro);
+const u = ui[lang];
+const noindexUnreviewed = (() => {
+  const r = resolve(Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/');
+  return lang !== 'en' && !(r && isIndexable(r.key, lang));
+})();
+const noindex = pageNoindex || noindexUnreviewed || Boolean(import.meta.env.PUBLIC_NOINDEX);
 // Strip the build base (the WordPress plugin path) so canonical URLs are the public ones.
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 const publicPath = Astro.url.pathname.startsWith(basePath) ? Astro.url.pathname.slice(basePath.length) || '/' : Astro.url.pathname;
@@ -26,6 +34,8 @@ const canonical = new URL(publicPath, site.url).href;
 const og = await getImage({ src: heroImg, width: 1200, height: 630, format: 'jpeg', quality: 70 });
 const logo = await getImage({ src: sealImg, width: 512, format: 'png' });
 const abs = (path: string) => new URL(path, site.url).href;
+const alts = noindex ? {} : seoAlternates(publicPath);
+const withBase = (p: string) => abs(p);
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -35,14 +45,14 @@ const jsonLd = {
       '@id': `${site.url}/#website`,
       url: site.url,
       name: site.name,
-      inLanguage: 'en-US',
+      inLanguage: ['en-US', 'es-US', 'fr-FR'],
       publisher: { '@id': `${site.url}/#org` },
     },
     {
       '@type': 'NGO',
       '@id': `${site.url}/#org`,
       name: site.name,
-      alternateName: 'Alcoholics Anonymous General Service Committee of Eastern Massachusetts',
+      alternateName: lang === 'en' ? ui.en.siteAlternate : [ui.en.siteAlternate, u.siteName],
       url: site.url,
       email: site.email,
       logo: abs(logo.src),
@@ -77,6 +87,7 @@ const jsonLd = {
       '@id': `${canonical}#webpage`,
       url: canonical,
       name: title,
+      inLanguage: htmlLang[lang],
       description,
       isPartOf: { '@id': `${site.url}/#website` },
       about: { '@id': `${site.url}/#org` },
@@ -97,30 +108,33 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={htmlLang[lang]}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {Object.entries(alts).length > 1 && Object.entries(alts).map(([l, p]) => <link rel="alternate" hreflang={htmlLang[l as keyof typeof htmlLang]} href={withBase(p)} />)}
+    {alts.en && Object.entries(alts).length > 1 && <link rel="alternate" hreflang="x-default" href={withBase(alts.en)} />}
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={site.name} />
+    <meta property="og:site_name" content={u.siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta name="color-scheme" content="light dark" />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={ogLocale[lang]} />
+    {locales.filter((l) => l !== lang && alts[l]).map((l) => <meta property="og:locale:alternate" content={ogLocale[l]} />)}
     <meta property="og:image" content={abs(og.src)} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Boston waterfront at dusk" />
+    <meta property="og:image:alt" content={u.ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={abs(og.src)} />
-    <meta name="twitter:image:alt" content="Boston waterfront at dusk" />
+    <meta name="twitter:image:alt" content={u.ogImageAlt} />
     <script is:inline>
       try {
         var t = localStorage.getItem('theme');
@@ -134,7 +148,7 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to main content</a>
+    <a class="skip-link" href="#main">{u.skip}</a>
     <slot />
   </body>
 </html>

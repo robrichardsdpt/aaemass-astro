@@ -1,0 +1,40 @@
+---
+import Page from '../layouts/Page.astro';
+import { literature } from '../lib/mirror-data';
+import { getLang, pick } from '../i18n';
+import { ui } from '../i18n/ui';
+import { literatureMsgs } from '../i18n/pages/literature';
+
+const lang = getLang(Astro);
+const m = pick(literatureMsgs, lang);
+const u = ui[lang];
+---
+
+<Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} current="/literature">
+  <section class="section" aria-labelledby="intro-title">
+    <div class="wrap prose stack">
+      <h2 id="intro-title" class="visually-hidden">{m.aboutHeading}</h2>
+      <p>{m.intro}</p>
+    </div>
+  </section>
+
+  {m.groups.map((g, i) => (
+    <section class="section" aria-labelledby={`lit-${i}`}>
+      <div class="wrap">
+        <div class="stack prose" style="margin-block-end: var(--s-5)">
+          <h2 id={`lit-${i}`}>{g.title}</h2>
+          <p>{g.intro}</p>
+        </div>
+        <ul class="cards">
+          {g.items.map((item, j) => (
+            <li class="notice stack card-link">
+              {item.sub && <p class="eyebrow">{item.sub}</p>}
+              <h3><a href={literature.groups[i].items[j].href}>{item.title}<span class="visually-hidden">{u.opensAaOrg}</span></a></h3>
+              <p>{item.description}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  ))}
+</Page>

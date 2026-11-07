@@ -28,7 +28,7 @@ collections:
     summary: '{{title}}'
     editor:
       preview: false
-    fields:
+    fields: &page_fields
       - { label: Title, name: title, widget: string, hint: 'Shown as the page heading. Keep it under 60 characters for search results.' }
       - { label: Search description, name: description, widget: text, hint: 'One or two sentences, 120 to 160 characters.' }
       - { label: Small label above the title, name: eyebrow, widget: string, required: false }
@@ -158,6 +158,32 @@ collections:
               - { label: Heading, name: heading, widget: string, required: false, hint: 'Defaults to Upcoming events' }
               - { label: How many to show, name: count, widget: number, value_type: int, min: 1, max: 12, default: 6, required: false }
 
+  - name: pages_es
+    label: Páginas (español)
+    label_singular: Página en español
+    description: Spanish copies of the pages. Use the same file name as the English page. Machine translations stay hidden from search engines until a bilingual AA member lists them in src/i18n/reviewed.json (see docs/TRANSLATION.md).
+    folder: src/content/pages-i18n/es
+    extension: yml
+    format: yml
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}}'
+    editor:
+      preview: false
+    fields: *page_fields
+  - name: pages_fr
+    label: Pages (français)
+    label_singular: Page en français
+    description: French copies of the pages. Use the same file name as the English page. Machine translations stay hidden from search engines until a bilingual AA member lists them in src/i18n/reviewed.json (see docs/TRANSLATION.md).
+    folder: src/content/pages-i18n/fr
+    extension: yml
+    format: yml
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}}'
+    editor:
+      preview: false
+    fields: *page_fields
   - name: events
     label: Events
     label_singular: Event

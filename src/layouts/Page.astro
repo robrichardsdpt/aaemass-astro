@@ -7,6 +7,8 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { Image } from 'astro:assets';
 import heroImg from '../assets/boston-2-bg.jpg';
 import { path } from '../lib/site';
+import { getLang, lp, lpPublic } from '../i18n';
+import { ui } from '../i18n/ui';
 
 interface Props {
   title: string;
@@ -24,13 +26,15 @@ interface Props {
   // Breadcrumb trail between Home and this page.
   trail?: { name: string; href: string }[];
 }
+const lang = getLang(Astro);
+const u = ui[lang];
 const { title, description, heading, eyebrow, lede, current, faqs = [], extraLd = [], trail = [], showFaqs = true, noindex = false } = Astro.props;
 const here = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/';
-const crumbs = [{ name: 'Home', href: '/' }, ...trail, { name: heading, href: here }];
+const crumbs = [{ name: u.home, href: lpPublic(lang, '/') }, ...trail.map((t) => ({ ...t, href: lpPublic(lang, t.href) })), { name: heading, href: here }];
 ---
 
 <Base title={title} description={description} faqs={faqs} crumbs={crumbs} extraLd={extraLd} noindex={noindex}>
-  <SiteHeader current={current ? path(current) : undefined} />
+  <SiteHeader current={current ? lp(lang, current) : undefined} />
   <main id="main">
     <Breadcrumbs heading={heading} trail={trail} />
     <section class="hero hero--compact" aria-labelledby="hero-title">
@@ -46,7 +50,7 @@ const crumbs = [{ name: 'Home', href: '/' }, ...trail, { name: heading, href: he
     {showFaqs && faqs.length > 0 && (
       <section class="section" aria-labelledby="faq-title">
         <div class="wrap prose">
-          <h2 id="faq-title" style="margin-block-end: var(--s-5)">Frequently asked questions</h2>
+          <h2 id="faq-title" style="margin-block-end: var(--s-5)">{u.faqHeading}</h2>
           <div class="faq">
             {faqs.map((f) => (
               <details>
