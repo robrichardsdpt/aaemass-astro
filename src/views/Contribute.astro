@@ -18,8 +18,14 @@ const vars = { registrarEmail: site.registrarEmail };
 
 const districtOptions = districts.map((d) => districtName(d.name, lang));
 const live = `${site.url}/contributions`;
-const formAlt = (label: string) => ({ text: m.liveAlt, href: live, label });
 const hrefs = [`${live}#GCF`, `${live}#MCF`, `${live}#DCF`];
+const paypal = (itemName: string) => ({
+  business: 'treasurer@aaemass.org',
+  itemName,
+  returnUrl: `${site.url}/contribute`,
+  cancelUrl: `${site.url}/contribute`,
+  lc: lang === 'es' ? 'ES' : lang === 'fr' ? 'FR' : 'US',
+});
 const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-mix';
 ---
 
@@ -106,18 +112,18 @@ const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-m
         <PlaceholderForm
           id="grp"
           submitLabel={m.continuePayPal}
-          alternative={formAlt(m.group.alt)}
+          paypal={paypal('Area 30 Group Contribution')}
           fields={[
             { name: 'member', label: m.group.member, type: 'checkbox', required: true },
             { name: 'group', label: m.group.name, required: true, half: true },
             { name: 'number', label: m.group.number, required: true, half: true, hint: m.group.numberHint },
-            { name: 'street', label: m.group.street },
-            { name: 'town', label: m.group.town, half: true },
+            { name: 'street', pp: 'address1', label: m.group.street },
+            { name: 'town', pp: 'city', label: m.group.town, half: true },
             { name: 'zip', label: m.group.zip, half: true },
-            { name: 'email', label: m.group.email, type: 'email', required: true },
+            { name: 'email', pp: 'email', label: m.group.email, type: 'email', required: true },
             { name: 'day', label: m.group.day, type: 'select', options: m.days, required: true, half: true },
             { name: 'time', label: m.group.time, type: 'time', required: true, half: true },
-            { name: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
+            { name: 'amount', pp: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
           ]}
         />
       </div>
@@ -125,16 +131,16 @@ const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-m
         <PlaceholderForm
           id="mem"
           submitLabel={m.continuePayPal}
-          alternative={formAlt(m.member.alt)}
+          paypal={paypal('Area 30 Member Contribution')}
           fields={[
             { name: 'member', label: m.member.member, type: 'checkbox', required: true },
-            { name: 'first', label: m.member.first, required: true, half: true },
-            { name: 'last', label: m.member.last, required: true, half: true },
-            { name: 'street', label: m.member.street, required: true },
-            { name: 'town', label: m.group.town, required: true, half: true },
+            { name: 'first', pp: 'first_name', label: m.member.first, required: true, half: true },
+            { name: 'last', pp: 'last_name', label: m.member.last, required: true, half: true },
+            { name: 'street', pp: 'address1', label: m.member.street, required: true },
+            { name: 'town', pp: 'city', label: m.group.town, required: true, half: true },
             { name: 'zip', label: m.group.zip, required: true, half: true },
-            { name: 'email', label: m.group.email, type: 'email', required: true },
-            { name: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
+            { name: 'email', pp: 'email', label: m.group.email, type: 'email', required: true },
+            { name: 'amount', pp: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
           ]}
         />
       </div>
@@ -142,13 +148,13 @@ const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-m
         <PlaceholderForm
           id="dist"
           submitLabel={m.continuePayPal}
-          alternative={formAlt(m.district.alt)}
+          paypal={paypal('Area 30 District Contribution')}
           fields={[
             { name: 'member', label: m.district.member, type: 'checkbox', required: true },
             { name: 'district', label: m.district.label, type: 'select', options: districtOptions, required: true, hint: m.district.hint },
             { name: 'subdistrict', label: m.district.sub, hint: m.district.subHint },
-            { name: 'email', label: m.group.email, type: 'email', required: true },
-            { name: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
+            { name: 'email', pp: 'email', label: m.group.email, type: 'email', required: true },
+            { name: 'amount', pp: 'amount', label: m.group.amount, type: 'number', prefix: '$', required: true, hint: m.toPayPal },
           ]}
         />
       </div>

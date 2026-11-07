@@ -13,6 +13,15 @@ export interface PlaceholderField {
   required?: boolean;
   half?: boolean; // two fields side by side from tablet up
   prefix?: string; // e.g. "$"
+  pp?: string; // live PayPal forms: the PayPal variable this field maps to (also used as the field name)
+}
+// A live PayPal Donations form. Mirrors the Gravity Forms + PayPal feeds on aaemass.org (same account).
+export interface PayPalConfig {
+  business: string;
+  itemName: string; // base description shown in PayPal and on the treasurer's receipt
+  returnUrl: string;
+  cancelUrl: string;
+  lc: string;
 }
 interface Props {
   id: string;
@@ -20,11 +29,86 @@ interface Props {
   submitLabel?: string;
   // Shown in the notice: what to do today instead.
   alternative?: { text: string; href: string; label: string };
+  paypal?: PayPalConfig;
 }
 const u = ui[getLang(Astro)];
-const { id, fields, submitLabel = u.formSubmit, alternative } = Astro.props;
+const { id, fields, submitLabel = u.formSubmit, alternative, paypal } = Astro.props;
 const noteId = `${id}-note`;
 ---
+{paypal ? (
+<div class="placeholder-form placeholder-form--live">
+  <form class="paypal-form" method="post" action="https://www.paypal.com/cgi-bin/webscr" data-id={id} data-item={paypal.itemName}>
+    <input type="hidden" name="cmd" value="_donations" />
+    <input type="hidden" name="business" value={paypal.business} />
+    <input type="hidden" name="currency_code" value="USD" />
+    <input type="hidden" name="no_shipping" value="1" />
+    <input type="hidden" name="no_note" value="1" />
+    <input type="hidden" name="lc" value={paypal.lc} />
+    <input type="hidden" name="return" value={paypal.returnUrl} />
+    <input type="hidden" name="cancel_return" value={paypal.cancelUrl} />
+    <input type="hidden" name="item_name" value={paypal.itemName} />
+    <input type="hidden" name="custom" value="" />
+    <fieldset>
+      
+      <div class="field-grid">
+        {fields.map((f) => {
+          const fid = `${id}-${f.name}`;
+          return f.type === 'checkbox' ? (
+            <div class="field field--check">
+              <label for={fid}><input id={fid} type="checkbox" name={f.pp ?? f.name} required={f.required} /> <span>{f.label}{f.required && ' *'}</span></label>
+              {f.hint && <p class="hint">{f.hint}</p>}
+            </div>
+          ) : (
+            <div class:list={['field', f.half && 'field--half']}>
+              <label for={fid}>{f.label}{f.required && ' *'}</label>
+              {f.type === 'select' ? (
+                <select id={fid} name={f.pp ?? f.name} required={f.required}><option value="">{u.formChoose}</option>{f.options?.map((o) => <option value={o}>{o}</option>)}</select>
+              ) : f.type === 'textarea' ? (
+                <textarea id={fid} name={f.pp ?? f.name} required={f.required} rows="4"></textarea>
+              ) : f.prefix ? (
+                <div class="input-prefix"><span aria-hidden="true">{f.prefix}</span><input id={fid} type={f.type ?? 'text'} name={f.pp ?? f.name} required={f.required} min={f.type === 'number' ? '1' : undefined} max={f.type === 'number' ? '25000' : undefined} step={f.type === 'number' ? '0.01' : undefined} inputmode={f.type === 'number' ? 'decimal' : undefined} /></div>
+              ) : (
+                <input id={fid} type={f.type ?? 'text'} name={f.pp ?? f.name} required={f.required} maxlength={f.type === 'time' ? undefined : 100} />
+              )}
+              {f.hint && <p class="hint">{f.hint}</p>}
+            </div>
+          );
+        })}
+      </div>
+      <button class="button" type="submit">{submitLabel}</button>
+    </fieldset>
+  </form>
+</div>
+<script is:inline>
+  // Fold the group/district details into the PayPal description and "custom" field so the treasurer sees them on the payment.
+  if (window.__ppBound) { /* already wired by an earlier copy */ } else { window.__ppBound = true;
+  document.querySelectorAll('form.paypal-form').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      // Strip control characters and the field separator so a value can't forge the details line.
+      var get = function (n) { var e = form.elements[n]; return e && e.value ? e.value.replace(/[\u0000-\u001f\u007f|]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 100) : ''; };
+      var amt = parseFloat(form.elements.amount && form.elements.amount.value);
+      if (!(amt >= 1 && amt <= 25000)) { e.preventDefault(); form.elements.amount.focus(); return; }
+      form.elements.amount.value = amt.toFixed(2);
+      var parts = [];
+      var id = form.dataset.id;
+      if (id === 'grp') {
+        parts.push('Group: ' + get('group') + ' #' + get('number'));
+        parts.push('Meets: ' + get('day') + ' ' + get('time'));
+      } else if (id === 'dist') {
+        parts.push('District: ' + get('district'));
+        if (get('subdistrict')) parts.push('Sub-district: ' + get('subdistrict'));
+      }
+      var street = get('address1'), town = get('city'), zip = get('zip');
+      if (street || town || zip) parts.push('Address: ' + [street, town, zip].filter(Boolean).join(', '));
+      parts.push('Email: ' + get('email'));
+      var detail = parts.join(' | ');
+      form.elements.custom.value = detail.slice(0, 255);
+      form.elements.item_name.value = (form.dataset.item + (id === 'mem' ? ' - ' + [get('first_name'), get('last_name')].filter(Boolean).join(' ') : id === 'grp' ? ' - ' + get('group') + ' #' + get('number') : ' - ' + get('district'))).slice(0, 127);
+    });
+  }); }
+</script>
+
+) : (
 <div class="placeholder-form">
   <div class="not-live" id={noteId} role="note">
     <p class="badge-soon">{u.formNotLive}</p>
@@ -65,3 +149,4 @@ const noteId = `${id}-note`;
     </fieldset>
   </form>
 </div>
+)}
