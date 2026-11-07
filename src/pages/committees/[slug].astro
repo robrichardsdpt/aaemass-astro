@@ -5,6 +5,7 @@ import { committees } from '../../lib/committee-pages';
 import { linkify } from '../../lib/links';
 import { termify } from '../../lib/term-match';
 import { site } from '../../lib/site';
+import MessagePlaceholder from '../../components/ui/MessagePlaceholder.astro';
 import { nextOccurrence, scheduleLd } from '../../lib/schedule';
 
 export function getStaticPaths() {
@@ -104,6 +105,7 @@ const rich = (text: string) => termify(linkify(text), seen);
         <a class="button" href={`mailto:${c.email}`}>{c.email}</a>
       </p>
       {c.more && <p><a href={path(c.more.href)}>{c.more.text}</a></p>}
+      <MessagePlaceholder id="committee" to={`the ${c.title} Committee`} email={c.email} />
     </div>
   </section>
 </Page>

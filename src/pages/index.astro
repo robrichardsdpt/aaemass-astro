@@ -9,6 +9,7 @@ import Rich from '../components/Rich.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteScripts from '../components/SiteScripts.astro';
+import PlaceholderForm from '../components/ui/PlaceholderForm.astro';
 
 import heroImg from '../assets/boston-2-bg.jpg';
 import circleImg from '../assets/shutterstock_1555828898.png';
@@ -72,7 +73,12 @@ const clock = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long', 
             <input type="hidden" name="_subject" value="Area 30 mailing list signup" />
           </form>
         ) : (
-          <p>To join, email <a href={`mailto:${site.email}?subject=Area%2030%20mailing%20list`}>{site.email}</a>.</p>
+          <PlaceholderForm
+            id="signup"
+            submitLabel="Sign up"
+            alternative={{ text: 'To join today, email', href: `mailto:${site.email}?subject=Area%2030%20mailing%20list`, label: site.email }}
+            fields={[{ name: 'email', label: 'Email address', type: 'email', required: true }]}
+          />
         )}
       </div>
     </section>

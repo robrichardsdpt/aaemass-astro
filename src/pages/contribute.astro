@@ -2,6 +2,13 @@
 import Page from '../layouts/Page.astro';
 import Rich from '../components/Rich.astro';
 import { site } from '../lib/site';
+import PlaceholderForm from '../components/ui/PlaceholderForm.astro';
+import MessagePlaceholder from '../components/ui/MessagePlaceholder.astro';
+import { districts } from '../lib/mirror-data';
+
+const districtOptions = districts.map((d) => d.name);
+const formAlt = (label: string) => ({ text: 'To contribute online today, use the secure form on aaemass.org:', href: live, label });
+const toPayPal = 'After you submit, you will continue to PayPal’s secure payment page.';
 
 const live = `${site.url}/contributions`;
 const forms = [
@@ -101,6 +108,101 @@ const faqs = [
         These forms hand off to PayPal’s secure payment gateway on aaemass.org, so they stay on
         the live site until payments are moved over.
       </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="mail-title">
+    <div class="wrap prose stack">
+      <h2 id="mail-title">Can I mail a contribution?</h2>
+      <p>
+        Yes. Send a check to <strong>General Service Committee of Eastern MA, PO Box 51411, Boston, MA 02205</strong>.
+        Checks may be made payable to <strong>General Service Committee of Eastern MA</strong>. We appreciate your support!
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="coming-soon" aria-labelledby="soon-title">
+    <div class="wrap">
+      <div class="stack prose" style="margin-block-end: var(--s-5)">
+        <h2 id="soon-title">Coming soon: contribute without leaving this site</h2>
+        <p>
+          These previews show the forms we plan to offer here. They are <strong>not functional yet</strong>,
+          and the forms on aaemass.org above are the working way to give online.
+        </p>
+      </div>
+      <div class="prose">
+        <div class="faq">
+          <details open>
+            <summary>Group contribution <span class="badge-soon">Not functional yet</span></summary>
+            <div class="stack">
+              <PlaceholderForm
+                id="grp"
+                submitLabel="Continue to PayPal"
+                alternative={formAlt('Group contribution form')}
+                fields={[
+                  { name: 'member', label: 'I am an AA member contributing on behalf of a group', type: 'checkbox', required: true },
+                  { name: 'group', label: 'Group name', required: true, half: true },
+                  { name: 'number', label: 'Group number', required: true, half: true, hint: 'Not sure? Email registrar@aaemass.org.' },
+                  { name: 'street', label: 'Meeting location: street address' },
+                  { name: 'town', label: 'Town', half: true },
+                  { name: 'zip', label: 'ZIP code', half: true },
+                  { name: 'email', label: 'Email address', type: 'email', required: true },
+                  { name: 'day', label: 'Meeting day', type: 'select', options: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'], required: true, half: true },
+                  { name: 'time', label: 'Meeting time', type: 'time', required: true, half: true },
+                  { name: 'amount', label: 'Amount', type: 'number', prefix: '$', required: true, hint: toPayPal },
+                ]}
+              />
+            </div>
+          </details>
+          <details>
+            <summary>Member contribution <span class="badge-soon">Not functional yet</span></summary>
+            <div class="stack">
+              <PlaceholderForm
+                id="mem"
+                submitLabel="Continue to PayPal"
+                alternative={formAlt('Member contribution form')}
+                fields={[
+                  { name: 'member', label: 'I am an AA member contributing on behalf of myself (not a group or district)', type: 'checkbox', required: true },
+                  { name: 'first', label: 'First name', required: true, half: true },
+                  { name: 'last', label: 'Last name', required: true, half: true },
+                  { name: 'street', label: 'Street address', required: true },
+                  { name: 'town', label: 'Town', required: true, half: true },
+                  { name: 'zip', label: 'ZIP code', required: true, half: true },
+                  { name: 'email', label: 'Email address', type: 'email', required: true },
+                  { name: 'amount', label: 'Amount', type: 'number', prefix: '$', required: true, hint: toPayPal },
+                ]}
+              />
+            </div>
+          </details>
+          <details>
+            <summary>District contribution <span class="badge-soon">Not functional yet</span></summary>
+            <div class="stack">
+              <PlaceholderForm
+                id="dist"
+                submitLabel="Continue to PayPal"
+                alternative={formAlt('District contribution form')}
+                fields={[
+                  { name: 'member', label: 'I am an AA member contributing on behalf of a district', type: 'checkbox', required: true },
+                  { name: 'district', label: 'District', type: 'select', options: districtOptions, required: true, hint: 'Use this form only when a district contributes to Area 30. Otherwise use the group or member form.' },
+                  { name: 'subdistrict', label: 'Subdistrict', hint: 'For multiple groups or a committee, for example Martha’s Vineyard or MSCYPAA.' },
+                  { name: 'email', label: 'Email address', type: 'email', required: true },
+                  { name: 'amount', label: 'Amount', type: 'number', prefix: '$', required: true, hint: toPayPal },
+                ]}
+              />
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="treasurer-title">
+    <div class="wrap">
+      <div class="stack prose" style="margin-block-end: var(--s-5)">
+        <h2 id="treasurer-title">Questions about contributions?</h2>
+        <p>Contact Area 30’s Treasurer with any questions.</p>
+      </div>
+      <div class="prose"><MessagePlaceholder id="treasurer" to="the Treasurer" email="treasurer@aaemass.org" /></div>
     </div>
   </section>
 

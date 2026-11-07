@@ -5,6 +5,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteScripts from '../components/SiteScripts.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PlaceholderForm from '../components/ui/PlaceholderForm.astro';
 import { site, path } from '../lib/site';
 import heroImg from '../assets/boston-2-bg.jpg';
 
@@ -193,8 +194,17 @@ const reasons = ['Looking for help', 'Meetings', 'General service', 'Committee',
             <div><button class="button" type="submit">Submit</button></div>
           </form>
         ) : (
-          <div id="contact-form" class="notice stack">
-            <p>The contact form is not connected yet. Please email <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+          <div id="contact-form">
+            <PlaceholderForm
+              id="contact"
+              alternative={{ text: 'To reach us today, email', href: `mailto:${site.email}`, label: site.email }}
+              fields={[
+                { name: 'name', label: 'Name', required: true, half: true },
+                { name: 'email', label: 'Email address', type: 'email', required: true, half: true },
+                { name: 'reason', label: 'Reason for contact', type: 'select', options: reasons },
+                { name: 'notes', label: 'Notes', type: 'textarea' },
+              ]}
+            />
           </div>
         )}
       </div>

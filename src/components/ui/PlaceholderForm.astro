@@ -1,0 +1,64 @@
+---
+// A form that shows what a feature will look like but does nothing yet. Every control is disabled,
+// and a clear notice says so, with the working alternative. To make a form real, replace its usage with
+// a live form (see ContactForm in the CMS docs) and delete the placeholder.
+export interface PlaceholderField {
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'number' | 'time' | 'select' | 'textarea' | 'checkbox';
+  options?: string[];
+  hint?: string;
+  required?: boolean;
+  half?: boolean; // two fields side by side from tablet up
+  prefix?: string; // e.g. "$"
+}
+interface Props {
+  id: string;
+  fields: PlaceholderField[];
+  submitLabel?: string;
+  // Shown in the notice: what to do today instead.
+  alternative?: { text: string; href: string; label: string };
+}
+const { id, fields, submitLabel = 'Submit', alternative } = Astro.props;
+const noteId = `${id}-note`;
+---
+<div class="placeholder-form">
+  <div class="not-live" id={noteId} role="note">
+    <p class="badge-soon">Not functional yet</p>
+    <p>
+      This form shows what is coming. Nothing you type here is sent.
+      {alternative && <> {alternative.text} <a href={alternative.href}>{alternative.label}</a>.</>}
+    </p>
+  </div>
+  <form onsubmit="return false" aria-describedby={noteId}>
+    <fieldset disabled>
+      <legend class="visually-hidden">Preview of the form, not functional yet</legend>
+      <div class="field-grid">
+        {fields.map((f) => {
+          const fid = `${id}-${f.name}`;
+          return f.type === 'checkbox' ? (
+            <div class="field field--check">
+              <label for={fid}><input id={fid} type="checkbox" name={f.name} /> <span>{f.label}{f.required && ' *'}</span></label>
+              {f.hint && <p class="hint">{f.hint}</p>}
+            </div>
+          ) : (
+            <div class:list={['field', f.half && 'field--half']}>
+              <label for={fid}>{f.label}{f.required && ' *'}</label>
+              {f.type === 'select' ? (
+                <select id={fid} name={f.name}><option>Choose…</option>{f.options?.map((o) => <option>{o}</option>)}</select>
+              ) : f.type === 'textarea' ? (
+                <textarea id={fid} name={f.name} rows="4"></textarea>
+              ) : f.prefix ? (
+                <div class="input-prefix"><span aria-hidden="true">{f.prefix}</span><input id={fid} type={f.type ?? 'text'} name={f.name} /></div>
+              ) : (
+                <input id={fid} type={f.type ?? 'text'} name={f.name} />
+              )}
+              {f.hint && <p class="hint">{f.hint}</p>}
+            </div>
+          );
+        })}
+      </div>
+      <button class="button" type="button">{submitLabel}</button>
+    </fieldset>
+  </form>
+</div>

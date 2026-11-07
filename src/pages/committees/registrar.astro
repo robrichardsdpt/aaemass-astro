@@ -2,6 +2,7 @@
 import Page from '../../layouts/Page.astro';
 import Rich from '../../components/Rich.astro';
 import { site, path } from '../../lib/site';
+import MessagePlaceholder from '../../components/ui/MessagePlaceholder.astro';
 
 const forms = [
   { title: 'New Group Form', kind: 'PDF', text: 'Register a new AA group with Area 30. Fill it out and email it to the Registrar.', href: path('/forms/new-group-form.pdf') },
@@ -75,6 +76,7 @@ const faqs = [
         information.
       </p>
       <p><a class="button" href={`mailto:${site.registrarEmail}`}>Email {site.registrarEmail}</a></p>
+      <MessagePlaceholder id="registrar" to="the Registrar" email={site.registrarEmail} />
     </div>
   </section>
 </Page>
