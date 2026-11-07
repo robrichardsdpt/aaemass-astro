@@ -51,16 +51,24 @@ export const blockSchema = z.discriminatedUnion('type', [
 ]);
 export type Block = z.infer<typeof blockSchema>;
 
+const pageSchema = z.object({
+  title: str,
+  description: str,
+  eyebrow: opt,
+  lede: opt,
+  noindex: z.boolean().optional(),
+  blocks: z.array(blockSchema).default([]),
+});
+
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.yml', base: './src/content/pages' }),
-  schema: z.object({
-    title: str,
-    description: str,
-    eyebrow: opt,
-    lede: opt,
-    noindex: z.boolean().optional(),
-    blocks: z.array(blockSchema).default([]),
-  }),
+  schema: pageSchema,
+});
+
+// Spanish and French copies of CMS pages: src/content/pages-i18n/<lang>/<same-file-name>.yml (see docs/TRANSLATION.md).
+const pagesI18n = defineCollection({
+  loader: glob({ pattern: '**/*.yml', base: './src/content/pages-i18n' }),
+  schema: pageSchema,
 });
 
 const events = defineCollection({
@@ -86,4 +94,4 @@ const settings = defineCollection({
   }),
 });
 
-export const collections = { pages, events, settings };
+export const collections = { pages, pagesI18n, events, settings };

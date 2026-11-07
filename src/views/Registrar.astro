@@ -1,0 +1,64 @@
+---
+import Page from '../layouts/Page.astro';
+import Rich from '../components/Rich.astro';
+import Msg from '../components/Msg.astro';
+import { site, path } from '../lib/site';
+import MessagePlaceholder from '../components/ui/MessagePlaceholder.astro';
+import { getLang, pick, fmt } from '../i18n';
+import { registrar } from '../i18n/pages/registrar';
+
+const lang = getLang(Astro);
+const m = pick(registrar, lang);
+const vars = { registrarEmail: site.registrarEmail };
+const files = ['/forms/new-group-form.pdf', '/forms/group-update-form.pdf', '/forms/dcm-change-form.pdf', '/forms/group-change-form.docx'];
+const seen = new Set<string>();
+---
+
+<Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/committees/registrar">
+  <section class="section" aria-labelledby="number-title">
+    <div class="wrap prose">
+      <div class="notice stack">
+        <h2 id="number-title" style="font-size: var(--step-1)">{m.numberTitle}</h2>
+        <p>
+          <Rich text={m.number1} seen={seen} /> <Msg text={m.number2} vars={vars} />
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="mission-title">
+    <div class="wrap prose stack">
+      <h2 id="mission-title">{m.missionTitle}</h2>
+      <p>
+        <Rich text={m.mission} seen={seen} />
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="forms-title">
+    <div class="wrap">
+      <div class="stack prose" style="margin-block-end: var(--s-5)">
+        <h2 id="forms-title">{m.formsTitle}</h2>
+        <p>{m.formsIntro}</p>
+      </div>
+      <ul class="cards cards--2">
+        {m.forms.map((f, i) => (
+          <li class="notice stack card-link">
+            <p class="eyebrow">{f.kind}</p>
+            <h3><a href={path(files[i])}>{f.title}</a></h3>
+            <p>{f.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="help-title">
+    <div class="wrap prose stack">
+      <h2 id="help-title">{m.helpTitle}</h2>
+      <p>{m.help}</p>
+      <p><a class="button" href={`mailto:${site.registrarEmail}`}>{fmt(m.emailButton, vars)}</a></p>
+      <MessagePlaceholder id="registrar" to={m.to} email={site.registrarEmail} />
+    </div>
+  </section>
+</Page>

@@ -1,0 +1,150 @@
+---
+import Page from '../layouts/Page.astro';
+import { path } from '../lib/site';
+import { committees } from '../lib/committee-pages';
+import { linkify } from '../lib/links';
+import { termify } from '../lib/term-match';
+import { site } from '../lib/site';
+import MessagePlaceholder from '../components/ui/MessagePlaceholder.astro';
+import { nextOccurrence, scheduleLd } from '../lib/schedule';
+import { getLang, lp, fmt, publicPath } from '../i18n';
+import { committeeNames } from '../i18n/committees';
+import { committeeText, committeeLabels } from '../i18n/pages/committees';
+
+interface Props { slug: string }
+const { slug } = Astro.props;
+const lang = getLang(Astro);
+const base = committees[slug];
+const t = lang === 'en' ? undefined : committeeText[lang][slug];
+const name = committeeNames[lang][slug];
+const L = committeeLabels[lang];
+const quoteMarks = lang === 'en' ? ['“', '”'] : lang === 'es' ? ['«', '»'] : ['« ', ' »'];
+const areaName = lang === 'en' ? 'Area 30' : lang === 'es' ? 'Área 30' : 'Région 30';
+const tail = lang === 'en' ? 'Area 30 Eastern Mass. AA' : lang === 'es' ? 'Área 30 de A.A. del Este de Mass.' : 'Région 30 des A.A. de l’Est du Mass.';
+
+const c = {
+  ...base,
+  title: lang === 'en' ? base.title : name.name,
+  eyebrow: t?.eyebrow ?? base.eyebrow,
+  lede: t?.lede ?? base.lede,
+  description: t?.description ?? base.description,
+  cta: t?.cta ?? base.cta,
+  quote: base.quote && { text: t?.quote?.text ?? base.quote.text, by: t?.quote?.by ?? base.quote.by },
+  sections: base.sections.map((s, i) => {
+    const ts = t?.sections[i];
+    return {
+      ...s,
+      title: ts?.title ?? s.title,
+      paras: ts?.paras ?? s.paras,
+      items: ts?.items ?? s.items,
+      links: s.links?.map((l, j) => ({ ...l, text: ts?.links?.[j] ?? l.text })),
+    };
+  }),
+  meeting: base.meeting && {
+    ...base.meeting,
+    intro: t?.meeting?.intro ?? base.meeting.intro,
+    lines: t?.meeting?.lines ?? base.meeting.lines,
+    join: base.meeting.join && { ...base.meeting.join, text: t?.meeting?.joinText ?? base.meeting.join.text },
+  },
+  more: base.more && { ...base.more, text: t?.more ?? base.more.text },
+};
+const seoTitle = lang === 'en' ? base.seoTitle : t?.seoTitle;
+
+const url = `${site.url}${publicPath(`committees/${slug}`, lang)}`;
+const orgId = `${url}#committee`;
+const extraLd: Record<string, unknown>[] = [
+  {
+    '@type': 'Organization',
+    '@id': orgId,
+    name: `${name.label}, ${areaName}`,
+    url,
+    email: c.email,
+    parentOrganization: { '@id': `${site.url}/#org` },
+    contactPoint: { '@type': 'ContactPoint', contactType: name.label, email: c.email },
+  },
+  ...(c.schedule
+    ? [{
+        '@type': 'Event',
+        name: fmt(L.meetingEvent, { name: name.label }),
+        description: c.description,
+        startDate: nextOccurrence(c.schedule),
+        eventSchedule: scheduleLd(c.schedule),
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+        location: { '@type': 'VirtualLocation', url },
+        organizer: { '@id': orgId },
+        isAccessibleForFree: true,
+      }]
+    : []),
+];
+const seen = new Set<string>();
+const rich = (text: string) => termify(linkify(text), seen, lang);
+const titleDefault = lang === 'en' ? `${c.title} Committee | ${tail}` : `${name.label} | ${tail}`;
+---
+
+<Page
+  title={seoTitle ?? titleDefault}
+  description={c.description}
+  heading={c.title}
+  eyebrow={c.eyebrow}
+  lede={c.lede}
+  current="/committees"
+  extraLd={extraLd}
+  trail={[{ name: lang === 'en' ? 'Committees' : lang === 'es' ? 'Comités' : 'Comités', href: '/committees' }]}
+>
+  <div slot="actions" class="actions">
+    <a class="button" href={`mailto:${c.email}`}>{L.email}</a>
+    <a class="button button--quiet" href={lp(lang, '/committees')}>{L.all}</a>
+  </div>
+
+  {c.quote && (
+    <section class="section">
+      <div class="wrap prose">
+        <blockquote class="quote">
+          <p>{quoteMarks[0]}{c.quote.text}{quoteMarks[1]}</p>
+          <footer>{c.quote.by}</footer>
+        </blockquote>
+      </div>
+    </section>
+  )}
+
+  {c.sections.map((s, i) => (
+    <section class="section" aria-labelledby={`s${i}`}>
+      <div class="wrap prose stack">
+        <h2 id={`s${i}`}>{s.title}</h2>
+        {s.paras?.map((p) => <p set:html={rich(p)} />)}
+        {s.items && <ul class="checklist">{s.items.map((x) => <li set:html={rich(x)} />)}</ul>}
+        {s.links && <ul class="inline-list">{s.links.map((l) => <li><a href={l.href}>{l.text}</a></li>)}</ul>}
+      </div>
+    </section>
+  ))}
+
+  {c.meeting && (
+    <section class="section" aria-labelledby="meeting-title">
+      <div class="wrap prose">
+        <div class="notice stack">
+          <h2 id="meeting-title" style="font-size: var(--step-1)">{L.meetTitle}</h2>
+          {c.meeting.intro && <p>{c.meeting.intro}</p>}
+          {c.meeting.chips && <ul class="inline-list">{c.meeting.chips.map((d) => <li><span class="chip">{d}</span></li>)}</ul>}
+          {c.meeting.lines.map((l) => <p>{l}</p>)}
+          <p style="display:flex;flex-wrap:wrap;gap:var(--s-3)">
+            {c.meeting.join && <a class="button" href={c.meeting.join.href}>{c.meeting.join.text}</a>}
+            {c.meeting.calendar && <a class="button button--quiet" href={lp(lang, '/calendar')}>{L.see}</a>}
+          </p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section" aria-labelledby="contact-title">
+    <div class="wrap prose stack">
+      <h2 id="contact-title">{L.contactTitle}</h2>
+      <p>{c.cta}</p>
+      <p>
+        <a class="button" href={`mailto:${c.email}`}>{c.email}</a>
+      </p>
+      {c.more && <p><a href={lp(lang, c.more.href)}>{c.more.text}</a></p>}
+      <MessagePlaceholder id="committee" to={fmt(L.to, { name: name.label })} email={c.email} />
+    </div>
+  </section>
+</Page>

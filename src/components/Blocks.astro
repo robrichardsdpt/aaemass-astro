@@ -17,10 +17,14 @@ import Button from './ui/Button.astro';
 import EventList from './ui/EventList.astro';
 import { md, href, slugify } from '../lib/cms';
 import { path } from '../lib/site';
+import { getLang, lp } from '../i18n';
+import { ui } from '../i18n/ui';
 import { getUpcomingEvents } from '../lib/events';
 
 interface Props { blocks: Block[] }
 const { blocks } = Astro.props;
+const lang = getLang(Astro);
+const u = ui[lang];
 const seen = new Set<string>();
 const upcoming = await getUpcomingEvents(12);
 const idFor = (b: { heading?: string; title?: string }, i: number) => `${slugify(b.heading ?? b.title ?? 'section')}-${i}`;
@@ -32,41 +36,41 @@ const idFor = (b: { heading?: string; title?: string }, i: number) => `${slugify
     case 'text':
       return (
         <Section id={id} title={b.heading} narrow>
-          <div class="stack prose-body" set:html={md(b.body, seen)} />
+          <div class="stack prose-body" set:html={md(b.body, seen, lang)} />
         </Section>
       );
     case 'cards':
       return (
         <Section id={id} title={b.heading} intro={b.intro}>
-          <CardGrid cards={b.cards.map((c) => ({ title: c.title, text: c.text, href: href(c.link_url), linkText: c.link_text }))} />
+          <CardGrid cards={b.cards.map((c) => ({ title: c.title, text: c.text, href: href(c.link_url, lang), linkText: c.link_text }))} />
         </Section>
       );
     case 'callout':
       return (
         <Section id={id}>
-          <Callout title={b.title}><div class="stack prose-body" set:html={md(b.body, seen)} /></Callout>
+          <Callout title={b.title}><div class="stack prose-body" set:html={md(b.body, seen, lang)} /></Callout>
         </Section>
       );
     case 'split':
       return (
         <Section id={id}>
-          <Split src={href(b.image)} alt={b.image_alt} flip={b.flip}>
+          <Split src={href(b.image, lang)} alt={b.image_alt} flip={b.flip}>
             {b.heading && <h2>{b.heading}</h2>}
-            <div class="stack prose-body" set:html={md(b.body, seen)} />
-            {b.button_label && b.button_url && <p><Button href={href(b.button_url)!}>{b.button_label}</Button></p>}
+            <div class="stack prose-body" set:html={md(b.body, seen, lang)} />
+            {b.button_label && b.button_url && <p><Button href={href(b.button_url, lang)!}>{b.button_label}</Button></p>}
           </Split>
         </Section>
       );
     case 'faq':
       return (
-        <Section id={id} title={b.heading ?? 'Frequently asked questions'}>
+        <Section id={id} title={b.heading ?? u.faqHeading}>
           <FaqList items={b.items} />
         </Section>
       );
     case 'directory':
       return (
         <Section id={id} title={b.heading} intro={b.intro}>
-          <Directory items={b.items.map((x) => ({ title: x.title, email: x.email, href: href(x.url), note: x.note }))} />
+          <Directory items={b.items.map((x) => ({ title: x.title, email: x.email, href: href(x.url, lang), note: x.note }))} />
         </Section>
       );
     case 'meeting':
@@ -75,15 +79,15 @@ const idFor = (b: { heading?: string; title?: string }, i: number) => `${slugify
           <MeetingCard
             title={b.title}
             lines={b.lines}
-            join={b.join_url ? { href: href(b.join_url)! } : undefined}
-            calendarHref={b.show_calendar_link ? path('/calendar/') : undefined}
+            join={b.join_url ? { href: href(b.join_url, lang)! } : undefined}
+            calendarHref={b.show_calendar_link ? lp(lang, '/calendar/') : undefined}
           />
         </Section>
       );
     case 'links':
       return (
         <Section id={id} title={b.heading}>
-          <PillList items={b.items.map((x) => ({ label: x.label, href: href(x.url)! }))} />
+          <PillList items={b.items.map((x) => ({ label: x.label, href: href(x.url, lang)! }))} />
         </Section>
       );
     case 'quote':
@@ -91,7 +95,7 @@ const idFor = (b: { heading?: string; title?: string }, i: number) => `${slugify
     case 'buttons':
       return (
         <Section id={id}>
-          <ButtonRow items={b.items.map((x) => ({ label: x.label, href: href(x.url)!, variant: x.style }))} />
+          <ButtonRow items={b.items.map((x) => ({ label: x.label, href: href(x.url, lang)!, variant: x.style }))} />
         </Section>
       );
     case 'checklist':
@@ -102,7 +106,7 @@ const idFor = (b: { heading?: string; title?: string }, i: number) => `${slugify
       );
     case 'events':
       return (
-        <Section id={id} title={b.heading ?? 'Upcoming events'}>
+        <Section id={id} title={b.heading ?? (lang === 'en' ? 'Upcoming events' : lang === 'es' ? 'Próximos eventos' : 'Événements à venir')}>
           <EventList events={upcoming.slice(0, b.count || 6)} />
         </Section>
       );

@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "cms": "decap-server"
+    "cms": "decap-server",
+    "check:i18n": "node scripts/check-i18n.mjs"
   },
   "dependencies": {
     "@fontsource-variable/public-sans": "^5.3.0",

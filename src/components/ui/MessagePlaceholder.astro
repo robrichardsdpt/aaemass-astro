@@ -1,16 +1,19 @@
 ---
 // "Send a message to <who>" form, not functional yet. Falls back to the plain email address.
 import PlaceholderForm from './PlaceholderForm.astro';
+import { getLang, fmt } from '../../i18n';
+import { ui } from '../../i18n/ui';
 interface Props { id: string; to: string; email: string }
 const { id, to, email } = Astro.props;
+const u = ui[getLang(Astro)];
 ---
 <PlaceholderForm
   id={id}
-  submitLabel={`Send to ${to}`}
-  alternative={{ text: 'To reach them today, email', href: `mailto:${email}`, label: email }}
+  submitLabel={fmt(u.formSendTo, { to })}
+  alternative={{ text: u.formReachToday, href: `mailto:${email}`, label: email }}
   fields={[
-    { name: 'name', label: 'Name', required: true },
-    { name: 'email', label: 'Email address', type: 'email', required: true },
-    { name: 'message', label: 'Message', type: 'textarea', required: true },
+    { name: 'name', label: u.formName, required: true },
+    { name: 'email', label: u.formEmail, type: 'email', required: true },
+    { name: 'message', label: u.formMessage, type: 'textarea', required: true },
   ]}
 />

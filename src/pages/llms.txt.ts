@@ -1,11 +1,18 @@
 import { site } from '../lib/site';
 import { committees } from '../lib/committee-pages';
+import { isIndexable } from '../i18n';
 
 export const GET = () => {
   if (import.meta.env.PUBLIC_NOINDEX) return new Response('# Preview site\n\nThis is a private preview. Not for indexing or training.\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
   const committeeLines = Object.entries(committees)
     .map(([slug, c]) => `- [${c.title}](${site.url}/committees/${slug}/): ${c.lede}`)
     .join('\n');
+  // Spanish and French versions are listed once a bilingual AA member has reviewed them (src/i18n/reviewed.json).
+  const languages = [
+    isIndexable('', 'es') && `- [Español](${site.url}/es/): Alcohólicos Anónimos en el Este de Massachusetts, en español.`,
+    isIndexable('', 'fr') && `- [Français](${site.url}/fr/): Alcooliques anonymes dans l’Est du Massachusetts, en français.`,
+  ].filter(Boolean);
+  const languageSection = languages.length ? `\n## Other languages\n${languages.join('\n')}\n` : '';
   const body = `# ${site.name}
 
 > Area 30 is the Alcoholics Anonymous General Service Committee of Eastern Massachusetts. It connects AA groups in the eastern half of the state to each other and to the General Service Office. It is not a meeting; use the AA meeting finder to find one. Contact: ${site.email}. Mail: ${site.address.street}, ${site.address.city}, ${site.address.region} ${site.address.postalCode}.
@@ -23,6 +30,6 @@ export const GET = () => {
 
 ## Committees
 ${committeeLines}
-`;
+${languageSection}`;
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 };

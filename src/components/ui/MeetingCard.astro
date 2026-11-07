@@ -1,11 +1,18 @@
 ---
+import { getLang } from '../../i18n';
 interface Props {
   title?: string;
   lines: string[];
   join?: { href: string; text?: string };
   calendarHref?: string;
 }
-const { title = 'When does it meet?', lines, join, calendarHref } = Astro.props;
+const lang = getLang(Astro);
+const t = {
+  en: ['When does it meet?', 'Join online', 'See the calendar'],
+  es: ['¿Cuándo se reúne?', 'Unirse en línea', 'Ver el calendario'],
+  fr: ['Quand se réunit-il?', 'Se joindre en ligne', 'Voir le calendrier'],
+}[lang];
+const { title = t[0], lines, join, calendarHref } = Astro.props;
 ---
 <div class="prose">
   <div class="notice stack">
@@ -13,8 +20,8 @@ const { title = 'When does it meet?', lines, join, calendarHref } = Astro.props;
     {lines.map((l) => <p>{l}</p>)}
     {(join || calendarHref) && (
       <p class="button-row">
-        {join && <a class="button" href={join.href}>{join.text || 'Join online'}</a>}
-        {calendarHref && <a class="button button--quiet" href={calendarHref}>See the calendar</a>}
+        {join && <a class="button" href={join.href}>{join.text || t[1]}</a>}
+        {calendarHref && <a class="button button--quiet" href={calendarHref}>{t[2]}</a>}
       </p>
     )}
   </div>

@@ -1,0 +1,13 @@
+---
+// A page built from CMS blocks (src/content/pages, and pages-i18n for Spanish and French copies).
+import Page from '../layouts/Page.astro';
+import Blocks from '../components/Blocks.astro';
+
+interface Props { data: { title: string; description: string; eyebrow?: string; lede?: string; noindex?: boolean; blocks: any[] } }
+const { data: d } = Astro.props;
+const faqs = d.blocks.flatMap((b) => (b.type === 'faq' ? b.items : []));
+---
+
+<Page title={d.title} description={d.description} heading={d.title.split(' | ')[0]} eyebrow={d.eyebrow} lede={d.lede} faqs={faqs} showFaqs={false} noindex={d.noindex}>
+  <Blocks blocks={d.blocks} />
+</Page>
