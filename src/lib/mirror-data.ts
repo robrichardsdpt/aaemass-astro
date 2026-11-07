@@ -132,18 +132,7 @@ export const services = {
     "The following excerpt is from Dr. Bob’s final message delivered at the first International Conference of Alcoholics Anonymous at Cleveland, Ohio in 1950:",
     "I get a big thrill out of looking over a vast sea of faces like this with a feeling that possibly some small thing I did a number of years ago played an infinitely small part in making this meeting possible…There are two or three things which flashed into my mind on which it would be fitting to lay a little emphasis. One is the simplicity of our program. Let’s not louse it up with…complexes and things that…have very little to do with our actual AA work.",
     "Our Twelve Steps, when simmered down to the last, resolve themselves into the words ‘love’ and ‘service’. We understand what love is and we understand what service is. So let’s bear those two things in mind.",
-    "Reprinted from Pass It On: The story of Bill Wilson and how the AA message reached the world, ©1984, pp. 339-342, with permission of AA World Services, Inc.",
-    "## Join Us On the Broad Highway",
-    "[Contact Area 30](/contacts)",
-    "[FInd AA Near You](https://www.aa.org/find-aa/north-america)",
-    "#### Copyright Ⓒ 2025 Area 30 Eastern Mass AA All Right Reserved.",
-    "Thank you for visiting our website.",
-    "Selecting OK will redirect you outside the AAEMASS.org; selecting cancel will allow you to remain our site.",
-    "NOTICE ABOUT LINKS",
-    "This website provides links to other websites, including those affiliated with other organizations inside the Area 30 Alcoholics Anonymous (AAEMASS.org) structure. Such links are provided as a convenience only.  Area 30 Eastern Mass. Alcoholics Anonymous does not manage or control these websites.",
-    "[OK](#)",
-    "[Cancel]()",
-    "CLOSE"
+    "Reprinted from Pass It On: The story of Bill Wilson and how the AA message reached the world, ©1984, pp. 339-342, with permission of AA World Services, Inc."
    ],
    "contact": null
   }

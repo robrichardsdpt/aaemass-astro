@@ -1,0 +1,15 @@
+---
+// Visible breadcrumb bar (the matching BreadcrumbList structured data comes from Base.astro).
+import { path } from '../lib/site';
+interface Props { heading: string; trail?: { name: string; href: string }[] }
+const { heading, trail = [] } = Astro.props;
+---
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <div class="wrap">
+    <ol>
+      <li><a href={path('/')}>Home</a></li>
+      {trail.map((c) => <li><a href={path(c.href)}>{c.name}</a></li>)}
+      <li aria-current="page">{heading}</li>
+    </ol>
+  </div>
+</nav>
