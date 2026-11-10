@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { getEntry } from 'astro:content';
-import { path } from '../lib/site';
+import { path, site } from '../lib/site';
 import { getLang, lp, alternates, locales, langName, htmlLang } from '../i18n';
 import { ui } from '../i18n/ui';
 import seal from '../assets/seal.png';
@@ -51,6 +51,7 @@ const switcher = locales.map((l) => ({ l, href: path(alts[l] ?? (l === 'en' ? '/
         <summary>{u.menu}</summary>
         <ul>
           {nav.map((item) => <li><a href={item.href} aria-current={current === item.href ? 'page' : undefined}>{item.label}</a></li>)}
+          <li><a href={site.links.areaFolder}>{u.areaDocs}</a></li>
                   </ul>
       </details>
     </nav>

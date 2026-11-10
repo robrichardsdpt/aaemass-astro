@@ -3,7 +3,6 @@ import Page from '../layouts/Page.astro';
 import Msg from '../components/Msg.astro';
 import { site } from '../lib/site';
 import LiveForm from '../components/ui/LiveForm.astro';
-import MessageForm from '../components/ui/MessageForm.astro';
 import { districts } from '../lib/mirror-data';
 import { getLang, pick } from '../i18n';
 import { ui } from '../i18n/ui';
@@ -192,7 +191,7 @@ const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-m
         <h2 id="treasurer-title">{m.treasurerTitle}</h2>
         <p>{m.treasurer}</p>
       </div>
-      <div class="prose"><MessageForm id="treasurer" to={m.treasurerTo} email="treasurer@aaemass.org" /></div>
+      <p><a class="button" href="mailto:treasurer@aaemass.org">treasurer@aaemass.org</a></p>
     </div>
   </section>
 

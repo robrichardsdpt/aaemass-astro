@@ -25,6 +25,7 @@ export interface Ui {
   footerMeetingTitle: string;
   footerMeets: string; // {when} {where}
   footerOrg: string;
+  areaDocs: string;
   footerLegal: string; // {year}
   meetingWhen: string;
   meetingWhere: string;
@@ -66,6 +67,7 @@ const en: Ui = {
   ogImageAlt: 'Boston waterfront at dusk',
   footerMeetingTitle: 'Area 30 committee meetings',
   footerMeets: 'The committee meets {when} at the {where}.',
+  areaDocs: 'Area 30 documents',
   footerOrg: 'Alcoholics Anonymous General Service Committee of Eastern Massachusetts',
   footerLegal:
     'Join us on the broad highway. © {year} Area 30, Eastern Mass. Alcoholics Anonymous. Links to other websites are provided as a convenience only; Area 30 does not manage or control them.',
@@ -109,6 +111,7 @@ const es: Ui = {
   ogImageAlt: 'La costa de Boston al anochecer',
   footerMeetingTitle: 'Reuniones del comité del Área 30',
   footerMeets: 'El comité se reúne {when} en {where}.',
+  areaDocs: 'Documentos del Área 30',
   footerOrg: 'Comité de Servicios Generales de Alcohólicos Anónimos del Este de Massachusetts',
   footerLegal:
     'Acompáñenos en la ancha carretera. © {year} Área 30, Alcohólicos Anónimos del Este de Massachusetts. Los enlaces a otros sitios web se ofrecen solo como una comodidad; el Área 30 no los administra ni los controla.',
@@ -163,6 +166,7 @@ const fr: Ui = {
   ogImageAlt: 'Le front de mer de Boston au crépuscule',
   footerMeetingTitle: 'Réunions du comité de la Région 30',
   footerMeets: 'Le comité se réunit {when} au {where}.',
+  areaDocs: 'Documents de la Région 30',
   footerOrg: 'Comité des services généraux des Alcooliques anonymes de l’Est du Massachusetts',
   footerLegal:
     'Rejoignez-nous sur la grande route. © {year} Région 30, Alcooliques anonymes de l’Est du Massachusetts. Les liens vers d’autres sites sont offerts à titre de commodité seulement; la Région 30 ne les gère ni ne les contrôle.',

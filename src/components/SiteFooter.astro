@@ -20,6 +20,7 @@ const u = ui[getLang(Astro)];
         {site.address.city}, {site.address.region} {site.address.postalCode}
       </p>
       <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      <p><a href={site.links.areaFolder}>{u.areaDocs}</a></p>
     </address>
     <p class="legal">{fmt(u.footerLegal, { year: new Date().getFullYear() })}</p>
   </div>

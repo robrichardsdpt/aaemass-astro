@@ -6,7 +6,6 @@ import SiteFooter from '../components/SiteFooter.astro';
 import SiteScripts from '../components/SiteScripts.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Msg from '../components/Msg.astro';
-import LiveFormScript from '../components/ui/LiveFormScript.astro';
 import { site } from '../lib/site';
 import { getLang, lp, lpPublic, pick } from '../i18n';
 import { ui } from '../i18n/ui';
@@ -62,7 +61,7 @@ const crumbs = [{ name: u.home, href: lpPublic(lang, '/') }, { name: m.crumb, hr
         <h1 id="hero-title">{m.h1}</h1>
         <p class="lede">{m.lede}</p>
         <div class="actions">
-          <a class="button" href="#contact-form">{m.sendMessage}</a>
+          <a class="button" href={`mailto:${site.email}`}>{m.sendMessage}</a>
           <a class="button button--quiet" href={site.links.findMeeting}>{m.findNear}</a>
         </div>
       </div>
@@ -156,39 +155,10 @@ const crumbs = [{ name: u.home, href: lpPublic(lang, '/') }, { name: m.crumb, hr
           <h2 id="form-title">{m.formTitle}</h2>
           <p><Msg text={m.formText} vars={{ findMeeting: site.links.findMeeting }} /></p>
         </div>
-        {site.formsEndpoint ? (
-          <form id="contact-form" class="contact-form" data-live-form data-kind="message" data-endpoint={site.formsEndpoint} novalidate
-            data-invalid={m.toastEmail} data-ok={m.toastOk} data-error={m.toastErr} data-sending={u.formSending}>
-            <input type="hidden" name="to" value={site.email.split('@')[0]} />
-            <input type="hidden" name="lang" value={lang} />
-            <div class="field">
-              <label for="cf-name">{m.name}</label>
-              <input id="cf-name" type="text" name="name" autocomplete="name" maxlength="100" required />
-            </div>
-            <div class="field">
-              <label for="cf-email">{m.email}</label>
-              <input id="cf-email" type="email" name="email" autocomplete="email" maxlength="254" required />
-            </div>
-            <div class="field">
-              <label for="cf-reason">{m.reason}</label>
-              <select id="cf-reason" name="reason">
-                {m.reasons.map((r) => <option value={r}>{r}</option>)}
-              </select>
-            </div>
-            <div class="field">
-              <label for="cf-notes">{m.notes}</label>
-              <textarea id="cf-notes" name="message" rows="5" maxlength="4000" required></textarea>
-            </div>
-            <div class="hp" aria-hidden="true">
-              <label>{m.hp}<input type="text" name="_gotcha" value="" tabindex="-1" autocomplete="off" /></label>
-            </div>
-            <div><button class="button" type="submit">{m.submit}</button></div>
-            <p class="form-status" data-status role="status" aria-live="polite" hidden></p>
-            <LiveFormScript />
-          </form>
-        ) : (
-          <p class="form-fallback">{m.altText} <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
-        )}
+        <div class="stack">
+          <p>{m.altText}</p>
+          <p><a class="button" href={`mailto:${site.email}`}>{site.email}</a></p>
+        </div>
       </div>
     </section>
   </main>
