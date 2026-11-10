@@ -1,6 +1,7 @@
 // Committee names per language. Keys are the English URL slugs. `tile` is the short label used on cards,
 // `label` the full committee title. Terminology follows AA's Spanish and French literature.
 import type { Lang } from './index';
+import { committeeDirectory } from '../lib/committee-pages';
 
 export interface CommitteeName { name: string; tile: string; label: string; short?: string }
 
@@ -56,3 +57,12 @@ export const committeeNames: Record<Lang, Record<string, CommitteeName>> = {
     technology: { name: 'Technologie', tile: 'Comité de la technologie', label: 'Comité de la technologie' },
   },
 };
+
+// Committees come from src/content/committees (CMS). English names follow the CMS title; a committee
+// added in the CMS with no Spanish or French name yet shows its English name until one is added above.
+for (const c of committeeDirectory) {
+  const english = en(c.title, c.shortName);
+  committeeNames.en[c.slug] = english;
+  committeeNames.es[c.slug] ??= english;
+  committeeNames.fr[c.slug] ??= english;
+}

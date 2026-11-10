@@ -1,0 +1,31 @@
+title: Corrections
+group: conference
+order: 30
+listing: tile
+tile_image: corrections
+page_type: standard
+email: corrections@aaemass.org
+schedule:
+  weekday: 4
+  week: 4
+  time: 19:00
+eyebrow: Conference committee
+lede: Carrying the AA message behind the walls.
+description: The Area 30 Corrections Committee arranges AA meetings and literature for prisons, jails and halfway houses in Eastern Mass. Meets the 4th Thursday at 7 PM.
+sections:
+  - title: What we do
+    paras:
+      - The Corrections Committee works with institutions throughout Eastern Massachusetts to arrange meetings, and the resources to run them, at prisons, jails and halfway houses. Meetings are chaired and run by individual AAs and AA groups. The committee also buys and distributes AA literature for members living in these institutions.
+      - Individual members or groups interested in carrying the message into these facilities can email the committee.
+  - title: Prerelease Contact Program
+    paras:
+      - We help people being released from prison connect with AA members in their communities. If you would like to write to an inmate, or be on a 12-step call list to serve as a contact for someone getting out, email the committee.
+  - title: Literature in Prisons (LIPS)
+    paras:
+      - LIPS posters are available to any group in Eastern Mass. that wants to collect conference-approved literature. The poster covers one side of a cardboard carton, and the filled cartons are brought to Boston Central Service for redistribution to AAs in prisons where allowed. Big Books, 12 & 12s, Grapevines and pamphlets are always in demand.
+meeting:
+  intro: The Joint Area 30 / Boston Central Service Correctional Facilities Committee meets on the 4th Thursday of every month at 7:00 PM on Zoom. We need your help, and all AA members are welcome.
+  lines:
+    - If you or your group already carries the message into a correctional facility, please come and share your experience with us.
+  calendar: true
+cta: We are available for outreach at district or group events. Email the committee to get involved.

@@ -1,0 +1,43 @@
+title: Grapevine
+group: conference
+order: 40
+listing: tile
+tile_image: grapevine
+page_type: standard
+email: grapevine@aaemass.org
+schedule:
+  weekday: 3
+  week: 1
+  time: 19:00
+eyebrow: Conference committee
+lede: The AA Grapevine is the international journal of Alcoholics Anonymous, our “meeting in print.”
+description: The Area 30 Grapevine Committee shares the AA Grapevine and La Viña with groups across Eastern Massachusetts. Meets the 1st Wednesday of the month at 7:00 PM.
+quote:
+  text: Since each issue of the Grapevine cannot go through the Conference approval process, the Conference recognizes the AA Grapevine as the international journal of Alcoholics Anonymous.
+  by: Conference Advisory Action, 1986
+sections:
+  - title: About the Grapevine
+    paras:
+      - Written, edited, illustrated and read by AA members and others interested in the AA program, the Grapevine is a lifeline linking one alcoholic to another. Founded in 1944, it receives no group contributions and is supported entirely by magazine subscriptions and the sale of Grapevine items.
+      - Every member has an individual way of working the program, and the magazine has always been a forum for the varied and often divergent opinions of AAs around the world. Articles are not statements of AA policy, and publication does not imply endorsement by AA or the Grapevine.
+    links:
+      - text: Learn more about the Grapevine
+        href: https://www.aa.org/aa-grapevine-la-vina
+  - title: Our mission
+    paras:
+      - The committee’s main goal is to let people and groups in Area 30 know all we can about the monthly Grapevine. Its 64 pages, written by AA members, have become the voice of AA today. Through it, members share their experience, strength and hope, always striving to carry the message of recovery, unity and service.
+  - title: What we offer
+    paras:
+      - On request, the committee visits Districts and groups in Eastern Massachusetts to share some of the history brought forward through the Grapevine. The Preamble read at the start of AA meetings was first printed there, and the book The Language of the Heart makes a wonderful gift. Reading Grapevine stories is a great way to start a discussion in a meeting.
+      - Our “Count On Us” program provides subscriptions to the Grapevine and La Viña (the Spanish edition) for treatment and correctional facilities in every District in the Area.
+    links:
+      - text: Grapevine on YouTube
+        href: https://www.youtube.com/channel/UCI9uFLJ__aXT3-At0PlPWUQ
+meeting:
+  lines:
+    - 7:00 PM on the 1st Wednesday of the month, on Zoom.
+  join:
+    text: Join on Zoom
+    href: http://us02web.zoom.us/j/9760763116?pwd=Ny9pK2M1czVSYms2QmJrNUoxNytaUT09
+  calendar: true
+cta: To contact the Grapevine Committee with questions, or to get involved, email us.

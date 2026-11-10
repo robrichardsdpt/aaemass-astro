@@ -27,6 +27,7 @@ export const GET = () => {
 - [Resources](${site.url}/resources/): Links to the General Service Office, the Grapevine and AA guidelines.
 - [Contact](${site.url}/contact/): Email addresses for the officers and every committee.
 - [Contribute](${site.url}/contribute/): The Seventh Tradition and how groups, members and districts contribute.
+- [12th Step Volunteer](${site.url}/committees/treatment-facilities/12th-step-volunteer/): Sign up for the Treatment Facilities Committee's list of members willing to take a 12th Step call.
 
 ## Committees
 ${committeeLines}

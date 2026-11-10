@@ -1,10 +1,11 @@
 <?php
 /**
- * The site's form backend: three public endpoints under /wp-json/aa30/v1/.
+ * The site's form backend: four public endpoints under /wp-json/aa30/v1/.
  *
  *   signup      adds an address to the Mailchimp audience through Mailchimp for WP (its saved connection)
  *   message     emails one allowlisted @aaemass.org mailbox through wp_mail
  *   contribute  submits a Gravity Forms contribution form, whose PayPal feed returns the PayPal URL
+ *   volunteer   submits the Gravity Forms 12th Step Volunteer form (an entry plus its notification email)
  *
  * No API keys live in the page or in this plugin. Each endpoint checks where the request came from, drops
  * obvious bots quietly, and limits how often one visitor can send. Set AA30_DRY_RUN to try everything out
@@ -96,7 +97,7 @@ function aa30_handle(string $kind, WP_REST_Request $request): WP_REST_Response
         if (!empty($d['_gotcha']) || (int) ($d['_t'] ?? 0) < 1500) {
             return aa30_reply(['ok' => true]);
         }
-        $limits = ['signup' => 5, 'message' => 5, 'contribute' => 10];
+        $limits = ['signup' => 5, 'message' => 5, 'contribute' => 10, 'volunteer' => 5];
         if (!aa30_rate_ok($kind, $limits[$kind])) {
             return aa30_reply(['ok' => false, 'error' => 'rate'], 429);
         }
@@ -105,6 +106,8 @@ function aa30_handle(string $kind, WP_REST_Request $request): WP_REST_Response
                 return aa30_do_signup($d);
             case 'message':
                 return aa30_do_message($d);
+            case 'volunteer':
+                return aa30_do_volunteer($d);
             default:
                 return aa30_do_contribute($d);
         }
@@ -287,9 +290,82 @@ function aa30_do_contribute(array $d): WP_REST_Response
     return aa30_reply(['ok' => false, 'error' => 'unavailable'], 502);
 }
 
+/**
+ * 12th Step Volunteer: the Treatment Facilities Committee's list of members willing to take a 12th Step call.
+ * Submits Gravity Forms form 4, which stores the entry and sends its notification email. There is no payment
+ * and no redirect, so success is simply ok.
+ */
+function aa30_do_volunteer(array $d): WP_REST_Response
+{
+    $formId = aa30_volunteer_form_id();
+    $gfReady = class_exists('GFAPI');
+    $form = $gfReady ? GFAPI::get_form($formId) : null;
+    $form = is_array($form) ? $form : null;
+
+    // Use the form's own availability choices and checkbox ids when we can read them.
+    $choices = null;
+    $inputIds = null;
+    if ($form) {
+        foreach ($form['fields'] as $f) {
+            if ((int) $f->id === 6) {
+                if (is_array($f->choices ?? null)) {
+                    $choices = array_map(function ($c) {
+                        return (string) ($c['value'] ?? '');
+                    }, $f->choices);
+                }
+                if (is_array($f->inputs ?? null)) {
+                    $inputIds = array_map(function ($i) {
+                        return (string) ($i['id'] ?? '');
+                    }, $f->inputs);
+                }
+            }
+        }
+    }
+
+    list($input, $errors) = aa30_gf_volunteer_input($d, $choices, $inputIds);
+    if ($errors) {
+        return aa30_reply(['ok' => false, 'errors' => $errors], 422);
+    }
+
+    // If someone edits the Gravity Forms form, refuse rather than file a volunteer under the wrong field.
+    $shapeOk = false;
+    if ($form) {
+        $have = array_map(function ($f) {
+            return (int) $f->id;
+        }, $form['fields']);
+        $shapeOk = count(array_diff(aa30_volunteer_expected_ids(), $have)) === 0;
+    }
+
+    if (aa30_dry_run()) {
+        return aa30_reply(['ok' => true, 'dry' => true, 'would' => 'submit', 'form' => $formId,
+            'gravity_forms' => $gfReady, 'form_found' => (bool) $form, 'fields_match' => $shapeOk, 'input' => $input]);
+    }
+    if (!$form || !$shapeOk) {
+        aa30_log('volunteer: Gravity Forms form ' . $formId . ' is missing or its fields changed');
+        return aa30_reply(['ok' => false, 'error' => 'unavailable'], 503);
+    }
+
+    $result = GFAPI::submit_form($formId, $input);
+    if (is_wp_error($result)) {
+        aa30_log('volunteer: submit_form error ' . $result->get_error_code());
+        return aa30_reply(['ok' => false, 'error' => 'unavailable'], 502);
+    }
+    if (empty($result['is_valid'])) {
+        $names = aa30_volunteer_error_names();
+        $bad = [];
+        foreach (array_keys((array) ($result['validation_messages'] ?? [])) as $fid) {
+            if (isset($names[(int) $fid])) {
+                $bad[$names[(int) $fid]] = 'invalid';
+            }
+        }
+        return aa30_reply(['ok' => false, 'errors' => $bad ?: ['name' => 'invalid']], 422);
+    }
+    return aa30_reply(['ok' => true]);
+}
+
 if (defined('ABSPATH')) {
     add_action('rest_api_init', function () {
-        foreach (['signup', 'message', 'contribute'] as $kind) {
+        foreach (['signup', 'message', 'contribute', 'volunteer'] as $kind) {
             register_rest_route('aa30/v1', '/' . $kind, [
                 'methods' => 'POST',
                 'permission_callback' => '__return_true', // public by design; aa30_handle() does the checks

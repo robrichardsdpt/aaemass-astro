@@ -41,6 +41,7 @@ const segments: Record<string, { es: string; fr: string }> = {
   'state-convention': { es: 'convencion-estatal', fr: 'congres-de-letat' },
   website: { es: 'sitio-web', fr: 'site-web' },
   registrar: { es: 'registrador', fr: 'registraire' },
+  '12th-step-volunteer': { es: 'voluntarios-duodecimo-paso', fr: 'benevoles-douzieme-etape' },
 };
 
 // English route keys ('' is the home page) that have Spanish and French pages.
@@ -64,6 +65,7 @@ export const translatedKeys = [
   'committees/literature',
   'committees/public-information',
   'committees/treatment-facilities',
+  'committees/treatment-facilities/12th-step-volunteer',
   'committees/accessibilities',
   'committees/messenger',
   'committees/service-seminar',

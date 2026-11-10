@@ -1,0 +1,89 @@
+---
+// 12th Step Volunteer: sign-up for the Treatment Facilities Committee's list of members willing to take a
+// 12th Step call. Posts to the aa30-home plugin's "volunteer" endpoint (Gravity Forms form 4). Without the
+// plugin (local dev, GitHub Pages) it shows the committee's email address instead of a form that cannot work.
+import Page from '../layouts/Page.astro';
+import LiveFormScript from '../components/ui/LiveFormScript.astro';
+import { site } from '../lib/site';
+import { committees } from '../lib/committee-pages';
+import { getLang, lp, pick } from '../i18n';
+import { ui } from '../i18n/ui';
+import { volunteer } from '../i18n/pages/volunteer';
+
+const lang = getLang(Astro);
+const m = pick(volunteer, lang);
+const u = ui[lang];
+const email = committees['treatment-facilities'].email;
+const committeesName = lang === 'en' ? 'Committees' : 'Comités';
+const slots = Object.entries(m.slots);
+---
+
+<Page
+  title={m.title}
+  description={m.description}
+  heading={m.heading}
+  eyebrow={m.eyebrow}
+  lede={m.lede}
+  current="/committees"
+  trail={[
+    { name: committeesName, href: '/committees' },
+    { name: m.trailCommittee, href: '/committees/treatment-facilities' },
+  ]}
+>
+  <section class="section" aria-labelledby="what-title">
+    <div class="wrap prose stack">
+      <h2 id="what-title">{m.whatTitle}</h2>
+      <p>{m.what}</p>
+      <h3>{m.howTitle}</h3>
+      <ul class="checklist">{m.how.map((x) => <li>{x}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="form-title">
+    <div class="wrap prose stack">
+      <h2 id="form-title">{m.formTitle}</h2>
+      <p>{m.formIntro}</p>
+      {site.formsEndpoint ? (
+        <form id="volunteer-form" class="live-form" data-live-form data-kind="volunteer" data-endpoint={site.formsEndpoint} novalidate
+          data-ok={m.toastOk} data-invalid={m.toastInvalid} data-error={m.toastErr} data-sending={u.formSending}>
+          <div class="field-grid">
+            <div class="field field--half">
+              <label for="vol-name">{m.name} *</label>
+              <input id="vol-name" type="text" name="name" autocomplete="name" maxlength="100" required />
+            </div>
+            <div class="field field--half">
+              <label for="vol-hometown">{m.hometown} *</label>
+              <input id="vol-hometown" type="text" name="hometown" autocomplete="address-level2" maxlength="60" required />
+            </div>
+            <div class="field field--half">
+              <label for="vol-phone">{m.phone}</label>
+              <input id="vol-phone" type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="30" />
+            </div>
+            <div class="field field--half">
+              <label for="vol-email">{m.email}</label>
+              <input id="vol-email" type="email" name="email" autocomplete="email" maxlength="254" />
+            </div>
+            <fieldset class="field field--group" id="availability" name="availability" tabindex="-1" aria-describedby="availability-hint">
+              <legend>{m.availability} *</legend>
+              <p class="hint" id="availability-hint">{m.availabilityHint}</p>
+              <div class="check-group">
+                {slots.map(([key, label]) => (
+                  <div class="field field--check">
+                    <label for={`vol-${key}`}><input id={`vol-${key}`} type="checkbox" name={key} value="Yes" /> <span>{label}</span></label>
+                  </div>
+                ))}
+              </div>
+            </fieldset>
+          </div>
+          <div class="hp" aria-hidden="true"><label>{m.hp}<input type="text" name="_gotcha" value="" tabindex="-1" autocomplete="off" /></label></div>
+          <button class="button" type="submit">{m.submit}</button>
+          <p class="form-status" data-status role="status" aria-live="polite" hidden></p>
+          <LiveFormScript />
+        </form>
+      ) : (
+        <p class="form-fallback">{m.altText} <a href={`mailto:${email}`}>{email}</a>.</p>
+      )}
+      <p><a href={lp(lang, '/committees/treatment-facilities')}>{m.back}</a></p>
+    </div>
+  </section>
+</Page>

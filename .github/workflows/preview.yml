@@ -1,0 +1,79 @@
+name: Preview changes
+
+# Every draft the CMS creates is a pull request. This builds the real site for it, publishes it to
+# Cloudflare Pages at its own address, and tells the CMS where it is (the "View Preview" button).
+# If the build fails, it explains in plain language what to fix.
+#
+# One-time setup (repo Settings > Secrets and variables > Actions):
+#   secret   CLOUDFLARE_API_TOKEN       token with "Cloudflare Pages: Edit"
+#   secret   CLOUDFLARE_ACCOUNT_ID
+#   variable CLOUDFLARE_PAGES_PROJECT   the Pages project name (create it empty: wrangler pages project create)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      # npm ci fails on Linux: the lockfile (generated on macOS) omits optional @emnapi packages.
+      - run: npm install --no-audit --no-fund
+
+      - name: Build the site
+        id: build
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee build.log
+        env:
+          # A preview must never show up in search results.
+          PUBLIC_NOINDEX: '1'
+
+      - name: Publish the preview
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }} --branch=pr-${{ github.event.pull_request.number }} --commit-dirty=true
+
+      - name: Tell the CMS where the preview is
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          URL: ${{ steps.deploy.outputs.deployment-url }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          gh api "repos/${{ github.repository }}/statuses/$SHA" \
+            -f state=success -f context='cloudflare-pages/preview' \
+            -f description='Preview is ready' -f target_url="$URL"
+          gh pr comment ${{ github.event.pull_request.number }} --repo ${{ github.repository }} \
+            --body "Preview ready: $URL"
+
+      - name: Explain a failed build in plain language
+        if: failure() && steps.build.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          problem=$(grep -m1 -E 'is not valid' build.log || grep -m1 -iE 'error' build.log || echo 'The site could not be built.')
+          gh api "repos/${{ github.repository }}/statuses/$SHA" \
+            -f state=failure -f context='cloudflare-pages/preview' \
+            -f description='Something in this change needs fixing'
+          gh pr comment ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --body "**This change can't be previewed yet.** A field has a mistake. Please open the draft in the CMS, fix it, and save again.
+
+          What the site said: \`$problem\`"

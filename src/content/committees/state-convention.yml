@@ -1,0 +1,23 @@
+title: Mass. State Convention
+group: standing
+order: 90
+listing: list
+page_type: standard
+email: massstateconvention@aaemass.org
+eyebrow: Standing committee
+lede: Fellowship, food and fun, planned by members from across Massachusetts.
+description: "The Mass. State Convention Committee meets monthly to plan the annual convention: speakers, workshops, food, fellowship and fun."
+sections:
+  - title: Mission
+    paras:
+      - The Convention Committee meets monthly to organize the annual Mass. State Convention, a weekend with speakers, workshops, food, fellowship and fun.
+    links:
+      - text: aamastateconvention.org
+        href: https://aamastateconvention.org/
+meeting:
+  intro: The Convention Planning Committee meets monthly, hybrid, in person and online. Check the calendar or the convention website for the next meeting date.
+  lines:
+    - "In person: Royal Plaza, 181 Boston Post Road W., Marlborough"
+    - "Online: Meeting ID 878 4199 4146, passcode hkJvj8"
+  calendar: true
+cta: To ask a question or get involved, email the Convention Committee.

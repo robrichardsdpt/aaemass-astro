@@ -11,6 +11,7 @@ import { getLang, lp, lpPublic, pick } from '../i18n';
 import { ui } from '../i18n/ui';
 import { contact } from '../i18n/pages/contact';
 import { committeeNames } from '../i18n/committees';
+import { committeeDirectory } from '../lib/committee-pages';
 import heroImg from '../assets/boston-2-bg.jpg';
 
 const lang = getLang(Astro);
@@ -19,31 +20,16 @@ const u = ui[lang];
 const names = committeeNames[lang];
 const mail = (user: string) => `${user}@aaemass.org`;
 
-const officerUsers = ['delegate', 'altdelegate', 'chair', 'altchair', 'secretary', 'treasurer'];
-const officers = officerUsers.map((user, i) => ({ role: m.officers[i], user }));
-const conferenceCommittees = [
-  { slug: 'archives', user: 'archives' },
-  { slug: 'cpc', user: 'cpc' },
-  { slug: 'corrections', user: 'corrections' },
-  { slug: 'grapevine', user: 'grapevine' },
-  { slug: 'literature', user: 'literature' },
-  { slug: 'public-information', user: 'pi' },
-  { slug: 'treatment-facilities', user: 'treatment' },
-  { slug: 'accessibilities', user: 'accessibilities' },
-].map((c) => ({ name: names[c.slug].name, label: names[c.slug].label, user: c.user }));
-const standingCommittees = [
-  { slug: 'state-convention', user: 'mastateconvention' },
-  { slug: 'messenger', user: 'messenger' },
-  { slug: 'registrar', user: 'registrar' },
-  { slug: 'service-seminar', user: 'serviceseminar' },
-  { slug: 'technology', user: 'technology' },
-  { slug: 'website', user: 'website' },
-].map((c) => ({ name: names[c.slug].name, label: names[c.slug].label, user: c.user }));
+const officerKeys = ['delegate', 'altdelegate', 'chair', 'altchair', 'secretary', 'treasurer'] as const;
+const officers = officerKeys.map((key, i) => ({ role: m.officers[i], email: site.officers[key] }));
+const toContact = (c: (typeof committeeDirectory)[number]) => ({ name: names[c.slug].name, label: names[c.slug].label, email: c.email });
+const conferenceCommittees = committeeDirectory.filter((c) => c.group === 'conference').map(toContact);
+const standingCommittees = committeeDirectory.filter((c) => c.group === 'standing').map(toContact);
 const contactPoints = [
   { contactType: m.general, email: site.email },
-  ...officers.map((o) => ({ contactType: o.role, email: mail(o.user) })),
-  ...conferenceCommittees.map((c) => ({ contactType: c.label, email: mail(c.user) })),
-  ...standingCommittees.map((c) => ({ contactType: c.label, email: mail(c.user) })),
+  ...officers.map((o) => ({ contactType: o.role, email: o.email })),
+  ...conferenceCommittees.map((c) => ({ contactType: c.label, email: c.email })),
+  ...standingCommittees.map((c) => ({ contactType: c.label, email: c.email })),
 ].map((c) => ({ '@type': 'ContactPoint', ...c }));
 const extraLd = [{ '@type': 'NGO', '@id': `${site.url}/#org`, contactPoint: contactPoints }];
 const crumbs = [{ name: u.home, href: lpPublic(lang, '/') }, { name: m.crumb, href: lpPublic(lang, '/contact/') }];
@@ -108,7 +94,7 @@ const crumbs = [{ name: u.home, href: lpPublic(lang, '/') }, { name: m.crumb, hr
           {officers.map((o) => (
             <li>
               <h3>{o.role}</h3>
-              <a href={`mailto:${mail(o.user)}`}>{mail(o.user)}</a>
+              <a href={`mailto:${o.email}`}>{o.email}</a>
             </li>
           ))}
         </ul>
@@ -125,7 +111,7 @@ const crumbs = [{ name: u.home, href: lpPublic(lang, '/') }, { name: m.crumb, hr
           {conferenceCommittees.map((c) => (
             <li>
               <h3>{c.name}</h3>
-              <a href={`mailto:${mail(c.user)}`}>{mail(c.user)}</a>
+              <a href={`mailto:${c.email}`}>{c.email}</a>
             </li>
           ))}
         </ul>
@@ -142,7 +128,7 @@ const crumbs = [{ name: u.home, href: lpPublic(lang, '/') }, { name: m.crumb, hr
           {standingCommittees.map((c) => (
             <li>
               <h3>{c.name}</h3>
-              <a href={`mailto:${mail(c.user)}`}>{mail(c.user)}</a>
+              <a href={`mailto:${c.email}`}>{c.email}</a>
             </li>
           ))}
         </ul>

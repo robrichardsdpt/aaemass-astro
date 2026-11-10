@@ -13,6 +13,7 @@ import Contribute from '../../views/Contribute.astro';
 import Contact from '../../views/Contact.astro';
 import CommitteesIndex from '../../views/CommitteesIndex.astro';
 import Registrar from '../../views/Registrar.astro';
+import Volunteer from '../../views/Volunteer.astro';
 import Service from '../../views/Service.astro';
 import Committee from '../../views/Committee.astro';
 import CmsPage from '../../views/CmsPage.astro';
@@ -30,6 +31,7 @@ export async function getStaticPaths() {
     { key: 'contact', view: Contact },
     { key: 'committees', view: CommitteesIndex },
     { key: 'committees/registrar', view: Registrar },
+    { key: 'committees/treatment-facilities/12th-step-volunteer', view: Volunteer },
     { key: 'service', view: Service },
     ...Object.keys(committees).map((slug) => ({ key: `committees/${slug}`, view: Committee, props: { slug } })),
   ];

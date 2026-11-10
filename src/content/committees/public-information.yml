@@ -1,0 +1,39 @@
+title: Public Information
+short_name: P.I.
+group: conference
+order: 60
+listing: tile
+tile_image: pi
+page_type: standard
+email: pi@aaemass.org
+schedule:
+  weekday: 4
+  week: 1
+  time: 19:00
+eyebrow: Conference committee · P.I.
+lede: Carrying the message of recovery to the still-suffering alcoholic by informing the public about AA.
+description: The Area 30 Public Information (P.I.) Committee gives media, schools and groups accurate information about AA. Meets the 1st Thursday at 7 PM.
+sections:
+  - title: What is P.I. work?
+    paras:
+      - Public Information in Alcoholics Anonymous means carrying the message of recovery to the still-suffering alcoholic by informing the general public about the AA program. We do it by getting in touch with the media, schools, industry and other organizations that can report on the nature and purpose of AA and what it can do for alcoholics.
+      - The first P.I. committee in AA was formed by the General Service Board in 1956.
+  - title: Mission
+    paras:
+      - This standing committee carries the message of Alcoholics Anonymous to the alcoholic who still suffers through the media and public speakers. It is the central source of information made available to the public in Eastern Mass. about AA, and it makes sure that information is correct and given within the guidelines of the Twelve Traditions.
+    links:
+      - text: P.I. committees on aa.org
+        href: https://www.aa.org/public-information-committees
+  - title: Our focus
+    items:
+      - Giving presentations about AA to schools and organizations
+      - Providing information about AA through digital and print materials
+      - Making sure local media have accurate information, through PSAs, anonymity-protected interviews and press kits
+meeting:
+  lines:
+    - 7:00 PM on the 1st Thursday of the month, on Zoom.
+  join:
+    text: Join on Zoom
+    href: http://us02web.zoom.us/j/83544411126?pwd=TEJiUFoxaU55RkE3clJndUNLSEwvQT09
+  calendar: true
+cta: To contact the P.I. Committee with questions, or to get involved, email us.

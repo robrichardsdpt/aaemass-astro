@@ -1,7 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import { site, committees, moreCommittees } from '../lib/site';
+import { site } from '../lib/site';
+import { featuredCommittees, listedCommittees } from '../lib/committee-pages';
 import { getUpcomingEvents } from '../lib/events';
 import Msg from '../components/Msg.astro';
 import Rich from '../components/Rich.astro';
@@ -57,34 +58,6 @@ const clock = new Intl.DateTimeFormat(locale, { timeZone: tz, weekday: 'long', h
           <a class="button button--quiet" href={lp(lang, '/calendar')}>{m.seeCalendar}</a>
           <a class="button button--quiet" href={site.links.areaFolder}>{u.areaDocs}</a>
         </div>
-      </div>
-    </section>
-
-    <section class="help" aria-labelledby="help-title">
-      <div class="wrap">
-        <div class="stack">
-          <h2 id="help-title">{m.help.title}</h2>
-          <p>{m.help.text}</p>
-        </div>
-        <ul class="help-actions">
-          <li>
-            <h3>{m.help.meetingTitle}</h3>
-            <p>{m.help.meetingText}</p>
-            <a class="button" href={site.links.findMeeting}>{m.help.meetingLink}</a>
-          </li>
-          <li>
-            <h3>{m.help.newTitle}</h3>
-            <p>{m.help.newText}</p>
-            <a href={lp(lang, '/alcoholics-anonymous')}>{m.help.newLink}</a>
-          </li>
-          <li>
-            <h3>{m.help.talkTitle}</h3>
-            <p>{m.help.talkText}</p>
-            {site.helpline && <p>{m.help.callText} <a href={`tel:${site.helpline.tel}`}>{site.helpline.display}</a></p>}
-            <a href={lp(lang, '/contact')}>{m.help.talkLink}</a>
-          </li>
-        </ul>
-        <p class="help-emergency"><strong>{m.help.emergencyTitle}.</strong> {m.help.emergency}</p>
       </div>
     </section>
 
@@ -210,16 +183,16 @@ const clock = new Intl.DateTimeFormat(locale, { timeZone: tz, weekday: 'long', h
           <a href={lp(lang, '/service')}>{m.committees.all}</a>
         </div>
         <ul class="committee-grid">
-          {committees.map((c) => (
+          {featuredCommittees.map((c) => (
             <li>
-              <Image src={committeeImages[c.image]} alt="" widths={[200, 300, 400]} sizes="(min-width: 64rem) 11rem, (min-width: 36rem) 30vw, 46vw" />
+              <Image src={committeeImages[c.tileImage!]} alt="" widths={[200, 300, 400]} sizes="(min-width: 64rem) 11rem, (min-width: 36rem) 30vw, 46vw" />
               <a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].tile}</a>
             </li>
           ))}
         </ul>
         <p class="eyebrow" style="margin-block: var(--s-6) var(--s-2)">{m.committees.also}</p>
         <ul class="inline-list">
-          {moreCommittees.map((c) => <li><a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].name}</a></li>)}
+          {listedCommittees.map((c) => <li><a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].name}</a></li>)}
         </ul>
       </div>
     </section>

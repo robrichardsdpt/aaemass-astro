@@ -116,6 +116,7 @@ $GLOBALS['gf_enabled'] = false;
 $GLOBALS['gf_submits'] = [];
 $GLOBALS['gf_result'] = null;
 $GLOBALS['gf_fields'] = null;
+$GLOBALS['gf_avail'] = null; // the volunteer form's availability field: ['choices' => [...], 'inputs' => [...]]
 class GFAPI
 {
     public static function get_form($id)
@@ -129,6 +130,14 @@ class GFAPI
             $f = new stdClass();
             $f->id = $fid;
             $f->choices = $fid === 8 ? [['value' => '1/2'], ['value' => '3'], ['value' => '15/16'], ['value' => '27']] : [];
+            if ($fid === 6 && $GLOBALS['gf_avail']) {
+                $f->choices = array_map(function ($v) {
+                    return ['value' => $v];
+                }, $GLOBALS['gf_avail']['choices']);
+                $f->inputs = array_map(function ($id) {
+                    return ['id' => $id];
+                }, $GLOBALS['gf_avail']['inputs']);
+            }
             $fields[] = $f;
         }
         return ['id' => $id, 'fields' => $fields];
@@ -492,6 +501,86 @@ same(call('contribute', human(['type' => 'grp'] + $grp))->status, 200, 'group fo
 same($GLOBALS['gf_submits'][0][0], 2, 'submitted to Gravity Forms form 2');
 same($GLOBALS['gf_submits'][0][1]['input_12_3'], 'pm', 'time reaches the form');
 
+// 12th Step Volunteer (Gravity Forms form 4)
+$vol = ['name' => 'Pat R.', 'phone' => '(617) 555-0123', 'email' => 'pat@example.org', 'hometown' => 'Quincy',
+    'weekday_nights' => 'Yes', 'weekend_days' => 'Yes'];
+reset_world();
+same(call('volunteer', human($vol))->status, 503, 'volunteer without Gravity Forms is unavailable');
+$GLOBALS['gf_enabled'] = true;
+$GLOBALS['gf_fields'] = [1, 3, 4, 5, 6];
+$GLOBALS['gf_result'] = ['is_valid' => true];
+$r = call('volunteer', human($vol));
+same([$r->status, $r->data['ok']], [200, true], 'volunteer accepted');
+same($GLOBALS['gf_submits'][0][0], 4, 'submitted to Gravity Forms form 4');
+$sent = $GLOBALS['gf_submits'][0][1];
+same([$sent['input_1'], $sent['input_3'], $sent['input_4'], $sent['input_5']], ['Pat R.', '(617) 555-0123', 'pat@example.org', 'Quincy'], 'name, phone, email and hometown reach the form');
+same([$sent['input_6_2'] ?? null, $sent['input_6_3'] ?? null, isset($sent['input_6_1']), isset($sent['input_6_4'])], ['Weekday Nights', 'Weekend Days', false, false], 'only the ticked times are sent');
+// a volunteer with only an email, or only a phone, is fine
+reset_world();
+same(call('volunteer', human(['phone' => ''] + $vol))->status, 200, 'email alone is enough');
+reset_world();
+same(call('volunteer', human(['email' => ''] + $vol))->status, 200, 'phone alone is enough');
+// required things
+reset_world();
+$r = call('volunteer', human(['name' => '', 'hometown' => ''] + $vol));
+same([$r->status, $r->data['errors']], [422, ['name' => 'invalid', 'hometown' => 'invalid']], 'name and hometown are required');
+$r = call('volunteer', human(['phone' => '', 'email' => ''] + $vol));
+same([$r->status, $r->data['errors']], [422, ['phone' => 'invalid', 'email' => 'invalid']], 'a way to reach the person is required');
+$r = call('volunteer', human(['phone' => 'call me'] + $vol));
+same([$r->status, isset($r->data['errors']['phone'])], [422, true], 'a phone number must look like one');
+$r = call('volunteer', human(['email' => 'not-an-email'] + $vol));
+same([$r->status, isset($r->data['errors']['email'])], [422, true], 'a bad email is refused');
+$r = call('volunteer', human(['weekday_nights' => '', 'weekend_days' => ''] + $vol));
+same([$r->status, $r->data['errors']], [422, ['availability' => 'invalid']], 'at least one time is required');
+reset_world(); // keep clear of the hourly limit
+$r = call('volunteer', human(['weekday_nights' => 'maybe', 'weekend_days' => 'no'] + $vol));
+same($r->status, 422, 'only "Yes" counts as ticked');
+same(count($GLOBALS['gf_submits']), 0, 'nothing is submitted for bad input');
+// line breaks never reach single-line fields
+reset_world();
+call('volunteer', human(['name' => "Pat\nBcc: x@evil.example", 'hometown' => "Quincy\r\nMA"] + $vol));
+ok(strpos($GLOBALS['gf_submits'][0][1]['input_1'], "\n") === false && strpos($GLOBALS['gf_submits'][0][1]['input_5'], "\n") === false, 'line breaks never reach a single-line field');
+// the form's own choice values and checkbox ids are used when they can be read
+reset_world();
+$GLOBALS['gf_avail'] = ['choices' => ['wd', 'wn', 'ed', 'en'], 'inputs' => ['6.1', '6.2', '6.3', '6.5']];
+call('volunteer', human(['weekday_nights' => '', 'weekend_days' => '', 'weekday_days' => 'Yes', 'weekend_nights' => 'Yes'] + $vol));
+$sent = $GLOBALS['gf_submits'][0][1];
+same([$sent['input_6_1'] ?? null, $sent['input_6_5'] ?? null, isset($sent['input_6_4'])], ['wd', 'en', false], "the form's own values and checkbox ids are used");
+$GLOBALS['gf_avail'] = null;
+// edited form is refused, not guessed
+reset_world();
+$GLOBALS['gf_fields'] = [1, 3, 4, 6]; // hometown removed
+same(call('volunteer', human($vol))->status, 503, 'an edited form is refused, not guessed');
+$GLOBALS['gf_fields'] = null;
+same(call('volunteer', human($vol))->status, 503, 'a missing form is unavailable');
+// Gravity Forms answers
+reset_world();
+$GLOBALS['gf_fields'] = [1, 3, 4, 5, 6];
+$GLOBALS['gf_result'] = ['is_valid' => false, 'validation_messages' => [4 => 'bad email']];
+$r = call('volunteer', human($vol));
+same([$r->status, $r->data['errors']], [422, ['email' => 'invalid']], 'Gravity Forms validation maps back to our fields');
+$GLOBALS['gf_result'] = new WP_Error('boom');
+same(call('volunteer', human($vol))->status, 502, 'a Gravity Forms error is reported');
+// bots and floods
+reset_world();
+$GLOBALS['gf_result'] = ['is_valid' => true];
+$r = call('volunteer', human(['_gotcha' => 'x'] + $vol));
+same([$r->status, count($GLOBALS['gf_submits'])], [200, 0], 'honeypot: a bot gets "ok" and nothing is stored');
+$r = call('volunteer', $vol + ['_t' => 100]);
+same([$r->status, count($GLOBALS['gf_submits'])], [200, 0], 'a form sent instantly is dropped');
+reset_world();
+for ($i = 0; $i < 5; $i++) {
+    call('volunteer', human($vol));
+}
+same(call('volunteer', human($vol))->status, 429, 'at most 5 volunteer forms per visitor per hour');
+same(count($GLOBALS['gf_submits']), 5, 'the sixth is not stored');
+reset_world();
+same(call('volunteer', human($vol), 'https://evil.example')->status, 403, 'a foreign origin is refused');
+// the contribution endpoint cannot be pointed at the volunteer form
+$GLOBALS['gf_fields'] = [1, 3, 4, 5, 6];
+same(call('contribute', human(['type' => 'vol'] + $vol))->status, 422, 'contribute cannot reach the volunteer form');
+same(count($GLOBALS['gf_submits']), 0, 'and nothing was submitted');
+
 // dry run (must come last: a constant cannot be undone)
 define('AA30_DRY_RUN', true);
 reset_world();
@@ -503,6 +592,8 @@ same([$r->status, $r->data['dry'], count($GLOBALS['mc_api']->calls)], [200, true
 $GLOBALS['gf_fields'] = [1, 3, 4, 5, 6];
 $r = call('contribute', $memReq);
 same([$r->status, $r->data['dry'], $r->data['fields_match'], count($GLOBALS['gf_submits'])], [200, true, true, 0], 'dry run: contribution creates no entry');
+$r = call('volunteer', human($vol));
+same([$r->status, $r->data['dry'], $r->data['form'], $r->data['fields_match'], count($GLOBALS['gf_submits'])], [200, true, 4, true, 0], 'dry run: volunteer creates no entry');
 
 echo "\n$pass passed, $fail failed\n";
 exit($fail ? 1 : 0);

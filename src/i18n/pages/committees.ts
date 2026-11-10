@@ -207,6 +207,7 @@ const es: Record<string, CommitteeText> = {
     ],
     meeting: { lines: ['7:00 p. m. el tercer viernes de cada mes, por Zoom.'], joinText: 'Unirse por Zoom' },
     cta: 'Si desea llevar reuniones de A.A. a centros de tratamiento, o si es un centro que quiere reuniones de A.A., escriba al Comité de Tratamiento.',
+    more: 'Ofrézcase como voluntario para llamadas de Duodécimo Paso',
   },
   accessibilities: {
     eyebrow: 'Comité de la Conferencia',
@@ -499,6 +500,7 @@ const fr: Record<string, CommitteeText> = {
     ],
     meeting: { lines: ['19 h le troisième vendredi du mois, sur Zoom.'], joinText: 'Se joindre sur Zoom' },
     cta: 'Si vous souhaitez apporter des réunions des A.A. dans des centres de traitement, ou si vous êtes un établissement qui désire des réunions des A.A., écrivez au Comité des centres de traitement.',
+    more: 'Se porter volontaire pour les appels de Douzième Étape',
   },
   accessibilities: {
     eyebrow: 'Comité de la Conférence',

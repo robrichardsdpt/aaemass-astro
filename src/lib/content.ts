@@ -34,8 +34,8 @@ export const faqs: Faq[] = [
   },
   {
     q: 'How do I find an Alcoholics Anonymous meeting in Eastern Massachusetts?',
-    a: 'Use the meeting finder on aa.org or the Meeting Guide app, which list meetings by location, day and time. In the Boston area, Boston Central Service also keeps a meeting list.',
-    link: { text: 'Find a meeting on aa.org', href: site.links.findMeeting },
+    a: 'Use the meeting finder on aaboston.org or the Meeting Guide app, which list meetings by location, day and time. In the Boston area, Boston Central Service also keeps a meeting list.',
+    link: { text: 'Find a meeting on aaboston.org', href: site.links.findMeeting },
   },
   {
     q: 'Does it cost anything to attend or join AA?',

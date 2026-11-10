@@ -268,3 +268,106 @@ function aa30_gf_input(string $type, array $d, ?array $choices = null): array
 
     return [$in, $err];
 }
+
+/** Gravity Forms form id of the 12th Step Volunteer form (AA30_FORM_IDS['vol'] overrides it). */
+function aa30_volunteer_form_id(): int
+{
+    if (defined('AA30_FORM_IDS') && is_array(AA30_FORM_IDS) && isset(AA30_FORM_IDS['vol'])) {
+        return (int) AA30_FORM_IDS['vol'];
+    }
+    return 4;
+}
+
+/** Gravity Forms field ids the 12th Step Volunteer form must still have: name, phone, email, hometown, availability. */
+function aa30_volunteer_expected_ids(): array
+{
+    return [1, 3, 4, 5, 6];
+}
+
+/** Which page field each Gravity Forms field id belongs to, for reporting validation problems back. */
+function aa30_volunteer_error_names(): array
+{
+    return [1 => 'name', 3 => 'phone', 4 => 'email', 5 => 'hometown', 6 => 'availability'];
+}
+
+/**
+ * The availability choices, in the order of the form's checkboxes. The page sends one checkbox per key; the key
+ * says which of the form's four choices it means.
+ */
+function aa30_volunteer_slots(): array
+{
+    return ['weekday_days' => 'Weekday Days', 'weekday_nights' => 'Weekday Nights', 'weekend_days' => 'Weekend Days', 'weekend_nights' => 'Weekend Nights'];
+}
+
+/** A phone number people can actually dial: digits with the usual separators, 7 to 30 characters. */
+function aa30_phone($v): string
+{
+    $v = aa30_one_line($v, 30);
+    // Digits, spaces and the usual separators ("(617) 555-0123", "+1 617.555.0123", "617-555-0123 x4"), at least 7 digits.
+    return preg_match('/^[0-9 ()+.,#xX-]{7,30}$/', $v) && preg_match_all('/[0-9]/', $v) >= 7 ? $v : '';
+}
+
+/**
+ * Turn what the volunteer page sent into Gravity Forms input values for the 12th Step Volunteer form.
+ *
+ * Name and hometown are required, and so is at least one way to reach the person (phone or email) and at least
+ * one time they are available: a volunteer list entry without those cannot be used.
+ *
+ * @param array      $d       the decoded JSON from the page
+ * @param array|null $choices the form's own availability choices, in checkbox order (4 values), when available
+ * @param array|null $inputIds the form's own checkbox input ids for those choices ('6.1' ...), when available
+ * @return array [input values, errors keyed by the page's field names]
+ */
+function aa30_gf_volunteer_input(array $d, ?array $choices = null, ?array $inputIds = null): array
+{
+    $slots = aa30_volunteer_slots();
+    $choices = ($choices && count($choices) === count($slots)) ? array_values($choices) : array_values($slots);
+    $inputIds = ($inputIds && count($inputIds) === count($slots)) ? array_values($inputIds) : ['6.1', '6.2', '6.3', '6.4'];
+
+    $get = function ($k) use ($d) {
+        return isset($d[$k]) && is_string($d[$k]) ? $d[$k] : '';
+    };
+    $in = [];
+    $err = [];
+
+    $in['input_1'] = aa30_one_line($get('name'), 100);
+    if ($in['input_1'] === '') {
+        $err['name'] = 'invalid';
+    }
+    $in['input_5'] = aa30_one_line($get('hometown'), 60);
+    if ($in['input_5'] === '') {
+        $err['hometown'] = 'invalid';
+    }
+
+    $phoneRaw = trim($get('phone'));
+    $phone = $phoneRaw === '' ? '' : aa30_phone($phoneRaw);
+    if ($phoneRaw !== '' && $phone === '') {
+        $err['phone'] = 'invalid';
+    }
+    $emailRaw = trim($get('email'));
+    $email = $emailRaw === '' ? '' : aa30_email($emailRaw);
+    if ($emailRaw !== '' && $email === '') {
+        $err['email'] = 'invalid';
+    }
+    if ($phoneRaw === '' && $emailRaw === '') {
+        $err['phone'] = 'invalid';
+        $err['email'] = 'invalid';
+    }
+    $in['input_3'] = $phone;
+    $in['input_4'] = $email;
+
+    $picked = 0;
+    $i = 0;
+    foreach (array_keys($slots) as $key) {
+        if (strtolower(aa30_one_line($get($key), 5)) === 'yes') {
+            $in['input_' . str_replace('.', '_', (string) $inputIds[$i])] = $choices[$i];
+            $picked++;
+        }
+        $i++;
+    }
+    if ($picked === 0) {
+        $err['availability'] = 'invalid';
+    }
+
+    return [$in, $err];
+}

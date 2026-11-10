@@ -1,0 +1,37 @@
+title: Archives
+group: conference
+order: 10
+listing: tile
+tile_image: archives
+page_type: standard
+email: archives@aaemass.org
+schedule:
+  weekday: 2
+  week: 3
+  time: 19:30
+eyebrow: Conference committee
+lede: Eastern Mass. has a rich history in Alcoholics Anonymous. We preserve it so we can share it with the alcoholics who come after us.
+description: The Area 30 Archives Committee collects, preserves and presents the history of AA in Eastern Massachusetts. Meets the 3rd Tuesday of the month at 7:30 PM.
+quote:
+  text: Whenever a society or civilization perishes there is always one condition present; they forgot where they came from.
+  by: Carl Sandburg
+sections:
+  - title: Mission
+    paras:
+      - The mission of Alcoholics Anonymous in Area 30 Archives is to permanently document the work of Area 30 and its Districts, to make the history of the organization accessible to AA members and other researchers, and to provide a context for understanding AA’s progression, principles and traditions.
+      - The Archives Committee is charged with collecting, preserving and presenting materials of historical interest to Alcoholics Anonymous. We invite you to join us as we discover and celebrate the history of AA in Eastern Massachusetts.
+  - title: Responsibilities
+    items:
+      - Sorting, filing and preserving documents already collected and held in storage
+      - Gathering and cataloging additions as they arrive
+      - Reaching out to Districts and other groups in Area 30 with news of our service work, and encouraging them to preserve their own archives
+      - Recording group and individual histories before it’s too late
+      - Sharing our archives with you, so that we can “trudge the road” together
+    paras:
+      - Members who have lived our history are invited to share it with us so future AAs can benefit from your experience, strength and hope. We’ll gladly make mutually agreeable arrangements to meet.
+meeting:
+  lines:
+    - Virtually at 7:30 PM on the 3rd Tuesday of the month.
+    - Come and help us keep Area 30’s history alive. All AA members are welcome.
+  calendar: true
+cta: To get in touch with the Archives Committee, email us and we will get back to you as soon as possible.

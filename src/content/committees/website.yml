@@ -1,0 +1,26 @@
+title: Website
+group: standing
+order: 140
+listing: list
+page_type: standard
+email: website@aaemass.org
+schedule:
+  weekday: 1
+  week: 1
+  time: 18:00
+eyebrow: Standing committee
+lede: The committee that maintains this website for Area 30.
+description: The Area 30 Website Committee maintains the Area 30 website and meets monthly. Interested in service and technology? Get in touch.
+sections:
+  - title: Mission
+    paras:
+      - This committee maintains the Area 30 website per assembly action and develops recommendations on its future maintenance.
+      - To request changes or edits to the website, email the committee.
+  - title: Get involved
+    paras:
+      - Are you looking to get involved in service? Do you have technical skills, or an interest in technology and websites? Come check out the Website Committee and make yourself available.
+meeting:
+  lines:
+    - Virtually at 6:00 PM on the 1st Monday of the month.
+  calendar: true
+cta: To contact the Website Committee with questions, or to get involved, email us.
