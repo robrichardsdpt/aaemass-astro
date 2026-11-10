@@ -296,6 +296,16 @@
   .hero p.lede { margin-block-start: var(--s-4); max-width: 46ch; font-size: var(--step-1); line-height: 1.45; }
   .hero .actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-block-start: var(--s-6); }
 
+  /* Help now */
+  .help { background: var(--ground); border-block-end: 1px solid var(--line); }
+  .help .wrap { display: grid; gap: var(--s-5); padding-block: var(--s-6); }
+  .help-actions { display: grid; gap: var(--s-4); }
+  @media (min-width: 52rem) { .help-actions { grid-template-columns: repeat(3, 1fr); gap: var(--s-6); } }
+  .help-actions > li { display: grid; gap: var(--s-2); align-content: start; }
+  .help-actions h3 { font-size: var(--step-0); font-family: var(--font-body); font-weight: 700; letter-spacing: 0; }
+  .help-actions .button { justify-self: start; }
+  .help-emergency { max-width: 70ch; padding: var(--s-3) var(--s-4); background: var(--surface); border-inline-start: 4px solid var(--accent); border-radius: 0.25rem; }
+
   /* Mailing list */
   .signup { background: var(--surface); border-block: 1px solid var(--line); }
   .signup .wrap {
@@ -408,7 +418,7 @@
     font-weight: 600;
     text-decoration: none;
   }
-  .inline-list a:hover { border-color: var(--accent); text-decoration: underline; }
+  .inline-list a:hover, .inline-list a:focus-visible, .inline-list a:active { border-color: var(--accent); text-decoration: none; }
 
   /* Contact page */
   .hero--compact .wrap { padding-block: var(--s-7) var(--s-6); }
@@ -479,6 +489,7 @@
   .card-link .term abbr, .card-link .term-card { position: relative; z-index: 1; }
   /* Live forms */
   .live-form { display: grid; gap: var(--s-4); }
+  .live-form .button { justify-self: start; }
   .form-status { padding: var(--s-3) var(--s-4); border: 2px solid var(--accent); border-radius: 0.5rem; background: var(--surface); font-weight: 600; }
   .form-status[hidden] { display: none; }
   .form-status[data-state='error'] { border-color: oklch(0.6 0.2 25); }

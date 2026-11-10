@@ -59,6 +59,34 @@ const clock = new Intl.DateTimeFormat(locale, { timeZone: tz, weekday: 'long', h
       </div>
     </section>
 
+    <section class="help" aria-labelledby="help-title">
+      <div class="wrap">
+        <div class="stack">
+          <h2 id="help-title">{m.help.title}</h2>
+          <p>{m.help.text}</p>
+        </div>
+        <ul class="help-actions">
+          <li>
+            <h3>{m.help.meetingTitle}</h3>
+            <p>{m.help.meetingText}</p>
+            <a class="button" href={site.links.findMeeting}>{m.help.meetingLink}</a>
+          </li>
+          <li>
+            <h3>{m.help.newTitle}</h3>
+            <p>{m.help.newText}</p>
+            <a href={lp(lang, '/alcoholics-anonymous')}>{m.help.newLink}</a>
+          </li>
+          <li>
+            <h3>{m.help.talkTitle}</h3>
+            <p>{m.help.talkText}</p>
+            {site.helpline && <p>{m.help.callText} <a href={`tel:${site.helpline.tel}`}>{site.helpline.display}</a></p>}
+            <a href={lp(lang, '/contact')}>{m.help.talkLink}</a>
+          </li>
+        </ul>
+        <p class="help-emergency"><strong>{m.help.emergencyTitle}.</strong> {m.help.emergency}</p>
+      </div>
+    </section>
+
     <section class="signup" aria-labelledby="signup-title">
       <div class="wrap">
         <div>

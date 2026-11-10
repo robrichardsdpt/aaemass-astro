@@ -17,6 +17,8 @@ export const site = {
   // Base URL of the form endpoints provided by the aa30-home WordPress plugin ('/wp-json/aa30/v1' when the
   // site is served from WordPress). Empty everywhere else: forms then fall back to a plain mailto link.
   formsEndpoint: import.meta.env.PUBLIC_FORMS_ENDPOINT || '',
+  // Area/Boston AA helpline number, e.g. { display: '(617) 555-0100', tel: '+16175550100' }. Shown in the home page help block when set.
+  helpline: null as { display: string; tel: string } | null,
   registrarEmail: 'registrar@aaemass.org',
   address: {
     street: 'P.O. Box 51411',
