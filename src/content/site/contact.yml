@@ -1,0 +1,14 @@
+email: info@aaemass.org
+registrar_email: registrar@aaemass.org
+address:
+  street: P.O. Box 51411
+  city: Boston
+  region: MA
+  postal_code: 02205-1411
+officers:
+  delegate: delegate@aaemass.org
+  altdelegate: altdelegate@aaemass.org
+  chair: chair@aaemass.org
+  altchair: altchair@aaemass.org
+  secretary: secretary@aaemass.org
+  treasurer: treasurer@aaemass.org

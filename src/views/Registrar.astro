@@ -3,7 +3,6 @@ import Page from '../layouts/Page.astro';
 import Rich from '../components/Rich.astro';
 import Msg from '../components/Msg.astro';
 import { site, path } from '../lib/site';
-import MessagePlaceholder from '../components/ui/MessagePlaceholder.astro';
 import { getLang, pick, fmt } from '../i18n';
 import { registrar } from '../i18n/pages/registrar';
 
@@ -58,7 +57,6 @@ const seen = new Set<string>();
       <h2 id="help-title">{m.helpTitle}</h2>
       <p>{m.help}</p>
       <p><a class="button" href={`mailto:${site.registrarEmail}`}>{fmt(m.emailButton, vars)}</a></p>
-      <MessagePlaceholder id="registrar" to={m.to} email={site.registrarEmail} />
     </div>
   </section>
 </Page>

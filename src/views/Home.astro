@@ -1,14 +1,15 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import { site, committees, moreCommittees } from '../lib/site';
+import { site } from '../lib/site';
+import { featuredCommittees, listedCommittees } from '../lib/committee-pages';
 import { getUpcomingEvents } from '../lib/events';
 import Msg from '../components/Msg.astro';
 import Rich from '../components/Rich.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteScripts from '../components/SiteScripts.astro';
-import PlaceholderForm from '../components/ui/PlaceholderForm.astro';
+import LiveFormScript from '../components/ui/LiveFormScript.astro';
 import { getLang, lp, pick, fmt, htmlLang } from '../i18n';
 import { ui } from '../i18n/ui';
 import { home } from '../i18n/pages/home';
@@ -55,6 +56,7 @@ const clock = new Intl.DateTimeFormat(locale, { timeZone: tz, weekday: 'long', h
         <div class="actions">
           <a class="button" href={site.links.findMeeting}>{m.findMeeting}</a>
           <a class="button button--quiet" href={lp(lang, '/calendar')}>{m.seeCalendar}</a>
+          <a class="button button--quiet" href={site.links.areaFolder}>{u.areaDocs}</a>
         </div>
       </div>
     </section>
@@ -65,25 +67,24 @@ const clock = new Intl.DateTimeFormat(locale, { timeZone: tz, weekday: 'long', h
           <h2 id="signup-title">{m.signup.title}</h2>
           <p>{m.signup.text}</p>
         </div>
-        {site.signupEndpoint ? (
-          <form id="signup-form" method="post" action={site.signupEndpoint} novalidate data-invalid={m.signup.toastInvalid} data-ok={m.signup.toastOk} data-error={m.signup.toastErr}>
+        {site.formsEndpoint ? (
+          <form id="signup-form" data-live-form data-kind="signup" data-endpoint={site.formsEndpoint} novalidate
+            data-invalid={m.signup.toastInvalid} data-ok={m.signup.toastOk} data-error={m.signup.toastErr}
+            data-sending={ui[lang].formSending}>
+            <input type="hidden" name="lang" value={lang} />
             <div class="field">
               <label for="signup-email">{m.signup.emailLabel}</label>
-              <input id="signup-email" type="email" name="email" autocomplete="email" required />
+              <input id="signup-email" type="email" name="email" autocomplete="email" maxlength="254" required />
             </div>
             <button class="button" type="submit">{m.signup.submit}</button>
             <div class="hp" aria-hidden="true">
               <label>{m.signup.hp}<input type="text" name="_gotcha" value="" tabindex="-1" autocomplete="off" /></label>
             </div>
-            <input type="hidden" name="_subject" value={m.signup.formSubject} />
+            <p class="form-status" data-status role="status" aria-live="polite" hidden></p>
+            <LiveFormScript />
           </form>
         ) : (
-          <PlaceholderForm
-            id="signup"
-            submitLabel={m.signup.submit}
-            alternative={{ text: m.signup.altText, href: `mailto:${site.email}?subject=${encodeURIComponent(m.signup.mailSubject)}`, label: site.email }}
-            fields={[{ name: 'email', label: m.signup.emailLabel, type: 'email', required: true }]}
-          />
+          <p class="form-fallback">{m.signup.altText} <a href={`mailto:${site.email}?subject=${encodeURIComponent(m.signup.mailSubject)}`}>{site.email}</a>.</p>
         )}
       </div>
     </section>
@@ -182,16 +183,16 @@ const clock = new Intl.DateTimeFormat(locale, { timeZone: tz, weekday: 'long', h
           <a href={lp(lang, '/service')}>{m.committees.all}</a>
         </div>
         <ul class="committee-grid">
-          {committees.map((c) => (
+          {featuredCommittees.map((c) => (
             <li>
-              <Image src={committeeImages[c.image]} alt="" widths={[200, 300, 400]} sizes="(min-width: 64rem) 11rem, (min-width: 36rem) 30vw, 46vw" />
+              <Image src={committeeImages[c.tileImage!]} alt="" widths={[200, 300, 400]} sizes="(min-width: 64rem) 11rem, (min-width: 36rem) 30vw, 46vw" />
               <a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].tile}</a>
             </li>
           ))}
         </ul>
         <p class="eyebrow" style="margin-block: var(--s-6) var(--s-2)">{m.committees.also}</p>
         <ul class="inline-list">
-          {moreCommittees.map((c) => <li><a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].name}</a></li>)}
+          {listedCommittees.map((c) => <li><a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].name}</a></li>)}
         </ul>
       </div>
     </section>
@@ -260,44 +261,6 @@ const clock = new Intl.DateTimeFormat(locale, { timeZone: tz, weekday: 'long', h
 
   <SiteFooter />
 
-  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
   <SiteScripts />
-  <script is:inline>
-    // Mailing-list signup: send without leaving the page, then confirm with a toast.
-    var form = document.getElementById('signup-form');
-    var toast = document.getElementById('toast');
-    var toastTimer;
-    function showToast(message, isError) {
-      toast.textContent = message;
-      toast.dataset.state = isError ? 'error' : 'ok';
-      toast.hidden = false;
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(function () { toast.hidden = true; }, 7000);
-    }
-    if (form && toast) {
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var email = form.elements.email;
-        if (!email.value || !email.checkValidity()) {
-          email.focus();
-          showToast(form.dataset.invalid, true);
-          return;
-        }
-        var button = form.querySelector('button[type=submit]');
-        button.disabled = true;
-        fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
-          .then(function (res) {
-            if (!res.ok) throw new Error('bad status');
-            form.reset();
-            showToast(form.dataset.ok, false);
-          })
-          .catch(function () {
-            showToast(form.dataset.error, true);
-          })
-          .finally(function () { button.disabled = false; });
-      });
-      toast.addEventListener('click', function () { toast.hidden = true; });
-    }
-  </script>
 </Base>

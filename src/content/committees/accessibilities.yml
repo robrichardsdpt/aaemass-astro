@@ -1,0 +1,34 @@
+title: Accessibilities
+group: conference
+order: 80
+listing: list
+page_type: standard
+email: accessibilities@aaemass.org
+schedule:
+  weekday: 1
+  week: 3
+  time: 19:30
+eyebrow: Conference committee
+lede: Working toward a future where everyone who wants to take part in AA in Eastern Massachusetts can.
+description: The Area 30 Accessibilities Committee works to remove barriers to AA meetings and services. Meets online on the 3rd Monday of the month at 7:30 PM.
+sections:
+  - title: Purpose
+    paras:
+      - Some alcoholics face barriers to taking part in AA for cultural, geographic, mental, physical or social reasons, among others. This committee works toward a future where everyone who wants to take part in AA meetings and other AA services in Eastern Massachusetts can do so, in a welcoming and accepting environment.
+    links:
+      - text: Accessibilities checklist (PDF)
+        href: /forms/accessibilities-checklist.pdf
+  - title: Get involved
+    paras:
+      - The committee meets monthly. You are welcome to join, or simply to attend as an interested AA member.
+      - Planning a District event or another AA event in Area 30? We would be happy to come and do outreach.
+  - title: Online and phone meetings
+    paras:
+      - Not every member can or wants to attend online. Some find technology a barrier and feel left out or judged. Home groups can check in with those members with love and support, schedule phone “talk times,” or have a member adopt a non-techie member to keep them up to date.
+      - The committee gathers shared resources from across the fellowship, including guidance on running online and telephone meetings while protecting anonymity and safety. We cannot endorse one resource over another, and we welcome suggestions you would like us to share. Email the committee to send one.
+meeting:
+  lines:
+    - Online at 7:30 PM on the 3rd Monday of the month.
+    - To get a copy of the previous minutes and the coming agenda, or the meeting log-in, email the chair.
+  calendar: true
+cta: "Join the committee, attend a meeting or invite us to your event: email the Accessibilities Committee."

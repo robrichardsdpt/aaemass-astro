@@ -1,0 +1,40 @@
+---
+import Page from '../layouts/Page.astro';
+import Section from '../components/ui/Section.astro';
+import { site, path } from '../lib/site';
+
+// Static hosts serve this file for any unknown URL. It cannot know the visitor's language, so the
+// copy is English with Spanish and French pointers below the links.
+const links = [
+  { label: 'Find a meeting', href: site.links.findMeeting, text: 'Meetings run every day across Eastern Massachusetts.' },
+  { label: 'See the calendar', href: path('/calendar/'), text: 'Area 30 events, assemblies and committee meetings.' },
+  { label: 'What is AA?', href: path('/alcoholics-anonymous/'), text: 'New to AA? Start here.' },
+  { label: 'Contact Area 30', href: path('/contact/'), text: 'Write to us and a member will get back to you.' },
+];
+---
+
+<Page
+  title="Page not found | Area 30 Eastern Mass. AA"
+  description="That page could not be found. Find a meeting, see the calendar or contact Area 30."
+  heading="Page not found"
+  eyebrow="404"
+  lede="We could not find that page. It may have moved, or the link may be mistyped."
+  noindex
+>
+  <Section id="not-found" narrow>
+    <ul class="paths">
+      {links.map((l) => (
+        <li>
+          <h3>{l.label}</h3>
+          <p>{l.text}</p>
+          <a href={l.href}>{l.label}</a>
+        </li>
+      ))}
+    </ul>
+    <p style="margin-block-start: var(--s-5)">
+      <a class="button button--quiet" href={path('/')}>Go to the home page</a>
+    </p>
+    <p lang="es" style="margin-block-start: var(--s-4)">Página no encontrada. <a href={path('/es/')}>Ir al inicio en español</a>.</p>
+    <p lang="fr">Page introuvable. <a href={path('/fr/')}>Aller à l’accueil en français</a>.</p>
+  </Section>
+</Page>

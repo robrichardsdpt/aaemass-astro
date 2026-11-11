@@ -33,7 +33,7 @@ const en = {
     { q: 'Does it cost anything to attend AA?', a: 'No. It doesn’t cost anything to attend AA meetings, and there are no dues or fees for membership. AA is supported through member contributions.' },
     { q: 'Who can join AA?', a: 'Anyone with a desire to stop drinking is welcome, regardless of race, gender, sexual orientation, religion, income or profession. There are no age or education requirements.' },
     { q: 'What happens at a first AA meeting?', a: 'You can just sit and listen and learn more about recovery, or you can share about your situation. It is completely up to you.' },
-    { q: 'How do I find an AA meeting near me?', a: 'Use the meeting finder on aa.org, which lists meetings across North America. Area 30 is the service area for Eastern Massachusetts and is not itself a meeting.' },
+    { q: 'How do I find an AA meeting near me?', a: 'Use the meeting finder on aaboston.org. Area 30 is the service area for Eastern Massachusetts and is not itself a meeting.' },
   ],
 };
 type A = typeof en;
@@ -71,7 +71,7 @@ const es: A = {
     { q: '¿Cuesta algo asistir a A.A.?', a: 'No. Asistir a las reuniones de A.A. no cuesta nada, y no hay cuotas ni honorarios para ser miembro. A.A. se mantiene con las contribuciones de sus miembros.' },
     { q: '¿Quién puede ser miembro de A.A.?', a: 'Toda persona que desee dejar de beber es bienvenida, sin importar su raza, género, orientación sexual, religión, ingresos o profesión. No hay requisitos de edad ni de educación.' },
     { q: '¿Qué sucede en una primera reunión de A.A.?', a: 'Puede simplemente sentarse, escuchar y aprender más sobre la recuperación, o puede compartir sobre su situación. Es totalmente su decisión.' },
-    { q: '¿Cómo encuentro una reunión de A.A. cerca de mí?', a: 'Use el buscador de reuniones de aa.org, que enumera reuniones en toda América del Norte. El Área 30 es el área de servicio del Este de Massachusetts y no es en sí misma una reunión.' },
+    { q: '¿Cómo encuentro una reunión de A.A. cerca de mí?', a: 'Use el buscador de reuniones de aaboston.org. El Área 30 es el área de servicio del Este de Massachusetts y no es en sí misma una reunión.' },
   ],
 };
 
@@ -108,7 +108,7 @@ const fr: A = {
     { q: 'Est-ce que cela coûte quelque chose d’assister aux réunions des A.A.?', a: 'Non. Assister aux réunions des A.A. ne coûte rien, et il n’y a ni cotisation ni frais pour en être membre. Les A.A. vivent des contributions de leurs membres.' },
     { q: 'Qui peut se joindre aux A.A.?', a: 'Toute personne qui désire arrêter de boire est la bienvenue, peu importe sa race, son genre, son orientation sexuelle, sa religion, son revenu ou sa profession. Il n’y a aucune exigence d’âge ni de scolarité.' },
     { q: 'Que se passe-t-il à une première réunion des A.A.?', a: 'Vous pouvez simplement vous asseoir, écouter et en apprendre davantage sur le rétablissement, ou vous pouvez parler de votre situation. C’est entièrement à vous de décider.' },
-    { q: 'Comment trouver une réunion des A.A. près de chez moi?', a: 'Utilisez le moteur de recherche de réunions d’aa.org, qui répertorie les réunions partout en Amérique du Nord. La Région 30 est la région de service de l’Est du Massachusetts et n’est pas elle-même une réunion.' },
+    { q: 'Comment trouver une réunion des A.A. près de chez moi?', a: 'Utilisez le moteur de recherche de réunions d’aaboston.org. La Région 30 est la région de service de l’Est du Massachusetts et n’est pas elle-même une réunion.' },
   ],
 };
 export const aa: Record<Lang, A> = { en, es, fr };

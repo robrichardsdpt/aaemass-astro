@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import Page from '../layouts/Page.astro';
 import Msg from '../components/Msg.astro';
-import { committees, moreCommittees } from '../lib/site';
+import { featuredCommittees, listedCommittees } from '../lib/committee-pages';
 import { getLang, lp, pick } from '../i18n';
 import { committeesIndex } from '../i18n/pages/committeesIndex';
 import { committeeNames } from '../i18n/committees';
@@ -27,9 +27,9 @@ const images = { archives, cpc, corrections, grapevine, literature, pi };
         <a href={lp(lang, '/service')}>{m.reports}</a>
       </div>
       <ul class="committee-grid">
-        {committees.map((c) => (
+        {featuredCommittees.map((c) => (
           <li>
-            <Image src={images[c.image]} alt="" widths={[200, 300, 400]} sizes="(min-width: 64rem) 11rem, (min-width: 36rem) 30vw, 46vw" />
+            <Image src={images[c.tileImage!]} alt="" widths={[200, 300, 400]} sizes="(min-width: 64rem) 11rem, (min-width: 36rem) 30vw, 46vw" />
             <a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].tile}</a>
           </li>
         ))}
@@ -41,7 +41,7 @@ const images = { archives, cpc, corrections, grapevine, literature, pi };
     <div class="wrap">
       <h2 id="more-title" style="margin-block-end: var(--s-4)">{m.moreTitle}</h2>
       <ul class="inline-list">
-        {moreCommittees.map((c) => <li><a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].name}</a></li>)}
+        {listedCommittees.map((c) => <li><a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].name}</a></li>)}
       </ul>
       <p class="prose" style="margin-block-start: var(--s-5)"><Msg text={m.email} /></p>
     </div>

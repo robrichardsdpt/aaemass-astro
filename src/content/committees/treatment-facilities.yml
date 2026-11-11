@@ -1,0 +1,40 @@
+title: Treatment Facilities
+group: conference
+order: 70
+listing: list
+page_type: standard
+email: treatment@aaemass.org
+schedule:
+  weekday: 5
+  week: 3
+  time: 19:00
+eyebrow: Conference committee
+lede: Bringing AA meetings to people in hospitals and treatment programs.
+description: The Area 30 Treatment Facilities Committee coordinates AA members carrying the message into treatment settings. Meets the 3rd Friday at 7 PM.
+sections:
+  - title: Mission
+    paras:
+      - The Treatment Facilities Committee leads and coordinates the work of AA members and groups carrying the message to people in hospital and treatment-facility programs. Examples of our 12-step work include chairing a meeting at a detox center, coordinating meetings at a treatment center and working with hospital staff to organize a meeting.
+    links:
+      - text: Treatment committees on aa.org
+        href: https://www.aa.org/treatment-committees
+      - text: "Book a commitment: Treatment Calendar"
+        href: https://area30treatment.org/A30TC_Treatment_Page.html
+  - title: Purpose
+    items:
+      - Volunteers reach out to treatment facilities in their district so administrators know AA can help clients, and can help those who want to stay sober move into the fellowship outside treatment
+      - With administration approval, take AA meetings into treatment settings
+      - Encourage group and individual participation. Many groups “adopt” a facility and provide in-house meetings
+      - Coordinate with temporary contact programs such as Bridge the Gap (BTG)
+      - Work with committees such as C.P.C. to provide literature, presentations and workshops to administrators
+meeting:
+  lines:
+    - 7:00 PM on the 3rd Friday of the month, on Zoom.
+  join:
+    text: Join on Zoom
+    href: http://zoom.us/j/91734251285?pwd=YUdnTUJ3OEo3RittdC9FVWg1VXJZdz09
+  calendar: true
+cta: If you’d like to bring AA meetings into treatment facilities, or you are a facility that wants AA meetings, email the Treatment Committee.
+more:
+  text: Volunteer for 12th Step calls
+  href: /committees/treatment-facilities/12th-step-volunteer

@@ -1,0 +1,18 @@
+title: Messenger
+group: standing
+order: 100
+listing: list
+page_type: standard
+email: messenger@aaemass.org
+eyebrow: Standing committee
+lede: The Area 30 newsletter, published for each Area Assembly.
+description: The Area 30 Messenger Committee publishes the Messenger newsletter for each Area Assembly. Send submissions to messenger@aaemass.org.
+sections:
+  - title: Mission
+    paras:
+      - The Messenger Committee is responsible for the Area 30 newsletter, The Messenger, which is published for each of the Area Assemblies and distributed through the service structure and at committee meetings.
+      - Submissions are welcome. Please email them and include your confidential contact information.
+    links:
+      - text: Literature committees on aa.org
+        href: https://www.aa.org/literature-committees
+cta: To send a submission, ask a question or get involved, email the Messenger Committee.

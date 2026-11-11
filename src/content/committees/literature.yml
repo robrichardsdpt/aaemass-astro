@@ -1,0 +1,34 @@
+title: Literature
+group: conference
+order: 50
+listing: tile
+tile_image: literature
+page_type: standard
+email: literature@aaemass.org
+schedule:
+  weekday: 1
+  week: 1
+  time: 19:00
+eyebrow: Conference committee
+lede: Letting the membership know what conference-approved literature is available.
+description: The Area 30 Literature Committee reviews AA literature and helps groups order it locally. Meets the 1st Monday of the month at 7:00 PM.
+sections:
+  - title: Mission
+    paras:
+      - The committee informs groups and district and area assembly members, through displays and other suitable methods, about all available conference-approved literature, audiovisual material and other special items. It reviews both conference-approved and local service materials, and informs the fellowship within Area 30.
+      - We use our meetings to review current conference-approved and locally developed literature, to make sure the message stays consistent with the principles of the Steps and Traditions. We answer inquiries on various topics and point to possible sources of information. Our goal is to inform members of the tools available for our own recovery and for carrying the message to others.
+    links:
+      - text: Literature committees on aa.org
+        href: https://www.aa.org/literature-committees
+  - title: Order literature locally
+    paras:
+      - To order literature locally, or for more information, email the committee.
+meeting:
+  lines:
+    - 7:00 PM on the 1st Monday of the month, on Zoom.
+    - Zoom ID 864 3440 1757, passcode AA30.
+  calendar: true
+cta: To ask a question, get involved or place a local order, email the Literature Committee.
+more:
+  text: Browse AA literature
+  href: /literature

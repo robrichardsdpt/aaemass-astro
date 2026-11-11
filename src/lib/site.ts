@@ -1,4 +1,22 @@
+import { parse } from 'yaml';
+import { z } from 'astro/zod';
+
 const base = 'https://aaemass.org';
+
+// Contact details and officer emails live in src/content/site/contact.yml (edited in the CMS).
+const email = z.string().trim().email();
+const contactSchema = z.object({
+  email,
+  registrar_email: email,
+  address: z.object({ street: z.string().trim().min(1), city: z.string().trim().min(1), region: z.string().trim().min(1), postal_code: z.coerce.string().trim().min(1) }),
+  officers: z.object({ delegate: email, altdelegate: email, chair: email, altchair: email, secretary: email, treasurer: email }),
+});
+const contactRaw = Object.values(import.meta.glob('../content/site/contact.yml', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>)[0];
+const parsedContact = contactSchema.safeParse(parse(contactRaw));
+if (!parsedContact.success) {
+  throw new Error(`src/content/site/contact.yml is not valid: ${parsedContact.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ')}`);
+}
+const contact = parsedContact.data;
 
 // Internal links for this site. BASE_URL is '/' locally, '/aaemass-astro/' on GitHub Pages and the plugin path in WordPress.
 export const path = (p: string) => {
@@ -11,18 +29,21 @@ export const site = {
   name: 'Area 30, Eastern Massachusetts Alcoholics Anonymous',
   short: 'Area 30',
   url: 'https://aaemass.org',
-  email: 'info@aaemass.org',
+  email: contact.email,
   // Add Area 30's own profile URLs here (social media, etc.) and they appear as schema.org sameAs.
   sameAs: [] as string[],
-  // Mailing-list signups POST here as JSON (e.g. a Formspree form that emails info@aaemass.org).
-  // Leave empty until the endpoint exists: the page then shows a mailto link instead of a form.
-  signupEndpoint: import.meta.env.PUBLIC_SIGNUP_ENDPOINT || '',
-  registrarEmail: 'registrar@aaemass.org',
+  // Base URL of the form endpoints provided by the aa30-home WordPress plugin ('/wp-json/aa30/v1' when the
+  // site is served from WordPress). Empty everywhere else: forms then fall back to a plain mailto link.
+  formsEndpoint: import.meta.env.PUBLIC_FORMS_ENDPOINT || '',
+  // Area/Boston AA helpline number, e.g. { display: '(617) 555-0100', tel: '+16175550100' }. Shown in the home page help block when set.
+  helpline: null as { display: string; tel: string } | null,
+  registrarEmail: contact.registrar_email,
+  officers: contact.officers,
   address: {
-    street: 'P.O. Box 51411',
-    city: 'Boston',
-    region: 'MA',
-    postalCode: '02205-1411',
+    street: contact.address.street,
+    city: contact.address.city,
+    region: contact.address.region,
+    postalCode: contact.address.postal_code,
   },
   meeting: {
     when: '4th Wednesday of even months at 7:30 PM',
@@ -30,28 +51,10 @@ export const site = {
     map: 'https://www.google.com/maps/search/?api=1&query=12+Channel+St+Boston+MA+02210',
   },
   links: {
-    findMeeting: 'https://www.aa.org/find-aa/north-america',
+    findMeeting: 'https://aaboston.org/meetings',
     registerForm:
       'https://drive.google.com/file/d/1nT4Sv1NXQQ8uSwO3t4Gh7Wq2MCc3AYV-/view?usp=drive_link',
     areaFolder: 'https://drive.google.com/drive/folders/14RcIZzknJIGU3-q5WoCqIu4_aAcoksrE',
   },
 };
 
-export const committees = [
-  { name: 'Archives', href: path('/committees/archives'), slug: 'archives', image: 'archives' },
-  { name: 'Cooperation with the Professional Community', short: 'C.P.C.', href: path('/committees/cpc'), slug: 'cpc', image: 'cpc' },
-  { name: 'Corrections', href: path('/committees/corrections'), slug: 'corrections', image: 'corrections' },
-  { name: 'Grapevine', href: path('/committees/grapevine'), slug: 'grapevine', image: 'grapevine' },
-  { name: 'Literature', href: path('/committees/literature'), slug: 'literature', image: 'literature' },
-  { name: 'Public Information', short: 'P.I.', href: path('/committees/public-information'), slug: 'public-information', image: 'pi' },
-] as const;
-
-export const moreCommittees = [
-  { name: 'Accessibilities', href: path('/committees/accessibilities'), slug: 'accessibilities' },
-  { name: 'Treatment Facilities', href: path('/committees/treatment-facilities'), slug: 'treatment-facilities' },
-  { name: 'Mass. State Convention', href: path('/committees/state-convention'), slug: 'state-convention' },
-  { name: 'Messenger', href: path('/committees/messenger'), slug: 'messenger' },
-  { name: 'Registrar', href: path('/committees/registrar'), slug: 'registrar' },
-  { name: 'Service Seminar', href: path('/committees/service-seminar'), slug: 'service-seminar' },
-  { name: 'Website', href: path('/committees/website'), slug: 'website' },
-];

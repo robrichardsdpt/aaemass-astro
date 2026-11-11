@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const dist = path.resolve('dist');
-const base = (process.env.GH_PAGES ? '/aaemass-astro' : '') ;
+const base = process.env.WP_BUILD ? `/${process.env.WP_PREFIX || 'a30-preview'}` : process.env.GH_PAGES ? '/aaemass-astro' : '';
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]));
 const html = (f) => fs.readFileSync(f, 'utf8');
 const pages = walk(dist).filter((f) => f.endsWith('index.html'));

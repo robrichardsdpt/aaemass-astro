@@ -5,7 +5,6 @@ import { committees } from '../lib/committee-pages';
 import { linkify } from '../lib/links';
 import { termify } from '../lib/term-match';
 import { site } from '../lib/site';
-import MessagePlaceholder from '../components/ui/MessagePlaceholder.astro';
 import { nextOccurrence, scheduleLd } from '../lib/schedule';
 import { getLang, lp, fmt, publicPath } from '../i18n';
 import { committeeNames } from '../i18n/committees';
@@ -144,7 +143,6 @@ const titleDefault = lang === 'en' ? `${c.title} Committee | ${tail}` : `${name.
         <a class="button" href={`mailto:${c.email}`}>{c.email}</a>
       </p>
       {c.more && <p><a href={lp(lang, c.more.href)}>{c.more.text}</a></p>}
-      <MessagePlaceholder id="committee" to={fmt(L.to, { name: name.label })} email={c.email} />
     </div>
   </section>
 </Page>

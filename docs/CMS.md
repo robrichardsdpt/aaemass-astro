@@ -10,6 +10,17 @@ the site in about a minute. Nothing runs on a server.
   FAQ blocks also become `FAQPage` markup.
 - **Events**: each event gets `/events/<name>/` with `Event` markup. Past events leave the lists and the
   sitemap, and their pages say "This event has passed".
+- **Committees**: one file per committee in `src/content/committees/`. It drives the committee page, the picture
+  tiles and "also" list on the home and Committees pages, and the Contact page directory (conference and standing
+  lists, plus the structured data). Adding a committee in the CMS adds all of those. Files are validated at build
+  time (valid email, required fields for committees with a page), so a bad edit fails the build instead of going live.
+  Spanish and French committee text still lives in `src/i18n/pages/committees.ts` and `src/i18n/committees.ts`;
+  a new committee shows its English text in those languages until someone adds translations there. Picture tiles
+  use the six bundled photos; a new tile picture needs a developer.
+- **Districts**: one file per district in `src/content/districts/`. The `lines` keep the standard wording so the
+  Spanish and French translator (`src/i18n/districts.ts`) still matches them.
+- **Contact details and officers**: `src/content/site/contact.yml` (general and Registrar email, mailing address,
+  officer emails) feeds the footer, Contact page and Registrar page.
 - **Main menu**: Site settings > Main menu. Drag to reorder; use `/page-name/` for pages on this site.
 
 ## Local use (no setup beyond npm install)
@@ -55,3 +66,13 @@ so a change to a color, font size or spacing there changes every page, hand-buil
 - Markdown in text blocks is trusted content: only give write access to people you trust.
 - The CMS preview pane is turned off because it cannot use the site's styles; use the deployed preview.
 - The first mention of each defined term (GSR, DCM, and so on) in a text block becomes a popover.
+
+## Preview links on every draft (Cloudflare Pages)
+`.github/workflows/preview.yml` builds the real site for each CMS draft (pull request), publishes it to Cloudflare
+Pages at its own address, and posts a commit status named `cloudflare-pages/preview`. Decap's `preview_context`
+setting shows that as a **View Preview** button. If the build fails, the workflow comments on the draft in plain
+language. One-time setup (repo Settings > Secrets and variables > Actions):
+1. In Cloudflare: create a Pages project (Direct Upload), e.g. `npx wrangler pages project create area30-preview`.
+2. Create an API token with *Cloudflare Pages: Edit* and note your Account ID.
+3. Add secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, and variable `CLOUDFLARE_PAGES_PROJECT`.
+Previews are `noindex`. Hand editors `docs/EDITOR-GUIDE.md`.

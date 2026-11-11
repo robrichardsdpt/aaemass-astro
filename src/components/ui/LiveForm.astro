@@ -1,0 +1,73 @@
+---
+import { getLang } from '../../i18n';
+import { ui } from '../../i18n/ui';
+import { site } from '../../lib/site';
+import LiveFormScript from './LiveFormScript.astro';
+// A working form. It posts JSON to the aa30-home WordPress plugin ("kind" picks the endpoint). Where there
+// is no plugin (local dev, GitHub Pages) it shows the plain email link instead of a form that cannot work.
+export interface LiveField {
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'number' | 'time' | 'select' | 'textarea' | 'checkbox';
+  options?: string[];
+  hint?: string;
+  required?: boolean;
+  half?: boolean; // two fields side by side from tablet up
+  prefix?: string; // e.g. "$"
+  value?: string;
+  max?: number; // maxlength for text, upper bound for numbers
+  autocomplete?: string;
+}
+interface Props {
+  id: string;
+  kind: 'message' | 'contribute';
+  fields: LiveField[];
+  submitLabel?: string;
+  hidden?: Record<string, string>;
+  // Message forms: the address shown when JavaScript or the endpoint is unavailable.
+  email?: string;
+  okText?: string;
+  fallback?: { text: string; href: string; label: string };
+}
+const u = ui[getLang(Astro)];
+const { id, kind, fields, submitLabel = u.formSubmit, hidden = {}, email, okText, fallback } = Astro.props;
+const endpoint = site.formsEndpoint;
+---
+{endpoint ? (
+  <form class="live-form" data-live-form data-kind={kind} data-endpoint={endpoint} data-ok={okText ?? u.formThanks}
+    data-invalid={u.formInvalid} data-sending={u.formSending} data-redirecting={u.formRedirecting}
+    data-error={u.formError.replace('{email}', email ?? site.email)} novalidate>
+    {Object.entries(hidden).map(([k, v]) => <input type="hidden" name={k} value={v} />)}
+    <div class="field-grid">
+      {fields.map((f) => {
+        const fid = `${id}-${f.name}`;
+        return f.type === 'checkbox' ? (
+          <div class="field field--check">
+            <label for={fid}><input id={fid} type="checkbox" name={f.name} value="Yes" required={f.required} /> <span>{f.label}{f.required && ' *'}</span></label>
+            {f.hint && <p class="hint">{f.hint}</p>}
+          </div>
+        ) : (
+          <div class:list={['field', f.half && 'field--half']}>
+            <label for={fid}>{f.label}{f.required && ' *'}</label>
+            {f.type === 'select' ? (
+              <select id={fid} name={f.name} required={f.required}><option value="">{u.formChoose}</option>{f.options?.map((o) => <option value={o}>{o}</option>)}</select>
+            ) : f.type === 'textarea' ? (
+              <textarea id={fid} name={f.name} rows="4" maxlength={f.max ?? 4000} required={f.required}></textarea>
+            ) : f.prefix ? (
+              <div class="input-prefix"><span aria-hidden="true">{f.prefix}</span><input id={fid} type="number" name={f.name} required={f.required} min="1" max={f.max ?? 25000} step="0.01" inputmode="decimal" /></div>
+            ) : (
+              <input id={fid} type={f.type ?? 'text'} name={f.name} value={f.value} required={f.required} maxlength={f.type === 'time' ? undefined : (f.max ?? 100)} autocomplete={f.autocomplete} />
+            )}
+            {f.hint && <p class="hint">{f.hint}</p>}
+          </div>
+        );
+      })}
+    </div>
+    <div class="hp" aria-hidden="true"><label>{id}<input type="text" name="_gotcha" value="" tabindex="-1" autocomplete="off" /></label></div>
+    <button class="button" type="submit">{submitLabel}</button>
+    <p class="form-status" data-status role="status" aria-live="polite" hidden></p>
+    <LiveFormScript />
+  </form>
+) : (
+  fallback && <p class="form-fallback">{fallback.text} <a href={fallback.href}>{fallback.label}</a>.</p>
+)}

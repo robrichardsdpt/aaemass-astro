@@ -6,6 +6,8 @@ backend:
   repo: robrichardsdpt/aaemass-astro
   branch: main
   base_url: https://area30-decap-oauth.robrichardsdpt.workers.dev
+  # Decap shows a "View Preview" link on each draft when the preview workflow posts a commit status with this name.
+  preview_context: cloudflare-pages/preview
 
 local_backend: true
 # Edits are saved as drafts (a pull request). Nothing goes live until someone approves and publishes.
@@ -210,6 +212,140 @@ collections:
       - { label: Image description (for screen readers), name: image_alt, widget: string, required: false }
       - { label: Details, name: body, widget: markdown, required: false }
 
+  - name: committees
+    label: Committees
+    label_singular: Committee
+    description: 'Add or edit a committee here. Changes update the committee page, the committees list on the home page and the Contact page. A new committee appears in English in Spanish and French until a translator adds those versions.'
+    folder: src/content/committees
+    extension: yml
+    format: yml
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}} ({{group}})'
+    sortable_fields: [order, title]
+    editor:
+      preview: false
+    fields:
+      - { label: Committee name, name: title, widget: string, hint: 'For example: Archives. The page title becomes "<name> Committee".' }
+      - { label: Short name, name: short_name, widget: string, required: false, hint: 'Optional, like C.P.C. Used on tiles when set.' }
+      - { label: Email, name: email, widget: string, pattern: ['^[^@\s]+@[^@\s]+\.[^@\s]+$', 'Enter a full email address'], hint: 'Shown on the committee page and the Contact page.' }
+      - label: Type
+        name: group
+        widget: select
+        options: [{ label: Conference committee, value: conference }, { label: Standing committee, value: standing }]
+        hint: 'Decides which list it appears in on the Contact page.'
+      - { label: Display order, name: order, widget: number, value_type: int, default: 100, hint: 'Lower numbers are listed first. Existing committees go up by 10, so pick a number in between to place a new one.' }
+      # Developer-only settings. Hidden (not removed) so saving a committee in the CMS keeps their values.
+      - { label: Where it is listed, name: listing, widget: hidden, default: list }
+      - { label: Tile picture, name: tile_image, widget: hidden, required: false }
+      - { label: Page, name: page_type, widget: hidden, default: standard }
+      - { label: Small label above the title, name: eyebrow, widget: string, required: false, hint: 'Required if the committee has its own page.' }
+      - { label: Intro sentence, name: lede, widget: text, required: false, hint: 'Required if the committee has its own page.' }
+      - { label: Search description, name: description, widget: text, required: false, hint: 'One or two sentences, 120 to 160 characters. Required if the committee has its own page.' }
+      - { label: Search title (optional), name: seo_title, widget: string, required: false, hint: 'Leave blank to use "<name> Committee | Area 30 Eastern Mass. AA".' }
+      - label: Quote
+        name: quote
+        widget: object
+        required: false
+        fields:
+          - { label: Quote, name: text, widget: text }
+          - { label: Who said it, name: by, widget: string }
+      - label: Sections
+        name: sections
+        widget: list
+        required: false
+        label_singular: Section
+        summary: '{{fields.title}}'
+        fields:
+          - { label: Heading, name: title, widget: string }
+          - label: Paragraphs
+            name: paras
+            widget: list
+            required: false
+            field: { label: Paragraph, name: para, widget: text }
+          - label: Bullet points
+            name: items
+            widget: list
+            required: false
+            field: { label: Point, name: item, widget: string }
+          - label: Links
+            name: links
+            widget: list
+            required: false
+            fields:
+              - { label: Text, name: text, widget: string }
+              - { label: Address, name: href, widget: string, hint: '/page-name/ for this site, or a full https:// address' }
+      - label: Monthly meeting (for search engines)
+        name: schedule
+        widget: object
+        required: false
+        hint: 'Fill in if the committee meets on the same weekday each month.'
+        fields:
+          - { label: Weekday, name: weekday, widget: select, options: [{ label: Sunday, value: 0 }, { label: Monday, value: 1 }, { label: Tuesday, value: 2 }, { label: Wednesday, value: 3 }, { label: Thursday, value: 4 }, { label: Friday, value: 5 }, { label: Saturday, value: 6 }], value_type: int }
+          - { label: Which one in the month, name: week, widget: select, options: [{ label: 1st, value: 1 }, { label: 2nd, value: 2 }, { label: 3rd, value: 3 }, { label: 4th, value: 4 }], value_type: int }
+          - { label: Start time (24-hour, Eastern), name: time, widget: string, pattern: ['^\d{2}:\d{2}$', 'Use 24-hour time like 19:30'] }
+      - label: Meeting box
+        name: meeting
+        widget: object
+        required: false
+        fields:
+          - { label: Intro, name: intro, widget: text, required: false }
+          - label: Chips
+            name: chips
+            widget: list
+            required: false
+            field: { label: Chip, name: chip, widget: string }
+          - label: Lines
+            name: lines
+            widget: list
+            field: { label: Line, name: line, widget: string }
+          - label: Join link
+            name: join
+            widget: object
+            required: false
+            fields:
+              - { label: Button text, name: text, widget: string }
+              - { label: Address, name: href, widget: string }
+          - { label: Show a calendar button, name: calendar, widget: boolean, default: true, required: false }
+      - { label: Call to action, name: cta, widget: text, required: false, hint: 'The sentence above the email button. Required if the committee has its own page.' }
+      - label: Related link
+        name: more
+        widget: object
+        required: false
+        fields:
+          - { label: Text, name: text, widget: string }
+          - { label: Address, name: href, widget: string }
+
+  - name: districts
+    label: Districts
+    label_singular: District
+    description: 'When and where each district meets. Each district is one card on the Districts page. Spanish and French versions are generated automatically from the standard wording below, so please follow the examples.'
+    folder: src/content/districts
+    extension: yml
+    format: yml
+    create: true
+    slug: '{{slug}}'
+    summary: '{{name}}'
+    sortable_fields: [order, name]
+    editor:
+      preview: false
+    fields:
+      - { label: District name, name: name, widget: string, hint: 'For example: District 7, or District 12 & 13.' }
+      - { label: Display order, name: order, widget: number, value_type: int, default: 100, hint: 'Lower numbers come first. Districts go up by 10, so pick a number in between to place a new one.' }
+      - label: Card lines
+        name: lines
+        widget: list
+        label_singular: Line
+        summary: '{{fields.line}}'
+        hint: |
+          One line per row, in the order they should appear. Use this wording so the Spanish and French pages translate correctly:
+          Meets hybrid on the 2nd Tuesday of the month at 7pm  (hybrid, virtually or in person)
+          Online:  /  In person:  /  Address:
+          Platform – Zoom  /  ID – 123 456 7890  /  Password – abc123
+          Please mail contributions to: P.O. Box 1, Town, MA 01234
+          Website: [example.org](https://example.org)
+        field: { label: Line, name: line, widget: string }
+
   - name: settings
     label: Site settings
     files:
@@ -224,3 +360,28 @@ collections:
             fields:
               - { label: Label, name: label, widget: string }
               - { label: Address, name: url, widget: string }
+      - name: contact
+        label: Contact details and officers
+        file: src/content/site/contact.yml
+        description: 'The general email, Registrar email, mailing address and the officer emails shown on the Contact page, footer and Registrar page.'
+        fields:
+          - { label: General email, name: email, widget: string, pattern: ['^[^@\s]+@[^@\s]+\.[^@\s]+$', 'Enter a full email address'] }
+          - { label: Registrar email, name: registrar_email, widget: string, pattern: ['^[^@\s]+@[^@\s]+\.[^@\s]+$', 'Enter a full email address'] }
+          - label: Mailing address
+            name: address
+            widget: object
+            fields:
+              - { label: Street or P.O. Box, name: street, widget: string }
+              - { label: City, name: city, widget: string }
+              - { label: State, name: region, widget: string }
+              - { label: ZIP code, name: postal_code, widget: string }
+          - label: Officer emails
+            name: officers
+            widget: object
+            fields:
+              - { label: Delegate, name: delegate, widget: string }
+              - { label: Alternate Delegate, name: altdelegate, widget: string }
+              - { label: Area Chair, name: chair, widget: string }
+              - { label: Alternate Area Chair, name: altchair, widget: string }
+              - { label: Area Secretary, name: secretary, widget: string }
+              - { label: Area Treasurer, name: treasurer, widget: string }
