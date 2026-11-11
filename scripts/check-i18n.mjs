@@ -18,7 +18,8 @@ const visible = (s) => s
   .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' ')
   .replace(/<[^>]*\blang="en"[^>]*>[\s\S]*?<\/(p|blockquote)>/g, ' ')
   .replace(/<a [^>]*href="(https?:|mailto:)[^"]*"[^>]*>[\s\S]*?<\/a>/g, ' ')
-  .replace(/<[^>]+>/g, ' ');
+  .replace(/<[^>]+>/g, ' ')
+  .replace(/\bThe Messenger\b/g, ' '); // the newsletter's name is kept in English
 
 let problems = 0;
 const report = (msg) => { problems++; console.log('✗', msg); };

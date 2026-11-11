@@ -2,7 +2,7 @@
 // the form's own status line. Contribution forms get a PayPal URL back and the browser follows it.
 const PAYPAL = new Set(['https://www.paypal.com', 'https://www.sandbox.paypal.com']);
 
-function status(form: HTMLFormElement): HTMLElement {
+function statusEl(form: HTMLFormElement): HTMLElement {
   let el = form.querySelector<HTMLElement>('[data-status]');
   if (!el) {
     el = document.createElement('p');
@@ -16,7 +16,7 @@ function status(form: HTMLFormElement): HTMLElement {
 }
 
 function say(form: HTMLFormElement, text: string, state: 'ok' | 'error' | 'busy') {
-  const el = status(form);
+  const el = statusEl(form);
   el.textContent = text;
   el.dataset.state = state;
   el.hidden = false;

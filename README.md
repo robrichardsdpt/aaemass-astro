@@ -44,7 +44,7 @@ Feel free to check [our documentation](https://docs.astro.build) or jump into ou
 
 ## Forms and the WordPress preview
 
-Every form (contributions, mailing-list signup, contact and the "send a message" forms) posts to the
+Every remaining form (contributions, the mailing-list signup and the 12th Step volunteer sign-up) posts to the
 `aa30-home` WordPress plugin, which uses Gravity Forms and PayPal, Mailchimp for WP and `wp_mail`. No API keys
 are involved. Build and install it with `./build-plugin.sh`; see [docs/WORDPRESS.md](docs/WORDPRESS.md).
 

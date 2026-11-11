@@ -18,7 +18,6 @@ const lang = getLang(Astro);
 const m = pick(contact, lang);
 const u = ui[lang];
 const names = committeeNames[lang];
-const mail = (user: string) => `${user}@aaemass.org`;
 
 const officerKeys = ['delegate', 'altdelegate', 'chair', 'altchair', 'secretary', 'treasurer'] as const;
 const officers = officerKeys.map((key, i) => ({ role: m.officers[i], email: site.officers[key] }));

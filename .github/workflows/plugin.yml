@@ -43,6 +43,8 @@ jobs:
           echo "VERSION=2.0.${{ github.run_number }}" >> "$GITHUB_ENV"
           sed -i "s/^ \* Version: .*/ * Version: 2.0.${{ github.run_number }}/" wp-plugin/aa30-home/aa30-home.php
           grep -m1 'Version:' wp-plugin/aa30-home/aa30-home.php
+      - name: Type-check the site
+        run: npx astro check
       - name: Build the plugin
         run: ./build-plugin.sh
       - name: Check the zip before publishing it

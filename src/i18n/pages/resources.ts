@@ -16,7 +16,7 @@ const en = {
   quick: [
     { title: 'AA Guidelines', href: 'http://www.aa.org/pages/en_US/aa-guidelines', text: 'Download or view the AA Guidelines. They represent the shared experience of AA members and groups throughout the service areas in the United States and Canada, and reflect guidance from the Twelve Traditions and the General Service Conference. The purpose of the Guidelines is to help a group reach an informed group conscience.' },
     { title: 'Box 459', href: 'https://www.aa.org/news-and-announcements', text: 'News and Notes from G.S.O. Download or view Box 459.' },
-    { title: 'Area web sites', href: 'https://www.aa.org/en_find_meeting.cfm?PageID=72', text: 'AAWS’s list of General Service Conference area web sites.' },
+    { title: 'Area web sites', href: 'https://www.aa.org/list-of-general-service-conference-area-web-sites-uscanada', text: 'AAWS’s list of General Service Conference area web sites.' },
     { title: 'Fact sheets and pamphlets', href: 'https://www.aa.org/resources/literature', text: 'Information on AA from AAWS, including fact sheets and some pamphlets.' },
   ],
 };
@@ -38,7 +38,7 @@ const es: R = {
   quick: [
     { title: 'Lineamientos de A.A.', href: 'http://www.aa.org/pages/en_US/aa-guidelines', text: 'Descargue o consulte los Lineamientos de A.A. Representan la experiencia compartida de los miembros y grupos de A.A. de las áreas de servicio de Estados Unidos y Canadá, y reflejan la orientación de las Doce Tradiciones y de la Conferencia de Servicios Generales. El propósito de los Lineamientos es ayudar a un grupo a llegar a una conciencia de grupo informada.' },
     { title: 'Box 459', href: 'https://www.aa.org/news-and-announcements', text: 'Noticias y notas de la OSG. Descargue o consulte Box 459.' },
-    { title: 'Sitios web de áreas', href: 'https://www.aa.org/en_find_meeting.cfm?PageID=72', text: 'La lista de AAWS de los sitios web de las áreas de la Conferencia de Servicios Generales.' },
+    { title: 'Sitios web de áreas', href: 'https://www.aa.org/list-of-general-service-conference-area-web-sites-uscanada', text: 'La lista de AAWS de los sitios web de las áreas de la Conferencia de Servicios Generales.' },
     { title: 'Hojas informativas y folletos', href: 'https://www.aa.org/resources/literature', text: 'Información sobre A.A. de AAWS, incluidas hojas informativas y algunos folletos.' },
   ],
 };
@@ -59,7 +59,7 @@ const fr: R = {
   quick: [
     { title: 'Lignes directrices des A.A.', href: 'http://www.aa.org/pages/en_US/aa-guidelines', text: 'Téléchargez ou consultez les Lignes directrices des A.A. Elles représentent l’expérience partagée des membres et des groupes A.A. des régions de service des États-Unis et du Canada, et reflètent les orientations des Douze Traditions et de la Conférence des services généraux. Le but des Lignes directrices est d’aider un groupe à parvenir à une conscience de groupe éclairée.' },
     { title: 'Box 459', href: 'https://www.aa.org/news-and-announcements', text: 'Nouvelles et notes du BSG. Téléchargez ou consultez Box 459.' },
-    { title: 'Sites web des régions', href: 'https://www.aa.org/en_find_meeting.cfm?PageID=72', text: 'La liste d’AAWS des sites web des régions de la Conférence des services généraux.' },
+    { title: 'Sites web des régions', href: 'https://www.aa.org/list-of-general-service-conference-area-web-sites-uscanada', text: 'La liste d’AAWS des sites web des régions de la Conférence des services généraux.' },
     { title: 'Fiches d’information et brochures', href: 'https://www.aa.org/resources/literature', text: 'Des renseignements sur les A.A. d’AAWS, y compris des fiches d’information et quelques brochures.' },
   ],
 };

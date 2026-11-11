@@ -1,8 +1,6 @@
 import { parse } from 'yaml';
 import { z } from 'astro/zod';
 
-const base = 'https://aaemass.org';
-
 // Contact details and officer emails live in src/content/site/contact.yml (edited in the CMS).
 const email = z.string().trim().email();
 const contactSchema = z.object({
