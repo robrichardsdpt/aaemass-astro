@@ -9,24 +9,6 @@ if (!defined('ABSPATH') && !defined('AA30_TESTING')) {
     exit;
 }
 
-function aa30_mail_domain(): string
-{
-    return defined('AA30_MAIL_DOMAIN') ? (string) AA30_MAIL_DOMAIN : 'aaemass.org';
-}
-
-/**
- * The only mailboxes a message can reach: the part before the @. The web page never holds these
- * decisions, it only names one, and the name must be on this list.
- */
-function aa30_recipients(): array
-{
-    return [
-        'info', 'registrar', 'treasurer', 'secretary', 'delegate', 'altdelegate', 'website',
-        'archives', 'cpc', 'corrections', 'grapevine', 'literature', 'pi', 'accessibilities',
-        'treatment', 'cf', 'messenger', 'serviceseminar', 'massstateconvention',
-    ];
-}
-
 /** One line of text: no control characters, no line breaks, collapsed spaces, cut to $max characters. */
 function aa30_one_line($v, int $max): string
 {
@@ -35,19 +17,6 @@ function aa30_one_line($v, int $max): string
     }
     $v = preg_replace('/[\x00-\x1f\x7f]+/', ' ', $v);
     $v = preg_replace('/\s+/u', ' ', (string) $v);
-    $v = trim((string) $v);
-    return function_exists('mb_substr') ? mb_substr($v, 0, $max, 'UTF-8') : substr($v, 0, $max);
-}
-
-/** Several lines of text: line breaks are kept, other control characters are removed. */
-function aa30_multi_line($v, int $max): string
-{
-    if (!is_string($v)) {
-        return '';
-    }
-    $v = str_replace(["\r\n", "\r"], "\n", $v);
-    $v = preg_replace('/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/', '', $v);
-    $v = preg_replace("/\n{3,}/", "\n\n", (string) $v);
     $v = trim((string) $v);
     return function_exists('mb_substr') ? mb_substr($v, 0, $max, 'UTF-8') : substr($v, 0, $max);
 }

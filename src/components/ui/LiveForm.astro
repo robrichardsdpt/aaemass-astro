@@ -20,7 +20,7 @@ export interface LiveField {
 }
 interface Props {
   id: string;
-  kind: 'message' | 'contribute';
+  kind: 'contribute';
   fields: LiveField[];
   submitLabel?: string;
   hidden?: Record<string, string>;
