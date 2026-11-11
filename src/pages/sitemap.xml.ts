@@ -1,5 +1,5 @@
 import { site } from '../lib/site';
-import { getCollection } from 'astro:content';
+import { getLiveEvents, getLivePages } from '../lib/live-content';
 import { committees } from '../lib/committee-pages';
 import { locales, otherLangs, publicPath, translatedKeys, isIndexable, seoAlternates, htmlLang } from '../i18n';
 
@@ -18,9 +18,9 @@ export const GET = async () => {
     }
     routes.add(route || '/');
   }
-  for (const p of await getCollection('pages')) if (!p.data.noindex) routes.add(`/${p.id}`);
+  for (const p of await getLivePages()) if (!p.data.noindex) routes.add(`/${p.id}`);
   const now = Date.now();
-  for (const e of await getCollection('events')) if ((e.data.end ?? e.data.start).getTime() >= now) routes.add(`/events/${e.id}`);
+  for (const e of await getLiveEvents()) if ((e.data.end ?? e.data.start).getTime() >= now) routes.add(`/events/${e.id}`);
   const lastmod = new Date().toISOString().slice(0, 10);
   const loc = (r: string) => `${site.url}${r === '/' ? '/' : `${r}/`}`;
   // Reviewed Spanish and French pages are listed too, and every page names its other-language versions.

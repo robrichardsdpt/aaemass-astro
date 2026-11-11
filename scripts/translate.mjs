@@ -173,6 +173,10 @@ for (const file of files) {
   const kind = file.includes('/committees/') ? 'committees' : file.includes('/events/') ? 'events' : 'pages';
   const en = kind === 'events' ? null : parse(raw);
   const name = path.basename(file).replace(/\.(yml|md)$/, '');
+  if ((kind === 'events' ? splitEvent(raw).data.removed : en?.removed) === true) {
+    console.log(`skip   ${file} (marked "Remove from the website")`);
+    continue;
+  }
   for (const lang of LANGS) {
     const target = `src/content/${kind}-i18n/${lang}/${name}.${kind === 'events' ? 'md' : 'yml'}`;
     const existingRaw = fs.existsSync(path.join(root, target)) ? fs.readFileSync(path.join(root, target), 'utf8') : null;

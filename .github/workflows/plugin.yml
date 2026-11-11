@@ -43,6 +43,9 @@ jobs:
           echo "VERSION=2.0.${{ github.run_number }}" >> "$GITHUB_ENV"
           sed -i "s/^ \* Version: .*/ * Version: 2.0.${{ github.run_number }}/" wp-plugin/aa30-home/aa30-home.php
           grep -m1 'Version:' wp-plugin/aa30-home/aa30-home.php
+      - name: Test the scripts
+        run: |
+          for f in scripts/*.test.mjs; do node "$f"; done
       - name: Type-check the site
         run: npx astro check
       - name: Build the plugin
