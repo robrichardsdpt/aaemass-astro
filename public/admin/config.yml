@@ -380,7 +380,7 @@ collections:
       - name: navigation
         label: Main menu
         file: src/content/settings/navigation.yml
-        description: Drag to reorder. Use /page-name/ for pages on this site.
+        description: 'Drag to reorder. Use /page-name/ for pages on this site, or @documents for the Area 30 documents folder.'
         fields:
           - label: Menu items
             name: items

@@ -3,16 +3,18 @@ items:
     url: /alcoholics-anonymous/
   - label: Calendar
     url: /calendar/
-  - label: Registrar
-    url: /committees/registrar/
-  - label: Committees
-    url: /committees/
   - label: Districts
     url: /districts/
   - label: Literature
     url: /literature/
+  - label: Committees
+    url: /committees/
+  - label: Registrar
+    url: /committees/registrar/
   - label: Resources
     url: /resources/
+  - label: Documents
+    url: '@documents'
   - label: Contact
     url: /contact/
   - label: Contribute

@@ -10,10 +10,12 @@ interface Props { current?: string }
 const { current } = Astro.props;
 const lang = getLang(Astro);
 const u = ui[lang];
-const nav = ((await getEntry('settings', 'navigation'))?.data.items ?? []).map((i) => ({
-  label: u.nav[i.url] ?? i.label,
-  href: i.url.startsWith('/') ? lp(lang, i.url) : i.url,
-}));
+// "@documents" in the menu settings is the Area 30 documents folder (an external link with its own translated label).
+const nav = ((await getEntry('settings', 'navigation'))?.data.items ?? []).map((i) =>
+  i.url === '@documents'
+    ? { label: u.docs, href: site.links.areaFolder }
+    : { label: u.nav[i.url] ?? i.label, href: i.url.startsWith('/') ? lp(lang, i.url) : i.url },
+);
 // Same page in the other languages; pages without a translation link to that language's home page.
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const here = Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) || '/' : Astro.url.pathname;
@@ -51,8 +53,7 @@ const switcher = locales.map((l) => ({ l, href: path(alts[l] ?? (l === 'en' ? '/
         <summary>{u.menu}</summary>
         <ul>
           {nav.map((item) => <li><a href={item.href} aria-current={current === item.href ? 'page' : undefined}>{item.label}</a></li>)}
-          <li><a href={site.links.areaFolder}>{u.areaDocs}</a></li>
-                  </ul>
+        </ul>
       </details>
     </nav>
   </div>
