@@ -46,6 +46,34 @@ function aa30_update_from_release($release, $current, $token = null)
     return null;
 }
 
+/**
+ * One line describing the last update check, shown on the Plugins page.
+ *
+ * @param array|false $status    Option saved by the last check: time, code, version, error.
+ * @param int         $now       Current time.
+ * @param string      $installed Installed version.
+ */
+function aa30_update_status_text($status, $now, $installed)
+{
+    if (!is_array($status) || empty($status['time'])) {
+        return 'Update check: not run yet';
+    }
+    $minutes = max(0, (int) round(($now - $status['time']) / 60));
+    $when = $minutes < 1 ? 'just now' : ($minutes < 90 ? $minutes . ' min ago' : round($minutes / 60) . ' h ago');
+    if (!empty($status['error'])) {
+        return "Update check $when failed: " . $status['error'];
+    }
+    $code = (int) ($status['code'] ?? 0);
+    if ($code !== 200) {
+        return "Update check $when failed: GitHub answered $code" . (in_array($code, [403, 429], true) ? ' (rate limited?)' : '');
+    }
+    $latest = $status['version'] ?? '';
+    if ($latest === '') {
+        return "Update check $when: the release has no version number";
+    }
+    return version_compare($latest, $installed, '>') ? "Update check $when: version $latest is available" : "Update check $when: up to date ($installed)";
+}
+
 if (defined('ABSPATH')) {
     function aa30_update_repo()
     {
@@ -80,7 +108,15 @@ if (defined('ABSPATH')) {
             $headers['Authorization'] = 'Bearer ' . aa30_update_token();
         }
         $res = wp_remote_get('https://api.github.com/repos/' . aa30_update_repo() . '/releases/tags/plugin-latest', ['headers' => $headers, 'timeout' => 10]);
-        $release = (!is_wp_error($res) && wp_remote_retrieve_response_code($res) === 200) ? json_decode(wp_remote_retrieve_body($res), true) : null;
+        $code = is_wp_error($res) ? 0 : (int) wp_remote_retrieve_response_code($res);
+        $release = $code === 200 ? json_decode(wp_remote_retrieve_body($res), true) : null;
+        // Keep the outcome so the Plugins page can show it (a silent failure is hard to diagnose otherwise).
+        update_option('aa30_update_status', [
+            'time' => time(),
+            'code' => $code,
+            'version' => is_array($release) ? (string) ($release['name'] ?? '') : '',
+            'error' => is_wp_error($res) ? $res->get_error_message() : null,
+        ], false);
         set_transient('aa30_latest_release', $release ?: 0, $release ? 15 * MINUTE_IN_SECONDS : 5 * MINUTE_IN_SECONDS);
         return $release ?: null;
     }
@@ -123,6 +159,29 @@ if (defined('ABSPATH')) {
         }
         return $args;
     }, 10, 2);
+
+    // Plugins page: when the last check ran and what it found, plus a button to check right now.
+    add_filter('plugin_row_meta', function ($meta, $file) {
+        if ($file !== aa30_plugin_file()) {
+            return $meta;
+        }
+        $meta[] = esc_html(aa30_update_status_text(get_option('aa30_update_status'), time(), aa30_installed_version()));
+        if (current_user_can('update_plugins')) {
+            $meta[] = '<a href="' . esc_url(wp_nonce_url(admin_url('admin-post.php?action=aa30_check_now'), 'aa30_check_now')) . '">Check for updates now</a>';
+        }
+        return $meta;
+    }, 10, 2);
+    add_action('admin_post_aa30_check_now', function () {
+        if (!current_user_can('update_plugins')) {
+            wp_die('You are not allowed to do that.', '', ['response' => 403]);
+        }
+        check_admin_referer('aa30_check_now');
+        delete_transient('aa30_latest_release');
+        delete_site_transient('update_plugins');
+        wp_update_plugins();
+        wp_safe_redirect(admin_url('update-core.php'));
+        exit;
+    });
 
     // WordPress checks for updates only twice a day. Check hourly so a merged change goes live promptly.
     add_action('init', function () {
