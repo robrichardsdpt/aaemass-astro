@@ -1,0 +1,51 @@
+name: Build WordPress plugin
+
+# Every time a change is merged (or weekly, to refresh the events list fetched at build time), build the
+# installable aa30-home.zip and publish it as the "plugin-latest" release. To go live: download that zip and
+# install it in WordPress (Plugins > Add New > Upload Plugin, then replace the current version).
+
+on:
+  push:
+    branches: [wp-headless]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 11 * * 1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: plugin
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      # npm ci fails on Linux: the lockfile (generated on macOS) omits optional @emnapi packages.
+      - run: npm install --no-audit --no-fund
+      - name: Build the plugin
+        run: ./build-plugin.sh
+      - name: Check the zip before publishing it
+        run: |
+          unzip -l aa30-home.zip | tail -1
+          # A form or a missing page here would mean something went wrong.
+          unzip -p aa30-home.zip 'aa30-home/dist/contact/index.html' | grep -q 'mailto:' 
+          ! unzip -p aa30-home.zip 'aa30-home/dist/contact/index.html' | grep -q 'data-live-form'
+      - name: Publish as the latest plugin
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          notes="Built from ${GITHUB_SHA::7} on $(date -u '+%Y-%m-%d %H:%M UTC'): $(git log -1 --format=%s)"
+          if gh release view plugin-latest >/dev/null 2>&1; then
+            gh release upload plugin-latest aa30-home.zip --clobber
+            gh release edit plugin-latest --notes "$notes"
+          else
+            gh release create plugin-latest aa30-home.zip --title "Latest plugin" --notes "$notes" --target "$GITHUB_SHA"
+          fi
+          echo "Download: https://github.com/${{ github.repository }}/releases/download/plugin-latest/aa30-home.zip" >> "$GITHUB_STEP_SUMMARY"
