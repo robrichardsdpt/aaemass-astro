@@ -7,6 +7,7 @@ import { z } from 'astro/zod';
 const schema = z.object({
   name: z.string().trim().min(1),
   order: z.coerce.number().default(100),
+  removed: z.boolean().optional(),
   lines: z.array(z.string().trim().min(1)).min(1, 'add at least one line'),
 });
 
@@ -24,5 +25,6 @@ const parsed = Object.entries(files).map(([file, raw]) => {
 });
 
 export const districts: District[] = parsed
+  .filter((d) => !d.removed)
   .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name, 'en', { numeric: true }))
   .map(({ name, lines }) => ({ name, lines }));

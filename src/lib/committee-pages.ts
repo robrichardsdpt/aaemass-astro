@@ -30,6 +30,7 @@ const link = z.object({ text: str, href: str });
 
 const schema = z.object({
   title: str,
+  removed: z.boolean().optional(),
   short_name: optional(str),
   group: z.enum(['conference', 'standing']),
   order: z.coerce.number().default(100),
@@ -136,6 +137,7 @@ for (const [file, raw] of Object.entries(files)) {
     throw new Error(`Committee file src/content/committees/${slug}.yml is not valid: ${problems}`);
   }
   const d = result.data;
+  if (d.removed) continue; // "Remove from the website": see scripts/remove-content.mjs
   if (d.listing === 'tile' && !d.tile_image) throw new Error(`Committee ${slug}: listing "tile" needs a tile image.`);
   if (d.listing !== 'hidden' && d.page_type === 'none') throw new Error(`Committee ${slug}: only "hidden" committees can have no page.`);
   entries.push({

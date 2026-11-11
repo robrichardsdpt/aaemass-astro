@@ -1,0 +1,94 @@
+name: Remove content
+
+# Decap deletes a published entry by committing straight to main, which the branch rules refuse (a pull request, the
+# owner's approval and a finished preview are required). So the CMS only marks an entry "Remove from the website":
+# the site hides it as soon as that is published, and this workflow then opens a pull request that deletes the files
+# (and their Spanish and French copies) for the owner to approve.
+#
+# Run it by hand to remove several entries at once: Actions > Remove content > Run workflow, and list them, for example
+#   events/2026-12-holiday-dinner, events/2026-11-workshop, pages/old-page, committees/old-committee
+# (kinds: events, pages, committees, districts; the name is the file name without its extension).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/content/events/**'
+      - 'src/content/pages/**'
+      - 'src/content/committees/**'
+      - 'src/content/districts/**'
+  workflow_dispatch:
+    inputs:
+      entries:
+        description: 'Entries to remove, comma-separated: kind/name (e.g. events/2026-12-holiday-dinner, pages/old-page)'
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  statuses: write
+
+concurrency:
+  group: remove-content
+  cancel-in-progress: false
+
+jobs:
+  remove:
+    runs-on: ubuntu-latest
+    env:
+      ENTRIES: ${{ inputs.entries }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      # npm ci fails on Linux: the lockfile (generated on macOS) omits optional @emnapi packages.
+      - run: npm install --no-audit --no-fund
+
+      - name: Skip if a removal pull request is already open
+        id: open
+        run: |
+          n=$(gh pr list --state open --json headRefName --jq '[.[] | select(.headRefName | startswith("remove/"))] | length')
+          echo "count=$n" >> "$GITHUB_OUTPUT"
+          if [ "$n" != "0" ] && [ -z "$ENTRIES" ]; then echo "A removal pull request is already open; leaving it to that one."; fi
+
+      - name: Delete the files
+        id: delete
+        if: steps.open.outputs.count == '0' || inputs.entries != ''
+        run: |
+          if [ -n "$ENTRIES" ]; then
+            node scripts/remove-content.mjs --entries "$ENTRIES"
+          else
+            node scripts/remove-content.mjs
+          fi
+          if [ -n "$(git status --porcelain src/content)" ]; then echo "changed=1" >> "$GITHUB_OUTPUT"; fi
+
+      # Removing content can break a page that links to it (for example a committee that other pages mention), so
+      # make sure the site still builds before offering the change. A failed build stops here and opens nothing.
+      - name: Check the site still builds
+        if: steps.delete.outputs.changed == '1'
+        run: npm run build
+
+      - name: Open the pull request
+        if: steps.delete.outputs.changed == '1'
+        run: |
+          branch="remove/${GITHUB_SHA::7}-${GITHUB_RUN_NUMBER}"
+          list=$(cat .remove-report.md)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add -A src/content
+          git commit -m "Remove content that was taken off the website"
+          git push origin "$branch"
+          # Pull requests opened by this workflow do not start the preview workflow, and main requires the preview
+          # status, so report it here: the site was built successfully above (nothing new to preview).
+          gh api "repos/$GITHUB_REPOSITORY/statuses/$(git rev-parse HEAD)" \
+            -f state=success -f context='cloudflare-pages/preview' \
+            -f description='Files removed; the site still builds'
+          gh pr create --base main --head "$branch" \
+            --title "Remove content that was taken off the website" \
+            --body "$(printf 'These entries were marked **Remove from the website** (or listed by hand). The site already hides the marked ones; this deletes their files and any Spanish and French copies. The site was built after the deletion and still builds.\n\n%s\n' "$list")"

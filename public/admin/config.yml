@@ -36,6 +36,12 @@ collections:
       - { label: Small label above the title, name: eyebrow, widget: string, required: false }
       - { label: Intro sentence, name: lede, widget: text, required: false }
       - { label: Hide from search engines, name: noindex, widget: boolean, default: false, required: false }
+      - label: Remove from the website
+        name: removed
+        widget: boolean
+        default: false
+        required: false
+        hint: 'Tick this and save to take this page off the website. Use this instead of the Delete button (Delete cannot work on published entries). After you publish, it disappears from the site and a follow-up change deletes its files for the owner to approve.'
       - label: Blocks
         name: blocks
         widget: list
@@ -211,6 +217,12 @@ collections:
       - { label: Image, name: image, widget: image, required: false }
       - { label: Image description (for screen readers), name: image_alt, widget: string, required: false }
       - { label: Details, name: body, widget: markdown, required: false }
+      - label: Remove from the website
+        name: removed
+        widget: boolean
+        default: false
+        required: false
+        hint: 'Tick this and save to take this event off the website. Use this instead of the Delete button (Delete cannot work on published entries). After you publish, it disappears from the site and a follow-up change deletes its files for the owner to approve.'
 
   - name: committees
     label: Committees
@@ -315,6 +327,12 @@ collections:
         fields:
           - { label: Text, name: text, widget: string }
           - { label: Address, name: href, widget: string }
+      - label: Remove from the website
+        name: removed
+        widget: boolean
+        default: false
+        required: false
+        hint: 'Tick this and save to take this committee off the website. Use this instead of the Delete button (Delete cannot work on published entries). After you publish, it disappears from the site and a follow-up change deletes its files for the owner to approve.'
 
   - name: districts
     label: Districts
@@ -345,6 +363,12 @@ collections:
           Please mail contributions to: P.O. Box 1, Town, MA 01234
           Website: [example.org](https://example.org)
         field: { label: Line, name: line, widget: string }
+      - label: Remove from the website
+        name: removed
+        widget: boolean
+        default: false
+        required: false
+        hint: 'Tick this and save to take this district off the website. Use this instead of the Delete button (Delete cannot work on published entries). After you publish, it disappears from the site and a follow-up change deletes its files for the owner to approve.'
 
   - name: settings
     label: Site settings

@@ -57,6 +57,8 @@ const pageSchema = z.object({
   eyebrow: opt,
   lede: opt,
   noindex: z.boolean().optional(),
+  // "Remove from the website": hidden everywhere, and a workflow then opens a pull request that deletes the files.
+  removed: z.boolean().optional(),
   blocks: z.array(blockSchema).default([]),
 });
 
@@ -84,6 +86,7 @@ const events = defineCollection({
     online_url: opt,
     image: opt,
     image_alt: opt,
+    removed: z.boolean().optional(),
   }),
 });
 

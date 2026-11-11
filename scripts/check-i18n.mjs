@@ -15,6 +15,7 @@ const langOf = (r) => (r.startsWith('/es') ? 'es' : r.startsWith('/fr') ? 'fr' :
 // Words that are common in English prose and absent from Spanish and French.
 const english = /\b(the|and|with|your|that|this|for|are|from|have|will|which|their|our|you|can|not)\b/gi;
 const visible = (s) => s
+  .replace(/<!--[\s\S]*?-->/g, ' ') // HTML comments (such as the CSP note in <head>) are not page text
   .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' ')
   .replace(/<[^>]*\blang="en"[^>]*>[\s\S]*?<\/(p|blockquote)>/g, ' ')
   .replace(/<a [^>]*href="(https?:|mailto:)[^"]*"[^>]*>[\s\S]*?<\/a>/g, ' ')

@@ -2,6 +2,7 @@
 // Spanish and French pages. One route table drives every translated URL (see src/i18n/index.ts).
 // English pages stay as the files in src/pages/; each page body is a shared view in src/views/.
 import { getCollection } from 'astro:content';
+import { getLiveEvents, getLivePagesI18n } from '../../lib/live-content';
 import { otherLangs, publicPath, translatedKeys } from '../../i18n';
 import Home from '../../views/Home.astro';
 import Resources from '../../views/Resources.astro';
@@ -44,14 +45,14 @@ export async function getStaticPaths() {
     entries.map(({ key, view, props }) => ({ params: { lang, slug: toSlug(lang, key) || undefined }, props: { view, viewProps: props ?? {} } })),
   );
   // CMS pages translated under src/content/pages-i18n/<lang>/<name>.yml
-  for (const entry of await getCollection('pagesI18n')) {
+  for (const entry of await getLivePagesI18n()) {
     const [langPart, ...rest] = entry.id.split('/');
     if (!(otherLangs as readonly string[]).includes(langPart)) continue;
     const lang = langPart as (typeof otherLangs)[number];
     paths.push({ params: { lang, slug: toSlug(lang, rest.join('/')) }, props: { view: CmsPage, viewProps: { data: entry.data } } });
   }
   // Translated CMS events under src/content/events-i18n/<lang>/<same-file-name>.md. Unreviewed, so always noindex.
-  const events = await getCollection('events');
+  const events = await getLiveEvents();
   for (const t of await getCollection('eventsI18n')) {
     const [langPart, ...rest] = t.id.split('/');
     const event = events.find((e) => e.id === rest.join('/'));

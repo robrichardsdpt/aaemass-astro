@@ -33,6 +33,17 @@ under the field so the Spanish and French pages translate correctly.
 
 **Change the main menu** — Site settings > Main menu. Drag items to reorder.
 
+## Remove something from the website
+Do **not** use the Delete button on something that is already published; it cannot work, because deleting skips the
+review step. Instead open the entry, tick **Remove from the website** (the last box in the form), and save. When the
+draft is published, the entry disappears from the site. A follow-up change then deletes its files, and the owner approves
+that too.
+
+To remove several things at once, the owner can run **Actions > Remove content > Run workflow** on GitHub and list them
+(for example `events/2026-12-holiday-dinner, pages/old-page`). The CMS itself has no way to select several entries.
+
+Deleting a draft you have not published yet is different: that just discards the draft.
+
 ## Good to know
 - Spanish and French versions of a **new** committee or page show in English until a translator adds them.
 - You cannot break the site by saving a draft. Nothing changes until the reviewer publishes it.

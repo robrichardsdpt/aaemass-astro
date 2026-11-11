@@ -67,6 +67,16 @@ so a change to a color, font size or spacing there changes every page, hand-buil
 - The CMS preview pane is turned off because it cannot use the site's styles; use the deployed preview.
 - The first mention of each defined term (GSR, DCM, and so on) in a text block becomes a popover.
 
+## Removing content
+Decap deletes a published entry by committing straight to `main`, which the branch rules refuse (a pull request, the
+owner's approval and a finished preview are required), so the Delete button does not work on published entries. Instead
+events, pages, committees and districts have a **Remove from the website** checkbox. Once published, the site ignores
+the entry (see `src/lib/live-content.ts`, the committee and district loaders and the sitemap), and the *Remove content*
+workflow (`remove-content.yml`, script `scripts/remove-content.mjs`) opens a pull request that deletes the file and its
+Spanish and French copies. It builds the site first and opens nothing if the build breaks (for example when another
+page depends on what is being removed). Run it by hand to remove several entries at once. Tests:
+`node scripts/remove-content.test.mjs`.
+
 ## Publishing waits for the preview
 A draft cannot be merged until its `cloudflare-pages/preview` status is green. That status is posted last, after the
 draft has been translated and the preview built, so publishing early (including Decap's *Publish now*, even as the repo

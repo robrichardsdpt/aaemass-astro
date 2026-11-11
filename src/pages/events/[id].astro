@@ -1,9 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
+import { getLiveEvents } from '../../lib/live-content';
 import Event from '../../views/Event.astro';
 
 export async function getStaticPaths() {
-  const events = await getCollection('events');
+  const events = await getLiveEvents();
   return events.map((e) => ({ params: { id: e.id }, props: { event: e } }));
 }
 const { event } = Astro.props;

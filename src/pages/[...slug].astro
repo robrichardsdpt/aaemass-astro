@@ -1,10 +1,10 @@
 ---
 // Pages created in the CMS (src/content/pages/<slug>.yml). Hand-built pages take precedence.
-import { getCollection } from 'astro:content';
+import { getLivePages } from '../lib/live-content';
 import CmsPage from '../views/CmsPage.astro';
 
 export async function getStaticPaths() {
-  const pages = await getCollection('pages');
+  const pages = await getLivePages();
   return pages.map((p) => ({ params: { slug: p.id }, props: { page: p } }));
 }
 const { page } = Astro.props;

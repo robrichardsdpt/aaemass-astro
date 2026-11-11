@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { getLiveEvents } from './live-content';
 import { path } from './site';
 import type { Lang } from '../i18n';
 
@@ -23,7 +24,7 @@ const decode = (s: string) =>
 // Events created in the CMS (src/content/events). Past events are dropped.
 export async function getCmsEvents(): Promise<AreaEvent[]> {
   const now = Date.now();
-  return (await getCollection('events'))
+  return (await getLiveEvents())
     .filter((e) => (e.data.end ?? e.data.start).getTime() >= now)
     .map((e) => ({
       id: e.id,
