@@ -1,0 +1,72 @@
+name: Translate recent changes
+
+# The preview workflow translates a CMS draft and adds the result to it, but if the draft is published within about
+# 15 seconds the translation arrives after the merge and is lost. This catches those: after English content lands on
+# main, anything without an up-to-date translation is translated and offered as a pull request for the owner to merge.
+# Already-translated content is skipped (each translation records a hash of its English source), so it opens nothing
+# when the preview workflow got there first.
+#
+# One-time setting: repo Settings > Actions > General > Workflow permissions >
+# "Allow GitHub Actions to create and approve pull requests".
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/content/pages/**'
+      - 'src/content/committees/**'
+      - 'src/content/events/**'
+  workflow_dispatch:
+    inputs:
+      files:
+        description: 'Optional: English files to translate now, comma-separated (e.g. src/content/events/my-event.md)'
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: translate-catchup
+  cancel-in-progress: false
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    env:
+      DEEPL_AUTH_KEY: ${{ secrets.DEEPL_AUTH_KEY }}
+      FILES: ${{ inputs.files }}
+      BEFORE: ${{ github.event.before }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      # npm ci fails on Linux: the lockfile (generated on macOS) omits optional @emnapi packages.
+      - run: npm install --no-audit --no-fund
+      - name: Translate what is missing
+        if: env.DEEPL_AUTH_KEY != ''
+        run: |
+          if [ -n "$FILES" ]; then
+            node scripts/translate.mjs --files "$FILES"
+          else
+            node scripts/translate.mjs --base "$BEFORE"
+          fi
+          if [ -z "$(git status --porcelain src/content)" ]; then
+            echo "Nothing to translate: every changed file already has an up-to-date translation."
+            exit 0
+          fi
+          branch="translate/${GITHUB_SHA::7}-${GITHUB_RUN_NUMBER}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add -A src/content
+          git commit -m "Translate recent changes into Spanish and French (machine translation, needs review)"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" \
+            --title "Spanish and French for recent changes" \
+            --body "These changes were published without a translation (usually because the draft was published before the preview finished). The Spanish and French below were made automatically with DeepL and the AA glossary. They stay hidden from search engines until a bilingual AA member reviews them. See docs/TRANSLATION.md."

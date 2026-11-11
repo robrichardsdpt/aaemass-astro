@@ -31,3 +31,6 @@ wp-plugin/aa30-home/dist/
 # WordPress plugin build output
 wp-plugin/aa30-home/prefix.txt
 aa30-home.zip
+
+# Written by scripts/translate.mjs
+.translate-report.md
