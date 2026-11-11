@@ -1,65 +1,12 @@
 ---
-import { getCollection, render } from 'astro:content';
-import Page from '../../layouts/Page.astro';
-import Section from '../../components/ui/Section.astro';
-import Callout from '../../components/ui/Callout.astro';
-import { href } from '../../lib/cms';
-import { path, site } from '../../lib/site';
+import { getCollection } from 'astro:content';
+import Event from '../../views/Event.astro';
 
 export async function getStaticPaths() {
   const events = await getCollection('events');
   return events.map((e) => ({ params: { id: e.id }, props: { event: e } }));
 }
 const { event } = Astro.props;
-const d = event.data;
-const { Content } = await render(event);
-const passed = (d.end ?? d.start).getTime() < Date.now();
-const tz = 'America/New_York';
-const when = new Intl.DateTimeFormat('en-US', {
-  timeZone: tz, weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
-  ...(d.all_day ? {} : { hour: 'numeric', minute: '2-digit' }),
-}).format(d.start);
-const url = `${site.url}/events/${event.id}/`;
-const place = [d.location_name, d.address].filter(Boolean).join(', ');
-const extraLd = [{
-  '@type': 'Event',
-  name: d.title,
-  description: d.summary,
-  startDate: d.start.toISOString(),
-  ...(d.end ? { endDate: d.end.toISOString() } : {}),
-  eventStatus: 'https://schema.org/EventScheduled',
-  eventAttendanceMode: d.online_url && place ? 'https://schema.org/MixedEventAttendanceMode' : d.online_url ? 'https://schema.org/OnlineEventAttendanceMode' : 'https://schema.org/OfflineEventAttendanceMode',
-  location: [
-    ...(place ? [{ '@type': 'Place', name: d.location_name ?? place, address: d.address ?? place }] : []),
-    ...(d.online_url ? [{ '@type': 'VirtualLocation', url: d.online_url }] : []),
-  ],
-  organizer: { '@id': `${site.url}/#org` },
-  isAccessibleForFree: true,
-  url,
-}];
 ---
 
-<Page
-  title={`${d.title} | Area 30 Events`}
-  description={d.summary}
-  heading={d.title}
-  eyebrow="Event"
-  lede={d.summary}
-  current="/calendar/"
-  extraLd={extraLd}
-  trail={[{ name: 'Events', href: '/events/' }]}
-  noindex={passed}
->
-  <Section id="details" narrow>
-    <div class="stack">
-      {passed && <div class="notice"><p><strong>This event has passed.</strong> See <a href={path('/calendar/')}>the calendar</a> for what is coming up.</p></div>}
-      <Callout title="Details">
-        <p><strong>When:</strong> {when}</p>
-        {place && <p><strong>Where:</strong> {place}</p>}
-        {d.online_url && <p><strong>Online:</strong> <a href={href(d.online_url)}>Join online</a></p>}
-      </Callout>
-      {d.image && <img src={href(d.image)} alt={d.image_alt ?? ''} loading="lazy" style="width:100%;height:auto;border-radius:0.5rem" />}
-      <div class="stack prose-body"><Content /></div>
-    </div>
-  </Section>
-</Page>
+<Event event={event} />

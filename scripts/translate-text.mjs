@@ -1,0 +1,59 @@
+// Text helpers for scripts/translate.mjs, kept separate so they can be tested.
+
+// Things that must come back exactly as they went in: the (url) of a markdown link, bare URLs, emails, {placeholders}.
+const MASK = /\]\([^)]*\)|https?:\/\/[^\s)<>"]+|[\w.+-]+@[\w-]+(?:\.[\w-]+)+|\{[A-Za-z]+\}/g;
+const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const unesc = (s) => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+
+/** Swaps protected spans for <x id="n"/> tags (DeepL is told to leave those alone). */
+export function mask(text) {
+  const kept = [];
+  const masked = esc(text).replace(MASK, (m) => {
+    const isLinkTail = m.startsWith('](');
+    // The "]" stays in the text so the translator still sees "[words]"; only "(url)" is protected.
+    kept.push(unesc(isLinkTail ? m.slice(1) : m));
+    return `${isLinkTail ? ']' : ''}<x id="${kept.length - 1}"/>`;
+  });
+  return { masked, kept };
+}
+
+/** Puts the protected spans back; throws if the translator lost one. */
+export function unmask(translated, kept) {
+  let out = translated;
+  kept.forEach((k, i) => {
+    const tag = new RegExp(`<x id="${i}"\\s*/>|<x id="${i}"></x>`);
+    if (!tag.test(out)) throw new Error(`a link or address was lost while translating ("${k}")`);
+    out = out.replace(tag, () => k);
+  });
+  return unesc(out);
+}
+
+const MARKED = /^(\s*(?:[-*+]|\d+[.)])\s+|\s*#{1,6}\s+|\s*>\s?)/;
+
+/**
+ * Splits markdown into pieces of text to translate. Headings, list items and quotes are translated line by line
+ * with their markers kept out of the translator's hands; ordinary paragraphs are translated whole. Returns the
+ * pieces and a function that puts translations back into the original layout.
+ */
+export function markdownPieces(body, isText) {
+  const blocks = body.split(/(\n{2,})/);
+  const pieces = [];
+  const plan = blocks.map((block, i) => {
+    if (i % 2 === 1 || !isText(block)) return { raw: block };
+    const lines = block.split('\n');
+    if (lines.every((l) => MARKED.test(l) || !l.trim())) {
+      return { lines: lines.map((l) => { const m = l.match(MARKED); if (!m || !isText(l.slice(m[0].length))) return { raw: l }; pieces.push(l.slice(m[0].length)); return { pre: m[0], at: pieces.length - 1 }; }) };
+    }
+    pieces.push(block.trim());
+    return { lead: block.match(/^\s*/)[0], trail: block.match(/\s*$/)[0], at: pieces.length - 1 };
+  });
+  const assemble = (done) =>
+    plan
+      .map((p) => {
+        if (p.raw !== undefined) return p.raw;
+        if (p.lines) return p.lines.map((l) => (l.raw !== undefined ? l.raw : l.pre + done[l.at])).join('\n');
+        return p.lead + done[p.at] + p.trail;
+      })
+      .join('');
+  return { pieces, assemble };
+}

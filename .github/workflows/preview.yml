@@ -51,7 +51,7 @@ jobs:
           if [ -n "$(git status --porcelain src/content)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add src/content/pages-i18n src/content/committees-i18n
+            git add src/content/pages-i18n src/content/committees-i18n src/content/events-i18n
             git commit -m "Translate changed content into Spanish and French (machine translation, needs review)"
             git push
             echo "added=1" >> "$GITHUB_OUTPUT"

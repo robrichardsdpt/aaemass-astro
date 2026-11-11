@@ -19,14 +19,14 @@ import { md, href, slugify } from '../lib/cms';
 import { path } from '../lib/site';
 import { getLang, lp } from '../i18n';
 import { ui } from '../i18n/ui';
-import { getUpcomingEvents } from '../lib/events';
+import { getUpcomingEvents, localizeEvents } from '../lib/events';
 
 interface Props { blocks: Block[] }
 const { blocks } = Astro.props;
 const lang = getLang(Astro);
 const u = ui[lang];
 const seen = new Set<string>();
-const upcoming = await getUpcomingEvents(12);
+const upcoming = await localizeEvents(await getUpcomingEvents(12), lang);
 const idFor = (b: { heading?: string; title?: string }, i: number) => `${slugify(b.heading ?? b.title ?? 'section')}-${i}`;
 ---
 

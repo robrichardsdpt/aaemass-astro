@@ -1,0 +1,72 @@
+---
+// One CMS event, in English or (when a translated copy exists) Spanish or French.
+import { render, type CollectionEntry } from 'astro:content';
+import Page from '../layouts/Page.astro';
+import Section from '../components/ui/Section.astro';
+import Callout from '../components/ui/Callout.astro';
+import { href } from '../lib/cms';
+import { path, site } from '../lib/site';
+import { getLang, lp, htmlLang } from '../i18n';
+import { eventLabels } from '../i18n/pages/event';
+
+interface Props { event: CollectionEntry<'events'>; translation?: CollectionEntry<'eventsI18n'> }
+const { event, translation } = Astro.props;
+const lang = getLang(Astro);
+const L = eventLabels[lang];
+const d = event.data;
+const t = translation?.data;
+const title = t?.title ?? d.title;
+const summary = t?.summary ?? d.summary;
+// The translated copy carries the translated details; fall back to the English ones if it has none.
+const translatedBody = translation?.body?.trim() ? translation : undefined;
+const { Content } = await render(translatedBody ?? event);
+const passed = (d.end ?? d.start).getTime() < Date.now();
+const tz = 'America/New_York';
+const when = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : htmlLang[lang], {
+  timeZone: tz, weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+  ...(d.all_day ? {} : { hour: 'numeric', minute: '2-digit' }),
+}).format(d.start);
+const url = `${site.url}${lang === 'en' ? '' : `/${lang}`}/events/${event.id}/`;
+const place = [d.location_name, d.address].filter(Boolean).join(', ');
+const extraLd = [{
+  '@type': 'Event',
+  name: title,
+  description: summary,
+  startDate: d.start.toISOString(),
+  ...(d.end ? { endDate: d.end.toISOString() } : {}),
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: d.online_url && place ? 'https://schema.org/MixedEventAttendanceMode' : d.online_url ? 'https://schema.org/OnlineEventAttendanceMode' : 'https://schema.org/OfflineEventAttendanceMode',
+  location: [
+    ...(place ? [{ '@type': 'Place', name: d.location_name ?? place, address: d.address ?? place }] : []),
+    ...(d.online_url ? [{ '@type': 'VirtualLocation', url: d.online_url }] : []),
+  ],
+  organizer: { '@id': `${site.url}/#org` },
+  isAccessibleForFree: true,
+  url,
+}];
+---
+
+<Page
+  title={`${title} | ${L.titleSuffix}`}
+  description={summary}
+  heading={title}
+  eyebrow={L.eyebrow}
+  lede={summary}
+  current="/calendar/"
+  extraLd={extraLd}
+  trail={[{ name: L.trail, href: '/events/' }]}
+  noindex={passed}
+>
+  <Section id="details" narrow>
+    <div class="stack">
+      {passed && <div class="notice"><p><strong>{L.passed}</strong> {L.seeCalendarPre} <a href={lp(lang, '/calendar/')}>{L.calendar}</a> {L.seeCalendarPost}</p></div>}
+      <Callout title={L.details}>
+        <p><strong>{L.when}</strong> {when}</p>
+        {place && <p><strong>{L.where}</strong> {place}</p>}
+        {d.online_url && <p><strong>{L.online}</strong> <a href={href(d.online_url, lang)}>{L.joinOnline}</a></p>}
+      </Callout>
+      {d.image && <img src={href(d.image)} alt={t?.image_alt ?? d.image_alt ?? ''} loading="lazy" style="width:100%;height:auto;border-radius:0.5rem" />}
+      <div class="stack prose-body"><Content /></div>
+    </div>
+  </Section>
+</Page>

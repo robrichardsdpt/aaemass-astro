@@ -1,7 +1,9 @@
 import { getCollection } from 'astro:content';
 import { path } from './site';
+import type { Lang } from '../i18n';
 
 export interface AreaEvent {
+  id?: string; // CMS events only (src/content/events/<id>.md)
   title: string;
   url: string;
   start: Date;
@@ -24,6 +26,7 @@ export async function getCmsEvents(): Promise<AreaEvent[]> {
   return (await getCollection('events'))
     .filter((e) => (e.data.end ?? e.data.start).getTime() >= now)
     .map((e) => ({
+      id: e.id,
       title: e.data.title,
       url: path(`/events/${e.id}/`),
       start: e.data.start,
@@ -55,4 +58,14 @@ async function getWordPressEvents(limit: number): Promise<AreaEvent[]> {
 export async function getUpcomingEvents(limit = 4): Promise<AreaEvent[]> {
   const [cms, wp] = await Promise.all([getCmsEvents(), getWordPressEvents(limit)]);
   return [...cms, ...wp].sort((a, b) => a.start.getTime() - b.start.getTime()).slice(0, limit);
+}
+
+// Lists in Spanish and French use the translated title and link to the translated event page when one exists.
+export async function localizeEvents(events: AreaEvent[], lang: Lang): Promise<AreaEvent[]> {
+  if (lang === 'en') return events;
+  const translated = new Map((await getCollection('eventsI18n')).map((t) => [t.id, t.data.title]));
+  return events.map((e) => {
+    const title = e.id && translated.get(`${lang}/${e.id}`);
+    return title ? { ...e, title, url: path(`/${lang}/events/${e.id}/`) } : e;
+  });
 }

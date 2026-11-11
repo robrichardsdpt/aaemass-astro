@@ -8,6 +8,7 @@
 // What it translates (English -> src/content/...):
 //   pages/<name>.yml       -> pages-i18n/<lang>/<name>.yml
 //   committees/<slug>.yml  -> committees-i18n/<lang>/<slug>.yml
+//   events/<name>.md       -> events-i18n/<lang>/<name>.md   (title, summary, image description and details)
 // Each output stores a hash of the English it came from (sourceHash), so unchanged files are skipped and a hand edit
 // by a bilingual reviewer is kept until the English changes again.
 //
@@ -22,6 +23,7 @@ import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { parse, stringify } from 'yaml';
 import { ensureGlossary } from './glossary.mjs';
+import { mask, unmask, markdownPieces } from './translate-text.mjs';
 
 const args = process.argv.slice(2);
 const flag = (n) => args.includes(`--${n}`);
@@ -37,38 +39,12 @@ let GLOSSARY_ID = process.env.DEEPL_GLOSSARY_ID || null; // normally found or cr
 function git(...a) {
   return execFileSync('git', a, { encoding: 'utf8' }).split('\n').filter(Boolean);
 }
-const sourceFiles = (dir) => fs.readdirSync(path.join(root, dir)).filter((f) => f.endsWith('.yml')).map((f) => `${dir}/${f}`);
+const sourceFiles = (dir) => (fs.existsSync(path.join(root, dir)) ? fs.readdirSync(path.join(root, dir)) : []).filter((f) => /\.(yml|md)$/.test(f)).map((f) => `${dir}/${f}`);
 let files;
 if (opt('files')) files = opt('files').split(',');
-else if (flag('all')) files = [...sourceFiles('src/content/pages'), ...sourceFiles('src/content/committees')];
+else if (flag('all')) files = [...sourceFiles('src/content/pages'), ...sourceFiles('src/content/committees'), ...sourceFiles('src/content/events')];
 else files = git('diff', '--name-only', '--diff-filter=AM', `${opt('base') ?? 'origin/main'}...HEAD`);
-files = files.filter((f) => /^src\/content\/(pages|committees)\/[^/]+\.yml$/.test(f) && fs.existsSync(path.join(root, f)));
-
-// ------------------------------------------------------------------ masking
-// Things that must come back exactly as they went in.
-const MASK = /\]\([^)]*\)|https?:\/\/[^\s)<>"]+|[\w.+-]+@[\w-]+(?:\.[\w-]+)+|\{[A-Za-z]+\}/g;
-const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const unesc = (s) => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-
-function mask(text) {
-  const kept = [];
-  const masked = esc(text).replace(MASK, (m) => {
-    // The mask matched the escaped text, so un-escape what we store.
-    kept.push(unesc(m));
-    const isLinkTail = m.startsWith('](');
-    return isLinkTail ? `]<x id="${kept.length - 1}"/>` : `<x id="${kept.length - 1}"/>`;
-  });
-  return { masked, kept };
-}
-function unmask(translated, kept) {
-  let out = translated;
-  kept.forEach((k, i) => {
-    const tag = new RegExp(`<x id="${i}"\\s*/>|<x id="${i}"></x>`);
-    if (!tag.test(out)) throw new Error(`a link or address was lost while translating ("${k}")`);
-    out = out.replace(tag, () => k);
-  });
-  return unesc(out);
-}
+files = files.filter((f) => /^src\/content\/((pages|committees)\/[^/]+\.yml|events\/[^/]+\.md)$/.test(f) && fs.existsSync(path.join(root, f)));
 
 // ------------------------------------------------------------------ DeepL
 const TARGET = { es: 'ES', fr: 'FR' };
@@ -163,6 +139,21 @@ async function translateCommittee(en, lang) {
   return out;
 }
 
+/** Events are Markdown with YAML frontmatter. Only the words are translated; dates, places and links stay as written. */
+function splitEvent(raw) {
+  const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if (!m) throw new Error('not an event file (no frontmatter)');
+  return { data: parse(m[1]) ?? {}, body: m[2] };
+}
+async function translateEvent(raw, lang) {
+  const { data, body } = splitEvent(raw);
+  const front = await translateObject(drop({ title: data.title, summary: data.summary, image_alt: data.image_alt }), lang);
+  // Headings and list items are translated line by line (markers kept), paragraphs whole, so the layout survives.
+  const { pieces, assemble } = markdownPieces(body, translatable);
+  const done = await translateStrings(pieces, lang);
+  return { front, body: assemble(done) };
+}
+
 // ------------------------------------------------------------------ run
 if (!MOCK && !KEY && !DRY) {
   console.log('DEEPL_AUTH_KEY is not set, so nothing was translated. (See docs/TRANSLATION.md.)');
@@ -178,12 +169,13 @@ let failed = 0;
 for (const file of files) {
   const raw = fs.readFileSync(path.join(root, file), 'utf8');
   const hash = hashOf(raw);
-  const en = parse(raw);
-  const kind = file.includes('/committees/') ? 'committees' : 'pages';
-  const name = path.basename(file, '.yml');
+  const kind = file.includes('/committees/') ? 'committees' : file.includes('/events/') ? 'events' : 'pages';
+  const en = kind === 'events' ? null : parse(raw);
+  const name = path.basename(file).replace(/\.(yml|md)$/, '');
   for (const lang of LANGS) {
-    const target = `src/content/${kind}-i18n/${lang}/${name}.yml`;
-    const existing = fs.existsSync(path.join(root, target)) ? parse(fs.readFileSync(path.join(root, target), 'utf8')) : null;
+    const target = `src/content/${kind}-i18n/${lang}/${name}.${kind === 'events' ? 'md' : 'yml'}`;
+    const existingRaw = fs.existsSync(path.join(root, target)) ? fs.readFileSync(path.join(root, target), 'utf8') : null;
+    const existing = existingRaw ? (kind === 'events' ? splitEvent(existingRaw).data : parse(existingRaw)) : null;
     if (existing?.sourceHash === hash) {
       console.log(`skip   ${target} (English unchanged)`);
       continue;
@@ -193,9 +185,14 @@ for (const file of files) {
       continue;
     }
     try {
-      const result = kind === 'pages' ? await translatePage(en, lang) : await translateCommittee(en, lang);
       fs.mkdirSync(path.dirname(path.join(root, target)), { recursive: true });
-      fs.writeFileSync(path.join(root, target), stringify({ sourceHash: hash, ...result }, { lineWidth: 0 }));
+      if (kind === 'events') {
+        const { front, body } = await translateEvent(raw, lang);
+        fs.writeFileSync(path.join(root, target), `---\n${stringify({ sourceHash: hash, ...front }, { lineWidth: 0 })}---\n${body}`);
+      } else {
+        const result = kind === 'pages' ? await translatePage(en, lang) : await translateCommittee(en, lang);
+        fs.writeFileSync(path.join(root, target), stringify({ sourceHash: hash, ...result }, { lineWidth: 0 }));
+      }
       console.log(`wrote  ${target}`);
       report.push(`- ${target}`);
       wrote++;
