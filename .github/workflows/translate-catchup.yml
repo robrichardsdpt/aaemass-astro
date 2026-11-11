@@ -25,6 +25,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  statuses: write
 
 concurrency:
   group: translate-catchup
@@ -67,6 +68,12 @@ jobs:
           git add -A src/content
           git commit -m "Translate recent changes into Spanish and French (machine translation, needs review)"
           git push origin "$branch"
+          # Pull requests opened by this workflow do not start the preview workflow (GitHub does not run workflows for
+          # events caused by the workflow token), and main requires the preview status, so report it here. These
+          # pull requests only add translation files, so there is nothing to preview.
+          gh api "repos/$GITHUB_REPOSITORY/statuses/$(git rev-parse HEAD)" \
+            -f state=success -f context='cloudflare-pages/preview' \
+            -f description='Translation files only; nothing to preview'
           gh pr create --base main --head "$branch" \
             --title "Spanish and French for recent changes" \
             --body "These changes were published without a translation (usually because the draft was published before the preview finished). The Spanish and French below were made automatically with DeepL and the AA glossary. They stay hidden from search engines until a bilingual AA member reviews them. See docs/TRANSLATION.md."

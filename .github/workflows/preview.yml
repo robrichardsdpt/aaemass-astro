@@ -40,6 +40,16 @@ jobs:
       # npm ci fails on Linux: the lockfile (generated on macOS) omits optional @emnapi packages.
       - run: npm install --no-audit --no-fund
 
+      # Say right away that the preview is being made. Merging is blocked until this becomes "success" (see docs/CMS.md),
+      # which only happens after the translation has been committed to the draft.
+      - name: Mark the preview as in progress
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/${{ github.repository }}/statuses/$(git rev-parse HEAD)" \
+            -f state=pending -f context='cloudflare-pages/preview' \
+            -f description='Building the preview and the Spanish and French versions. Wait for this to finish before publishing.'
+
       # Free machine translation (DeepL API Free) of whatever English content this draft changed. The result is
       # committed to the draft so the reviewer sees it in the diff and in the preview. Skipped when no key is set.
       - name: Translate changed content into Spanish and French

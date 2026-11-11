@@ -7,6 +7,8 @@ Nothing you change goes live right away: your change becomes a **draft** that a 
 1. **Edit** what you need (see below) and click **Save**. This creates a draft.
 2. **Look at the preview.** In a minute or two a **View Preview** link appears on your draft. It is the real
    website with your change in it. Check that it looks right. If not, edit and Save again.
+   Publishing is refused until the preview is ready (about a minute), so if it says it cannot publish yet, wait for the
+   **View Preview** link and try again.
 3. **Send it for review.** At the top of the draft, set the status to **Ready**. The reviewer will check it and
    publish it. You will not see it on the live site until they do.
 
