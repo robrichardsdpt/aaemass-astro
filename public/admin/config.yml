@@ -4,7 +4,7 @@
 backend:
   name: github
   repo: robrichardsdpt/aaemass-astro
-  branch: wp-headless
+  branch: main
   base_url: https://area30-decap-oauth.robrichardsdpt.workers.dev
   # Decap shows a "View Preview" link on each draft when the preview workflow posts a commit status with this name.
   preview_context: cloudflare-pages/preview

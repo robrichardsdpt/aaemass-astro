@@ -1,6 +1,6 @@
 # Content management (Decap CMS)
 
-Editors use a web form at `/admin/`. Every save becomes a commit to `wp-headless`, and GitHub Actions rebuilds
+Editors use a web form at `/admin/`. Every save becomes a commit to `main`, and GitHub Actions rebuilds
 the site in about a minute. Nothing runs on a server.
 
 ## What editors can do
@@ -47,10 +47,10 @@ Cloudflare Worker is in `oauth-worker/` (free tier is plenty).
 - **Collaborators:** only people added under repo Settings > Collaborators with the Write role can save anything.
 - **Review step:** the CMS runs in editorial workflow. An editor's save creates a draft (a pull request on a `cms/...`
   branch). In the CMS, the **Workflow** tab moves it Draft > In review > Ready, and **Publish** merges it.
-- **Branch protection:** `wp-headless` (the source of truth) requires a pull request with 1 approval. Editors cannot publish their own work:
+- **Branch protection:** `main` requires a pull request with 1 approval. Editors cannot publish their own work:
   the repo owner approves the pull request on GitHub (or publishes it from the Workflow tab, which owners can do
   directly). Owners are allowed to bypass the rule so direct pushes from the command line still work.
-- Nothing deploys until a change is merged into `wp-headless`.
+- Nothing deploys until a change is merged into `main`.
 
 ## Adding a new block type
 1. Add it to `blockSchema` in `src/content.config.ts`.

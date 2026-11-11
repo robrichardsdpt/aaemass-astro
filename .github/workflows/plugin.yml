@@ -3,11 +3,11 @@ name: Build WordPress plugin
 # Every time a change is merged (or weekly, to refresh the events list fetched at build time), build the
 # installable aa30-home.zip and publish it as the "plugin-latest" release, named after its version (2.0.<build>).
 # The plugin on the live WordPress site checks that release hourly and installs it by itself (includes/updater.php).
-# Merging into wp-headless is the approval step, and only the owner can approve (see .github/CODEOWNERS).
+# Merging into main is the approval step, and only the owner can approve (see .github/CODEOWNERS).
 
 on:
   push:
-    branches: [wp-headless]
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: '0 11 * * 1'
