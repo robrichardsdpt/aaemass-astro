@@ -291,9 +291,9 @@
     z-index: -1;
     background: linear-gradient(90deg, var(--hero-scrim), oklch(0.2 0.05 258 / 0.25));
   }
-  .hero .wrap { padding-block: var(--s-8) var(--s-7); }
-  @media (min-width: 52rem) { .hero .wrap { padding-block: var(--s-9) var(--s-8); } }
-  .hero h1 { max-width: 20ch; }
+  .hero .wrap { padding-block: var(--s-7) var(--s-6); }
+  @media (min-width: 52rem) { .hero .wrap { padding-block: var(--s-8) var(--s-7); } }
+  .hero h1 { max-width: 26ch; }
   .hero .eyebrow { color: var(--hero-ink); margin-block-end: var(--s-3); text-shadow: 0 1px 2px oklch(0.15 0.05 258 / 0.6); }
   .hero p.lede { margin-block-start: var(--s-4); max-width: 46ch; font-size: var(--step-1); line-height: 1.45; }
   .hero .actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-block-start: var(--s-6); }
@@ -423,8 +423,9 @@
   .inline-list a:hover, .inline-list a:focus-visible, .inline-list a:active { border-color: var(--accent); text-decoration: none; }
 
   /* Contact page */
-  .hero--compact .wrap { padding-block: var(--s-7) var(--s-6); }
-  @media (min-width: 52rem) { .hero--compact .wrap { padding-block: var(--s-8) var(--s-7); } }
+  /* Inner-page banners: one step below the home banner, with the top larger than the bottom. */
+  .hero--compact .wrap { padding-block: 2.5rem 1.75rem; }
+  @media (min-width: 52rem) { .hero--compact .wrap { padding-block: 3.5rem 2.5rem; } }
   .contact-cards { display: grid; gap: var(--s-4); }
   @media (min-width: 52rem) { .contact-cards { grid-template-columns: repeat(3, 1fr); } }
   .contact-cards address { font-style: normal; }
