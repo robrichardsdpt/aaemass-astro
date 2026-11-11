@@ -8,7 +8,7 @@ the site in about a minute. Nothing runs on a server.
   details, link pills, quote, buttons, checklist, upcoming events). Drag blocks by the grip to reorder them.
   The page appears at `/<file-name>/`, gets a breadcrumb, structured data and a sitemap entry automatically.
   FAQ blocks also become `FAQPage` markup.
-- **Events**: each event gets Spanish and French pages automatically once translated (see `docs/TRANSLATION.md`). Each event gets `/events/<name>/` with `Event` markup. Past events leave the lists and the
+- **Events**: each event gets `/events/<name>/` with `Event` markup, plus Spanish and French pages once translated (see `docs/TRANSLATION.md`). Past events leave the lists and the
   sitemap, and their pages say "This event has passed".
 - **Committees**: one file per committee in `src/content/committees/`. It drives the committee page, the picture
   tiles and "also" list on the home and Committees pages, and the Contact page directory (conference and standing
