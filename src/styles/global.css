@@ -317,6 +317,7 @@
     align-items: center;
   }
   @media (min-width: 52rem) { .signup .wrap { grid-template-columns: 1fr 1fr; } }
+  .signup h2 { margin-block-end: var(--s-2); }
   .signup p { max-width: 48ch; }
   .signup form { display: flex; flex-wrap: wrap; align-items: end; gap: var(--s-3); }
   .field { flex: 1 1 14rem; display: grid; gap: var(--s-1); }
@@ -440,7 +441,9 @@
   @media (min-width: 64rem) { .directory { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .directory li { display: grid; gap: var(--s-1); align-content: start; padding-block: var(--s-4); border-block-end: 1px solid var(--line); }
   .directory h3 { font-size: var(--step-0); font-family: var(--font-body); font-weight: 700; }
-  .directory a { overflow-wrap: anywhere; }
+  /* Email links get the same 44px tap area as other standalone links; the row padding below gives that height back. */
+  .directory li { padding-block-end: var(--s-1); }
+  .directory a { overflow-wrap: anywhere; display: inline-flex; align-items: center; justify-self: start; min-block-size: 2.75rem; }
   .contact-form { display: grid; gap: var(--s-4); }
   .split:has(.contact-form) { align-items: start; }
 
