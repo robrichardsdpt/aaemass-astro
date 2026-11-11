@@ -609,7 +609,7 @@ same(aa30_update_from_release(['name' => '2.0.9', 'assets' => []], '2.0.8'), nul
 same(aa30_update_from_release(null, '2.0.8'), null, 'updater: no release data is not an update');
 $now = 1000000;
 same(aa30_update_status_text(false, $now, '2.0.5'), 'Update check: not run yet', 'status: before any check');
-same(aa30_update_status_text(['time' => $now - 30, 'code' => 200, 'version' => '2.0.6'], $now, '2.0.5'), 'Update check just now: version 2.0.6 is available', 'status: an update is available');
+same(aa30_update_status_text(['time' => $now - 20, 'code' => 200, 'version' => '2.0.6'], $now, '2.0.5'), 'Update check just now: version 2.0.6 is available', 'status: an update is available');
 same(aa30_update_status_text(['time' => $now - 600, 'code' => 200, 'version' => '2.0.5'], $now, '2.0.5'), 'Update check 10 min ago: up to date (2.0.5)', 'status: up to date');
 same(aa30_update_status_text(['time' => $now - 3 * 3600, 'code' => 200, 'version' => '2.0.9'], $now, '2.0.10'), 'Update check 3 h ago: up to date (2.0.10)', 'status: versions compare numerically');
 same(aa30_update_status_text(['time' => $now - 120, 'code' => 403, 'version' => ''], $now, '2.0.5'), 'Update check 2 min ago failed: GitHub answered 403 (rate limited?)', 'status: rate limit is called out');
