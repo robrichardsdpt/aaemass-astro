@@ -1,0 +1,64 @@
+---
+// The "Explore events" window: a native <dialog> with search, filters, results and event details. Any button marked
+// data-es-open opens it. Its script and data are not loaded until that button is first hovered, focused or clicked (or a
+// /calendar/#e=<id> link is opened), so the page itself pays almost nothing for it. Keep the button outside the hero:
+// the hero restyles the buttons inside it.
+import { path } from '../lib/site';
+---
+
+<dialog id="event-search" class="esearch" aria-labelledby="es-title" data-index={path('/events/search.json')} data-events={path('/calendar/')}>
+  <div class="esearch__bar">
+    <h2 id="es-title">Explore events</h2>
+    <button type="button" class="button button--quiet" data-es-close>Close</button>
+  </div>
+  <div id="es-list-view">
+    <form class="esearch__filters" role="search" onsubmit="return false">
+      <div class="field esearch__q">
+        <label for="es-q">Search</label>
+        <input id="es-q" type="search" placeholder="Name, place or keyword" autocomplete="off" />
+      </div>
+      <div class="field"><label for="es-from">From</label><input id="es-from" type="date" /></div>
+      <div class="field"><label for="es-to">To</label><input id="es-to" type="date" /></div>
+      <div class="field">
+        <label for="es-type">Type</label>
+        <select id="es-type">
+          <option value="">All types</option>
+          <option value="one-time">One-time</option>
+          <option value="recurring">Recurring</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="es-format">Format</label>
+        <select id="es-format">
+          <option value="">Any format</option>
+          <option value="in-person">In person</option>
+          <option value="online">Online</option>
+        </select>
+      </div>
+      <div class="field" id="es-cat-field" hidden>
+        <label for="es-cat">Category</label>
+        <select id="es-cat"><option value="">All categories</option></select>
+      </div>
+      <label class="esearch__check"><input id="es-hl" type="checkbox" /> Highlighted events only</label>
+    </form>
+    <p id="es-status" class="esearch__status" role="status" aria-live="polite">Loading events…</p>
+    <ul id="es-results" class="events esearch__results"></ul>
+    <p class="esearch__more"><button type="button" class="button button--quiet" id="es-more" hidden>Show more</button></p>
+  </div>
+  <div id="es-detail" class="esearch__detail" hidden></div>
+</dialog>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-es-open]');
+  let mod: Promise<typeof import('../scripts/event-search')> | undefined;
+  const load = () => (mod ??= import('../scripts/event-search'));
+  for (const b of buttons) {
+    b.addEventListener('pointerenter', load, { once: true });
+    b.addEventListener('focus', load, { once: true });
+    b.addEventListener('click', async () => (await load()).openSearch());
+  }
+  // /calendar/#e=<id> opens that event in the window (shared links, and links from the lists on this page).
+  const fromHash = () => { if (location.hash.startsWith('#e=')) void load().then((m) => m.openFromHash()); };
+  fromHash();
+  addEventListener('hashchange', fromHash);
+</script>

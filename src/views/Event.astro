@@ -8,6 +8,7 @@ import { href, md } from '../lib/cms';
 import { site } from '../lib/site';
 import { getLang, lp, htmlLang } from '../i18n';
 import { eventLabels } from '../i18n/pages/event';
+import { ui } from '../i18n/ui';
 
 interface Props { event: CollectionEntry<'events'>; translation?: CollectionEntry<'eventsI18n'> }
 const { event, translation } = Astro.props;
@@ -55,7 +56,7 @@ const extraLd = [{
   lede={summary}
   current="/calendar/"
   extraLd={extraLd}
-  trail={[{ name: L.trail, href: '/events/' }]}
+  trail={[{ name: ui[lang].nav['/calendar/'] ?? 'Calendar', href: '/calendar/' }]}
   noindex={passed}
 >
   <Section id="details" narrow>
