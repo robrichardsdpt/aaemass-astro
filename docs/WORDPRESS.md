@@ -16,7 +16,7 @@ are needed.
 | --- | --- | --- |
 | Group, member and district contributions | The Gravity Forms contribution forms (IDs 2, 1, 3) | Their existing PayPal feeds run, so the visitor lands on PayPal exactly as on the old site. Notifications and entries behave as they do today. |
 | Mailing list signup | Mailchimp for WP's saved connection | Same audience and double opt-in as the default Mailchimp for WP form. |
-| Contact and all "send a message" forms | `wp_mail` to one mailbox | The page only names a mailbox (like `registrar`). The plugin holds the list of 19 allowed mailboxes at `@aaemass.org`. |
+| Message endpoint (no longer used by any page) | `wp_mail` to one mailbox | The site now uses plain email links instead of message forms. The endpoint and its list of 19 allowed mailboxes remain in the plugin and can be removed. |
 
 ## Build and install
 
