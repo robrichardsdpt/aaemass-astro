@@ -56,9 +56,17 @@ jobs:
         id: translate
         if: env.DEEPL_AUTH_KEY != '' && github.event.pull_request.head.repo.full_name == github.repository
         continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           node scripts/translate.mjs --base "origin/${{ github.base_ref }}"
           if [ -n "$(git status --porcelain src/content)" ]; then
+            # If the draft was published or deleted while this ran, pushing would recreate its branch (a stray branch
+            # holding a commit that never reaches main). Leave it to the catch-up workflow instead.
+            if [ "$(gh pr view ${{ github.event.pull_request.number }} --json state --jq .state)" != "OPEN" ]; then
+              echo "This draft is no longer open, so the translation was not pushed to it."
+              exit 0
+            fi
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             # -A on the folder that exists (a translation folder may not exist yet, and git add fails on a missing path).
