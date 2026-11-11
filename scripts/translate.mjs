@@ -21,6 +21,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { parse, stringify } from 'yaml';
+import { ensureGlossary } from './glossary.mjs';
 
 const args = process.argv.slice(2);
 const flag = (n) => args.includes(`--${n}`);
@@ -30,6 +31,7 @@ const DRY = flag('dry-run');
 const KEY = process.env.DEEPL_AUTH_KEY;
 const MOCK = process.env.TRANSLATE_PROVIDER === 'mock';
 const root = process.cwd();
+let GLOSSARY_ID = process.env.DEEPL_GLOSSARY_ID || null; // normally found or created automatically from glossary/aa-terms.tsv
 
 // ------------------------------------------------------------------ which files
 function git(...a) {
@@ -85,7 +87,7 @@ async function deepl(texts, lang) {
         tag_handling: 'xml',
         ignore_tags: ['x'],
         formality: 'prefer_more',
-        ...(process.env.DEEPL_GLOSSARY_ID ? { glossary_id: process.env.DEEPL_GLOSSARY_ID } : {}),
+        ...(GLOSSARY_ID ? { glossary_id: GLOSSARY_ID } : {}),
       }),
     });
     if (res.status === 456) throw new Error('DeepL free monthly limit reached; try again next month');
@@ -166,6 +168,9 @@ if (!MOCK && !KEY && !DRY) {
   console.log('DEEPL_AUTH_KEY is not set, so nothing was translated. (See docs/TRANSLATION.md.)');
   process.exit(0);
 }
+
+const needsTranslating = files.length > 0 && !DRY && !MOCK;
+if (needsTranslating && !GLOSSARY_ID) GLOSSARY_ID = await ensureGlossary({ key: KEY });
 
 const report = [];
 let wrote = 0;

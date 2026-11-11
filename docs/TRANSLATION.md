@@ -90,6 +90,21 @@ pull request and in the preview.
 - **Not covered:** hand-built pages (`src/i18n/pages/*.ts`), district lines (translated by pattern) and the Spanish and
   French wording of AA's canonical texts (see the rules above).
 
+### AA glossary
+`glossary/aa-terms.tsv` tells DeepL how to translate AA's own terms (GSR, DCM, Area 30, the committee names, the Twelve
+Steps and so on). It has three tab-separated columns (English, Spanish, French); open it in a spreadsheet or any editor.
+It was drafted from `src/i18n/terms.ts`, `src/i18n/committees.ts` and the list above, so **a bilingual AA member should
+confirm every row**. To add a term, add a row and merge; the next translation run uploads it.
+
+- DeepL matches whole words, ignoring case, and adapts plural, gender and tense itself, so list the base form once.
+- Skip ordinary words ("area", "service"): a glossary forces the term everywhere it appears. Phrases and AA names are ideal.
+- It is uploaded as one multilingual glossary named `area30-aa-terms-<hash of the file>`. Unchanged file: nothing is
+  uploaded. Changed file: the old glossary is replaced, so only one is ever kept.
+- If DeepL refuses it (for example a plan that does not allow glossaries), the run says so and translates without it.
+- Changing the glossary does not re-translate existing files; they update the next time their English changes. To redo
+  one now, delete its `sourceHash` line (or the file) and run `npm run translate -- --files src/content/<kind>/<name>.yml`.
+- Test the sync without DeepL: `node scripts/glossary.test.mjs`.
+
 **One-time setup:** create a free account at deepl.com/pro-api (choose *DeepL API Free*), copy the authentication key
 (it ends in `:fx`), then add it as the repository secret `DEEPL_AUTH_KEY`. Without the secret the step is skipped and
 nothing else changes.

@@ -1,0 +1,37 @@
+# AA glossary for automatic translation (DeepL). Columns: English, Spanish, French (tab-separated; leave a cell empty to skip that language).
+# Draft: taken from src/i18n/terms.ts, src/i18n/committees.ts and docs/TRANSLATION.md. A bilingual AA member should confirm every row.
+# Whole-word, case-insensitive; DeepL adjusts plural, gender and tense itself. Add a row, merge, and the next translation uses it.
+en	es	fr
+General Service Representative	Representante de Servicios Generales	Représentant des services généraux
+GSR	RSG	RSG
+District Committee Member	Miembro del Comité de Distrito	Membre du comité de district
+DCM	MCD	MCD
+Delegate	Delegado	Délégué
+Seventh Tradition	Séptima Tradición	Septième Tradition
+General Service Office	Oficina de Servicios Generales	Bureau des services généraux
+GSO	OSG	BSG
+General Service Conference	Conferencia de Servicios Generales	Conférence des services généraux
+AA World Services	Servicios Mundiales de A.A.	Services mondiaux des A.A.
+Cooperation with the Professional Community	Cooperación con la Comunidad Profesional	Collaboration avec les milieux professionnels
+C.P.C.	CCP	CMP
+Public Information	Información Pública	Information publique
+P.I.	I.P.	I.P.
+Literature in Prisons Service	Servicio de Literatura para Prisiones	Service de documentation pour les prisons
+Area Assembly	Asamblea de Área	Assemblée de région
+Group conscience	Conciencia de grupo	Conscience de groupe
+The Twelve Steps	Los Doce Pasos	Les Douze Étapes
+The Twelve Traditions	Las Doce Tradiciones	Les Douze Traditions
+The Big Book	El Libro Grande	Le Gros Livre
+Grapevine	Grapevine y La Viña	Grapevine et La Vigne
+Treatment Facilities	Centros de Tratamiento	Centres de traitement
+Mass. State Convention	Convención Estatal de Massachusetts	Congrès d’État du Massachusetts
+Service Seminar	Seminario de Servicio	Séminaire de service
+Accessibilities	Accesibilidades	Accessibilités
+Area 30	Área 30	Région 30
+General Service Committee	Comité de Servicios Generales	Comité des services généraux
+sponsorship	apadrinamiento	parrainage
+Third Legacy	Tercer Legado	Troisième Legs
+Big Book	Libro Grande	Gros Livre
+Pass It On	Transmítelo	
+Dr. Bob and the Good Oldtimers	Doctor Bob y los Buenos Veteranos	
+Alcoholics Anonymous World Services	Servicios Mundiales de A.A.	Services mondiaux des A.A.
