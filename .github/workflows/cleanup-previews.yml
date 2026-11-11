@@ -1,0 +1,54 @@
+name: Clean up previews
+
+# Every draft gets a Cloudflare Pages preview that is publicly reachable by its link and never expires on its own.
+# This deletes a draft's previews as soon as its pull request is closed or merged, and sweeps weekly (or on demand:
+# Actions > Clean up previews > Run workflow) for any that were missed. Drafts that are still open are never touched.
+#
+# Uses the same secrets and variable as the preview workflow (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID,
+# CLOUDFLARE_PAGES_PROJECT); the token needs the Cloudflare Pages: Edit permission.
+
+on:
+  pull_request:
+    types: [closed]
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'List what would be deleted without deleting it'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: cleanup-previews
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_PAGES_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT }}
+      GH_TOKEN: ${{ github.token }}
+      DRY_RUN: ${{ inputs.dry_run }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Delete this draft's previews
+        if: github.event_name == 'pull_request'
+        run: node scripts/cleanup-previews.mjs --pr "${{ github.event.pull_request.number }}"
+      - name: Sweep previews of drafts that are no longer open
+        if: github.event_name != 'pull_request'
+        run: |
+          # If the list of open drafts can not be read, stop: the script refuses a sweep without an explicit list.
+          open=$(gh pr list --state open --limit 200 --json number --jq '[.[].number] | join(",")')
+          flag=""
+          if [ "$DRY_RUN" = "true" ]; then flag="--dry-run"; fi
+          node scripts/cleanup-previews.mjs --sweep --open "$open" $flag
