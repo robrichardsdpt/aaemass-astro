@@ -87,6 +87,13 @@ const events = defineCollection({
   }),
 });
 
+// Spanish and French copies of CMS events, written by scripts/translate.mjs:
+// src/content/events-i18n/<lang>/<same-file-name>.md. Only the words change; dates and places come from the English event.
+const eventsI18n = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/events-i18n' }),
+  schema: z.object({ sourceHash: opt, title: str, summary: str, image_alt: opt }),
+});
+
 const settings = defineCollection({
   loader: glob({ pattern: '**/*.yml', base: './src/content/settings' }),
   schema: z.object({
@@ -94,4 +101,4 @@ const settings = defineCollection({
   }),
 });
 
-export const collections = { pages, pagesI18n, events, settings };
+export const collections = { pages, pagesI18n, events, eventsI18n, settings };

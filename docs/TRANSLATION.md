@@ -68,8 +68,53 @@ npm run check:i18n
   `segments` table in `src/i18n/index.ts` (add the Spanish and French slug there).
 - **A new hand-built page**: add its slugs to `segments`, its key to `translatedKeys`, a view in `src/views/`, and an entry in
   `src/pages/[lang]/[...slug].astro`.
-- **Events** come from WordPress and the CMS and stay in the language they were written in.
+- **Events** made in the CMS are translated (above). They get Spanish and French pages at `/es/events/<name>/` and
+  `/fr/events/<name>/`, and the home page and calendar lists show the translated title. These pages are always `noindex`.
+  Events that come from the WordPress calendar are not translated.
 
-## Planned: automatic translation
-Phase 2 is a script (run by GitHub Actions) that detects English changes, asks a model to update the `es` and `fr`
-blocks using the glossary, runs `check:i18n`, and opens a pull request for a bilingual reviewer.
+## Automatic translation (free, DeepL)
+When an editor changes English CMS content (a page in `src/content/pages/` or a committee in `src/content/committees/`),
+the preview workflow drafts the Spanish and French and adds them to the same draft, so the reviewer sees them in the
+pull request and in the preview.
+
+| English | Translated copy |
+| --- | --- |
+| `src/content/pages/<name>.yml` | `src/content/pages-i18n/<es\|fr>/<name>.yml` |
+| `src/content/committees/<slug>.yml` | `src/content/committees-i18n/<es\|fr>/<slug>.yml` |
+| `src/content/events/<name>.md` | `src/content/events-i18n/<es\|fr>/<name>.md` (title, summary, image description, details) |
+
+- **Free:** it uses DeepL API Free (500,000 characters a month, no charge; the plan stops at the limit rather than billing).
+  Ordinary edits use a tiny fraction of that.
+- **Safe:** it translates one piece of text at a time and puts it back in the same place, so structure, links, emails and
+  settings cannot change. Links and emails are masked while translating and checked afterwards.
+- **Only what changed:** each translation records a hash of its English source (`sourceHash`). Unchanged files are skipped,
+  and a hand edit by a bilingual reviewer is kept until the English changes again.
+- **Still unreviewed:** machine translations stay hidden from search until listed in `src/i18n/reviewed.json`.
+- **Not covered:** WordPress-calendar events, hand-built pages (`src/i18n/pages/*.ts`), district lines (translated by pattern) and the Spanish and
+  French wording of AA's canonical texts (see the rules above).
+
+### AA glossary
+`glossary/aa-terms.tsv` tells DeepL how to translate AA's own terms (GSR, DCM, Area 30, the committee names, the Twelve
+Steps and so on). It has three tab-separated columns (English, Spanish, French); open it in a spreadsheet or any editor.
+It was drafted from `src/i18n/terms.ts`, `src/i18n/committees.ts` and the list above, so **a bilingual AA member should
+confirm every row**. To add a term, add a row and merge; the next translation run uploads it.
+
+- DeepL matches whole words, ignoring case, and adapts plural, gender and tense itself, so list the base form once.
+- Skip ordinary words ("area", "service"): a glossary forces the term everywhere it appears. Phrases and AA names are ideal.
+- It is uploaded as one multilingual glossary named `area30-aa-terms-<hash of the file>`. Unchanged file: nothing is
+  uploaded. Changed file: the old glossary is replaced, so only one is ever kept.
+- If DeepL refuses it (for example a plan that does not allow glossaries), the run says so and translates without it.
+- Changing the glossary does not re-translate existing files; they update the next time their English changes. To redo
+  one now, delete its `sourceHash` line (or the file) and run `npm run translate -- --files src/content/<kind>/<name>.yml`.
+- Test the sync without DeepL: `node scripts/glossary.test.mjs`; the masking and markdown helpers: `node scripts/translate.test.mjs`.
+
+**One-time setup:** create a free account at deepl.com/pro-api (choose *DeepL API Free*), copy the authentication key
+(it ends in `:fx`), then add it as the repository secret `DEEPL_AUTH_KEY`. Without the secret the step is skipped and
+nothing else changes.
+
+**Run it by hand:**
+```
+DEEPL_AUTH_KEY=... npm run translate -- --base origin/main        # what this branch changed
+DEEPL_AUTH_KEY=... npm run translate -- --all                      # everything whose English changed
+npm run translate -- --base origin/main --dry-run                  # show what it would do, no key needed
+```

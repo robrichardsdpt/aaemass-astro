@@ -8,7 +8,7 @@ the site in about a minute. Nothing runs on a server.
   details, link pills, quote, buttons, checklist, upcoming events). Drag blocks by the grip to reorder them.
   The page appears at `/<file-name>/`, gets a breadcrumb, structured data and a sitemap entry automatically.
   FAQ blocks also become `FAQPage` markup.
-- **Events**: each event gets `/events/<name>/` with `Event` markup. Past events leave the lists and the
+- **Events**: each event gets `/events/<name>/` with `Event` markup, plus Spanish and French pages once translated (see `docs/TRANSLATION.md`). Past events leave the lists and the
   sitemap, and their pages say "This event has passed".
 - **Committees**: one file per committee in `src/content/committees/`. It drives the committee page, the picture
   tiles and "also" list on the home and Committees pages, and the Contact page directory (conference and standing
@@ -66,6 +66,10 @@ so a change to a color, font size or spacing there changes every page, hand-buil
 - Markdown in text blocks is trusted content: only give write access to people you trust.
 - The CMS preview pane is turned off because it cannot use the site's styles; use the deployed preview.
 - The first mention of each defined term (GSR, DCM, and so on) in a text block becomes a popover.
+
+## Spanish and French
+Changed English pages and committees are machine-translated for free with DeepL and added to the draft; see
+`docs/TRANSLATION.md` (secret `DEEPL_AUTH_KEY`). They stay hidden from search until a bilingual AA member reviews them.
 
 ## Preview links on every draft (Cloudflare Pages)
 `.github/workflows/preview.yml` builds the real site for each CMS draft (pull request), publishes it to Cloudflare

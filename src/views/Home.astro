@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { site } from '../lib/site';
 import { featuredCommittees, listedCommittees } from '../lib/committee-pages';
-import { getUpcomingEvents } from '../lib/events';
+import { getUpcomingEvents, localizeEvents } from '../lib/events';
 import Msg from '../components/Msg.astro';
 import Rich from '../components/Rich.astro';
 import SiteHeader from '../components/SiteHeader.astro';
@@ -36,7 +36,7 @@ const linkTo = (to: string) => (to === 'findMeeting' ? site.links.findMeeting : 
 const committeeImages = { archives, cpc, corrections, grapevine, literature, pi };
 
 const seen = new Set<string>();
-const events = await getUpcomingEvents(4);
+const events = await localizeEvents(await getUpcomingEvents(4), lang);
 const tz = 'America/New_York';
 const locale = lang === 'en' ? 'en-US' : htmlLang[lang];
 const day = new Intl.DateTimeFormat(locale, { timeZone: tz, month: 'short', day: 'numeric' });

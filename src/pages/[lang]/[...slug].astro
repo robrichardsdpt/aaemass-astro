@@ -18,6 +18,7 @@ import Service from '../../views/Service.astro';
 import Committee from '../../views/Committee.astro';
 import CmsPage from '../../views/CmsPage.astro';
 import { committees } from '../../lib/committee-pages';
+import EventView from '../../views/Event.astro';
 
 export async function getStaticPaths() {
   const entries: { key: string; view: any; props?: Record<string, unknown> }[] = [
@@ -47,6 +48,14 @@ export async function getStaticPaths() {
     const [lang, ...rest] = entry.id.split('/');
     if (!(otherLangs as readonly string[]).includes(lang)) continue;
     paths.push({ params: { lang, slug: toSlug(lang, rest.join('/')) }, props: { view: CmsPage, viewProps: { data: entry.data } } });
+  }
+  // Translated CMS events under src/content/events-i18n/<lang>/<same-file-name>.md. Unreviewed, so always noindex.
+  const events = await getCollection('events');
+  for (const t of await getCollection('eventsI18n')) {
+    const [lang, ...rest] = t.id.split('/');
+    const event = events.find((e) => e.id === rest.join('/'));
+    if (!(otherLangs as readonly string[]).includes(lang) || !event) continue;
+    paths.push({ params: { lang, slug: `events/${event.id}` }, props: { view: EventView, viewProps: { event, translation: t } } });
   }
   return paths;
 }
