@@ -67,6 +67,15 @@ so a change to a color, font size or spacing there changes every page, hand-buil
 - The CMS preview pane is turned off because it cannot use the site's styles; use the deployed preview.
 - The first mention of each defined term (GSR, DCM, and so on) in a text block becomes a popover.
 
+## Publishing waits for the preview
+A draft cannot be merged until its `cloudflare-pages/preview` status is green. That status is posted last, after the
+draft has been translated and the preview built, so publishing early (including Decap's *Publish now*, even as the repo
+owner) is refused for the first minute or so. The rule is a repository ruleset with no bypass, defined in
+`.github/rulesets/require-preview.json`; the owner-approval rule is separate and keeps its owner bypass. Pull requests
+opened by the catch-up workflow post the status themselves (they only add translation files). If the preview
+workflow itself breaks (for example the Cloudflare token expires) merging stops everywhere; fix the workflow, or disable
+the ruleset under repo Settings > Rules until it is fixed.
+
 ## Spanish and French
 Changed English pages and committees are machine-translated for free with DeepL and added to the draft; see
 `docs/TRANSLATION.md` (secret `DEEPL_AUTH_KEY`). They stay hidden from search until a bilingual AA member reviews them.
