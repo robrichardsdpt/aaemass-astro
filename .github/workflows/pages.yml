@@ -5,8 +5,8 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    # Weekly rebuild so the upcoming-events list (fetched at build time) stays current.
-    - cron: '0 11 * * 1'
+    # Daily rebuild so the events fetched at build time (Google Calendar, WordPress) stay current.
+    - cron: '0 9 * * *'
 
 permissions:
   contents: read

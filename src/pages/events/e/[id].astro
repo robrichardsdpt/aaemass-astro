@@ -1,0 +1,77 @@
+---
+// A calendar event from Google Calendar or WordPress, as a real page: crawlable, no JavaScript needed.
+import Page from '../../../layouts/Page.astro';
+import Section from '../../../components/ui/Section.astro';
+import Callout from '../../../components/ui/Callout.astro';
+import EventText from '../../../components/ui/EventText.astro';
+import { getAllEvents } from '../../../lib/all-events';
+import { googleCalendarUrl, icsFile, icsFileName, mapUrl, outlookCalendarUrl, whenText, type SearchEvent } from '../../../lib/event-model';
+import { path, site } from '../../../lib/site';
+
+export async function getStaticPaths() {
+  return (await getAllEvents()).filter((e) => e.slug).map((e) => ({ params: { id: e.slug! }, props: { event: e } }));
+}
+const { event: e } = Astro.props as { event: SearchEvent };
+const where = [e.venue, e.address].filter(Boolean).join(', ');
+const map = mapUrl(e);
+const when = whenText(e);
+const day = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(e.start));
+// Keeps the whole <title> within about 60 characters so search results do not cut it off.
+const tail = `, ${day} | Area 30`;
+const title = e.title.length > 60 - tail.length ? `${e.title.slice(0, 60 - tail.length - 1).trimEnd()}…` : e.title;
+const summary = `${e.title}: ${when}${where ? `, ${where}` : ''}.`;
+const description = (e.description ? `${summary} ${e.description.replace(/\s+/g, ' ')}` : summary).slice(0, 158);
+const ics = `data:text/calendar;charset=utf-8,${encodeURIComponent(icsFile(e))}`;
+const url = `${site.url}${path(`/events/e/${e.slug}/`).replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '')}`;
+const location = [
+  ...(where ? [{ '@type': 'Place', name: e.venue ?? where, address: e.address ?? where }] : []),
+  ...(e.online ? [{ '@type': 'VirtualLocation', url: e.online }] : []),
+];
+// Event markup needs a location. Events without one still get their page, just without the markup.
+const extraLd = location.length === 0 ? [] : [{
+  '@type': 'Event',
+  name: e.title,
+  description: e.description || summary,
+  startDate: e.start,
+  ...(e.end ? { endDate: e.end } : {}),
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: e.online && where ? 'https://schema.org/MixedEventAttendanceMode' : e.online ? 'https://schema.org/OnlineEventAttendanceMode' : 'https://schema.org/OfflineEventAttendanceMode',
+  location,
+  organizer: { '@id': `${site.url}/#org` },
+  isAccessibleForFree: true,
+  url,
+}];
+---
+
+<Page
+  title={`${title}${tail}`}
+  description={description}
+  heading={e.title}
+  eyebrow="Calendar event"
+  lede={when}
+  current="/calendar/"
+  extraLd={extraLd}
+  trail={[{ name: 'Calendar', href: '/calendar/' }]}
+>
+  <Section id="details" narrow>
+    <div class="stack">
+      <Callout title="Details">
+        <p><strong>When:</strong> {when}</p>
+        {where && <p><strong>Where:</strong> {map ? <a href={map} rel="noopener noreferrer">{where}</a> : where}</p>}
+        {e.online && <p><strong>Online:</strong> <a href={e.online} rel="noopener noreferrer">Join online</a></p>}
+        {e.categories.length > 0 && <p><strong>Category:</strong> {e.categories.join(', ')}</p>}
+      </Callout>
+      {e.description && <div class="stack prose-body"><EventText text={e.description} /></div>}
+      <div>
+        <h2 class="event-sub">Add to your calendar</h2>
+        <ul class="cal-links">
+          <li><a class="button button--quiet" href={googleCalendarUrl(e)} rel="noopener noreferrer">Google Calendar</a></li>
+          <li><a class="button button--quiet" href={outlookCalendarUrl(e)} rel="noopener noreferrer">Outlook</a></li>
+          <li><a class="button button--quiet" href={ics} download={icsFileName(e)}>Apple / other (.ics)</a></li>
+        </ul>
+      </div>
+      {e.external && <p><a href={e.external} rel="noopener noreferrer">View on the original calendar</a></p>}
+      <p><a href={path('/calendar/')}>← Back to the calendar</a></p>
+    </div>
+  </Section>
+</Page>

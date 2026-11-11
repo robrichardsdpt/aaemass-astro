@@ -1,6 +1,11 @@
 ---
 import Page from '../layouts/Page.astro';
 import Msg from '../components/Msg.astro';
+import Section from '../components/ui/Section.astro';
+import EventList from '../components/ui/EventList.astro';
+import EventSearch from '../components/EventSearch.astro';
+import { getCmsEvents } from '../lib/events';
+import { getAllEvents } from '../lib/all-events';
 import { site } from '../lib/site';
 import { getLang, pick } from '../i18n';
 import { ui } from '../i18n/ui';
@@ -18,13 +23,32 @@ const embed = (mode: 'AGENDA' | 'MONTH') =>
     ...(lang === 'en' ? {} : { hl: lang }),
   })}`;
 const subscribe = `https://calendar.google.com/calendar/u/0?cid=${calendarId}`;
+
+// Highlighted events, the search and the "coming up" list are English only for now.
+const en = lang === 'en';
+const highlighted = en ? (await getCmsEvents()).sort((a, b) => a.start.getTime() - b.start.getTime()) : [];
+// The next few events from the Google and WordPress calendars as plain links: the Google embed below is an iframe, so this
+// is what crawlers and people without JavaScript see. The full list is in the search window.
+// One-off events (assemblies, Alcathons, the Conference) each have their own page. Linking them here is what lets crawlers find them.
+const special = en
+  ? (await getAllEvents()).filter((e) => e.slug).map((e) => ({ title: e.title, url: e.detail, start: new Date(e.start), allDay: e.allDay, venue: e.venue }))
+  : [];
+const upcoming = en
+  ? (await getAllEvents()).filter((e) => e.source !== 'highlight').slice(0, 10).map((e) => ({ title: e.title, url: e.detail, start: new Date(e.start), allDay: e.allDay, venue: e.venue }))
+  : [];
 ---
 
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/calendar">
   <div slot="actions" class="actions">
-    <a class="button" href={subscribe}>{m.subscribe}</a>
+    {en && <button type="button" class="button" data-es-open aria-haspopup="dialog">Explore events</button>}
+    <a class={en ? 'button button--quiet' : 'button'} href={subscribe}>{m.subscribe}</a>
   </div>
 
+  {en && highlighted.length > 0 && (
+    <Section id="highlighted" title="Highlighted events" narrow>
+      <EventList events={highlighted} />
+    </Section>
+  )}
   <section class="section" aria-labelledby="calendar-title">
     <div class="wrap">
       <h2 id="calendar-title" class="visually-hidden">{m.calendarHeading}</h2>
@@ -37,4 +61,15 @@ const subscribe = `https://calendar.google.com/calendar/u/0?cid=${calendarId}`;
       </p>
     </div>
   </section>
+  {en && <EventSearch />}
+  {special.length > 0 && (
+    <Section id="special-events" title="Special events" narrow>
+      <EventList events={special} />
+    </Section>
+  )}
+  {upcoming.length > 0 && (
+    <Section id="coming-up" title="Coming up" narrow>
+      <EventList events={upcoming} />
+    </Section>
+  )}
 </Page>

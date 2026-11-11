@@ -1,0 +1,9 @@
+---
+// Event descriptions are plain text. This turns line breaks into paragraphs and web addresses into links.
+import { paragraphs } from '../../lib/event-model';
+interface Props { text: string }
+const { text } = Astro.props;
+---
+{paragraphs(text).map((p) => (
+  <p>{p.map((s) => (s.href ? <a href={s.href} rel="noopener noreferrer">{s.t}</a> : s.t.split('\n').flatMap((line, i) => (i ? [<br />, line] : [line]))))}</p>
+))}
