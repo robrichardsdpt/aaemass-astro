@@ -1,19 +1,25 @@
 // Text helpers for scripts/translate.mjs, kept separate so they can be tested.
 
-// Things that must come back exactly as they went in: the (url) of a markdown link, bare URLs, emails, {placeholders}.
-const MASK = /\]\([^)]*\)|https?:\/\/[^\s)<>"]+|[\w.+-]+@[\w-]+(?:\.[\w-]+)+|\{[A-Za-z]+\}/g;
+// Markdown links become <l id="n">words</l>: only the words are translated, and the "[", "]" and (url) never reach
+// the translator (which can drop or move them). Bare URLs, emails and {placeholders} become <x id="n"/>.
+const LINK = /\[([^\]]*)\]\(([^)]*)\)/g;
+const BARE = /https?:\/\/[^\s)<>"]+|[\w.+-]+@[\w-]+(?:\.[\w-]+)+|\{[A-Za-z]+\}/g;
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const unesc = (s) => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 
-/** Swaps protected spans for <x id="n"/> tags (DeepL is told to leave those alone). */
+/** Swaps protected spans for tags (DeepL is told to leave <x/> alone and to keep <l> around the words). */
 export function mask(text) {
   const kept = [];
-  const masked = esc(text).replace(MASK, (m) => {
-    const isLinkTail = m.startsWith('](');
-    // The "]" stays in the text so the translator still sees "[words]"; only "(url)" is protected.
-    kept.push(unesc(isLinkTail ? m.slice(1) : m));
-    return `${isLinkTail ? ']' : ''}<x id="${kept.length - 1}"/>`;
+  // 1. links, parked behind markers the escaping below cannot touch
+  let t = text.replace(LINK, (_, label, url) => {
+    kept.push(`(${url})`);
+    return `\u0001${kept.length - 1}\u0002${label}\u0003${kept.length - 1}\u0004`;
   });
+  t = esc(t).replace(BARE, (m) => {
+    kept.push(unesc(m));
+    return `<x id="${kept.length - 1}"/>`;
+  });
+  const masked = t.replace(/\u0001(\d+)\u0002/g, '<l id="$1">').replace(/\u0003(\d+)\u0004/g, '</l>');
   return { masked, kept };
 }
 
@@ -21,9 +27,15 @@ export function mask(text) {
 export function unmask(translated, kept) {
   let out = translated;
   kept.forEach((k, i) => {
-    const tag = new RegExp(`<x id="${i}"\\s*/>|<x id="${i}"></x>`);
-    if (!tag.test(out)) throw new Error(`a link or address was lost while translating ("${k}")`);
-    out = out.replace(tag, () => k);
+    if (k.startsWith('(')) {
+      const link = new RegExp(`<l id="${i}"\\s*>([\\s\\S]*?)</l>`);
+      if (!link.test(out)) throw new Error(`a link was lost while translating ("${k}")`);
+      out = out.replace(link, (_, words) => `[${words.trim()}]${k}`);
+    } else {
+      const tag = new RegExp(`<x id="${i}"\\s*/>|<x id="${i}"></x>`);
+      if (!tag.test(out)) throw new Error(`a link or address was lost while translating ("${k}")`);
+      out = out.replace(tag, () => k);
+    }
   });
   return unesc(out);
 }

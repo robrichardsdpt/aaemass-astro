@@ -62,6 +62,7 @@ async function deepl(texts, lang) {
         target_lang: TARGET[lang],
         tag_handling: 'xml',
         ignore_tags: ['x'],
+        non_splitting_tags: ['l'],
         formality: 'prefer_more',
         ...(GLOSSARY_ID ? { glossary_id: GLOSSARY_ID } : {}),
       }),

@@ -5,12 +5,16 @@ import { mask, unmask, markdownPieces } from './translate-text.mjs';
 // links, addresses and placeholders survive a round trip, with the translated words changing around them
 const src = 'Email [the committee](mailto:a@b.org) or see https://x.org/a?b=1&c=2 & write to {email}. Use <b> too.';
 const m = mask(src);
-assert.ok(!m.masked.includes('mailto') && !m.masked.includes('https://') && !m.masked.includes('{email}'), 'protected spans are hidden from the translator');
-assert.ok(m.masked.includes('[the committee]<x'), 'the closing bracket stays with the words');
-assert.equal(unmask(m.masked, m.kept), src, 'unmasking restores the text exactly (no doubled bracket)');
-const translated = m.masked.replace('Email', 'Escriba a').replace('or see', 'o vea').replace('write to', 'escriba a');
-assert.equal(unmask(translated, m.kept), 'Escriba a [the committee](mailto:a@b.org) o vea https://x.org/a?b=1&c=2 & escriba a {email}. Use <b> too.', 'words change, links do not');
-assert.throws(() => unmask('lost it', m.kept), /lost/, 'a lost link is an error, not silent damage');
+assert.ok(!/mailto|https:\/\/|\{email\}|[\[\]]/.test(m.masked), 'no brackets, addresses or placeholders reach the translator');
+assert.ok(m.masked.includes('<l id="0">the committee</l>'), 'the link text stays, wrapped in a tag');
+assert.equal(unmask(m.masked, m.kept), src, 'unmasking restores the text exactly');
+const translated = m.masked.replace('Email', 'Escriba a').replace('the committee', 'el comité').replace('or see', 'o vea').replace('write to', 'escriba a');
+assert.equal(unmask(translated, m.kept), 'Escriba a [el comité](mailto:a@b.org) o vea https://x.org/a?b=1&c=2 & escriba a {email}. Use <b> too.', 'words change, links do not');
+assert.equal(unmask(m.masked.replace('<l id="0">the committee</l>', '<l id="0"> the committee </l>'), m.kept), src, 'stray spaces inside a link tag are trimmed');
+assert.throws(() => unmask(m.masked.replace('<l id="0">the committee</l>', 'the committee'), m.kept), /lost/, 'a lost link is an error, not silent damage');
+assert.throws(() => unmask('lost it', m.kept), /lost/, 'a lost address is an error, not silent damage');
+const two = mask('See [a](u1) and [b](u2).');
+assert.equal(unmask(two.masked, two.kept), 'See [a](u1) and [b](u2).', 'several links in one sentence');
 
 // markdown layout
 const body = 'Hello there.\n\n## What to bring\n\n- A dish\n- A plate\n\n1. First\n2. Second\n\nA paragraph\nover two lines.\n\n---\n\n> A quote';
