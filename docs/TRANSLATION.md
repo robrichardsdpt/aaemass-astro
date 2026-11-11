@@ -87,6 +87,13 @@ pull request and in the preview.
   Ordinary edits use a tiny fraction of that.
 - **Safe:** it translates one piece of text at a time and puts it back in the same place, so structure, links, emails and
   settings cannot change. Links and emails are masked while translating and checked afterwards.
+- **Published too early?** The preview workflow adds the translation to the draft about 15 seconds after the draft
+  appears. If the draft is published before that, the translation arrives after the merge and is lost. The
+  *Translate recent changes* workflow (`translate-catchup.yml`) catches this: after English content lands on `main`, it
+  translates anything missing and opens a pull request for the owner to merge. It needs one setting: repo
+  *Settings > Actions > General > Workflow permissions > Allow GitHub Actions to create and approve pull requests*. To
+  translate a file by hand, run it from the Actions tab and give the English file name. Best practice is still to wait
+  for the "Preview ready" comment before publishing.
 - **Only what changed:** each translation records a hash of its English source (`sourceHash`). Unchanged files are skipped,
   and a hand edit by a bilingual reviewer is kept until the English changes again.
 - **Still unreviewed:** machine translations stay hidden from search until listed in `src/i18n/reviewed.json`.
