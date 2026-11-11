@@ -67,6 +67,13 @@ so a change to a color, font size or spacing there changes every page, hand-buil
 - The CMS preview pane is turned off because it cannot use the site's styles; use the deployed preview.
 - The first mention of each defined term (GSR, DCM, and so on) in a text block becomes a popover.
 
+## Preview clean-up
+Each draft's preview is publicly reachable by its link and Cloudflare never expires it. `cleanup-previews.yml` deletes a
+draft's previews when its pull request is closed or merged, and sweeps weekly (Mondays) and on demand for any missed.
+It only touches Preview deployments on `pr-<number>` branches, never production and never a draft that is still open
+(`scripts/cleanup-previews.mjs`; tests: `node scripts/cleanup-previews.test.mjs`). To check by hand:
+`npx wrangler pages deployment list --project-name area30-preview`.
+
 ## Removing content
 Decap deletes a published entry by committing straight to `main`, which the branch rules refuse (a pull request, the
 owner's approval and a finished preview are required), so the Delete button does not work on published entries. Instead
