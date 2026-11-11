@@ -31,7 +31,9 @@ export default {
       const target = new URL(AUTHORIZE);
       target.searchParams.set('client_id', env.GITHUB_CLIENT_ID);
       target.searchParams.set('redirect_uri', `${url.origin}/callback`);
-      target.searchParams.set('scope', url.searchParams.get('scope') || 'public_repo');
+      // Always the narrowest scope that works for a public repository, whatever the page asks for: an editor's token can then
+      // only touch public repositories, even if the page, or someone sending a crafted link, requests more.
+      target.searchParams.set('scope', 'public_repo');
       target.searchParams.set('state', state);
       return new Response(null, {
         status: 302,

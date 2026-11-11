@@ -262,7 +262,6 @@ foreach (["a@b.org\nBcc: x@y.z", 'a@b.org, c@d.org', '<a@b.org>', 'a b@c.org', '
 same(aa30_one_line("Bob\r\nBcc: x", 100), 'Bob Bcc: x', 'line breaks collapse');
 same(aa30_one_line(str_repeat('é', 200), 50), str_repeat('é', 50), 'cut by characters, not bytes');
 same(aa30_one_line(['x'], 5), '', 'non-strings become empty');
-same(aa30_multi_line("a\r\n\r\n\r\n\r\nb\x00", 100), "a\n\nb", 'multi-line tidy');
 same(aa30_time_parts('19:30'), [7, '30', 'pm'], 'time evening');
 same(aa30_time_parts('00:05'), [12, '05', 'am'], 'time midnight');
 same(aa30_time_parts('12:00'), [12, '00', 'pm'], 'time noon');
@@ -345,81 +344,54 @@ function reset_world()
     $GLOBALS['mc_form'] = new FakeForm();
 }
 
-// origin and shape
+// origin and shape (checked on the signup form: every form shares this front door)
 reset_world();
-$msg = human(['to' => 'registrar', 'name' => 'Pat', 'email' => 'p@example.org', 'message' => 'Hello']);
-same(call('message', $msg, 'https://evil.example')->status, 403, 'foreign origin refused');
-same(call('message', $msg, '')->status, 403, 'missing origin refused');
+$probe = human(['email' => 'p@example.org']);
+same(call('signup', $probe)->status, 503, 'signup without Mailchimp for WP is unavailable'); // before mc_on(): it can not be undone
+mc_on();
+same(call('signup', $probe, 'https://evil.example')->status, 403, 'foreign origin refused');
+same(call('signup', $probe, '')->status, 403, 'missing origin refused');
 unset($_SERVER['HTTP_ORIGIN']);
 $_SERVER['HTTP_REFERER'] = 'https://www.aaemass.org/contact/';
 $_SERVER['REMOTE_ADDR'] = '203.0.113.9';
-same(aa30_handle('message', new WP_REST_Request($msg))->status, 200, 'referer from our own site (www) accepted');
+same(aa30_handle('signup', new WP_REST_Request($probe))->status, 200, 'referer from our own site (www) accepted');
 unset($_SERVER['HTTP_REFERER']);
 reset_world();
-same(call('message', 'not json')->status, 400, 'non-JSON body refused');
+mc_on();
+same(call('signup', 'not json')->status, 400, 'non-JSON body refused');
 
-// message
-$r = call('message', $msg);
-same([$r->status, $r->data['ok']], [200, true], 'message accepted');
-same(count($GLOBALS['mail']), 1, 'one email sent');
-same($GLOBALS['mail'][0]['to'], 'registrar@aaemass.org', 'sent to the allowlisted mailbox');
-ok(in_array('Reply-To: "Pat" <p@example.org>', $GLOBALS['mail'][0]['headers'], true), 'reply-to is the visitor');
+// the old "send a message" endpoint is gone: no page uses it, and it was a public way to email 19 mailboxes
 reset_world();
-$evil = human(['to' => 'info', 'name' => "Bob\r\nBcc: spy@evil.example", 'email' => 'p@example.org', 'message' => "Hi\r\nBcc: spy@evil.example"]);
-call('message', $evil);
-$m = $GLOBALS['mail'][0];
-ok(strpos($m['subject'], "\n") === false && strpos($m['subject'], "\r") === false, 'no line break in subject');
-foreach ($m['headers'] as $h) {
-    ok(strpos($h, "\n") === false && strpos($h, "\r") === false, 'no line break in header');
-}
-same(count($m['headers']), 2, 'exactly the two headers we set');
-foreach ($m['headers'] as $h) {
-    ok(!preg_match('/^(bcc|cc|to|from):/i', $h), 'no injected address header');
-}
-ok(strpos($m['headers'][1], '@evil') === false, 'no foreign address in the display name');
-foreach (['evil@example.org', 'info@evil.example', 'nobody', '', 'INFO@aaemass.org'] as $to) {
-    reset_world();
-    $r = call('message', human(['to' => $to] + $msg));
-    same($r->status, 422, "recipient refused: $to");
-    same(count($GLOBALS['mail']), 0, "nothing sent for recipient: $to");
-}
-reset_world();
-$r = call('message', human(['to' => 'INFO'] + $msg));
-same($r->status, 200, 'recipient is case-insensitive');
-reset_world();
-foreach (['name', 'email', 'message'] as $k) {
-    $r = call('message', human([$k => ''] + $msg));
-    same($r->status, 422, "missing $k refused");
-}
-reset_world();
-$GLOBALS['mail_ok'] = false;
-same(call('message', $msg)->status, 502, 'mail failure is reported');
-$GLOBALS['mail_ok'] = true;
+$old = human(['to' => 'registrar', 'name' => 'Pat', 'email' => 'p@example.org', 'message' => 'Hello']);
+same(call('message', $old)->status, 404, 'the message endpoint no longer exists');
+same(count($GLOBALS['mail']), 0, 'and sends no email');
+ok(!function_exists('aa30_do_message') && !function_exists('aa30_recipients') && !function_exists('aa30_mail_domain'), 'its code is gone');
+ok(!preg_match('/register_rest_route[^;]*message|\\[[^\\]]*\'message\'/', file_get_contents(AA30_DIR . '/includes/rest.php')), 'and it is not registered as a route');
 
 // bot traps
 reset_world();
-$r = call('message', $msg + ['_gotcha' => 'http://spam']);
+mc_on();
+$r = call('signup', $probe + ['_gotcha' => 'http://spam']);
 same([$r->status, $r->data], [200, ['ok' => true]], 'honeypot gets a fake success');
-$r = call('message', ['_t' => 200] + $msg);
+$r = call('signup', ['_t' => 200] + $probe);
 same([$r->status, $r->data], [200, ['ok' => true]], 'instant submit gets a fake success');
-$r = call('message', array_diff_key($msg, ['_t' => 1]));
-same(count($GLOBALS['mail']), 0, 'no email for either bot');
+$r = call('signup', array_diff_key($probe, ['_t' => 1]));
+same(count($GLOBALS['mc_api']->calls), 0, 'nobody is subscribed by either bot');
 
 // rate limit
 reset_world();
+mc_on();
 $codes = [];
 for ($i = 0; $i < 7; $i++) {
-    $codes[] = call('message', $msg)->status;
+    $codes[] = call('signup', $probe)->status;
 }
-same($codes, [200, 200, 200, 200, 200, 429, 429], 'message rate limit: 5 per hour');
-same(count($GLOBALS['mail']), 5, 'only five emails sent');
+same($codes, [200, 200, 200, 200, 200, 429, 429], 'signup rate limit: 5 per hour');
 $_SERVER['REMOTE_ADDR'] = '203.0.113.10';
-same(aa30_handle('message', new WP_REST_Request($msg))->status, 200, 'another visitor is unaffected');
+same(aa30_handle('signup', new WP_REST_Request($probe))->status, 200, 'another visitor is unaffected');
 
 // signup
 reset_world();
 $su = human(['email' => 'new@example.org', 'lang' => 'es']);
-same(call('signup', $su)->status, 503, 'signup without Mailchimp for WP is unavailable');
 mc_on();
 $r = call('signup', $su);
 same([$r->status, $r->data['ok']], [200, true], 'signup accepted');
@@ -585,8 +557,6 @@ same(count($GLOBALS['gf_submits']), 0, 'and nothing was submitted');
 define('AA30_DRY_RUN', true);
 reset_world();
 $GLOBALS['mc_enabled'] = true;
-$r = call('message', $msg);
-same([$r->status, $r->data['dry'], count($GLOBALS['mail'])], [200, true, 0], 'dry run: message sends nothing');
 $r = call('signup', $su);
 same([$r->status, $r->data['dry'], count($GLOBALS['mc_api']->calls)], [200, true, 0], 'dry run: signup subscribes nobody');
 $GLOBALS['gf_fields'] = [1, 3, 4, 5, 6];

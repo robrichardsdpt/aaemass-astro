@@ -1,9 +1,8 @@
 <?php
 /**
- * The site's form backend: four public endpoints under /wp-json/aa30/v1/.
+ * The site's form backend: three public endpoints under /wp-json/aa30/v1/.
  *
  *   signup      adds an address to the Mailchimp audience through Mailchimp for WP (its saved connection)
- *   message     emails one allowlisted @aaemass.org mailbox through wp_mail
  *   contribute  submits a Gravity Forms contribution form, whose PayPal feed returns the PayPal URL
  *   volunteer   submits the Gravity Forms 12th Step Volunteer form (an entry plus its notification email)
  *
@@ -85,6 +84,10 @@ function aa30_paypal_url_ok(string $url): bool
 
 function aa30_handle(string $kind, WP_REST_Request $request): WP_REST_Response
 {
+    $limits = ['signup' => 5, 'contribute' => 10, 'volunteer' => 5]; // posts per visitor per hour; any other kind does not exist
+    if (!isset($limits[$kind])) {
+        return aa30_reply(['ok' => false, 'error' => 'unknown'], 404);
+    }
     try {
         if (!aa30_origin_ok()) {
             return aa30_reply(['ok' => false, 'error' => 'origin'], 403);
@@ -97,15 +100,12 @@ function aa30_handle(string $kind, WP_REST_Request $request): WP_REST_Response
         if (!empty($d['_gotcha']) || (int) ($d['_t'] ?? 0) < 1500) {
             return aa30_reply(['ok' => true]);
         }
-        $limits = ['signup' => 5, 'message' => 5, 'contribute' => 10, 'volunteer' => 5];
         if (!aa30_rate_ok($kind, $limits[$kind])) {
             return aa30_reply(['ok' => false, 'error' => 'rate'], 429);
         }
         switch ($kind) {
             case 'signup':
                 return aa30_do_signup($d);
-            case 'message':
-                return aa30_do_message($d);
             case 'volunteer':
                 return aa30_do_volunteer($d);
             default:
@@ -166,54 +166,6 @@ function aa30_do_signup(array $d): WP_REST_Response
             aa30_log('signup: Mailchimp refused (' . get_class($e) . ')');
             return aa30_reply(['ok' => false, 'error' => 'unavailable'], 502);
         }
-    }
-    return aa30_reply(['ok' => true]);
-}
-
-function aa30_do_message(array $d): WP_REST_Response
-{
-    $to = strtolower(aa30_one_line($d['to'] ?? '', 40));
-    $name = aa30_one_line($d['name'] ?? '', 100);
-    $email = aa30_email($d['email'] ?? '');
-    $text = aa30_multi_line($d['message'] ?? ($d['notes'] ?? ''), 4000);
-    $reason = aa30_one_line($d['reason'] ?? '', 100);
-
-    $errors = [];
-    if (!in_array($to, aa30_recipients(), true)) {
-        $errors['to'] = 'invalid';
-    }
-    if ($name === '') {
-        $errors['name'] = 'invalid';
-    }
-    if ($email === '') {
-        $errors['email'] = 'invalid';
-    }
-    if ($text === '') {
-        $errors['message'] = 'invalid';
-    }
-    if ($errors) {
-        return aa30_reply(['ok' => false, 'errors' => $errors], 422);
-    }
-
-    $address = $to . '@' . aa30_mail_domain();
-    if (aa30_dry_run()) {
-        return aa30_reply(['ok' => true, 'dry' => true, 'would' => 'email', 'to' => $address]);
-    }
-
-    $subject = '[Area 30 website] ' . ($reason !== '' ? $reason : 'Message') . ' from ' . $name;
-    $body = "Name: {$name}\nEmail: {$email}\n"
-        . ($reason !== '' ? "Topic: {$reason}\n" : '')
-        . 'Language: ' . aa30_lang($d['lang'] ?? 'en') . "\n\n{$text}\n\n--\n"
-        . "Sent from the Area 30 website form. Reply to this email to answer {$name}.";
-    // A display name cannot carry anything that looks like an address or a header.
-    $safeName = trim((string) preg_replace('/[<>",;:@\\\\]/', '', $name));
-    $headers = [
-        'Content-Type: text/plain; charset=UTF-8',
-        'Reply-To: ' . ($safeName !== '' ? '"' . $safeName . '" <' . $email . '>' : $email),
-    ];
-    if (!wp_mail($address, $subject, $body, $headers)) {
-        aa30_log('message: wp_mail failed for ' . $to);
-        return aa30_reply(['ok' => false, 'error' => 'unavailable'], 502);
     }
     return aa30_reply(['ok' => true]);
 }
@@ -365,7 +317,7 @@ function aa30_do_volunteer(array $d): WP_REST_Response
 
 if (defined('ABSPATH')) {
     add_action('rest_api_init', function () {
-        foreach (['signup', 'message', 'contribute', 'volunteer'] as $kind) {
+        foreach (['signup', 'contribute', 'volunteer'] as $kind) {
             register_rest_route('aa30/v1', '/' . $kind, [
                 'methods' => 'POST',
                 'permission_callback' => '__return_true', // public by design; aa30_handle() does the checks

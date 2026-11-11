@@ -16,7 +16,6 @@ are needed.
 | --- | --- | --- |
 | Group, member and district contributions | The Gravity Forms contribution forms (IDs 2, 1, 3) | Their existing PayPal feeds run, so the visitor lands on PayPal exactly as on the old site. Notifications and entries behave as they do today. |
 | Mailing list signup | Mailchimp for WP's saved connection | Same audience and double opt-in as the default Mailchimp for WP form. |
-| Message endpoint (no longer used by any page) | `wp_mail` to one mailbox | The site now uses plain email links instead of message forms. The endpoint and its list of 19 allowed mailboxes remain in the plugin and can be removed. |
 
 ## Build and install
 
@@ -51,7 +50,7 @@ If a form says it did not go through, the reason is written to the PHP error log
 
 - Forms only accept requests that come from the site itself, as JSON.
 - A hidden field and a minimum-time check quietly drop most bots (they get a fake "ok").
-- Each visitor can send at most 5 signups, 5 messages and 10 contributions per hour.
+- Each visitor can send at most 5 signups, 5 volunteer sign-ups and 10 contributions per hour.
 - Messages can only reach the allowlisted mailboxes; line breaks and address-like text are stripped from names and subjects.
 - Contribution amounts must be between $1 and $25,000.
 - If someone edits a Gravity Forms contribution form so its fields no longer match, the plugin refuses to submit
@@ -65,7 +64,6 @@ If a form says it did not go through, the reason is written to the PHP error log
 | --- | --- |
 | `AA30_PREFIX` | Override the URL prefix (normally set by the build). |
 | `AA30_DRY_RUN` | `true` to test without side effects. |
-| `AA30_MAIL_DOMAIN` | Domain messages may go to (default `aaemass.org`). |
 | `AA30_MAILCHIMP_LIST` | Audience ID, if it should not follow the Mailchimp for WP default form. |
 | `AA30_FORM_IDS` | `['mem' => 1, 'grp' => 2, 'dist' => 3]` if the Gravity Forms IDs ever change. |
 | `AA30_ALLOWED_ORIGINS` | Extra sites allowed to post to the forms. |
@@ -85,3 +83,6 @@ plugin's own logic, not your live site. The dry run above is how you check the r
 - Events on the new site are read when the site is built. Rebuild and re-upload to refresh them.
 - A tiny amount of Gravity Forms behavior can only be confirmed on the live site: that its PayPal feed returns the
   PayPal address to this endpoint. The test above (step 3) checks it.
+
+## Removed: the "send a message" endpoint
+The site used to have a public `/wp-json/aa30/v1/message` endpoint behind its contact forms. The forms were replaced by plain email links, and the endpoint (which could email any of 19 mailboxes) is gone, so it is no longer a spam path. Any request to it now gets a 404.

@@ -90,6 +90,17 @@ and the plugin installs nothing without a valid one.
 Tests: `node scripts/sign-plugin.test.mjs`, and the PHP side in `wp-plugin/tests/run.php` (it verifies a signature made by
 Node, the signer CI uses).
 
+## Hardening for editors
+- **Sign-in scope.** `backend.auth_scope: public_repo` in `public/admin/config.yml`, and the OAuth worker always requests
+  `public_repo`, so an editor's token can only touch public repositories (Decap otherwise asks GitHub for the broad `repo`
+  scope, which includes all of an editor's private repositories). The worker change takes effect when it is redeployed
+  (`cd oauth-worker && npx wrangler deploy`). If this repository is ever made private, change both back to `repo`.
+- **Editor HTML is cleaned.** Markdown allows raw HTML, so everything an editor writes in page blocks and events passes through
+  `src/lib/sanitize.ts` (an allowlist: text, headings, lists, links, images, tables, quotes, code). `<script>`, `<iframe>`,
+  forms, `onclick`-style handlers and `javascript:` / `data:` links are removed; links may be https, http, mailto, tel or a
+  path on this site. Committee text and district lines were already safe: they are HTML-escaped before links are added.
+  Tests: `node scripts/sanitize.test.mjs`.
+
 ## Preview clean-up
 Each draft's preview is publicly reachable by its link and Cloudflare never expires it. `cleanup-previews.yml` deletes a
 draft's previews when its pull request is closed or merged, and sweeps weekly (Mondays) and on demand for any missed.

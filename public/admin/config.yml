@@ -8,6 +8,10 @@ backend:
   base_url: https://area30-decap-oauth.robrichardsdpt.workers.dev
   # Decap shows a "View Preview" link on each draft when the preview workflow posts a commit status with this name.
   preview_context: cloudflare-pages/preview
+  # Least privilege: the repository is public, so editors only need to grant access to public repositories. Without this,
+  # Decap asks GitHub for the broad "repo" scope (all of an editor's private repositories too). If the repository is ever made
+  # private, change this to "repo" (and the scope in oauth-worker/index.js).
+  auth_scope: public_repo
 
 local_backend: true
 # Edits are saved as drafts (a pull request). Nothing goes live until someone approves and publishes.

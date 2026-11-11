@@ -45,7 +45,7 @@ Feel free to check [our documentation](https://docs.astro.build) or jump into ou
 ## Forms and the WordPress preview
 
 Every remaining form (contributions, the mailing-list signup and the 12th Step volunteer sign-up) posts to the
-`aa30-home` WordPress plugin, which uses Gravity Forms and PayPal, Mailchimp for WP and `wp_mail`. No API keys
+`aa30-home` WordPress plugin, which uses Gravity Forms and PayPal, Mailchimp for WP. No API keys
 are involved. Build and install it with `./build-plugin.sh`; see [docs/WORDPRESS.md](docs/WORDPRESS.md).
 
 Anywhere the plugin is not present (local `npm run dev`, the GitHub Pages preview) the forms are replaced by a

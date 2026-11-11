@@ -1,10 +1,10 @@
 ---
 // One CMS event, in English or (when a translated copy exists) Spanish or French.
-import { render, type CollectionEntry } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 import Page from '../layouts/Page.astro';
 import Section from '../components/ui/Section.astro';
 import Callout from '../components/ui/Callout.astro';
-import { href } from '../lib/cms';
+import { href, md } from '../lib/cms';
 import { site } from '../lib/site';
 import { getLang, lp, htmlLang } from '../i18n';
 import { eventLabels } from '../i18n/pages/event';
@@ -19,7 +19,8 @@ const title = t?.title ?? d.title;
 const summary = t?.summary ?? d.summary;
 // The translated copy carries the translated details; fall back to the English ones if it has none.
 const translatedBody = translation?.body?.trim() ? translation : undefined;
-const { Content } = await render(translatedBody ?? event);
+// Rendered with md() (not Astro's own Markdown renderer) so the editor's HTML is cleaned like every other CMS text.
+const bodyHtml = md((translatedBody ?? event).body ?? '', new Set<string>(), lang);
 const passed = (d.end ?? d.start).getTime() < Date.now();
 const tz = 'America/New_York';
 const when = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : htmlLang[lang], {
@@ -66,7 +67,7 @@ const extraLd = [{
         {d.online_url && <p><strong>{L.online}</strong> <a href={href(d.online_url, lang)}>{L.joinOnline}</a></p>}
       </Callout>
       {d.image && <img src={href(d.image)} alt={t?.image_alt ?? d.image_alt ?? ''} loading="lazy" style="width:100%;height:auto;border-radius:0.5rem" />}
-      <div class="stack prose-body"><Content /></div>
+      <div class="stack prose-body" set:html={bodyHtml} />
     </div>
   </Section>
 </Page>

@@ -1,4 +1,5 @@
 import { marked } from 'marked';
+import { cleanHtml } from './sanitize';
 import { path } from './site';
 import { termify } from './term-match';
 import { lp, type Lang } from '../i18n';
@@ -11,7 +12,8 @@ export const href = (u?: string, lang: Lang = 'en') => (u ? (u.startsWith('/') &
 // Markdown from the CMS to HTML. Internal links and uploaded images respect the site base path,
 // and the first mention of each defined term becomes a popover.
 export function md(text: string, seen: Set<string>, lang: Lang = 'en'): string {
-  const html = marked.parse(text, { async: false, gfm: true }) as string;
+  // Markdown allows raw HTML, so clean what the editor wrote before anything else is added to it.
+  const html = cleanHtml(marked.parse(text, { async: false, gfm: true }) as string);
   // lp() already applies the build base to localized links; English links and all image sources get it here.
   const based = html
     .replace(/href="(\/(?!\/)[^"]*)"/g, (_, u: string) => `href="${lang === 'en' ? base + u : lp(lang, u)}"`)
