@@ -14,7 +14,7 @@ on:
     types: [opened, synchronize, reopened]
 
 permissions:
-  contents: read
+  contents: write        # to add the Spanish and French translations to the draft
   pull-requests: write
   statuses: write
 
@@ -25,14 +25,37 @@ concurrency:
 jobs:
   preview:
     runs-on: ubuntu-latest
+    env:
+      DEEPL_AUTH_KEY: ${{ secrets.DEEPL_AUTH_KEY }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Check out the draft's own branch (not the merge result) so translations can be added to it.
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
       # npm ci fails on Linux: the lockfile (generated on macOS) omits optional @emnapi packages.
       - run: npm install --no-audit --no-fund
+
+      # Free machine translation (DeepL API Free) of whatever English content this draft changed. The result is
+      # committed to the draft so the reviewer sees it in the diff and in the preview. Skipped when no key is set.
+      - name: Translate changed content into Spanish and French
+        id: translate
+        if: env.DEEPL_AUTH_KEY != '' && github.event.pull_request.head.repo.full_name == github.repository
+        continue-on-error: true
+        run: |
+          node scripts/translate.mjs --base "origin/${{ github.base_ref }}"
+          if [ -n "$(git status --porcelain src/content)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/content/pages-i18n src/content/committees-i18n
+            git commit -m "Translate changed content into Spanish and French (machine translation, needs review)"
+            git push
+            echo "added=1" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Build the site
         id: build
@@ -56,20 +79,25 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           URL: ${{ steps.deploy.outputs.deployment-url }}
-          SHA: ${{ github.event.pull_request.head.sha }}
         run: |
+          # The draft may have gained a translation commit, so use its current head, which is what the CMS reads.
+          SHA=$(git rev-parse HEAD)
           gh api "repos/${{ github.repository }}/statuses/$SHA" \
             -f state=success -f context='cloudflare-pages/preview' \
             -f description='Preview is ready' -f target_url="$URL"
+          note=""
+          if [ "${{ steps.translate.outputs.added }}" = "1" ]; then
+            note=$'\n\nSpanish and French versions of the changed content were drafted automatically and added to this draft. They stay hidden from search engines until a bilingual AA member reviews them.'
+          fi
           gh pr comment ${{ github.event.pull_request.number }} --repo ${{ github.repository }} \
-            --body "Preview ready: $URL"
+            --body "Preview ready: $URL$note"
 
       - name: Explain a failed build in plain language
         if: failure() && steps.build.outcome == 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
-          SHA: ${{ github.event.pull_request.head.sha }}
         run: |
+          SHA=$(git rev-parse HEAD)
           problem=$(grep -m1 -E 'is not valid' build.log || grep -m1 -iE 'error' build.log || echo 'The site could not be built.')
           gh api "repos/${{ github.repository }}/statuses/$SHA" \
             -f state=failure -f context='cloudflare-pages/preview' \

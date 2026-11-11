@@ -1,7 +1,7 @@
 ---
 import Page from '../layouts/Page.astro';
 import { path } from '../lib/site';
-import { committees } from '../lib/committee-pages';
+import { committees, committeeTranslations } from '../lib/committee-pages';
 import { linkify } from '../lib/links';
 import { termify } from '../lib/term-match';
 import { site } from '../lib/site';
@@ -14,7 +14,7 @@ interface Props { slug: string }
 const { slug } = Astro.props;
 const lang = getLang(Astro);
 const base = committees[slug];
-const t = lang === 'en' ? undefined : committeeText[lang][slug];
+const t = lang === 'en' ? undefined : (committeeTranslations[lang][slug] ?? committeeText[lang][slug]);
 const name = committeeNames[lang][slug];
 const L = committeeLabels[lang];
 const quoteMarks = lang === 'en' ? ['“', '”'] : lang === 'es' ? ['«', '»'] : ['« ', ' »'];

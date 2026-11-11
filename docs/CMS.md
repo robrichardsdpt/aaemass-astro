@@ -67,6 +67,10 @@ so a change to a color, font size or spacing there changes every page, hand-buil
 - The CMS preview pane is turned off because it cannot use the site's styles; use the deployed preview.
 - The first mention of each defined term (GSR, DCM, and so on) in a text block becomes a popover.
 
+## Spanish and French
+Changed English pages and committees are machine-translated for free with DeepL and added to the draft; see
+`docs/TRANSLATION.md` (secret `DEEPL_AUTH_KEY`). They stay hidden from search until a bilingual AA member reviews them.
+
 ## Preview links on every draft (Cloudflare Pages)
 `.github/workflows/preview.yml` builds the real site for each CMS draft (pull request), publishes it to Cloudflare
 Pages at its own address, and posts a commit status named `cloudflare-pages/preview`. Decap's `preview_context`

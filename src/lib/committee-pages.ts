@@ -75,6 +75,42 @@ const schema = z.object({
   more: optional(link),
 });
 
+// Spanish and French committee text, from src/content/committees-i18n/<lang>/<slug>.yml. These files are written
+// by scripts/translate.mjs (machine translation, hidden from search until reviewed) and can be edited by hand.
+// They take precedence over the older translations in src/i18n/pages/committees.ts.
+const translationSchema = z.object({
+  sourceHash: opt,
+  name: str,
+  short: optional(str),
+  tile: str,
+  label: str,
+  eyebrow: str,
+  seoTitle: optional(str),
+  lede: str,
+  description: str,
+  quote: optional(z.object({ text: str, by: str })),
+  sections: z.preprocess(
+    (v) => v ?? [],
+    z.array(z.object({ title: str, paras: optional(z.array(str)), items: optional(z.array(str)), links: optional(z.array(str)) })),
+  ),
+  meeting: optional(z.object({ intro: optional(str), lines: z.preprocess((v) => v ?? [], z.array(str)), joinText: optional(str) })),
+  cta: str,
+  more: optional(str),
+});
+export type CommitteeTranslation = z.infer<typeof translationSchema>;
+
+export const committeeTranslations: Record<'es' | 'fr', Record<string, CommitteeTranslation>> = { es: {}, fr: {} };
+const translationFiles = import.meta.glob('../content/committees-i18n/*/*.yml', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+for (const [file, raw] of Object.entries(translationFiles)) {
+  const [, lang, name] = file.match(/committees-i18n\/(es|fr)\/([^/]+)\.yml$/) ?? [];
+  if (!lang) continue;
+  const r = translationSchema.safeParse(parse(raw));
+  if (!r.success) {
+    throw new Error(`Translation file src/content/committees-i18n/${lang}/${name}.yml is not valid: ${r.error.issues.map((i) => `${i.path.join('.') || '(file)'}: ${i.message}`).join('; ')}`);
+  }
+  committeeTranslations[lang as 'es' | 'fr'][name] = r.data;
+}
+
 export interface DirectoryEntry {
   slug: string;
   title: string;
