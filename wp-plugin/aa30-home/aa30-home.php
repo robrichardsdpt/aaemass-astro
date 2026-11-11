@@ -25,3 +25,4 @@ define('AA30_DIR', __DIR__);
 require_once AA30_DIR . '/includes/serve.php';
 require_once AA30_DIR . '/includes/forms.php';
 require_once AA30_DIR . '/includes/rest.php';
+require_once AA30_DIR . '/includes/updater.php';

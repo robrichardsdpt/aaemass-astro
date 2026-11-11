@@ -595,5 +595,18 @@ same([$r->status, $r->data['dry'], $r->data['fields_match'], count($GLOBALS['gf_
 $r = call('volunteer', human($vol));
 same([$r->status, $r->data['dry'], $r->data['form'], $r->data['fields_match'], count($GLOBALS['gf_submits'])], [200, true, 4, true, 0], 'dry run: volunteer creates no entry');
 
+// ---------------------------------------------------------------- updater
+require AA30_DIR . '/includes/updater.php';
+$rel = fn($name, $extra = []) => $extra + ['name' => $name, 'html_url' => 'https://example.test/r', 'assets' => [['name' => 'aa30-home.zip', 'url' => 'https://api.github.com/a/1', 'browser_download_url' => 'https://example.test/aa30-home.zip']]];
+same(aa30_update_from_release($rel('2.0.9'), '2.0.8'), ['version' => '2.0.9', 'package' => 'https://example.test/aa30-home.zip', 'url' => 'https://example.test/r'], 'updater: a newer release is offered');
+same(aa30_update_from_release($rel('2.0.9'), '2.0.8', 'tok')['package'], 'https://api.github.com/a/1', 'updater: with a token the API asset is used');
+same(aa30_update_from_release($rel('2.0.8'), '2.0.8'), null, 'updater: same version is not an update');
+same(aa30_update_from_release($rel('2.0.7'), '2.0.8'), null, 'updater: an older release is never installed');
+same(aa30_update_from_release($rel('2.0.10'), '2.0.9')['version'], '2.0.10', 'updater: versions compare numerically, not as text');
+same(aa30_update_from_release($rel('Latest plugin'), '2.0.0'), null, 'updater: a release without a version number is ignored');
+same(aa30_update_from_release($rel('2.0.9', ['draft' => true]), '2.0.8'), null, 'updater: drafts are ignored');
+same(aa30_update_from_release(['name' => '2.0.9', 'assets' => []], '2.0.8'), null, 'updater: a release with no zip is ignored');
+same(aa30_update_from_release(null, '2.0.8'), null, 'updater: no release data is not an update');
+
 echo "\n$pass passed, $fail failed\n";
 exit($fail ? 1 : 0);

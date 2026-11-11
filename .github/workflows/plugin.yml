@@ -1,8 +1,9 @@
 name: Build WordPress plugin
 
 # Every time a change is merged (or weekly, to refresh the events list fetched at build time), build the
-# installable aa30-home.zip and publish it as the "plugin-latest" release. To go live: download that zip and
-# install it in WordPress (Plugins > Add New > Upload Plugin, then replace the current version).
+# installable aa30-home.zip and publish it as the "plugin-latest" release, named after its version (2.0.<build>).
+# The plugin on the live WordPress site checks that release hourly and installs it by itself (includes/updater.php).
+# Merging into wp-headless is the approval step, and only the owner can approve (see .github/CODEOWNERS).
 
 on:
   push:
@@ -29,6 +30,19 @@ jobs:
           cache: npm
       # npm ci fails on Linux: the lockfile (generated on macOS) omits optional @emnapi packages.
       - run: npm install --no-audit --no-fund
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: Test the plugin
+        run: |
+          php wp-plugin/tests/run.php
+          for f in $(find wp-plugin/aa30-home -name '*.php'); do php -l "$f" >/dev/null; done
+      # WordPress offers an update only when the version number goes up, so every build gets the next one.
+      - name: Stamp the version
+        run: |
+          echo "VERSION=2.0.${{ github.run_number }}" >> "$GITHUB_ENV"
+          sed -i "s/^ \* Version: .*/ * Version: 2.0.${{ github.run_number }}/" wp-plugin/aa30-home/aa30-home.php
+          grep -m1 'Version:' wp-plugin/aa30-home/aa30-home.php
       - name: Build the plugin
         run: ./build-plugin.sh
       - name: Check the zip before publishing it
@@ -44,8 +58,8 @@ jobs:
           notes="Built from ${GITHUB_SHA::7} on $(date -u '+%Y-%m-%d %H:%M UTC'): $(git log -1 --format=%s)"
           if gh release view plugin-latest >/dev/null 2>&1; then
             gh release upload plugin-latest aa30-home.zip --clobber
-            gh release edit plugin-latest --notes "$notes"
+            gh release edit plugin-latest --title "$VERSION" --notes "$notes"
           else
-            gh release create plugin-latest aa30-home.zip --title "Latest plugin" --notes "$notes" --target "$GITHUB_SHA"
+            gh release create plugin-latest aa30-home.zip --title "$VERSION" --notes "$notes" --target "$GITHUB_SHA"
           fi
           echo "Download: https://github.com/${{ github.repository }}/releases/download/plugin-latest/aa30-home.zip" >> "$GITHUB_STEP_SUMMARY"
