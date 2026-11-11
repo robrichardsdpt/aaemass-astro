@@ -22,6 +22,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # The signing key is a secret of this environment, which only the main branch may use (repo Settings > Environments).
+    # A branch that edits this workflow and runs it cannot reach the key, so it cannot produce an installable release.
+    environment: release
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -50,6 +53,14 @@ jobs:
         run: npx astro check
       - name: Build the plugin
         run: ./build-plugin.sh
+      - name: Sign the plugin
+        env:
+          PLUGIN_SIGNING_KEY: ${{ secrets.PLUGIN_SIGNING_KEY }}
+        run: |
+          node scripts/sign-plugin.mjs sign aa30-home.zip "$VERSION" aa30-home.sig
+          # Check it against the public key in the plugin before publishing: a wrong or missing secret stops here,
+          # and the previous release stays in place.
+          node scripts/sign-plugin.mjs verify aa30-home.zip "$VERSION" aa30-home.sig
       - name: Check the zip before publishing it
         run: |
           unzip -l aa30-home.zip | tail -1
@@ -62,9 +73,9 @@ jobs:
         run: |
           notes="Built from ${GITHUB_SHA::7} on $(date -u '+%Y-%m-%d %H:%M UTC'): $(git log -1 --format=%s)"
           if gh release view plugin-latest >/dev/null 2>&1; then
-            gh release upload plugin-latest aa30-home.zip --clobber
+            gh release upload plugin-latest aa30-home.zip aa30-home.sig --clobber
             gh release edit plugin-latest --title "$VERSION" --notes "$notes"
           else
-            gh release create plugin-latest aa30-home.zip --title "$VERSION" --notes "$notes" --target "$GITHUB_SHA"
+            gh release create plugin-latest aa30-home.zip aa30-home.sig --title "$VERSION" --notes "$notes" --target "$GITHUB_SHA"
           fi
           echo "Download: https://github.com/${{ github.repository }}/releases/download/plugin-latest/aa30-home.zip" >> "$GITHUB_STEP_SUMMARY"

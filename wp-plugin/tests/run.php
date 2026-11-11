@@ -597,9 +597,16 @@ same([$r->status, $r->data['dry'], $r->data['form'], $r->data['fields_match'], c
 
 // ---------------------------------------------------------------- updater
 require AA30_DIR . '/includes/updater.php';
-$rel = fn($name, $extra = []) => $extra + ['name' => $name, 'html_url' => 'https://example.test/r', 'assets' => [['name' => 'aa30-home.zip', 'url' => 'https://api.github.com/a/1', 'browser_download_url' => 'https://example.test/aa30-home.zip']]];
-same(aa30_update_from_release($rel('2.0.9'), '2.0.8'), ['version' => '2.0.9', 'package' => 'https://example.test/aa30-home.zip', 'url' => 'https://example.test/r'], 'updater: a newer release is offered');
+$rel = fn($name, $extra = []) => $extra + ['name' => $name, 'html_url' => 'https://example.test/r', 'assets' => [
+    ['name' => 'aa30-home.zip', 'url' => 'https://api.github.com/a/1', 'browser_download_url' => 'https://example.test/aa30-home.zip'],
+    ['name' => 'aa30-home.sig', 'url' => 'https://api.github.com/a/2', 'browser_download_url' => 'https://example.test/aa30-home.sig'],
+]];
+same(aa30_update_from_release($rel('2.0.9'), '2.0.8'), ['version' => '2.0.9', 'package' => 'https://example.test/aa30-home.zip', 'signature' => 'https://example.test/aa30-home.sig', 'url' => 'https://example.test/r'], 'updater: a newer signed release is offered, with its signature');
 same(aa30_update_from_release($rel('2.0.9'), '2.0.8', 'tok')['package'], 'https://api.github.com/a/1', 'updater: with a token the API asset is used');
+same(aa30_update_from_release($rel('2.0.9'), '2.0.8', 'tok')['signature'], 'https://api.github.com/a/2', 'updater: and the API signature asset');
+same(aa30_update_from_release($rel('2.0.9', ['assets' => [['name' => 'aa30-home.zip', 'url' => 'u', 'browser_download_url' => 'b']]]), '2.0.8'), null, 'updater: an UNSIGNED release (no signature file) is never offered');
+same(aa30_update_from_release($rel('2.0.9', ['assets' => [['name' => 'aa30-home.sig', 'url' => 'u', 'browser_download_url' => 'b']]]), '2.0.8'), null, 'updater: a signature with no zip is never offered');
+same([aa30_release_is_signed($rel('2.0.9')), aa30_release_is_signed(['assets' => [['name' => 'aa30-home.zip']]]), aa30_release_is_signed(null)], [true, false, false], 'updater: release_is_signed needs both files');
 same(aa30_update_from_release($rel('2.0.8'), '2.0.8'), null, 'updater: same version is not an update');
 same(aa30_update_from_release($rel('2.0.7'), '2.0.8'), null, 'updater: an older release is never installed');
 same(aa30_update_from_release($rel('2.0.10'), '2.0.9')['version'], '2.0.10', 'updater: versions compare numerically, not as text');
@@ -607,6 +614,28 @@ same(aa30_update_from_release($rel('Latest plugin'), '2.0.0'), null, 'updater: a
 same(aa30_update_from_release($rel('2.0.9', ['draft' => true]), '2.0.8'), null, 'updater: drafts are ignored');
 same(aa30_update_from_release(['name' => '2.0.9', 'assets' => []], '2.0.8'), null, 'updater: a release with no zip is ignored');
 same(aa30_update_from_release(null, '2.0.8'), null, 'updater: no release data is not an update');
+
+// ---- signature verification. The fixture was signed by Node (scripts/sign-plugin.mjs, the signer CI uses) with a throwaway
+// key, to prove that PHP accepts exactly what the build produces.
+$fxPub = 'MEs3QnfJ31ijkwcX5414NM4bu+rkjVOOLLabIiPaKYk=';
+$fxSig = 'OjLnXR92Gf2SSEujGAISizcJhX3p0XF8dlK3dAGBjUDEMIFcKplEz/eIy3bSpaxxK1js8Da686OWI+MrZ+dWBg==';
+$fxFile = sys_get_temp_dir() . '/aa30-fixture-' . getmypid() . '.bin';
+file_put_contents($fxFile, base64_decode('Zml4dHVyZSBwbHVnaW4gemlwIGJ5dGVzAAECIHYyLjAuOTkK'));
+same(aa30_verify_package($fxFile, '2.0.99', $fxSig, $fxPub), true, 'signature: a package signed by the build verifies');
+ok(aa30_verify_package($fxFile, '2.0.100', $fxSig, $fxPub) !== true, 'signature: the same signature does not verify for another version (no replay of an old release as a new one)');
+file_put_contents($fxFile . '.t', base64_decode('Zml4dHVyZSBwbHVnaW4gemlwIGJ5dGVzAAECIHYyLjAuOTkK') . 'x');
+ok(aa30_verify_package($fxFile . '.t', '2.0.99', $fxSig, $fxPub) !== true, 'signature: a package with one extra byte is rejected');
+ok(aa30_verify_package($fxFile, '2.0.99', $fxSig, AA30_UPDATE_PUBLIC_KEY) !== true, 'signature: a different key (the real one) does not accept the fixture');
+ok(aa30_verify_package($fxFile, '2.0.99', 'not base64!!', $fxPub) !== true, 'signature: a garbage signature is rejected');
+ok(aa30_verify_package($fxFile, '2.0.99', base64_encode('short'), $fxPub) !== true, 'signature: a signature of the wrong length is rejected');
+ok(aa30_verify_package($fxFile, '2.0.99', '', $fxPub) !== true, 'signature: an empty signature is rejected');
+ok(aa30_verify_package($fxFile . '.missing', '2.0.99', $fxSig, $fxPub) !== true, 'signature: an unreadable file is rejected');
+ok(aa30_verify_package($fxFile, '2.0.99', $fxSig, 'AAAA') !== true, 'signature: a malformed public key is rejected');
+@unlink($fxFile);
+@unlink($fxFile . '.t');
+same(strlen(base64_decode(AA30_UPDATE_PUBLIC_KEY, true)), 32, 'signature: the production public key is a valid 32-byte key');
+same([aa30_is_update_package('https://github.com/o/r/releases/download/plugin-latest/aa30-home.zip', 'o/r'), aa30_is_update_package('https://api.github.com/repos/o/r/releases/assets/123', 'o/r'), aa30_is_update_package('https://github.com/other/r/releases/download/plugin-latest/aa30-home.zip', 'o/r'), aa30_is_update_package('https://downloads.wordpress.org/plugin/akismet.zip', 'o/r'), aa30_is_update_package(null, 'o/r')], [true, true, false, false, false], 'signature: only our own release package is intercepted, never other plugins');
+same(aa30_update_status_text(['time' => 1000000 - 60, 'code' => 200, 'version' => '2.0.9', 'signed' => false], 1000000, '2.0.8'), 'Update check 1 min ago: version 2.0.9 is not signed, so it will not be installed', 'status: an unsigned newer release is explained');
 $now = 1000000;
 same(aa30_update_status_text(false, $now, '2.0.5'), 'Update check: not run yet', 'status: before any check');
 same(aa30_update_status_text(['time' => $now - 20, 'code' => 200, 'version' => '2.0.6'], $now, '2.0.5'), 'Update check just now: version 2.0.6 is available', 'status: an update is available');

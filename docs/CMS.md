@@ -67,6 +67,29 @@ so a change to a color, font size or spacing there changes every page, hand-buil
 - The CMS preview pane is turned off because it cannot use the site's styles; use the deployed preview.
 - The first mention of each defined term (GSR, DCM, and so on) in a text block becomes a popover.
 
+## Signed plugin updates (why a collaborator can not push code to the live site)
+The WordPress plugin updates itself from the `plugin-latest` release, so whoever could change that release could run code
+on the site. To prevent that, every release carries `aa30-home.sig`, an Ed25519 signature over the zip and its version,
+and the plugin installs nothing without a valid one.
+- **The private key** is the secret `PLUGIN_SIGNING_KEY` of the GitHub *environment* `release`, which only the `main`
+  branch may use (Settings > Environments > release). A branch that edits `plugin.yml` and runs it cannot read the key, so
+  it can publish a release, but not one the plugin will accept. Only a change merged to `main` (owner-approved) is signed.
+- **The public key** is `AA30_UPDATE_PUBLIC_KEY` in `wp-plugin/aa30-home/includes/updater.php`. The release workflow checks
+  its own signature against that key before publishing (a wrong or missing secret stops the release, leaving the last
+  good one in place).
+- **What is signed:** `aa30-home-plugin`, the version and the SHA-256 of the zip, so an old signed zip cannot be replayed as
+  a newer version. The plugin downloads the zip and signature itself and refuses the install if they do not match.
+- **Unaffected:** uploading the zip by hand in wp-admin (you are the one doing it).
+- **Rotating the key:** `node scripts/sign-plugin.mjs keygen` prints the private key (stdout) and the public key (stderr).
+  Store the private key as `PLUGIN_SIGNING_KEY` in the `release` environment (`... | gh secret set PLUGIN_SIGNING_KEY
+  --env release`), and put the new public key in `updater.php`. Installed sites trust the OLD key, so that release must be
+  signed with the old key: merge the `updater.php` change first (signed by the old secret), then swap the secret.
+- **Losing the key** only stops updates: generate a new pair and install one release by hand.
+- **The one remaining trust:** whoever can merge to `main` can ship code. Keep two-factor authentication (a passkey) on
+  the owner's GitHub account.
+Tests: `node scripts/sign-plugin.test.mjs`, and the PHP side in `wp-plugin/tests/run.php` (it verifies a signature made by
+Node, the signer CI uses).
+
 ## Preview clean-up
 Each draft's preview is publicly reachable by its link and Cloudflare never expires it. `cleanup-previews.yml` deletes a
 draft's previews when its pull request is closed or merged, and sweeps weekly (Mondays) and on demand for any missed.
