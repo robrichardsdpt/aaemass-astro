@@ -390,8 +390,13 @@ bar.addEventListener('pointercancel', endDrag);
 // keyboard animates, so it never waits on a late event.
 const vv = window.visualViewport;
 let follow = 0;
+// Set when focus leaves the fields: the keyboard is on its way out, but iOS keeps reporting the shrunken viewport until it
+// has finished sliding away. Without this the sheet would stay shrunk for that moment instead of expanding right away.
+let keyboardLeaving = false;
 function syncViewport() {
-  const keyboard = Boolean(vv) && sheet.matches && dlg.open && window.innerHeight - vv!.height > 120;
+  // Once the viewport reports its full height again there is nothing left to wait for.
+  if (vv && window.innerHeight - vv.height <= 120) keyboardLeaving = false;
+  const keyboard = Boolean(vv) && sheet.matches && dlg.open && !keyboardLeaving && window.innerHeight - vv!.height > 120;
   if (!keyboard) {
     delete dlg.dataset.kb;
     dlg.style.removeProperty('--es-top');
@@ -416,8 +421,16 @@ function track(ms = 900) {
 }
 vv?.addEventListener('resize', () => track(300));
 vv?.addEventListener('scroll', syncViewport);
-dlg.addEventListener('focusin', () => track());
-dlg.addEventListener('focusout', () => track());
+const isField = (el: EventTarget | null) => el instanceof HTMLElement && dlg.contains(el) && el.matches('input, select, textarea');
+dlg.addEventListener('focusin', (e) => {
+  if (isField(e.target)) keyboardLeaving = false;
+  track();
+});
+dlg.addEventListener('focusout', (e) => {
+  // Focus moving to another field keeps the keyboard up; anywhere else (or nowhere, as with Return) dismisses it.
+  if (isField(e.target) && !isField((e as FocusEvent).relatedTarget)) keyboardLeaving = true;
+  track();
+});
 sheet.addEventListener('change', syncViewport);
 dlg.addEventListener('close', () => { cancelAnimationFrame(follow); syncViewport(); });
 // Return closes the keyboard so the results are visible, and so does touching the results.
