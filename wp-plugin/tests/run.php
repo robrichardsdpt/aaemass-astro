@@ -614,5 +614,16 @@ same(aa30_update_status_text(['time' => $now - 3 * 3600, 'code' => 200, 'version
 same(aa30_update_status_text(['time' => $now - 120, 'code' => 403, 'version' => ''], $now, '2.0.5'), 'Update check 2 min ago failed: GitHub answered 403 (rate limited?)', 'status: rate limit is called out');
 same(aa30_update_status_text(['time' => $now - 120, 'code' => 0, 'version' => '', 'error' => 'cURL error 28: timeout'], $now, '2.0.5'), 'Update check 2 min ago failed: cURL error 28: timeout', 'status: network error is shown');
 
+// ---------------------------------------------------------------- plugin row
+require AA30_DIR . '/includes/guard.php';
+$active = ['deactivate' => '<a href="plugins.php?action=deactivate">Deactivate</a>', 'edit' => '<a href="plugin-editor.php">Edit</a>'];
+$shown = aa30_without_deactivate_link($active);
+ok(!isset($shown['deactivate']), 'plugin row: the Deactivate link is removed');
+same($shown['edit'], $active['edit'], 'plugin row: other links are kept as they are');
+ok(isset($shown['aa30_deactivate_note']) && strpos($shown['aa30_deactivate_note'], 'hidden on purpose') !== false, 'plugin row: a note explains the missing link');
+$inactive = ['activate' => '<a href="plugins.php?action=activate">Activate</a>', 'delete' => '<a href="plugins.php?action=delete-selected">Delete</a>'];
+same(aa30_without_deactivate_link($inactive), $inactive, 'plugin row: an inactive plugin row is left alone');
+same(aa30_without_deactivate_link(null), null, 'plugin row: anything that is not a list passes through');
+
 echo "\n$pass passed, $fail failed\n";
 exit($fail ? 1 : 0);
