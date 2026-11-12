@@ -8,7 +8,8 @@ are needed.
 - **Hidden from search:** every page has `noindex`, every response has an `X-Robots-Tag: noindex` header, the
   sitemap is empty, and nothing links to it. It is not password protected: anyone who has the link can open it.
 - **No conflicts:** the plugin only answers URLs that start with the prefix. Every other URL is left to WordPress.
-- **Removing it:** deactivate the plugin and the whole preview disappears.
+- **Removing it:** deactivate the plugin and the whole preview disappears. The Deactivate link is hidden on the Plugins
+  screen on purpose, so a stray click cannot take the preview (and its forms) offline; see "Switching it off" below.
 
 ## What each form does
 
@@ -86,3 +87,12 @@ plugin's own logic, not your live site. The dry run above is how you check the r
 
 ## Removed: the "send a message" endpoint
 The site used to have a public `/wp-json/aa30/v1/message` endpoint behind its contact forms. The forms were replaced by plain email links, and the endpoint (which could email any of 19 mailboxes) is gone, so it is no longer a spam path. Any request to it now gets a 404.
+
+## Switching it off
+
+The **Deactivate** link is hidden on the plugin's row. To switch the plugin off: Plugins, tick its box, choose
+**Bulk actions, Deactivate**, then Apply. WP-CLI also works: `wp plugin deactivate aa30-home`.
+
+This is a speed bump, not a lock. It stops an accidental click. It does not stop anyone who has server or database
+access, and anyone who can sign in as an administrator can still use the bulk action. To make deactivation need a second
+credential, block it unless a line in `wp-config.php` allows it (not built yet).
