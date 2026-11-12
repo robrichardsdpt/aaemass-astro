@@ -3,14 +3,15 @@ import Page from '../layouts/Page.astro';
 import Rich from '../components/Rich.astro';
 import Msg from '../components/Msg.astro';
 import { site, path } from '../lib/site';
-import { getLang, pick, fmt } from '../i18n';
-import { registrar } from '../i18n/pages/registrar';
+import { getLang, fmt } from '../i18n';
+import { getRegistrar } from '../lib/editable-pages';
 
 const lang = getLang(Astro);
-const m = pick(registrar, lang);
+const m = getRegistrar(lang);
 const vars = { registrarEmail: site.registrarEmail };
 const files = ['/forms/new-group-form.pdf', '/forms/group-update-form.pdf', '/forms/dcm-change-form.pdf', '/forms/group-change-form.docx'];
 const seen = new Set<string>();
+import ExtraSections from '../components/ExtraSections.astro';
 ---
 
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/committees/registrar">
@@ -44,7 +45,7 @@ const seen = new Set<string>();
         {m.forms.map((f, i) => (
           <li class="notice stack card-link">
             <p class="eyebrow">{f.kind}</p>
-            <h3><a href={path(files[i])}>{f.title}</a></h3>
+            <h3><a href={path((f as { file?: string }).file ?? files[i])}>{f.title}</a></h3>
             <p>{f.text}</p>
           </li>
         ))}
@@ -59,4 +60,5 @@ const seen = new Set<string>();
       <p><a class="button" href={`mailto:${site.registrarEmail}`}>{fmt(m.emailButton, vars)}</a></p>
     </div>
   </section>
+<ExtraSections page="registrar" />
 </Page>

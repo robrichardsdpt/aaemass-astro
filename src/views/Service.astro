@@ -1,33 +1,20 @@
 ---
 import Page from '../layouts/Page.astro';
-import { services } from '../lib/mirror-data';
+import ExtraSections from '../components/ExtraSections.astro';
 import { linkify } from '../lib/links';
 import Msg from '../components/Msg.astro';
 import { committees } from '../lib/committee-pages';
 import { termify } from '../lib/term-match';
-import { getLang, lp, pick, fmt } from '../i18n';
-import { service } from '../i18n/pages/service';
+import { getLang, lp, fmt } from '../i18n';
+import { getService } from '../lib/editable-pages';
 import { committeeNames } from '../i18n/committees';
 
 const lang = getLang(Astro);
 const seen = new Set<string>();
 
-const en = {
-  title: 'Service in Area 30: Delegate, Committees, Reports',
-  description: 'What the Delegate, Alternate Delegate, Secretary and each committee do in Area 30, when they meet and how to reach them.',
-  heading: 'Services',
-  eyebrow: 'Get involved',
-  lede: 'Opportunity abounds for Eastern Massachusetts AA members who want to take part in service beyond their home group.',
-  aboutHidden: 'About service in Area 30',
-  intro1: 'The General Service Committee of Eastern Massachusetts, Area 30, supports the work of several varied committees, some whose reports can be read below. All members of Alcoholics Anonymous are welcome. Please consider making yourself available to help out where you can.',
-  intro2: 'A complete list of conference and standing committees, with a way to reach each one, is on the [contact page](/contact).',
-  jump: 'Jump to',
-  full: 'Full {title} committee page',
-  email: 'Email {email}',
-  quoteNote: '',
-  sections: services.sections.map((s) => ({ title: s.title, paras: s.paras })),
-};
-const m = lang === 'en' ? en : pick(service as any, lang) as typeof en;
+
+const m = getService(lang);
+const en = getService('en');
 
 // Short, stable anchors that the committee tiles on the home and committees pages link to (English titles).
 const ids: Record<string, string> = {
@@ -36,7 +23,8 @@ const ids: Record<string, string> = {
   'Joint Treatment Facilities': 'treatment-facilities',
 };
 const idOf = (title: string) => ids[title] ?? title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-const sections = services.sections.map((s, i) => ({ ...s, id: idOf(s.title), title: m.sections[i].title, paras: m.sections[i].paras }));
+// Anchors come from the English titles, so they are the same in every language.
+const sections = m.sections.map((s, i) => ({ ...s, id: idOf(en.sections[i].title) }));
 const names = committeeNames[lang];
 const rich = (p: string) => termify(linkify(p), seen, lang);
 ---
@@ -73,4 +61,5 @@ const rich = (p: string) => termify(linkify(p), seen, lang);
       </div>
     </section>
   ))}
+<ExtraSections page="service" />
 </Page>

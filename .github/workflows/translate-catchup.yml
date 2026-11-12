@@ -16,6 +16,7 @@ on:
       - 'src/content/pages/**'
       - 'src/content/committees/**'
       - 'src/content/events/**'
+      - 'src/content/site/**'
   workflow_dispatch:
     inputs:
       files:

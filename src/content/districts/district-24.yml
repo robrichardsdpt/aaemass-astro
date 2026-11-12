@@ -1,10 +1,14 @@
 name: District 24
 order: 200
-lines:
-  - Meets hybrid on the 1st Thursday of the month at 7pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 929 600 6039
-  - Password – ANBPBF
-  - "[aaemassd24.org](https://aaemassd24.org)"
-  - "Please mail contributions to: P.O. Box 605, Acton, MA 01720"
+meeting:
+  how: hybrid
+  week: 1
+  weekday: Thursday
+  start: "19:00"
+online:
+  platform: Zoom
+  id: 929 600 6039
+  password: ANBPBF
+  password_label: Password
+website: https://aaemassd24.org
+mail: P.O. Box 605, Acton, MA 01720

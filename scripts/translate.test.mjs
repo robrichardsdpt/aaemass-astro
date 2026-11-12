@@ -16,6 +16,12 @@ assert.throws(() => unmask('lost it', m.kept), /lost/, 'a lost address is an err
 const two = mask('See [a](u1) and [b](u2).');
 assert.equal(unmask(two.masked, two.kept), 'See [a](u1) and [b](u2).', 'several links in one sentence');
 
+// glossary popovers keep their id, and only the label is translated
+const term = mask('A General Service Conference [[delegate|Delegate]] comes from an area; see [[gsr|GSRs]].');
+assert.ok(!/\[\[|\]\]|delegate\||gsr\|/.test(term.masked), 'the popover codes never reach the translator');
+assert.equal(unmask(term.masked, term.kept), 'A General Service Conference [[delegate|Delegate]] comes from an area; see [[gsr|GSRs]].', 'round trip');
+assert.equal(unmask(term.masked.replace('>Delegate<', '>delegado<'), term.kept), 'A General Service Conference [[delegate|delegado]] comes from an area; see [[gsr|GSRs]].', 'the label changes, the id does not');
+
 // markdown layout
 const body = 'Hello there.\n\n## What to bring\n\n- A dish\n- A plate\n\n1. First\n2. Second\n\nA paragraph\nover two lines.\n\n---\n\n> A quote';
 const { pieces, assemble } = markdownPieces(body, (s) => /\p{L}/u.test(s));

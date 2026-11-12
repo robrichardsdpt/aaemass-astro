@@ -1,0 +1,21 @@
+---
+// A short site-wide message (a cancelled assembly, a changed Zoom link). Edited in the CMS under Site settings > Site notice.
+import { getNotice } from '../lib/editable-pages';
+import { href } from '../lib/cms';
+import { getLang } from '../i18n';
+
+const notice = getNotice();
+const lang = getLang(Astro);
+const link = href(notice?.linkUrl, lang);
+---
+
+{notice && (
+  <div class="notice-bar">
+    <div class="wrap">
+      <p>
+        {notice.text}
+        {link && <>{' '}<a href={link}>{notice.linkText || 'Read more'}</a></>}
+      </p>
+    </div>
+  </div>
+)}

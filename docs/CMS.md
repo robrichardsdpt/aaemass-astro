@@ -8,7 +8,7 @@ the site in about a minute. Nothing runs on a server.
   details, link pills, quote, buttons, checklist, upcoming events). Drag blocks by the grip to reorder them.
   The page appears at `/<file-name>/`, gets a breadcrumb, structured data and a sitemap entry automatically.
   FAQ blocks also become `FAQPage` markup.
-- **Events**: each event gets `/events/<name>/` with `Event` markup, plus Spanish and French pages once translated (see `docs/TRANSLATION.md`). Past events leave the lists and the
+- **Events**: each event gets `/events/<name>/` with `Event` markup, plus Spanish and French pages once translated (see `docs/TRANSLATION.md`). Editors pick a date and Eastern start/end times with the browser's native pickers (`public/admin/widgets.js`); they are stored as plain `date`, `start_time`, `end_time` and `end_date` and converted to real instants in `src/content.config.ts`, so the editor's own time zone never matters. Older files with a full `start` timestamp still work. Past events leave the lists and the
   sitemap, and their pages say "This event has passed".
 - **Committees**: one file per committee in `src/content/committees/`. It drives the committee page, the picture
   tiles and "also" list on the home and Committees pages, and the Contact page directory (conference and standing
@@ -17,11 +17,20 @@ the site in about a minute. Nothing runs on a server.
   Spanish and French committee text still lives in `src/i18n/pages/committees.ts` and `src/i18n/committees.ts`;
   a new committee shows its English text in those languages until someone adds translations there. Picture tiles
   use the six bundled photos; a new tile picture needs a developer.
-- **Districts**: one file per district in `src/content/districts/`. The `lines` keep the standard wording so the
-  Spanish and French translator (`src/i18n/districts.ts`) still matches them.
-- **Contact details and officers**: `src/content/site/contact.yml` (general and Registrar email, mailing address,
-  officer emails) feeds the footer, Contact page and Registrar page.
-- **Main menu**: Site settings > Main menu. Drag to reorder; use `/page-name/` for pages on this site.
+- **Districts**: one file per district in `src/content/districts/`, filled in as structured fields (when it meets,
+  online meeting, in-person meeting, website, mail address). `src/lib/districts.ts` turns them into the standard card
+  lines, worded exactly as the Spanish and French translator (`src/i18n/districts.ts`) expects. Anything that does not
+  fit goes in `extra_lines` (District 27 uses this for its bilingual lines).
+- **Site settings pages**: Home, Contribute, Resources, Literature, What is AA?, Registrar, 12th Step Volunteer, Calendar
+  and Services (`src/content/site/<page>.yml`). They hold the English text an editor may change, checked against the
+  English in `src/i18n/pages/<page>.ts` (an unknown or mistyped field fails the build). Anything not in those files stays
+  in the code: the mailing-list and volunteer forms and their messages, and on Contribute the whole payment form.
+  Lists (FAQs, steps, links, committees on Services) can be added to, removed or reordered. Every page also has
+  **Extra sections** at the bottom, where editors add any of the page blocks (`extra_blocks` in the file, validated against
+  `src/lib/blocks-schema.ts`). Spanish and French are generated automatically (see `docs/TRANSLATION.md`, "Pages edited in the
+  CMS"): `src/lib/editable-pages.ts` picks, per text, a fresh machine translation, else the translation in the code, else English.
+- **Site notice**: Site settings. A bar above the header on every page, with an optional last day (`src/content/site/notice.yml`);
+  the build drops it after that day (the site rebuilds daily). It shows in English on every language version.
 
 ## Local use (no setup beyond npm install)
 ```

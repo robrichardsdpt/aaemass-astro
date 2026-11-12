@@ -1,14 +1,15 @@
 ---
 import Page from '../layouts/Page.astro';
 import Rich from '../components/Rich.astro';
-import { getLang, pick } from '../i18n';
+import { getLang } from '../i18n';
 import { ui } from '../i18n/ui';
-import { resources } from '../i18n/pages/resources';
+import { getResources } from '../lib/editable-pages';
 
 const lang = getLang(Astro);
-const m = pick(resources, lang);
+const m = getResources(lang);
 const u = ui[lang];
 const seen = new Set<string>();
+import ExtraSections from '../components/ExtraSections.astro';
 ---
 
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} current="/resources">
@@ -40,4 +41,5 @@ const seen = new Set<string>();
       </ul>
     </div>
   </section>
+<ExtraSections page="resources" />
 </Page>

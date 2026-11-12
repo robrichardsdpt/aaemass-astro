@@ -1,13 +1,17 @@
 name: District 8
 order: 70
-lines:
-  - Meets hybrid on the 3rd Monday of the month at 7pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 884 7243 7705
-  - Password – GSRD8
-  - "In person:"
-  - Quincy Point Congregational Church
-  - 444 Washington St, Quincy, MA 02169
-  - "Please mail contributions to: P.O. Box 692413 Quincy, MA 02269"
-  - "[www.aadistrict8ma.org/]( http://www.aadistrict8ma.org/ )"
+meeting:
+  how: hybrid
+  week: 3
+  weekday: Monday
+  start: "19:00"
+online:
+  platform: Zoom
+  id: 884 7243 7705
+  password: GSRD8
+  password_label: Password
+in_person:
+  place: Quincy Point Congregational Church
+  address: 444 Washington St, Quincy, MA 02169
+mail: P.O. Box 692413 Quincy, MA 02269
+website: http://www.aadistrict8ma.org/

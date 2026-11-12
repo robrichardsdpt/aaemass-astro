@@ -7,12 +7,13 @@ import { getUpcomingEvents, localizeEvents } from '../lib/events';
 import Msg from '../components/Msg.astro';
 import Rich from '../components/Rich.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import NoticeBar from '../components/NoticeBar.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteScripts from '../components/SiteScripts.astro';
 import LiveFormScript from '../components/ui/LiveFormScript.astro';
-import { getLang, lp, pick, fmt, htmlLang } from '../i18n';
+import { getLang, lp, fmt, htmlLang } from '../i18n';
 import { ui } from '../i18n/ui';
-import { home } from '../i18n/pages/home';
+import { getHome } from '../lib/editable-pages';
 import { committeeNames } from '../i18n/committees';
 
 import heroImg from '../assets/boston-2-bg.jpg';
@@ -27,7 +28,7 @@ import pi from '../assets/home-pi.jpg';
 
 const lang = getLang(Astro);
 const u = ui[lang];
-const m = pick(home, lang);
+const m = getHome(lang);
 const names = committeeNames[lang];
 const vars = { registrarEmail: site.registrarEmail, email: site.email, registerForm: site.links.registerForm, when: u.meetingWhen, where: u.meetingWhere };
 const faqs = m.faqs.map((f) => ({ ...f, a: fmt(f.a, vars) }));
@@ -41,9 +42,11 @@ const tz = 'America/New_York';
 const locale = lang === 'en' ? 'en-US' : htmlLang[lang];
 const day = new Intl.DateTimeFormat(locale, { timeZone: tz, month: 'short', day: 'numeric' });
 const clock = new Intl.DateTimeFormat(locale, { timeZone: tz, weekday: 'long', hour: 'numeric', minute: '2-digit' });
+import ExtraSections from '../components/ExtraSections.astro';
 ---
 
 <Base title={m.title} description={m.description} faqs={faqs}>
+  <NoticeBar />
   <SiteHeader />
 
   <main id="main">
@@ -256,6 +259,7 @@ const clock = new Intl.DateTimeFormat(locale, { timeZone: tz, weekday: 'long', h
         </div>
       </div>
     </section>
+<ExtraSections page="home" />
   </main>
 
   <SiteFooter />

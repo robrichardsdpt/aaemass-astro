@@ -2,12 +2,13 @@
 import Page from '../layouts/Page.astro';
 import Rich from '../components/Rich.astro';
 import { site } from '../lib/site';
-import { getLang, lp, pick } from '../i18n';
-import { aa } from '../i18n/pages/aa';
+import { getLang, lp } from '../i18n';
+import { getAa } from '../lib/editable-pages';
 
 const lang = getLang(Astro);
-const m = pick(aa, lang);
+const m = getAa(lang);
 const seen = new Set<string>();
+import ExtraSections from '../components/ExtraSections.astro';
 ---
 
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/alcoholics-anonymous">
@@ -74,4 +75,5 @@ const seen = new Set<string>();
       </p>
     </div>
   </section>
+<ExtraSections page="aa" />
 </Page>

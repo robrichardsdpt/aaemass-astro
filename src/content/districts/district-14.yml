@@ -1,12 +1,16 @@
 name: District 14
 order: 120
-lines:
-  - Meets hybrid on the 1st Thursday of the month at 6:30pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 843 2739 7876
-  - Password – Service12
-  - "In person:"
-  - St Elizabeth’s Hospital, St Mary’s Hall
-  - 736 Cambridge St, Boston, MA 02135
-  - "Please mail contributions to: P.O. Box 35321 Brighton MA 02135"
+meeting:
+  how: hybrid
+  week: 1
+  weekday: Thursday
+  start: "18:30"
+online:
+  platform: Zoom
+  id: 843 2739 7876
+  password: Service12
+  password_label: Password
+in_person:
+  place: St Elizabeth’s Hospital, St Mary’s Hall
+  address: 736 Cambridge St, Boston, MA 02135
+mail: P.O. Box 35321 Brighton MA 02135

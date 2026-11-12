@@ -1,13 +1,17 @@
 name: District 3
 order: 20
-lines:
-  - Meets hybrid on the 2nd Wednesday of the month at 7pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 831 9663 9590
-  - Password – 363666
-  - "In person:"
-  - 1st Congregational Church of Rochester
-  - 11 Constitution Way, Rochester, MA 02770
-  - "[www.aamassd3.org](https://www.aamassd3.org)"
-  - "Please mail contributions to: P.O. Box 520, Mattapoisett, MA 02739"
+meeting:
+  how: hybrid
+  week: 2
+  weekday: Wednesday
+  start: "19:00"
+online:
+  platform: Zoom
+  id: 831 9663 9590
+  password: "363666"
+  password_label: Password
+in_person:
+  place: 1st Congregational Church of Rochester
+  address: 11 Constitution Way, Rochester, MA 02770
+website: https://www.aamassd3.org
+mail: P.O. Box 520, Mattapoisett, MA 02739

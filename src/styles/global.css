@@ -190,6 +190,10 @@
 @layer components {
   /* Header */
   .site-header { position: relative; z-index: 50; border-block-end: 1px solid var(--line); }
+  .notice-bar { background: var(--accent); color: var(--accent-ink); font-size: var(--step--1, 0.95rem); line-height: 1.45; }
+  .notice-bar p { margin: 0; padding-block: var(--s-3); text-wrap: pretty; font-weight: 600; }
+  .notice-bar a { color: inherit; text-decoration-thickness: 0.12em; }
+  .notice-bar a:hover { color: inherit; text-decoration-thickness: 0.2em; }
   .site-header .wrap {
     display: flex;
     flex-wrap: wrap;

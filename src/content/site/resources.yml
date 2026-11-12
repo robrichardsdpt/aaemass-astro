@@ -1,0 +1,26 @@
+title: AA Resources and Links | Area 30 Eastern Mass.
+description: "Useful links for Area 30 members: the General Service Office, AA Grapevine, AA Guidelines, Box 459 and other area web sites."
+heading: Resources
+eyebrow: Links
+lede: Useful Alcoholics Anonymous links for members in Area 30.
+officialTitle: Official Alcoholics Anonymous
+official:
+  - name: AA General Service Office (G.S.O.)
+    href: https://www.aa.org/
+  - name: AA Grapevine Magazine
+    href: https://www.aagrapevine.org/
+quickTitle: Frequently requested information
+quickIntro: Direct links to information on the AAWS and AA Grapevine web sites that is often requested by members in Area 30.
+quick:
+  - title: AA Guidelines
+    href: http://www.aa.org/pages/en_US/aa-guidelines
+    text: Download or view the AA Guidelines. They represent the shared experience of AA members and groups throughout the service areas in the United States and Canada, and reflect guidance from the Twelve Traditions and the General Service Conference. The purpose of the Guidelines is to help a group reach an informed group conscience.
+  - title: Box 459
+    href: https://www.aa.org/news-and-announcements
+    text: News and Notes from G.S.O. Download or view Box 459.
+  - title: Area web sites
+    href: https://www.aa.org/list-of-general-service-conference-area-web-sites-uscanada
+    text: AAWS’s list of General Service Conference area web sites.
+  - title: Fact sheets and pamphlets
+    href: https://www.aa.org/resources/literature
+    text: Information on AA from AAWS, including fact sheets and some pamphlets.

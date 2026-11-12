@@ -1,13 +1,13 @@
 ---
 import Page from '../layouts/Page.astro';
-import { literature } from '../lib/mirror-data';
-import { getLang, pick } from '../i18n';
+import { getLang } from '../i18n';
 import { ui } from '../i18n/ui';
-import { literatureMsgs } from '../i18n/pages/literature';
+import { getLiterature } from '../lib/editable-pages';
 
 const lang = getLang(Astro);
-const m = pick(literatureMsgs, lang);
+const m = getLiterature(lang);
 const u = ui[lang];
+import ExtraSections from '../components/ExtraSections.astro';
 ---
 
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} current="/literature">
@@ -26,10 +26,10 @@ const u = ui[lang];
           <p>{g.intro}</p>
         </div>
         <ul class="cards">
-          {g.items.map((item, j) => (
+          {g.items.map((item) => (
             <li class="notice stack card-link">
               {item.sub && <p class="eyebrow">{item.sub}</p>}
-              <h3><a href={literature.groups[i].items[j].href}>{item.title}<span class="visually-hidden">{u.opensAaOrg}</span></a></h3>
+              <h3><a href={item.href}>{item.title}<span class="visually-hidden">{u.opensAaOrg}</span></a></h3>
               <p>{item.description}</p>
             </li>
           ))}
@@ -37,4 +37,5 @@ const u = ui[lang];
       </div>
     </section>
   ))}
+<ExtraSections page="literature" />
 </Page>

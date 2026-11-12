@@ -25,7 +25,7 @@ collections:
   - name: pages
     label: Pages
     label_singular: Page
-    description: Build a page from blocks. Drag blocks by their handle to reorder them.
+    description: 'Build a page from blocks. Drag blocks by their handle to reorder them. New here? Read the [editor guide](help.html).'
     folder: src/content/pages
     extension: yml
     format: yml
@@ -35,8 +35,8 @@ collections:
     editor:
       preview: false
     fields: &page_fields
-      - { label: Title, name: title, widget: string, hint: 'Shown as the page heading. Keep it under 60 characters for search results.' }
-      - { label: Search description, name: description, widget: text, hint: 'One or two sentences, 120 to 160 characters.' }
+      - { label: Title, name: title, widget: string, hint: 'Shown as the page heading. Keep it under 60 characters for search results.', pattern: ['^.{1,70}$', 'Keep the title under 60 characters'] }
+      - { label: Search description, name: description, widget: text, hint: 'One or two sentences, 120 to 160 characters.', pattern: ['^[\s\S]{100,175}$', 'Aim for 120 to 160 characters so search engines show it in full'] }
       - { label: Small label above the title, name: eyebrow, widget: string, required: false }
       - { label: Intro sentence, name: lede, widget: text, required: false }
       - { label: Hide from search engines, name: noindex, widget: boolean, default: false, required: false }
@@ -52,13 +52,13 @@ collections:
         label_singular: Block
         summary: '{{fields.type}}: {{fields.heading}}{{fields.title}}{{fields.text}}'
         hint: Add blocks and drag them into order.
-        types:
+        types: &block_types
           - label: Text
             name: text
             widget: object
             fields:
               - { label: Heading, name: heading, widget: string, required: false }
-              - { label: Text, name: body, widget: markdown, hint: 'Links to pages on this site: /contact/' }
+              - { label: Text, name: body, widget: markdown, buttons: [bold, italic, link, heading-two, heading-three, bulleted-list, numbered-list], modes: [rich_text], editor_components: [], hint: 'Links to pages on this site: /contact/' }
           - label: Cards
             name: cards
             widget: object
@@ -72,24 +72,24 @@ collections:
                   - { label: Title, name: title, widget: string }
                   - { label: Text, name: text, widget: text, required: false }
                   - { label: Link text, name: link_text, widget: string, required: false }
-                  - { label: Link address, name: link_url, widget: string, required: false, hint: '/committees/ for this site, or a full https:// address' }
+                  - { label: Link address, name: link_url, widget: string, pattern: ['^(/|https?://|mailto:|tel:)', 'Start with / for a page on this site, or https:// for another site'], required: false, hint: '/committees/ for this site, or a full https:// address' }
           - label: Callout box
             name: callout
             widget: object
             fields:
               - { label: Title, name: title, widget: string, required: false }
-              - { label: Text, name: body, widget: markdown }
+              - { label: Text, name: body, widget: markdown, buttons: [bold, italic, link, heading-two, heading-three, bulleted-list, numbered-list], modes: [rich_text], editor_components: [] }
           - label: Image and text
             name: split
             widget: object
             fields:
               - { label: Heading, name: heading, widget: string, required: false }
-              - { label: Text, name: body, widget: markdown }
+              - { label: Text, name: body, widget: markdown, buttons: [bold, italic, link, heading-two, heading-three, bulleted-list, numbered-list], modes: [rich_text], editor_components: [] }
               - { label: Image, name: image, widget: image, required: false }
-              - { label: Image description (for screen readers), name: image_alt, widget: string, required: false }
+              - { label: Image description (for screen readers), name: image_alt, widget: string, required: false, hint: 'A few words describing the picture for people who cannot see it. Fill this in whenever there is an image.' }
               - { label: Put image on the right, name: flip, widget: boolean, default: false, required: false }
               - { label: Button text, name: button_label, widget: string, required: false }
-              - { label: Button address, name: button_url, widget: string, required: false }
+              - { label: Button address, name: button_url, widget: string, pattern: ['^(/|https?://|mailto:|tel:)', 'Start with / for a page on this site, or https:// for another site'], required: false }
           - label: FAQ
             name: faq
             widget: object
@@ -113,7 +113,7 @@ collections:
                 fields:
                   - { label: Name, name: title, widget: string }
                   - { label: Email, name: email, widget: string, required: false }
-                  - { label: Website, name: url, widget: string, required: false }
+                  - { label: Website, name: url, widget: string, required: false, pattern: ['^https?://', 'Start with https://'] }
                   - { label: Note, name: note, widget: string, required: false }
           - label: Meeting details
             name: meeting
@@ -124,7 +124,7 @@ collections:
                 name: lines
                 widget: list
                 field: { label: Line, name: line, widget: string }
-              - { label: Online meeting link, name: join_url, widget: string, required: false }
+              - { label: Online meeting link, name: join_url, widget: string, pattern: ['^(/|https?://|mailto:|tel:)', 'Start with / for a page on this site, or https:// for another site'], required: false }
               - { label: Show a calendar button, name: show_calendar_link, widget: boolean, default: true, required: false }
           - label: Link pills
             name: links
@@ -136,7 +136,7 @@ collections:
                 widget: list
                 fields:
                   - { label: Text, name: label, widget: string }
-                  - { label: Address, name: url, widget: string }
+                  - { label: Address, name: url, widget: string, pattern: ['^(/|https?://|mailto:|tel:)', 'Start with / for a page on this site, or https:// for another site'] }
           - label: Quote
             name: quote
             widget: object
@@ -152,7 +152,7 @@ collections:
                 widget: list
                 fields:
                   - { label: Text, name: label, widget: string }
-                  - { label: Address, name: url, widget: string }
+                  - { label: Address, name: url, widget: string, pattern: ['^(/|https?://|mailto:|tel:)', 'Start with / for a page on this site, or https:// for another site'] }
                   - { label: Style, name: style, widget: select, options: [primary, quiet], default: primary, required: false }
           - label: Checklist
             name: checklist
@@ -199,28 +199,30 @@ collections:
   - name: events
     label: Events
     label_singular: Event
-    description: Each event gets its own page. Past events drop off the lists automatically.
+    description: 'Highlighted events. They show first in Explore events on the Calendar page and get their own page. Weekly and monthly meetings that repeat belong in the Google Calendar instead. Past events drop off automatically.'
     folder: src/content/events
     extension: md
     format: frontmatter
     create: true
     slug: '{{year}}-{{month}}-{{slug}}'
-    summary: '{{title}} ({{start}})'
-    sortable_fields: [start, title]
+    summary: '{{title}} ({{date}})'
+    sortable_fields: [date, title]
     editor:
       preview: false
     fields:
       - { label: Event name, name: title, widget: string }
       - { label: One-sentence summary, name: summary, widget: text, hint: 'Used in search results and the event list.' }
-      - { label: Starts, name: start, widget: datetime, hint: 'Times are Eastern.' }
-      - { label: Ends, name: end, widget: datetime, required: false }
-      - { label: All-day event, name: all_day, widget: boolean, default: false, required: false }
+      - { label: Date, name: date, widget: eventdate, hint: 'The first day of the event.' }
+      - { label: All-day event, name: all_day, widget: boolean, default: false, required: false, hint: 'Tick this if there is no set time. You can then skip the times below.' }
+      - { label: Starts at, name: start_time, widget: eventtime, required: false, hint: 'Eastern time. Required unless it is an all-day event.' }
+      - { label: Ends at, name: end_time, widget: eventtime, required: false, hint: 'Optional. Eastern time.' }
+      - { label: Last day, name: end_date, widget: eventdate, required: false, hint: 'Only if the event runs past midnight or over several days. Leave blank for a one-day event.' }
       - { label: Place name, name: location_name, widget: string, required: false }
       - { label: Street address, name: address, widget: string, required: false }
-      - { label: Online link, name: online_url, widget: string, required: false }
+      - { label: Online link, name: online_url, widget: string, required: false, pattern: ['^https?://', 'Start with https://'] }
       - { label: Image, name: image, widget: image, required: false }
-      - { label: Image description (for screen readers), name: image_alt, widget: string, required: false }
-      - { label: Details, name: body, widget: markdown, required: false }
+      - { label: Image description (for screen readers), name: image_alt, widget: string, required: false, hint: 'A few words describing the picture for people who cannot see it. Fill this in whenever there is an image.' }
+      - { label: Details, name: body, widget: markdown, buttons: [bold, italic, link, heading-two, heading-three, bulleted-list, numbered-list], modes: [rich_text], editor_components: [], required: false }
       - label: Remove from the website
         name: removed
         widget: boolean
@@ -257,11 +259,12 @@ collections:
       - { label: Page, name: page_type, widget: hidden, default: standard }
       - { label: Small label above the title, name: eyebrow, widget: string, required: false, hint: 'Required if the committee has its own page.' }
       - { label: Intro sentence, name: lede, widget: text, required: false, hint: 'Required if the committee has its own page.' }
-      - { label: Search description, name: description, widget: text, required: false, hint: 'One or two sentences, 120 to 160 characters. Required if the committee has its own page.' }
+      - { label: Search description, name: description, widget: text, required: false, hint: 'One or two sentences, 120 to 160 characters. Required if the committee has its own page.', pattern: ['^[\s\S]{100,175}$', 'Aim for 120 to 160 characters so search engines show it in full'] }
       - { label: Search title (optional), name: seo_title, widget: string, required: false, hint: 'Leave blank to use "<name> Committee | Area 30 Eastern Mass. AA".' }
       - label: Quote
         name: quote
         widget: object
+        collapsed: true
         required: false
         fields:
           - { label: Quote, name: text, widget: text }
@@ -269,6 +272,7 @@ collections:
       - label: Sections
         name: sections
         widget: list
+        collapsed: true
         required: false
         label_singular: Section
         summary: '{{fields.title}}'
@@ -290,10 +294,11 @@ collections:
             required: false
             fields:
               - { label: Text, name: text, widget: string }
-              - { label: Address, name: href, widget: string, hint: '/page-name/ for this site, or a full https:// address' }
+              - { label: Address, name: href, widget: string, pattern: ['^(/|https?://|mailto:|tel:)', 'Start with / for a page on this site, or https:// for another site'], hint: '/page-name/ for this site, or a full https:// address' }
       - label: Monthly meeting (for search engines)
         name: schedule
         widget: object
+        collapsed: true
         required: false
         hint: 'Fill in if the committee meets on the same weekday each month.'
         fields:
@@ -303,6 +308,7 @@ collections:
       - label: Meeting box
         name: meeting
         widget: object
+        collapsed: true
         required: false
         fields:
           - { label: Intro, name: intro, widget: text, required: false }
@@ -321,16 +327,17 @@ collections:
             required: false
             fields:
               - { label: Button text, name: text, widget: string }
-              - { label: Address, name: href, widget: string }
+              - { label: Address, name: href, widget: string, pattern: ['^(/|https?://|mailto:|tel:)', 'Start with / for a page on this site, or https:// for another site'] }
           - { label: Show a calendar button, name: calendar, widget: boolean, default: true, required: false }
       - { label: Call to action, name: cta, widget: text, required: false, hint: 'The sentence above the email button. Required if the committee has its own page.' }
       - label: Related link
         name: more
         widget: object
+        collapsed: true
         required: false
         fields:
           - { label: Text, name: text, widget: string }
-          - { label: Address, name: href, widget: string }
+          - { label: Address, name: href, widget: string, pattern: ['^(/|https?://|mailto:|tel:)', 'Start with / for a page on this site, or https:// for another site'] }
       - label: Remove from the website
         name: removed
         widget: boolean
@@ -341,7 +348,7 @@ collections:
   - name: districts
     label: Districts
     label_singular: District
-    description: 'When and where each district meets. Each district is one card on the Districts page. Spanish and French versions are generated automatically from the standard wording below, so please follow the examples.'
+    description: 'When and where each district meets. Each district is one card on the Districts page. Fill in the sections below and the card is written for you, in English, Spanish and French.'
     folder: src/content/districts
     extension: yml
     format: yml
@@ -354,18 +361,48 @@ collections:
     fields:
       - { label: District name, name: name, widget: string, hint: 'For example: District 7, or District 12 & 13.' }
       - { label: Display order, name: order, widget: number, value_type: int, default: 100, hint: 'Lower numbers come first. Districts go up by 10, so pick a number in between to place a new one.' }
-      - label: Card lines
-        name: lines
+      - label: When it meets
+        name: meeting
+        widget: object
+        required: false
+        hint: 'Leave empty only if the card is written in the Other lines box at the bottom.'
+        fields:
+          - { label: How, name: how, widget: select, options: [{ label: In person and online (hybrid), value: hybrid }, { label: Online only, value: virtually }, { label: In person only, value: in person }] }
+          - { label: Which one in the month, name: week, widget: select, value_type: int, options: [{ label: 1st, value: 1 }, { label: 2nd, value: 2 }, { label: 3rd, value: 3 }, { label: 4th, value: 4 }] }
+          - { label: Weekday, name: weekday, widget: select, options: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday] }
+          - { label: Starts at, name: start, widget: eventtime, hint: 'Eastern time.' }
+          - { label: Ends at, name: end, widget: eventtime, required: false }
+          - { label: Note, name: note, widget: string, required: false, hint: 'Optional, shown in brackets. For example: if the 1st Monday falls on a holiday, the meeting will be held the 2nd Monday of the month.' }
+      - label: Online meeting
+        name: online
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: Platform, name: platform, widget: string, required: false, hint: 'For example: Zoom.' }
+          - { label: Meeting ID, name: id, widget: string, required: false }
+          - { label: Password or passcode, name: password, widget: string, required: false }
+          - { label: Called, name: password_label, widget: select, options: [Password, Passcode], default: Password, required: false }
+          - { label: Email for the password, name: password_email, widget: string, required: false, hint: 'Use this instead of a password when people must ask for it.', pattern: ['^[^@\s]+@[^@\s]+\.[^@\s]+$', 'Enter a full email address'] }
+          - { label: Email for more information, name: info_email, widget: string, required: false, pattern: ['^[^@\s]+@[^@\s]+\.[^@\s]+$', 'Enter a full email address'] }
+      - label: In-person meeting
+        name: in_person
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: Place name, name: place, widget: string, required: false }
+          - { label: Street address, name: address, widget: string, required: false }
+      - { label: District website, name: website, widget: string, required: false, pattern: ['^https?://', 'Start with https://'] }
+      - { label: Mail contributions to, name: mail, widget: string, required: false, hint: 'The address only. For example: P.O. Box 1, Town, MA 01234. "Please mail contributions to:" is added for you.' }
+      - { label: Make checks payable to, name: payable_to, widget: string, required: false }
+      - label: Other lines
+        name: extra_lines
         widget: list
+        required: false
+        collapsed: true
         label_singular: Line
-        summary: '{{fields.line}}'
-        hint: |
-          One line per row, in the order they should appear. Use this wording so the Spanish and French pages translate correctly:
-          Meets hybrid on the 2nd Tuesday of the month at 7pm  (hybrid, virtually or in person)
-          Online:  /  In person:  /  Address:
-          Platform – Zoom  /  ID – 123 456 7890  /  Password – abc123
-          Please mail contributions to: P.O. Box 1, Town, MA 01234
-          Website: [example.org](https://example.org)
+        hint: 'Only for anything that does not fit above. One line each. These stay in English on the Spanish and French pages unless a developer adds a translation.'
         field: { label: Line, name: line, widget: string }
       - label: Remove from the website
         name: removed
@@ -376,6 +413,8 @@ collections:
 
   - name: settings
     label: Site settings
+    editor:
+      preview: false
     files:
       - name: navigation
         label: Main menu
@@ -387,7 +426,7 @@ collections:
             widget: list
             fields:
               - { label: Label, name: label, widget: string }
-              - { label: Address, name: url, widget: string }
+              - { label: Address, name: url, widget: string, pattern: ['^(/|https?://|@documents$)', 'Use /page-name/ for this site, https:// for another site, or @documents'] }
       - name: contact
         label: Contact details and officers
         file: src/content/site/contact.yml
@@ -413,3 +452,484 @@ collections:
               - { label: Alternate Area Chair, name: altchair, widget: string }
               - { label: Area Secretary, name: secretary, widget: string }
               - { label: Area Treasurer, name: treasurer, widget: string }
+
+      - name: notice
+        label: Site notice
+        file: src/content/site/notice.yml
+        description: 'A short message shown in a bar at the top of every page, for example a cancelled assembly or a changed Zoom link. Leave the message empty to show nothing. It appears in English on every language version.'
+        fields:
+          - { label: Message, name: text, widget: string, required: false, hint: 'One sentence. Clear this box to remove the notice.' }
+          - { label: Link text, name: link_text, widget: string, required: false, hint: 'For example: See the details. Defaults to Read more.' }
+          - { label: Link address, name: link_url, widget: string, required: false, pattern: ['^(/|https?://|mailto:|tel:)', 'Start with / for a page on this site, or https:// for another site'] }
+          - { label: Last day to show it, name: until, widget: eventdate, required: false, hint: 'Optional. The notice is removed the first time the site is rebuilt after this day (the site rebuilds every morning and whenever a change is published).' }
+
+      - name: home
+        label: 'Home page'
+        file: src/content/site/home.yml
+        description: 'The page in English. Spanish and French wording is generated automatically (machine translation, needs review before it is shown to search engines).'
+        fields:
+          - { label: 'Search title', name: title, widget: string, hint: 'Under 60 characters.', pattern: ['^.{1,70}$', 'Keep the title under 60 characters'] }
+          - { label: 'Search description', name: description, widget: text, hint: '120 to 160 characters.', pattern: ['^[\s\S]{100,175}$', 'Aim for 120 to 160 characters so search engines show it in full'] }
+          - { label: 'Small label above the headline', name: eyebrow, widget: string }
+          - { label: 'Headline', name: h1, widget: string }
+          - { label: 'Intro sentence', name: lede, widget: text }
+          - { label: 'Button: find a meeting', name: findMeeting, widget: string }
+          - { label: 'Button: see the calendar', name: seeCalendar, widget: string }
+          - label: 'Mailing list box'
+            name: signup
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Heading', name: title, widget: string }
+              - { label: 'Text', name: text, widget: text }
+              - { label: 'Email field label', name: emailLabel, widget: string }
+              - { label: 'Button text', name: submit, widget: string }
+          - label: 'About Area 30'
+            name: about
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Picture description', name: imageAlt, widget: string, hint: 'For screen readers.' }
+              - { label: 'Heading', name: title, widget: string }
+              - { label: 'Bold opening sentence', name: strong, widget: text }
+              - { label: 'First paragraph', name: p1, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+              - { label: 'Second paragraph', name: p2, widget: text }
+          - label: 'Group registration box'
+            name: register
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Heading', name: title, widget: string }
+              - { label: 'First paragraph', name: p1, widget: text }
+              - { label: 'Second paragraph', name: p2, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - label: 'About this website'
+            name: website
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Picture description', name: imageAlt, widget: string, hint: 'For screen readers.' }
+              - { label: 'Heading', name: title, widget: string }
+              - { label: 'First paragraph', name: p1, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+              - { label: 'Second paragraph', name: p2, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+              - { label: 'Button text', name: button, widget: string }
+          - label: 'Get involved in service'
+            name: service
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Small label', name: eyebrow, widget: string }
+              - { label: 'Heading', name: title, widget: string }
+              - { label: 'Introduction', name: intro, widget: text }
+              - { label: 'AA groups card', name: groups, widget: object, collapsed: true, fields: [{ label: 'Heading', name: title, widget: string }, { label: 'Text', name: text, widget: text }, { label: 'Link text', name: link, widget: string }, { label: 'Extra words read by screen readers after the link', name: hidden, widget: string, hint: 'Starts with a space. Example: " on aaboston.org".' }] }
+              - { label: 'AA service card', name: service, widget: object, collapsed: true, fields: [{ label: 'Heading', name: title, widget: string }, { label: 'Text', name: text, widget: text }, { label: 'Link text', name: link, widget: string }] }
+              - { label: 'What is AA card', name: what, widget: object, collapsed: true, fields: [{ label: 'Heading', name: title, widget: string }, { label: 'Text', name: text, widget: text }, { label: 'Link text', name: link, widget: string }] }
+          - label: 'Upcoming events'
+            name: events
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Heading', name: title, widget: string }
+              - { label: 'Link to the full calendar', name: all, widget: string }
+              - { label: 'Message when no events are posted', name: none, widget: text }
+          - label: 'Service committees'
+            name: committees
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Heading', name: title, widget: string }
+              - { label: 'Link to all committees', name: all, widget: string }
+              - { label: 'Label above the other committees', name: also, widget: string }
+          - label: 'How service works'
+            name: how
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Heading', name: title, widget: string }
+              - { label: 'Introduction', name: intro, widget: text }
+          - label: 'Service steps'
+            name: steps
+            widget: list
+            collapsed: true
+            label_singular: 'Step'
+            summary: '{{fields.title}}'
+            fields:
+              - { label: 'Title', name: title, widget: string }
+              - { label: 'Text', name: text, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - label: 'Frequently asked questions'
+            name: faqs
+            widget: list
+            collapsed: true
+            label_singular: 'Question'
+            summary: '{{fields.q}}'
+            fields:
+              - { label: 'Question', name: q, widget: string }
+              - { label: 'Answer', name: a, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are. `{when}` and `{where}` give the committee meeting time and place.' }
+              - { label: 'Link under the answer', name: link, widget: object, required: false, collapsed: true, fields: [{ label: 'Link text', name: text, widget: string }, { label: 'Goes to', name: to, widget: string, hint: 'A page such as /contribute, or findMeeting, or registerForm.', pattern: ['^(findMeeting|registerForm|/.*)$', 'Use /page-name, findMeeting or registerForm'] }] }
+          - label: 'Quick links at the bottom'
+            name: quick
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Hidden heading', name: title, widget: string, hint: 'Read by screen readers only.' }
+              - { label: 'Events', name: events, widget: object, collapsed: true, fields: [{ label: Heading, name: title, widget: string }, { label: Text, name: text, widget: text }, { label: Link text, name: link, widget: string }] }
+              - { label: 'Get in touch', name: contact, widget: object, collapsed: true, fields: [{ label: Heading, name: title, widget: string }, { label: Text, name: text, widget: text }, { label: Link text, name: link, widget: string }] }
+              - { label: '7th Tradition', name: seventh, widget: object, collapsed: true, fields: [{ label: Heading, name: title, widget: string }, { label: Text, name: text, widget: text }, { label: Link text, name: link, widget: string }] }
+              - { label: 'Links', name: links, widget: object, collapsed: true, fields: [{ label: Heading, name: title, widget: string }, { label: Text, name: text, widget: text }, { label: Link text, name: link, widget: string }] }
+          - label: Extra sections
+            name: extra_blocks
+            widget: list
+            collapsed: true
+            label_singular: Section
+            required: false
+            summary: '{{fields.type}}: {{fields.heading}}{{fields.title}}{{fields.text}}'
+            hint: 'Add your own sections at the bottom of the page, above the footer. Drag to reorder. Spanish and French versions are machine translated automatically and need review.'
+            types: *block_types
+      - name: contribute
+        label: 'Contribute page'
+        file: src/content/site/contribute.yml
+        description: 'The explanatory text on the Contributions page, in English. The online payment forms and their labels are not editable here. The Seventh Tradition wording should match what AA publishes. Spanish and French wording is generated automatically (machine translation, needs review).'
+        fields:
+          - { label: 'Search title', name: title, widget: string, hint: 'Under 60 characters.', pattern: ['^.{1,70}$', 'Keep the title under 60 characters'] }
+          - { label: 'Search description', name: description, widget: text, hint: '120 to 160 characters.', pattern: ['^[\s\S]{100,175}$', 'Aim for 120 to 160 characters so search engines show it in full'] }
+          - { label: 'Page heading', name: heading, widget: string }
+          - { label: 'Small label above the heading', name: eyebrow, widget: string }
+          - { label: 'Intro sentence', name: lede, widget: text }
+          - { label: 'Button: contribute online', name: contributeOnline, widget: string }
+          - { label: 'Button: read the pamphlet', name: readPamphlet, widget: string }
+          - { label: 'Seventh Tradition heading', name: traditionTitle, widget: string }
+          - { label: 'Seventh Tradition text', name: tradition, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - { label: 'Money and spirituality heading', name: moneyTitle, widget: string }
+          - { label: 'Money and spirituality text', name: money, widget: text }
+          - { label: 'Pamphlet link text', name: pamphletLink, widget: string }
+          - { label: 'Heading above the list', name: ensure, widget: string }
+          - label: 'What contributions do'
+            name: gives
+            widget: list
+            collapsed: true
+            label_singular: 'Item'
+            field: { label: 'Item', name: item, widget: string }
+          - { label: 'Online heading', name: onlineTitle, widget: string }
+          - { label: 'Online text', name: online, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - { label: 'Small label on the form cards', name: secureForm, widget: string }
+          - { label: 'Note about PayPal', name: paypalNote, widget: text }
+          - { label: 'Button text', name: soonCta, widget: string }
+          - { label: 'Mail heading', name: mailTitle, widget: string }
+          - { label: 'Mail text', name: mail, widget: text, hint: 'Put **two asterisks** around words to make them bold.' }
+          - { label: 'Treasurer heading', name: treasurerTitle, widget: string }
+          - { label: 'Treasurer text', name: treasurer, widget: text }
+          - { label: 'Non-AA members heading', name: nonTitle, widget: string }
+          - { label: 'Non-AA members text', name: non, widget: text }
+          - label: 'Links under that text'
+            name: nonLinks
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Professionals link', name: pro, widget: string }
+              - { label: 'Individuals and families link', name: ind, widget: string }
+              - { label: 'Questions on finances link', name: fin, widget: string }
+          - label: 'Frequently asked questions'
+            name: faqs
+            widget: list
+            collapsed: true
+            label_singular: 'Question'
+            summary: '{{fields.q}}'
+            fields:
+              - { label: 'Question', name: q, widget: string }
+              - { label: 'Answer', name: a, widget: text }
+          - label: Extra sections
+            name: extra_blocks
+            widget: list
+            collapsed: true
+            label_singular: Section
+            required: false
+            summary: '{{fields.type}}: {{fields.heading}}{{fields.title}}{{fields.text}}'
+            hint: 'Add your own sections at the bottom of the page, above the footer. Drag to reorder. Spanish and French versions are machine translated automatically and need review.'
+            types: *block_types
+      - name: resources
+        label: 'Resources page'
+        file: src/content/site/resources.yml
+        description: 'The page in English. Spanish and French wording is generated automatically (machine translation, needs review before it is shown to search engines).'
+        fields:
+          - { label: 'Search title', name: title, widget: string, hint: 'Under 60 characters.', pattern: ['^.{1,70}$', 'Keep the title under 60 characters'] }
+          - { label: 'Search description', name: description, widget: text, hint: '120 to 160 characters.', pattern: ['^[\s\S]{100,175}$', 'Aim for 120 to 160 characters so search engines show it in full'] }
+          - { label: 'Page heading', name: heading, widget: string }
+          - { label: 'Small label above the heading', name: eyebrow, widget: string }
+          - { label: 'Intro sentence', name: lede, widget: text }
+          - { label: 'Official sites heading', name: officialTitle, widget: string }
+          - label: 'Official sites'
+            name: official
+            widget: list
+            collapsed: true
+            label_singular: 'Site'
+            summary: '{{fields.name}}'
+            fields:
+              - { label: 'Name', name: name, widget: string }
+              - { label: 'Address', name: href, widget: string, pattern: ['^https?://', 'Start with https://'] }
+          - { label: 'Information heading', name: quickTitle, widget: string }
+          - { label: 'Information intro', name: quickIntro, widget: text }
+          - label: 'Information links'
+            name: quick
+            widget: list
+            collapsed: true
+            label_singular: 'Link'
+            summary: '{{fields.title}}'
+            fields:
+              - { label: 'Title', name: title, widget: string }
+              - { label: 'Address', name: href, widget: string, pattern: ['^https?://', 'Start with https://'] }
+              - { label: 'Description', name: text, widget: text, required: false }
+          - label: Extra sections
+            name: extra_blocks
+            widget: list
+            collapsed: true
+            label_singular: Section
+            required: false
+            summary: '{{fields.type}}: {{fields.heading}}{{fields.title}}{{fields.text}}'
+            hint: 'Add your own sections at the bottom of the page, above the footer. Drag to reorder. Spanish and French versions are machine translated automatically and need review.'
+            types: *block_types
+      - name: literature
+        label: 'Literature page'
+        file: src/content/site/literature.yml
+        description: 'The page in English. Spanish and French wording is generated automatically (machine translation, needs review before it is shown to search engines).'
+        fields:
+          - { label: 'Search title', name: title, widget: string, hint: 'Under 60 characters.', pattern: ['^.{1,70}$', 'Keep the title under 60 characters'] }
+          - { label: 'Search description', name: description, widget: text, hint: '120 to 160 characters.', pattern: ['^[\s\S]{100,175}$', 'Aim for 120 to 160 characters so search engines show it in full'] }
+          - { label: 'Page heading', name: heading, widget: string }
+          - { label: 'Small label above the heading', name: eyebrow, widget: string }
+          - { label: 'Intro sentence', name: lede, widget: text }
+          - { label: 'Hidden heading for the introduction', name: aboutHeading, widget: string, hint: 'Read by screen readers only.' }
+          - { label: 'Introduction', name: intro, widget: text }
+          - label: 'Groups'
+            name: groups
+            widget: list
+            collapsed: true
+            label_singular: 'Group'
+            summary: '{{fields.title}}'
+            fields:
+              - { label: 'Group heading', name: title, widget: string }
+              - { label: 'Group intro', name: intro, widget: text, required: false }
+              - { label: Items, name: items, widget: list, collapsed: true, label_singular: Item, summary: '{{fields.title}}', fields: [{ label: 'Title', name: title, widget: string }, { label: 'Small label', name: sub, widget: string, hint: 'For example: Fourth Edition.', required: false }, { label: 'Address on aa.org', name: href, widget: string, pattern: ['^https?://', 'Start with https://'] }, { label: 'Description', name: description, widget: text }] }
+          - label: Extra sections
+            name: extra_blocks
+            widget: list
+            collapsed: true
+            label_singular: Section
+            required: false
+            summary: '{{fields.type}}: {{fields.heading}}{{fields.title}}{{fields.text}}'
+            hint: 'Add your own sections at the bottom of the page, above the footer. Drag to reorder. Spanish and French versions are machine translated automatically and need review.'
+            types: *block_types
+      - name: aa
+        label: 'What is AA? page'
+        file: src/content/site/aa.yml
+        description: 'The page in English. Spanish and French wording is generated automatically (machine translation, needs review before it is shown to search engines).'
+        fields:
+          - { label: 'Search title', name: title, widget: string, hint: 'Under 60 characters.', pattern: ['^.{1,70}$', 'Keep the title under 60 characters'] }
+          - { label: 'Search description', name: description, widget: text, hint: '120 to 160 characters.', pattern: ['^[\s\S]{100,175}$', 'Aim for 120 to 160 characters so search engines show it in full'] }
+          - { label: 'Page heading', name: heading, widget: string }
+          - { label: 'Small label above the heading', name: eyebrow, widget: string }
+          - { label: 'Intro sentence', name: lede, widget: text }
+          - { label: 'Button: find a meeting near you', name: findNear, widget: string }
+          - { label: 'Button: learn about AA on aa.org', name: learnAa, widget: string }
+          - { label: 'First heading', name: costTitle, widget: string }
+          - { label: 'First text', name: costText, widget: text }
+          - { label: 'Cards heading', name: moreTitle, widget: string }
+          - label: 'Steps card'
+            name: steps
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Heading', name: title, widget: string }
+              - { label: 'Text', name: text, widget: text }
+          - label: 'Traditions card'
+            name: traditions
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Heading', name: title, widget: string }
+              - { label: 'Text', name: text, widget: text }
+          - label: 'Big Book card'
+            name: bigbook
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 'Heading', name: title, widget: string }
+              - { label: 'Text', name: text, widget: text }
+          - { label: 'Paragraph under the cards', name: members, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - { label: 'Area sentence', name: area, widget: string }
+          - { label: 'Learn more link', name: learnMore, widget: string }
+          - { label: 'Need help heading', name: helpTitle, widget: string }
+          - { label: 'Need help text', name: help1, widget: text }
+          - { label: 'Button: new to AA', name: newToAa, widget: string }
+          - { label: 'First meeting heading', name: firstTitle, widget: string }
+          - { label: 'First meeting, first paragraph', name: first1, widget: text }
+          - { label: 'First meeting, second paragraph', name: first2, widget: text }
+          - { label: 'Closing heading', name: enduringTitle, widget: string }
+          - { label: 'Closing text', name: enduring, widget: text }
+          - { label: 'Button: Big Book stories', name: bigBookStories, widget: string }
+          - { label: 'Button: Grapevine stories', name: grapevineStories, widget: string }
+          - { label: 'Button: contact Area 30', name: contact, widget: string }
+          - label: 'Frequently asked questions'
+            name: faqs
+            widget: list
+            collapsed: true
+            label_singular: 'Question'
+            summary: '{{fields.q}}'
+            fields:
+              - { label: 'Question', name: q, widget: string }
+              - { label: 'Answer', name: a, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - label: Extra sections
+            name: extra_blocks
+            widget: list
+            collapsed: true
+            label_singular: Section
+            required: false
+            summary: '{{fields.type}}: {{fields.heading}}{{fields.title}}{{fields.text}}'
+            hint: 'Add your own sections at the bottom of the page, above the footer. Drag to reorder. Spanish and French versions are machine translated automatically and need review.'
+            types: *block_types
+      - name: registrar
+        label: 'Registrar page'
+        file: src/content/site/registrar.yml
+        description: 'The page in English. Spanish and French wording is generated automatically (machine translation, needs review before it is shown to search engines).'
+        fields:
+          - { label: 'Search title', name: title, widget: string, hint: 'Under 60 characters.', pattern: ['^.{1,70}$', 'Keep the title under 60 characters'] }
+          - { label: 'Search description', name: description, widget: text, hint: '120 to 160 characters.', pattern: ['^[\s\S]{100,175}$', 'Aim for 120 to 160 characters so search engines show it in full'] }
+          - { label: 'Page heading', name: heading, widget: string }
+          - { label: 'Small label above the heading', name: eyebrow, widget: string }
+          - { label: 'Intro sentence', name: lede, widget: text }
+          - { label: 'Group number heading', name: numberTitle, widget: string }
+          - { label: 'Group number text', name: number1, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - { label: 'Group number text, continued', name: number2, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - { label: 'Mission heading', name: missionTitle, widget: string }
+          - { label: 'Mission text', name: mission, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - { label: 'Forms heading', name: formsTitle, widget: string }
+          - { label: 'Forms intro', name: formsIntro, widget: text }
+          - label: 'Forms'
+            name: forms
+            widget: list
+            collapsed: true
+            label_singular: 'Form'
+            summary: '{{fields.title}}'
+            fields:
+              - { label: 'Small label', name: kind, widget: string, hint: 'For example: PDF.' }
+              - { label: 'Title', name: title, widget: string }
+              - { label: 'Description', name: text, widget: text }
+              - { label: 'File', name: file, widget: file, hint: 'Upload the form, or keep the one shown.' }
+          - { label: 'Help heading', name: helpTitle, widget: string }
+          - { label: 'Help text', name: help, widget: text }
+          - { label: 'Email button text', name: emailButton, widget: string, hint: 'Use {registrarEmail} where the address should go.' }
+          - label: 'Frequently asked questions'
+            name: faqs
+            widget: list
+            collapsed: true
+            label_singular: 'Question'
+            summary: '{{fields.q}}'
+            fields:
+              - { label: 'Question', name: q, widget: string }
+              - { label: 'Answer', name: a, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - label: Extra sections
+            name: extra_blocks
+            widget: list
+            collapsed: true
+            label_singular: Section
+            required: false
+            summary: '{{fields.type}}: {{fields.heading}}{{fields.title}}{{fields.text}}'
+            hint: 'Add your own sections at the bottom of the page, above the footer. Drag to reorder. Spanish and French versions are machine translated automatically and need review.'
+            types: *block_types
+      - name: volunteer
+        label: '12th Step Volunteer page'
+        file: src/content/site/volunteer.yml
+        description: 'The words on the page around the sign-up form, in English. The form itself (its fields, labels and messages) is not editable here. Spanish and French wording is generated automatically (machine translation, needs review).'
+        fields:
+          - { label: 'Search title', name: title, widget: string, hint: 'Under 60 characters.', pattern: ['^.{1,70}$', 'Keep the title under 60 characters'] }
+          - { label: 'Search description', name: description, widget: text, hint: '120 to 160 characters.', pattern: ['^[\s\S]{100,175}$', 'Aim for 120 to 160 characters so search engines show it in full'] }
+          - { label: 'Page heading', name: heading, widget: string }
+          - { label: 'Small label above the heading', name: eyebrow, widget: string }
+          - { label: 'Intro sentence', name: lede, widget: text }
+          - { label: 'Committee name in the breadcrumb', name: trailCommittee, widget: string }
+          - { label: 'What it is: heading', name: whatTitle, widget: string }
+          - { label: 'What it is: text', name: what, widget: text }
+          - { label: 'How it works: heading', name: howTitle, widget: string }
+          - label: 'How it works: points'
+            name: how
+            widget: list
+            collapsed: true
+            label_singular: 'Point'
+            field: { label: 'Point', name: item, widget: string }
+          - { label: 'Form heading', name: formTitle, widget: string }
+          - { label: 'Text above the form', name: formIntro, widget: text }
+          - { label: 'Link back to the committee', name: back, widget: string }
+          - label: Extra sections
+            name: extra_blocks
+            widget: list
+            collapsed: true
+            label_singular: Section
+            required: false
+            summary: '{{fields.type}}: {{fields.heading}}{{fields.title}}{{fields.text}}'
+            hint: 'Add your own sections at the bottom of the page, above the footer. Drag to reorder. Spanish and French versions are machine translated automatically and need review.'
+            types: *block_types
+      - name: calendar
+        label: 'Calendar page'
+        file: src/content/site/calendar.yml
+        description: 'The text on the Calendar page, in English. The calendar itself comes from Google Calendar, and Explore events is automatic. Spanish and French wording is generated automatically (machine translation, needs review).'
+        fields:
+          - { label: 'Search title', name: title, widget: string, hint: 'Under 60 characters.', pattern: ['^.{1,70}$', 'Keep the title under 60 characters'] }
+          - { label: 'Search description', name: description, widget: text, hint: '120 to 160 characters.', pattern: ['^[\s\S]{100,175}$', 'Aim for 120 to 160 characters so search engines show it in full'] }
+          - { label: 'Page heading', name: heading, widget: string }
+          - { label: 'Small label above the heading', name: eyebrow, widget: string }
+          - { label: 'Intro sentence', name: lede, widget: text }
+          - { label: 'Button: subscribe', name: subscribe, widget: string }
+          - { label: 'Hidden calendar heading', name: calendarHeading, widget: string, hint: 'Read by screen readers only.' }
+          - { label: 'Sentence under the calendar', name: meets, widget: text, hint: 'Leave {when} and {where} as they are; they are filled in from the site settings.' }
+          - label: 'Frequently asked questions'
+            name: faqs
+            widget: list
+            collapsed: true
+            label_singular: 'Question'
+            summary: '{{fields.q}}'
+            fields:
+              - { label: 'Question', name: q, widget: string }
+              - { label: 'Answer', name: a, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - label: Extra sections
+            name: extra_blocks
+            widget: list
+            collapsed: true
+            label_singular: Section
+            required: false
+            summary: '{{fields.type}}: {{fields.heading}}{{fields.title}}{{fields.text}}'
+            hint: 'Add your own sections at the bottom of the page, above the footer. Drag to reorder. Spanish and French versions are machine translated automatically and need review.'
+            types: *block_types
+      - name: service
+        label: 'Services page'
+        file: src/content/site/service.yml
+        description: 'The page in English. Spanish and French wording is generated automatically (machine translation, needs review before it is shown to search engines).'
+        fields:
+          - { label: 'Search title', name: title, widget: string, hint: 'Under 60 characters.', pattern: ['^.{1,70}$', 'Keep the title under 60 characters'] }
+          - { label: 'Search description', name: description, widget: text, hint: '120 to 160 characters.', pattern: ['^[\s\S]{100,175}$', 'Aim for 120 to 160 characters so search engines show it in full'] }
+          - { label: 'Page heading', name: heading, widget: string }
+          - { label: 'Small label above the heading', name: eyebrow, widget: string }
+          - { label: 'Intro sentence', name: lede, widget: text }
+          - { label: 'Hidden heading for the introduction', name: aboutHidden, widget: string, hint: 'Read by screen readers only.' }
+          - { label: 'Introduction, first paragraph', name: intro1, widget: text }
+          - { label: 'Introduction, second paragraph', name: intro2, widget: text, hint: 'Special codes: `[[delegate|Delegate]]` shows a definition popup, `[words](https://...)` makes a link, and `{email}` or `{registrarEmail}` are filled in automatically. Leave them as they are.' }
+          - { label: 'Label above the list of sections', name: jump, widget: string }
+          - { label: 'Link to the full committee page', name: full, widget: string, hint: 'Use {title} where the committee name should go.' }
+          - { label: 'Email button text', name: email, widget: string, hint: 'Use {email} where the address should go.' }
+          - { label: 'Note under quotations', name: quoteNote, widget: string, hint: 'Usually empty.', required: false }
+          - label: 'Committees and reports'
+            name: sections
+            widget: list
+            collapsed: true
+            label_singular: 'Committee'
+            summary: '{{fields.title}}'
+            fields:
+              - { label: 'Title', name: title, widget: string, hint: 'The page links to each section by this title.' }
+              - { label: Paragraphs, name: paras, widget: list, label_singular: Paragraph, hint: 'Starting a paragraph with @en: keeps it in English on every language (used for quotations).', field: { label: Paragraph, name: para, widget: text } }
+              - { label: 'Email address', name: contact, widget: string, hint: 'Adds an email button at the end of the section.', required: false, pattern: ['^[^@\s]+@[^@\s]+\.[^@\s]+$', 'Enter a full email address'] }
+          - label: Extra sections
+            name: extra_blocks
+            widget: list
+            collapsed: true
+            label_singular: Section
+            required: false
+            summary: '{{fields.type}}: {{fields.heading}}{{fields.title}}{{fields.text}}'
+            hint: 'Add your own sections at the bottom of the page, above the footer. Drag to reorder. Spanish and French versions are machine translated automatically and need review.'
+            types: *block_types

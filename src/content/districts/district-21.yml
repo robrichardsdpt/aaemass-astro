@@ -1,13 +1,17 @@
 name: District 21
 order: 170
-lines:
-  - Meets hybrid on the 2nd Wednesday of the month at 730pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 880 8473 1127
-  - Password – D21GSR
-  - "In person:"
-  - Tewksbury State Hospital – Green Room
-  - 265 East St, Tewksbury, MA 01876
-  - "Please mail contributions to: P.O. Box 8061 Lowell, MA 01853"
-  - "[aaemassd21.org](https://aaemassd21.org)"
+meeting:
+  how: hybrid
+  week: 2
+  weekday: Wednesday
+  start: "19:30"
+online:
+  platform: Zoom
+  id: 880 8473 1127
+  password: D21GSR
+  password_label: Password
+in_person:
+  place: Tewksbury State Hospital – Green Room
+  address: 265 East St, Tewksbury, MA 01876
+mail: P.O. Box 8061 Lowell, MA 01853
+website: https://aaemassd21.org

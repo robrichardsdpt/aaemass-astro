@@ -1,13 +1,17 @@
 name: District 18 & 19
 order: 150
-lines:
-  - Meets hybrid on the 2nd Monday of the month at 7pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 503 682 627
-  - Password – 1819
-  - "In person:"
-  - St Mary’s Church
-  - 124 Conant St, Danvers, MA 01923
-  - "Please mail contributions to: P.O. Box 5216 Beverly Farms, MA 01915"
-  - "[aaemass1819.org](https://aaemass1819.org/)"
+meeting:
+  how: hybrid
+  week: 2
+  weekday: Monday
+  start: "19:00"
+online:
+  platform: Zoom
+  id: 503 682 627
+  password: "1819"
+  password_label: Password
+in_person:
+  place: St Mary’s Church
+  address: 124 Conant St, Danvers, MA 01923
+mail: P.O. Box 5216 Beverly Farms, MA 01915
+website: https://aaemass1819.org/

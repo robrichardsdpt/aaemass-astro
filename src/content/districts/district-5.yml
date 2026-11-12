@@ -1,11 +1,16 @@
 name: District 5
 order: 40
-lines:
-  - Meets hybrid on the 1st Wednesday of the month at 7pm
-  - "Join online:"
-  - Zoom ID – 823 4682 6299
-  - Passcode – 699350
-  - "Join in person:"
-  - Duxbury Senior Center, 2nd Floor, Weyerhauser Room
-  - 10 Mayflower St, Duxbury, MA 02332
-  - "Please mail contributions to: P.O. Box 1173 Marshfield, MA 02050"
+meeting:
+  how: hybrid
+  week: 1
+  weekday: Wednesday
+  start: "19:00"
+online:
+  platform: Zoom
+  id: 823 4682 6299
+  password: "699350"
+  password_label: Passcode
+in_person:
+  place: Duxbury Senior Center, 2nd Floor, Weyerhauser Room
+  address: 10 Mayflower St, Duxbury, MA 02332
+mail: P.O. Box 1173 Marshfield, MA 02050

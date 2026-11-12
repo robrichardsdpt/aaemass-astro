@@ -1,6 +1,7 @@
 ---
 import Base from './Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import NoticeBar from '../components/NoticeBar.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteScripts from '../components/SiteScripts.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
@@ -33,6 +34,7 @@ const crumbs = [{ name: u.home, href: lpPublic(lang, '/') }, ...trail.map((t) =>
 ---
 
 <Base title={title} description={description} faqs={faqs} crumbs={crumbs} extraLd={extraLd} noindex={noindex}>
+  <NoticeBar />
   <SiteHeader current={current ? lp(lang, current) : undefined} />
   <main id="main">
     <Breadcrumbs heading={heading} trail={trail} />

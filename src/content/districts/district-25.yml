@@ -1,13 +1,18 @@
 name: District 25
 order: 210
-lines:
-  - Meets hybrid on the 1st Tuesday of the month at 7pm to 830pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 94948435755
-  - Password – Sober2020
-  - "In person:"
-  - Salem Covenant Church
-  - 215 East Mountain St, Worcester, MA 01606
-  - "[aaemassd25.org](https://aaemassd25.org)"
-  - "Please mail contributions to: P.O. Box 4553, Turnpike Station Shrewsbury, MA 01545-7553"
+meeting:
+  how: hybrid
+  week: 1
+  weekday: Tuesday
+  start: "19:00"
+  end: "20:30"
+online:
+  platform: Zoom
+  id: "94948435755"
+  password: Sober2020
+  password_label: Password
+in_person:
+  place: Salem Covenant Church
+  address: 215 East Mountain St, Worcester, MA 01606
+website: https://aaemassd25.org
+mail: P.O. Box 4553, Turnpike Station Shrewsbury, MA 01545-7553

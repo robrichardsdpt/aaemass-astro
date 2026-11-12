@@ -1,10 +1,14 @@
 name: District 7
 order: 60
-lines:
-  - Meets virtually on the 2nd Tuesday of the month at 7pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 784 629 2111
-  - Password – A39836z?
-  - "For more info, email: [gspdistrict7dcm@gmail.com](mailto:gspdistrict7dcm@gmail.com)"
-  - "Please mail contributions to: P.O. Box 715 Hingham, MA 02043"
+meeting:
+  how: virtually
+  week: 2
+  weekday: Tuesday
+  start: "19:00"
+online:
+  platform: Zoom
+  id: 784 629 2111
+  password: A39836z?
+  password_label: Password
+  info_email: gspdistrict7dcm@gmail.com
+mail: P.O. Box 715 Hingham, MA 02043
