@@ -755,11 +755,17 @@
     padding-block: var(--s-3); background: var(--ground); border-block-end: 1px solid var(--line);
   }
   .esearch__bar h2 { font-size: var(--step-1); }
+  .esearch__bar h2:focus { outline: none; }
   .esearch__filters { display: grid; gap: var(--s-3); padding-block: var(--s-4); grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; }
   @media (min-width: 40rem) { .esearch__filters { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
   /* Fields shrink with their column instead of pushing the window wider than the screen. */
-  .esearch .field { min-inline-size: 0; flex: none; }
+  .esearch .field { min-inline-size: 0; flex: none; grid-template-columns: minmax(0, 1fr); contain: inline-size; }
   .esearch .field :is(input, select) { inline-size: 100%; min-inline-size: 0; max-inline-size: 100%; block-size: 3rem; box-sizing: border-box; text-overflow: ellipsis; }
+  /* iOS Safari gives date inputs a native minimum width that ignores width and min-width, so they spill out of their
+     column. Dropping the native appearance and letting the inner text shrink keeps them inside it. */
+  .esearch input[type='date'] { -webkit-appearance: none; appearance: none; display: block; line-height: normal; text-align: start; }
+  .esearch input[type='date']::-webkit-date-and-time-value { min-inline-size: 0; text-align: start; }
+  .esearch input[type='date']::-webkit-datetime-edit { min-inline-size: 0; padding: 0; }
   .esearch__q, .esearch__check, #es-cat-field { grid-column: 1 / -1; }
   .esearch__check { display: flex; align-items: center; gap: var(--s-3); min-block-size: 2.75rem; cursor: pointer; }
   .esearch__check input { inline-size: 1.25rem; block-size: 1.25rem; accent-color: var(--accent); flex: none; }
@@ -788,12 +794,18 @@
       inline-size: 100%; max-inline-size: 100%; margin: auto 0 0; max-block-size: min(92dvh, calc(100dvh - 1.5rem));
       border-radius: 1rem 1rem 0 0; padding-block-end: env(safe-area-inset-bottom);
     }
+    /* While the on-screen keyboard is open the sheet fills exactly the visible area (see syncViewport in event-search.ts). */
+    .esearch[open][data-kb] {
+      margin: 0; inset-block: var(--es-top, 0) auto; block-size: var(--es-vh, 100dvh); max-block-size: var(--es-vh, 100dvh);
+      border-radius: 0; padding-block-end: 0; animation: none;
+    }
     .esearch__bar { padding-block-start: var(--s-5); touch-action: none; }
     .esearch__bar::before {
       content: ''; position: absolute; inset-block-start: var(--s-2); inset-inline: 0; margin-inline: auto;
       inline-size: 2.5rem; block-size: 0.3rem; border-radius: 0.15rem; background: var(--ink-muted); opacity: 0.55;
     }
     .esearch__more { padding-block-end: calc(var(--s-5) + env(safe-area-inset-bottom)); }
+    .esearch[data-kb] .esearch__more { padding-block-end: var(--s-5); }
   }
   @media (prefers-reduced-motion: no-preference) {
     @media (max-width: 39.99rem) {
