@@ -759,8 +759,13 @@
   .esearch__filters { display: grid; gap: var(--s-3); padding-block: var(--s-4); grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; }
   @media (min-width: 40rem) { .esearch__filters { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
   /* Fields shrink with their column instead of pushing the window wider than the screen. */
-  .esearch .field { min-inline-size: 0; flex: none; }
+  .esearch .field { min-inline-size: 0; flex: none; grid-template-columns: minmax(0, 1fr); contain: inline-size; }
   .esearch .field :is(input, select) { inline-size: 100%; min-inline-size: 0; max-inline-size: 100%; block-size: 3rem; box-sizing: border-box; text-overflow: ellipsis; }
+  /* iOS Safari gives date inputs a native minimum width that ignores width and min-width, so they spill out of their
+     column. Dropping the native appearance and letting the inner text shrink keeps them inside it. */
+  .esearch input[type='date'] { -webkit-appearance: none; appearance: none; display: block; line-height: normal; text-align: start; }
+  .esearch input[type='date']::-webkit-date-and-time-value { min-inline-size: 0; text-align: start; }
+  .esearch input[type='date']::-webkit-datetime-edit { min-inline-size: 0; padding: 0; }
   .esearch__q, .esearch__check, #es-cat-field { grid-column: 1 / -1; }
   .esearch__check { display: flex; align-items: center; gap: var(--s-3); min-block-size: 2.75rem; cursor: pointer; }
   .esearch__check input { inline-size: 1.25rem; block-size: 1.25rem; accent-color: var(--accent); flex: none; }
