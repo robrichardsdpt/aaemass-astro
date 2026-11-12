@@ -97,6 +97,25 @@ function openDialog() {
   setTimeout(() => { delete dlg.dataset.opening; }, 400);
 }
 
+// A centered message for a list with nothing in it. The title says what is true; the button is the way out.
+function emptyState(title: string, text: string, action?: [label: string, run: () => void]): HTMLElement {
+  const li = el('li', { class: 'esearch__empty' }, el('p', { class: 'esearch__empty-title' }, title), el('p', {}, text));
+  if (action) {
+    const b = el('button', { type: 'button', class: 'button' }, action[0]);
+    b.addEventListener('click', action[1]);
+    li.append(b);
+  }
+  return li;
+}
+
+function clearFilters() {
+  q.value = from.value = to.value = type.value = format.value = cat.value = '';
+  hl.checked = false;
+  syncDates();
+  render();
+  if (!sheet.matches) q.focus({ preventScroll: true });
+}
+
 // ---- Results list ---------------------------------------------------------------------------------------------
 
 const plainClick = (ev: MouseEvent) => !ev.defaultPrevented && ev.button === 0 && !(ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey);
@@ -138,12 +157,20 @@ function render(reset = true) {
   }
   const frag = document.createDocumentFragment();
   for (const e of found.slice(0, shown)) frag.append(row(e));
+  // "Highlighted only" with no highlighted events at all is not a search that needs fewer words.
+  const noneHighlighted = hl.checked && !events.some((e) => e.source === 'highlight');
+  if (!found.length) {
+    frag.append(noneHighlighted
+      ? emptyState('No highlighted events right now', 'Highlighted events are special events Area 30 posts for everyone. Check back soon, or browse all events.', ['Show all events', () => { hl.checked = false; render(); }])
+      : emptyState('No events match', 'Try fewer words or a wider date range.', ['Clear filters', clearFilters]));
+  }
   list.replaceChildren(frag);
+  list.removeAttribute('aria-busy');
   more.hidden = found.length <= shown;
-  clearBtn.hidden = !filtersActive();
+  clearBtn.hidden = !filtersActive() || !found.length; // an empty list has its own button
   status.textContent = found.length
     ? `${found.length} ${found.length === 1 ? 'event' : 'events'}${found.length > shown ? `, showing the first ${shown}` : ''}`
-    : 'No events match. Try fewer words or a wider date range.';
+    : noneHighlighted ? 'No highlighted events' : 'No events found';
 }
 
 // ---- One event's details --------------------------------------------------------------------------------------
@@ -268,7 +295,9 @@ function start(): Promise<boolean> {
       const table: string[] = data.descriptions ?? [];
       static_ = (data.events as any[]).map(({ di, ...e }) => ({ description: di === undefined ? '' : table[di], categories: [], ...e }));
     } catch {
-      status.textContent = 'Events could not be loaded. Try again, or use the calendar page.';
+      status.textContent = 'Events could not be loaded';
+      list.replaceChildren(emptyState('Events could not be loaded', 'Close this window and try again, or use the calendar below.'));
+      list.removeAttribute('aria-busy');
       ready = undefined;
       return false;
     }
@@ -286,17 +315,12 @@ function start(): Promise<boolean> {
 // ---- Wiring ----------------------------------------------------------------------------------------------------
 
 let timer: number | undefined;
-const later = () => { clearTimeout(timer); timer = window.setTimeout(() => render(), 150); };
+// Filtering and drawing the list takes a few milliseconds, so the wait only needs to skip keystrokes typed in quick succession.
+const later = () => { clearTimeout(timer); timer = window.setTimeout(() => render(), 60); };
 q.addEventListener('input', later);
 from.addEventListener('input', () => { syncDates(); later(); });
 to.addEventListener('input', () => { syncDates(); later(); });
-clearBtn.addEventListener('click', () => {
-  q.value = from.value = to.value = type.value = format.value = cat.value = '';
-  hl.checked = false;
-  syncDates();
-  render();
-  q.focus({ preventScroll: true });
-});
+clearBtn.addEventListener('click', clearFilters);
 for (const c of [type, format, cat, hl]) c.addEventListener('change', () => render());
 more.addEventListener('click', () => { shown += PAGE; render(false); });
 
