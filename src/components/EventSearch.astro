@@ -8,14 +8,14 @@ import { path } from '../lib/site';
 
 <dialog id="event-search" class="esearch" aria-labelledby="es-title" data-index={path('/events/search.json')} data-events={path('/calendar/')}>
   <div class="esearch__bar">
-    <h2 id="es-title">Explore events</h2>
+    <h2 id="es-title" tabindex="-1">Explore events</h2>
     <button type="button" class="button button--quiet" data-es-close>Close</button>
   </div>
   <div id="es-list-view">
     <form class="esearch__filters" role="search" onsubmit="return false">
       <div class="field esearch__q">
         <label for="es-q">Search</label>
-        <input id="es-q" type="search" placeholder="Name, place or keyword" autocomplete="off" />
+        <input id="es-q" type="search" enterkeyhint="search" placeholder="Name, place or keyword" autocomplete="off" />
       </div>
       <div class="field"><label for="es-from">From</label><input id="es-from" type="date" /></div>
       <div class="field"><label for="es-to">To</label><input id="es-to" type="date" /></div>
