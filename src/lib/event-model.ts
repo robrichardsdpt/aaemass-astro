@@ -30,8 +30,9 @@ export const nyDate = (iso: string | number | Date): string => dateParts.format(
 
 // A New York wall-clock date and time ("2026-12-05", "19:30") to the real instant. Two passes land it correctly across a
 // daylight-saving change. Used for events typed into the CMS, which stores plain Eastern dates and times.
-const wallParts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+let wallParts: Intl.DateTimeFormat | undefined; // made on first use: only the build needs it, not the browser
 function nyOffset(at: number): number {
+  wallParts ??= new Intl.DateTimeFormat('en-US', { timeZone: TZ, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
   const p = Object.fromEntries(wallParts.formatToParts(new Date(at)).map((x) => [x.type, x.value]));
   return Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second) - at;
 }
