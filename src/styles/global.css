@@ -741,7 +741,8 @@
   /* Explore events window. Centered dialog on larger screens; a bottom sheet on phones. */
   .esearch {
     padding: 0; border: 0; background: var(--ground); color: var(--ink); margin: auto;
-    inline-size: min(48rem, calc(100vw - 2rem)); max-block-size: calc(100dvh - 2rem);
+    /* A fixed height, not a maximum: the window never grows or shrinks (or jumps) as the results change. */
+    inline-size: min(48rem, calc(100vw - 2rem)); block-size: min(46rem, calc(100dvh - 2rem)); max-block-size: calc(100dvh - 2rem);
     border-radius: 0.75rem; box-shadow: 0 1.5rem 3rem oklch(0.1 0.04 258 / 0.45);
     overflow-x: clip; overflow-y: auto; overscroll-behavior: contain;
   }
@@ -774,6 +775,17 @@
   .esearch .events { gap: 0; }
   .esearch .events li { grid-template-columns: 4.5rem minmax(0, 1fr); gap: var(--s-3); overflow-wrap: anywhere; }
   .esearch__results { padding-block-end: var(--s-4); min-block-size: 12rem; }
+  .esearch__empty { display: block; padding-block: var(--s-6); color: var(--ink-muted); text-align: center; border: 0; }
+  /* Placeholder rows while the events load: same grid as a real row, so nothing shifts when they are replaced. */
+  .esearch__skeleton > div { display: grid; gap: var(--s-2); }
+  .sk { display: block; border-radius: 0.25rem; background: var(--surface); }
+  .sk--date { block-size: 1.25rem; inline-size: 3rem; }
+  .sk--title { block-size: 1.25rem; inline-size: 75%; }
+  .sk--line { block-size: 0.9rem; inline-size: 55%; }
+  @media (prefers-reduced-motion: no-preference) {
+    .sk { background-image: linear-gradient(90deg, var(--surface) 30%, var(--line) 50%, var(--surface) 70%); background-size: 300% 100%; animation: sk-shimmer 1.4s ease-in-out infinite; }
+  }
+  @keyframes sk-shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
   .esearch__more { padding-block-end: var(--s-5); text-align: center; }
   .esearch__detail { padding-block: var(--s-4) var(--s-6); display: grid; gap: var(--s-4); align-content: start; min-inline-size: 0; overflow-wrap: anywhere; }
   .esearch__detail:focus, .esearch__dtitle:focus { outline: none; }
@@ -794,7 +806,7 @@
   /* Phones: a sheet anchored to the bottom edge, full width, with a grab handle. Swipe down on the header to close it. */
   @media (max-width: 39.99rem) {
     .esearch {
-      inline-size: 100%; max-inline-size: 100%; margin: auto 0 0; max-block-size: min(92dvh, calc(100dvh - 1.5rem));
+      inline-size: 100%; max-inline-size: 100%; margin: auto 0 0; block-size: min(92dvh, calc(100dvh - 1.5rem)); max-block-size: min(92dvh, calc(100dvh - 1.5rem));
       border-radius: 1rem 1rem 0 0; padding-block-end: env(safe-area-inset-bottom);
     }
     /* While the on-screen keyboard is open the sheet fills exactly the visible area (see syncViewport in event-search.ts). */

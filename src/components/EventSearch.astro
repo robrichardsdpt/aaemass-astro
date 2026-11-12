@@ -45,7 +45,15 @@ import { path } from '../lib/site';
       <p id="es-status" class="esearch__status" role="status" aria-live="polite">Loading events…</p>
       <button type="button" class="button button--quiet" id="es-reset" hidden>Clear filters</button>
     </div>
-    <ul id="es-results" class="events esearch__results"></ul>
+    <ul id="es-results" class="events esearch__results" aria-busy="true">
+      {/* Placeholder rows, shown the instant the window opens and replaced when the events arrive. */}
+      {Array.from({ length: 6 }, () => (
+        <li class="esearch__skeleton" aria-hidden="true">
+          <span class="sk sk--date"></span>
+          <div><span class="sk sk--title"></span><span class="sk sk--line"></span></div>
+        </li>
+      ))}
+    </ul>
     <p class="esearch__more"><button type="button" class="button button--quiet" id="es-more" hidden>Show more</button></p>
   </div>
   <div id="es-detail" class="esearch__detail" hidden></div>

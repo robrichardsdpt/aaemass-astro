@@ -138,12 +138,14 @@ function render(reset = true) {
   }
   const frag = document.createDocumentFragment();
   for (const e of found.slice(0, shown)) frag.append(row(e));
+  if (!found.length) frag.append(el('li', { class: 'esearch__empty' }, 'No events match. Try fewer words or a wider date range.'));
   list.replaceChildren(frag);
+  list.removeAttribute('aria-busy');
   more.hidden = found.length <= shown;
   clearBtn.hidden = !filtersActive();
   status.textContent = found.length
     ? `${found.length} ${found.length === 1 ? 'event' : 'events'}${found.length > shown ? `, showing the first ${shown}` : ''}`
-    : 'No events match. Try fewer words or a wider date range.';
+    : 'No events found';
 }
 
 // ---- One event's details --------------------------------------------------------------------------------------
@@ -268,7 +270,9 @@ function start(): Promise<boolean> {
       const table: string[] = data.descriptions ?? [];
       static_ = (data.events as any[]).map(({ di, ...e }) => ({ description: di === undefined ? '' : table[di], categories: [], ...e }));
     } catch {
-      status.textContent = 'Events could not be loaded. Try again, or use the calendar page.';
+      status.textContent = 'Events could not be loaded';
+      list.replaceChildren(el('li', { class: 'esearch__empty' }, 'Close this window and try again, or use the calendar below.'));
+      list.removeAttribute('aria-busy');
       ready = undefined;
       return false;
     }
@@ -286,7 +290,8 @@ function start(): Promise<boolean> {
 // ---- Wiring ----------------------------------------------------------------------------------------------------
 
 let timer: number | undefined;
-const later = () => { clearTimeout(timer); timer = window.setTimeout(() => render(), 150); };
+// Filtering and drawing the list takes a few milliseconds, so the wait only needs to skip keystrokes typed in quick succession.
+const later = () => { clearTimeout(timer); timer = window.setTimeout(() => render(), 60); };
 q.addEventListener('input', later);
 from.addEventListener('input', () => { syncDates(); later(); });
 to.addEventListener('input', () => { syncDates(); later(); });
