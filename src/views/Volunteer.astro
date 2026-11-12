@@ -6,16 +6,17 @@ import Page from '../layouts/Page.astro';
 import LiveFormScript from '../components/ui/LiveFormScript.astro';
 import { site } from '../lib/site';
 import { committees } from '../lib/committee-pages';
-import { getLang, lp, pick } from '../i18n';
+import { getLang, lp } from '../i18n';
 import { ui } from '../i18n/ui';
-import { volunteer } from '../i18n/pages/volunteer';
+import { getVolunteer } from '../lib/editable-pages';
 
 const lang = getLang(Astro);
-const m = pick(volunteer, lang);
+const m = getVolunteer(lang);
 const u = ui[lang];
 const email = committees['treatment-facilities'].email;
 const committeesName = lang === 'en' ? 'Committees' : 'Comités';
 const slots = Object.entries(m.slots);
+import ExtraSections from '../components/ExtraSections.astro';
 ---
 
 <Page
@@ -86,4 +87,5 @@ const slots = Object.entries(m.slots);
       <p><a href={lp(lang, '/committees/treatment-facilities')}>{m.back}</a></p>
     </div>
   </section>
+<ExtraSections page="volunteer" />
 </Page>

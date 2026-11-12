@@ -16,6 +16,30 @@ Every page has the same layout in all three languages; only the words change.
 | Spanish and French routes | `src/pages/[lang]/[...slug].astro` |
 | Editor-made pages (CMS), translated copies | `src/content/pages-i18n/<es|fr>/<same-file-name>.yml` |
 
+## Pages edited in the CMS (Site settings)
+Home, Contribute, Resources, Literature, What is AA?, Registrar, Volunteer, Calendar and Services are edited in the CMS
+under Site settings. An editor's English lives in `src/content/site/<page>.yml`; Spanish and French for each piece of
+text come from, in this order:
+1. **a fresh machine translation** in `src/content/site-i18n/<lang>/<page>.yml`, written by `scripts/translate.mjs`
+   (run by the preview and "Translate recent changes" workflows, needs `DEEPL_AUTH_KEY`). Only text that is new or whose
+   English changed is translated. Each record stores a hash of the English it came from and is used only while that hash
+   still matches, so an old translation can never be shown for new English. To correct a translation by hand, edit its `t:`
+   and leave `h:` alone; it is kept until the English changes again;
+2. the translation already in `src/i18n/pages/<page>.ts` (used while the English is unchanged, and, if a text is edited
+   but not yet translated, the old translation is kept rather than dropping to English);
+3. the English itself.
+
+The build prints `[i18n] <page> (<lang>): N text(s) changed in English ..., M not translated yet` when a page has text in
+categories 2 (stale) or 3, so nobody has to remember to check. To translate by hand instead, run
+`node scripts/translate.mjs --files src/content/site/home.yml` (or edit the files above).
+Links, addresses and quotations (paragraphs starting `@en:`) are never translated. The Seventh Tradition text on the
+Contribute page is machine translated like the rest; have it checked against AA's official wording before the page is
+listed in `src/i18n/reviewed.json`.
+
+**Extra sections.** Every one of those pages also has an "Extra sections" list at the bottom: editors add the same
+blocks as on CMS pages (text, cards, callout, FAQ, buttons, ...). They are translated the same way; until translated they
+show in English.
+
 English pages are the files in `src/pages/`; each one just renders its view. Changing English copy means editing the
 `en` block in `src/i18n/pages/<page>.ts`, then updating `es` and `fr` next to it (TypeScript flags a missing field).
 

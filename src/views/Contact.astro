@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import NoticeBar from '../components/NoticeBar.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteScripts from '../components/SiteScripts.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
@@ -35,6 +36,7 @@ const crumbs = [{ name: u.home, href: lpPublic(lang, '/') }, { name: m.crumb, hr
 ---
 
 <Base crumbs={crumbs} extraLd={extraLd} title={m.title} description={m.description}>
+  <NoticeBar />
   <SiteHeader current={lp(lang, '/contact')} />
 
   <main id="main">

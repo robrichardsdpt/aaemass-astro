@@ -28,6 +28,22 @@ const dateParts = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeri
 // YYYY-MM-DD of an instant, in New York.
 export const nyDate = (iso: string | number | Date): string => dateParts.format(new Date(iso));
 
+// A New York wall-clock date and time ("2026-12-05", "19:30") to the real instant. Two passes land it correctly across a
+// daylight-saving change. Used for events typed into the CMS, which stores plain Eastern dates and times.
+let wallParts: Intl.DateTimeFormat | undefined; // made on first use: only the build needs it, not the browser
+function nyOffset(at: number): number {
+  wallParts ??= new Intl.DateTimeFormat('en-US', { timeZone: TZ, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  const p = Object.fromEntries(wallParts.formatToParts(new Date(at)).map((x) => [x.type, x.value]));
+  return Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second) - at;
+}
+export function nyInstant(ymd: string, hm = '00:00'): Date {
+  const [y, mo, d] = ymd.split('-').map(Number);
+  const [h, mi] = hm.split(':').map(Number);
+  const wall = Date.UTC(y, mo - 1, d, h, mi);
+  const first = wall - nyOffset(wall);
+  return new Date(wall - nyOffset(first));
+}
+
 const addDays = (ymd: string, n: number): string => {
   const d = new Date(`${ymd}T12:00:00Z`);
   d.setUTCDate(d.getUTCDate() + n);

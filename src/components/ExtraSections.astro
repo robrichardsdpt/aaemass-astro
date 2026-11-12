@@ -1,0 +1,11 @@
+---
+// Sections an editor added at the bottom of a page in the CMS (Site settings > the page > Extra sections).
+import Blocks from './Blocks.astro';
+import { getExtraBlocks } from '../lib/editable-pages';
+import { getLang } from '../i18n';
+
+interface Props { page: string }
+const blocks = getExtraBlocks(Astro.props.page, getLang(Astro));
+---
+
+{blocks.length > 0 && <Blocks blocks={blocks} />}

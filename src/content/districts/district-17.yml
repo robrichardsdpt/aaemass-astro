@@ -1,8 +1,11 @@
 name: District 17
 order: 140
-lines:
-  - Meets in person on the 1st Tuesday of the month at 6:45pm
-  - "Join in person:"
-  - Greater Lynn Senior Services (GLSS)
-  - 8 Silsbee Street, Lynn, MA 01901
-  - "Please mail contributions to: P.O. Box 1297 Lynnfield, MA 01940"
+meeting:
+  how: in person
+  week: 1
+  weekday: Tuesday
+  start: "18:45"
+in_person:
+  place: Greater Lynn Senior Services (GLSS)
+  address: 8 Silsbee Street, Lynn, MA 01901
+mail: P.O. Box 1297 Lynnfield, MA 01940

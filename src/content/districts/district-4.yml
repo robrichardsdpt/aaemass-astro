@@ -1,8 +1,11 @@
 name: District 4
 order: 30
-lines:
-  - Meets in person on the 3rd Thursday of the month at 7pm
-  - "Address:"
-  - Murray Unitarian Universalist Church, Harmony Hall
-  - 505 N. Main Street, Attleboro, MA, 02703
-  - "Please mail contributions to: P.O. Box 863, Pleasant St. Attleboro, MA 02703."
+meeting:
+  how: in person
+  week: 3
+  weekday: Thursday
+  start: "19:00"
+in_person:
+  place: Murray Unitarian Universalist Church, Harmony Hall
+  address: 505 N. Main Street, Attleboro, MA, 02703
+mail: P.O. Box 863, Pleasant St. Attleboro, MA 02703.

@@ -1,0 +1,71 @@
+title: "AA Literature: Big Book, Pamphlets and More"
+description: "Conference-approved AA literature: the Big Book, Twelve and Twelve, service manual and pamphlets, with links to read each on aa.org."
+heading: AA literature
+eyebrow: Resources
+lede: Literature published by AA World Services is a resource for recovering alcoholics and other individuals.
+aboutHeading: About AA literature
+intro: In these materials you can find out more about Alcoholics Anonymous, its history and how it works. Items are published in English, Spanish and French. Each link opens the item on aa.org.
+groups:
+  - title: Alcoholics Anonymous (Big Book)
+    intro: The basic text of AA, in print, American Sign Language and audio.
+    items:
+      - title: AA Big Book
+        sub: Fourth Edition
+        description: The basic text of AA. It explains how the AA program of recovery works and includes the personal stories of men and women who found sobriety.
+        href: https://www.aa.org/the-big-book
+      - title: AA Big Book (ASL)
+        sub: Fourth Edition (Deaf)
+        description: The Big Book in American Sign Language, for Deaf members and anyone who prefers to read it in ASL.
+        href: https://www.aa.org/the-big-book
+      - title: AA Big Book (Audio)
+        sub: Fourth Edition Audio
+        description: Listen to the Big Book read aloud, for members who prefer audio or cannot read print.
+        href: https://www.aa.org/the-big-book
+  - title: AA Literature
+    intro: Books on the Steps and Traditions, AA’s service structure and the history of the Fellowship.
+    items:
+      - title: 12 & 12
+        description: Twelve Steps and Twelve Traditions. Explains each Step and Tradition and how it applies to personal recovery and to life in a group.
+        href: https://www.aa.org/lit-twelve-steps-and-twelve-traditions
+      - title: AA Service Manual
+        description: "How AA’s service structure works, with the Twelve Concepts for World Service: groups, districts, areas and the General Service Conference."
+        href: https://www.aa.org/aa-service-manualtwelve-concepts-world-services
+      - title: AA Comes of Age
+        description: A history of AA from its beginnings in 1935 through its first International Convention in 1955.
+        href: https://www.aa.org/alcoholics-anonymous-comes-age
+      - title: Dr. Bob & Good Oldtimers
+        description: The story of co-founder Dr. Bob and the early members who helped carry the message.
+        href: https://www.aa.org/dr-bob-and-good-oldtimers
+      - title: Pass It On
+        description: The story of co-founder Bill W. and how the AA message of recovery spread around the world.
+        href: https://www.aa.org/pass-it
+  - title: AA Pamphlets
+    intro: Short reads on sponsorship, anonymity, groups, service and members’ stories.
+    items:
+      - title: The Twelve Traditions Illustrated
+        description: An illustrated look at each of the Twelve Traditions and how they keep groups united.
+        href: https://www.aa.org/twelve-traditions-illustrated
+      - title: Q&A On Sponsorship
+        description: "Answers to common questions about sponsorship: what a sponsor does, how to find one and how it works."
+        href: https://www.aa.org/questions-and-answers-sponsorship
+      - title: The AA Group
+        description: How AA groups are formed and run, and how each group stays connected to AA as a whole.
+        href: https://www.aa.org/the-aa-group
+      - title: General Service Representative
+        description: "What a GSR does: carrying the group’s conscience to district meetings and Area Assemblies and bringing news back."
+        href: https://www.aa.org/gsr-general-service-representative
+      - title: Understanding Anonymity
+        description: The spiritual meaning of anonymity in AA and how it protects members and the Fellowship, including in the media and online.
+        href: https://www.aa.org/understanding-anonymity
+      - title: Young People in AA
+        description: Personal stories from young members, showing that alcoholism can affect people at any age.
+        href: https://www.aa.org/young-people-and-aa
+      - title: Black in AA – Experience Strength and Hope
+        description: Black members share their experience, strength and hope in recovery.
+        href: https://www.aa.org/black-aa-experience-strength-and-hope
+      - title: LGBTQ Alcoholics in AA
+        description: LGBTQ members share their stories of finding acceptance and recovery in AA.
+        href: https://www.aa.org/lgbtq-alcoholics-aa
+      - title: Indigenous People in AA
+        description: Indigenous members share their experience of recovery in AA.
+        href: https://www.aa.org/indigenous-people-aa

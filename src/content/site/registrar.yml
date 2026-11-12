@@ -1,0 +1,41 @@
+title: "Registrar: Register an AA Group | Area 30"
+description: Register your AA group with Area 30, update group or DCM information, and download the Registrar’s forms. Email registrar@aaemass.org.
+heading: Registrar
+eyebrow: Standing committee
+lede: We are here to assist with the registration process.
+numberTitle: Does your group have a service number?
+number1: If you send a contribution to the General Service Office in New York without your group’s service number, your group will not get credit for the donation.
+number2: If you are not sure, email [{registrarEmail}](mailto:{registrarEmail}) and we can help look up your group’s information.
+missionTitle: Mission
+mission: The Registrar maintains the Confidential Area List, coordinates with the General Service Office, the Delegate and Districts regarding group updates, and manages the registration desk at Area Assemblies.
+formsTitle: How do I register or update my group?
+formsIntro: Download a form below, or email the Registrar to request one.
+forms:
+  - title: New Group Form
+    kind: PDF
+    text: Register a new AA group with Area 30. Fill it out and email it to the Registrar.
+    file: /forms/new-group-form.pdf
+  - title: Group Update Form
+    kind: PDF
+    text: Update your group’s meeting details or contact information.
+    file: /forms/group-update-form.pdf
+  - title: DCM Change Form
+    kind: PDF
+    text: Report a change of District Committee Member (DCM) for your district.
+    file: /forms/dcm-change-form.pdf
+  - title: Group Change Form (fillable)
+    kind: Word document
+    text: A fillable version of the group change form. Type in your changes and email it back.
+    file: /forms/group-change-form.docx
+helpTitle: How can we help?
+help: Contact Area 30’s Registrar with any questions, form requests, or for additional information.
+emailButton: Email {registrarEmail}
+faqs:
+  - q: How do I register my AA group with Area 30?
+    a: Complete the New Group Form and email it to registrar@aaemass.org. Being listed on the Meeting Guide app or with Boston Central Service does not by itself register a group with Area 30 or the General Service Office.
+  - q: Why does my group need a service number?
+    a: If you send a contribution to the General Service Office in New York without your group’s service number, your group will not get credit for the donation. The Registrar can look up your group’s number.
+  - q: How do I update my group’s information or change a DCM?
+    a: Download the Group Update Form or the DCM Change Form below, complete it and email it to the Registrar.
+  - q: What does the Area Registrar do?
+    a: The Registrar maintains the Confidential Area List, coordinates with the General Service Office, the Delegate and Districts on group updates, and manages the registration desk at Area Assemblies.

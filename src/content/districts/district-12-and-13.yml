@@ -1,10 +1,13 @@
 name: District 12 & 13
 order: 110
-lines:
-  - Meets virtually on the 2nd Tuesday of the month at 7pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 895 0001 6324
-  - For password email – [aaemass.districts.12.13@gmail.com](mailto:aaemass.districts.12.13@gmail.com)
-  - "Please mail contributions to: PO Box 180234, Boston MA 02118"
-  - "Make checks payable to: District 12 and 13 AA Group"
+meeting:
+  how: virtually
+  week: 2
+  weekday: Tuesday
+  start: "19:00"
+online:
+  platform: Zoom
+  id: 895 0001 6324
+  password_email: aaemass.districts.12.13@gmail.com
+mail: PO Box 180234, Boston MA 02118
+payable_to: District 12 and 13 AA Group

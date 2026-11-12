@@ -1,13 +1,17 @@
 name: District 26
 order: 220
-lines:
-  - Meets hybrid on the 1st Thursday of the month at 7pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 718 1156 2111
-  - Passcode – 3DN3Qn
-  - "In person:"
-  - Emmanuel Church
-  - 1200 John Fitch Way, Fitchburg, MA 01420
-  - "Please mail contributions to: P.O. Box 454 Leominster, MA 01453"
-  - "[aadistrict26.org](https://aadistrict26.org)"
+meeting:
+  how: hybrid
+  week: 1
+  weekday: Thursday
+  start: "19:00"
+online:
+  platform: Zoom
+  id: 718 1156 2111
+  password: 3DN3Qn
+  password_label: Passcode
+in_person:
+  place: Emmanuel Church
+  address: 1200 John Fitch Way, Fitchburg, MA 01420
+mail: P.O. Box 454 Leominster, MA 01453
+website: https://aadistrict26.org

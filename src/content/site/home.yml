@@ -1,0 +1,116 @@
+title: Alcoholics Anonymous in Eastern Massachusetts | Area 30
+description: Area 30 is the Alcoholics Anonymous service area for Eastern Massachusetts. Find a meeting, register your group, see events and get involved in service.
+eyebrow: Alcoholics Anonymous General Service Committee
+h1: Alcoholics Anonymous in Eastern Massachusetts
+lede: Area 30 connects AA groups across the eastern half of the state to each other and to the General Service Office.
+findMeeting: Find a meeting
+seeCalendar: See the calendar
+signup:
+  title: Join the Area 30 mailing list
+  text: Periodic emails that keep members connected to what is happening in Area 30.
+  emailLabel: Email address
+  submit: Sign up
+about:
+  imageAlt: Members of an AA group seated in a circle, hands clasped.
+  title: About Area 30
+  strong: We are the Alcoholics Anonymous General Service Committee of Eastern Massachusetts.
+  p1: "An area is a geographical division within a state or province. A General Service Conference [[delegate|Delegate]] comes from an area. Massachusetts has two: Eastern Mass. (Area 30) and Western Mass. (Area 31). The Delegate is your voice to the General Service Office, AA World Services and the Grapevine."
+  p2: Want a new piece of literature? Want to change an existing one? Have a suggestion for a better way to carry the message? Those decisions are made at the General Service Conference, and our Delegate speaks for us there.
+register:
+  title: Is your group registered with Area 30?
+  p1: Being listed on the Meeting Guide app or with Boston Central Service does not mean your group is registered with Area 30 or the General Service Office.
+  p2: To register, complete [the group registration form]({registerForm}) and email it to [{registrarEmail}](mailto:{registrarEmail}). Groups that contribute to Area 30 or the General Service Office must be registered and include their ID number with each contribution. Those contributions carry the AA message to members in treatment, in correctional facilities and in remote communities, and to the professionals and public who meet alcoholics first.
+website:
+  imageAlt: A circle of people reaching their hands into the center, stacked together.
+  title: About this website
+  p1: The Area 30 Website Committee maintains this site for [[gsr|GSRs]], committee members, officers and other AA members in the area.
+  p2: Questions about Area 30? Write to [{email}](mailto:{email}).
+  button: Area documents (Google Drive)
+service:
+  eyebrow: Our Third Legacy
+  title: Get involved in service
+  intro: AA members work together to help the alcoholic who still suffers, and helping each other is a key to staying sober. The best place to start is an AA group. When a person reaches out for help, a group makes sure AA is there.
+  groups:
+    title: AA groups
+    text: Meetings share experience and strength. Find one near you.
+    link: Find a meeting
+    hidden: " on aaboston.org"
+  service:
+    title: AA service
+    text: "Service committees focus outreach on one area: Corrections, Cooperation with the Professional Community, Literature, Accessibilities, Treatment, Public Information and Archives."
+    link: Browse service committees
+  what:
+    title: What is Alcoholics Anonymous?
+    text: Alcoholics Anonymous is a fellowship of people who come together to solve their drinking problem.
+    link: Read about Alcoholics Anonymous
+events:
+  title: Upcoming events
+  all: View the full calendar
+  none: No events are posted right now. Committee meetings and area events appear on the calendar as they are scheduled.
+committees:
+  title: Service committees
+  all: View all committees
+  also: Also in Area 30
+how:
+  title: How Alcoholics Anonymous service works
+  intro: Alcoholics Anonymous groups are connected through a simple structure of general service. Each step is made up of members who volunteer and are elected by the step below.
+steps:
+  - title: The group
+    text: Every Alcoholics Anonymous group is self-supporting and runs its own affairs. Members elect a General Service Representative (GSR) to speak for the group beyond the meeting room.
+  - title: The district
+    text: GSRs from nearby groups meet as a district. They elect a District Committee Member (DCM), who links the districts to the area.
+  - title: The area
+    text: GSRs, DCMs, committee chairs and officers meet at area assemblies. Area 30 serves Eastern Massachusetts, and the area elects a Delegate to represent it.
+  - title: The Conference
+    text: Delegates from areas across the United States and Canada meet once a year at the General Service Conference, with trustees and staff of the General Service Office and the Grapevine, to consider the needs of Alcoholics Anonymous as a whole.
+faqs:
+  - q: What is Area 30?
+    a: "Area 30 is the Alcoholics Anonymous General Service Committee of Eastern Massachusetts. It is not a meeting. It connects AA groups in the eastern half of the state to each other and to the General Service Office, and it elects the Delegate who speaks for the area at the General Service Conference. Massachusetts has two areas: Eastern Mass. (Area 30) and Western Mass. (Area 31)."
+  - q: How do I find an Alcoholics Anonymous meeting in Eastern Massachusetts?
+    a: Use the meeting finder on aaboston.org or the Meeting Guide app, which list meetings by location, day and time. In the Boston area, Boston Central Service also keeps a meeting list.
+    link:
+      text: Find a meeting on aaboston.org
+      to: findMeeting
+  - q: Does it cost anything to attend or join AA?
+    a: No. There are no dues or fees for AA membership. Groups pay their own expenses through voluntary contributions from members, in keeping with the Seventh Tradition.
+  - q: Who can attend an AA meeting?
+    a: The only requirement for AA membership is a desire to stop drinking. Closed meetings are for people who think they may have a drinking problem. Open meetings welcome anyone, including family, friends and students who want to learn about AA.
+  - q: Is AA connected to a religion or any other organization?
+    a: No. AA is not allied with any sect, denomination, political group, organization or institution. It does not endorse or oppose any cause.
+  - q: How do I register my group with Area 30?
+    a: Complete the group registration form and email it to {registrarEmail}. Being listed on the Meeting Guide app or with Boston Central Service does not register your group with Area 30 or the General Service Office.
+    link:
+      text: Group registration form
+      to: registerForm
+  - q: Why should my group be registered?
+    a: Only registered groups can contribute to Area 30 or the General Service Office, and each contribution must include the group ID number. Those contributions help carry the AA message to people in treatment, in correctional facilities and in remote communities, and to the professionals and public who meet alcoholics first.
+  - q: What is a GSR, and how do I become one?
+    a: A General Service Representative is the person a group elects to be its link to the rest of AA. GSRs attend district meetings and area assemblies, bring information back to their group, and carry the group’s voice forward. To serve, raise it at your group’s business meeting and ask about the next election.
+  - q: How can I contribute to Area 30?
+    a: AA members, groups and districts can all contribute under the Seventh Tradition. Contribution details are on the Contributions page.
+    link:
+      text: Contributions
+      to: /contribute
+  - q: When does the Area 30 committee meet?
+    a: The committee meets {when} at the {where}. Area events, including assemblies, are listed on the calendar.
+    link:
+      text: Area 30 calendar
+      to: /calendar
+quick:
+  title: Quick links
+  events:
+    title: Events
+    text: Area 30 events and committee meetings.
+    link: Calendar
+  contact:
+    title: Get in touch
+    text: Contact us and see the full list of officers and committee members.
+    link: Contact Area 30
+  seventh:
+    title: 7th Tradition
+    text: Contribute to Area 30 as a member, group or district.
+    link: Contributions
+  links:
+    title: Links
+    text: Resources and useful Alcoholics Anonymous links.
+    link: Resources

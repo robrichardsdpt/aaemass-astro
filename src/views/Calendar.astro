@@ -7,12 +7,12 @@ import EventSearch from '../components/EventSearch.astro';
 import { getCmsEvents } from '../lib/events';
 import { getAllEvents } from '../lib/all-events';
 import { site } from '../lib/site';
-import { getLang, pick } from '../i18n';
+import { getLang } from '../i18n';
 import { ui } from '../i18n/ui';
-import { calendar } from '../i18n/pages/calendar';
+import { getCalendar } from '../lib/editable-pages';
 
 const lang = getLang(Astro);
-const m = pick(calendar, lang);
+const m = getCalendar(lang);
 const u = ui[lang];
 
 // Area 30's public Google Calendar (the same one embedded on aaemass.org/cal).
@@ -36,6 +36,7 @@ const special = en
 const upcoming = en
   ? (await getAllEvents()).filter((e) => e.source !== 'highlight').slice(0, 10).map((e) => ({ title: e.title, url: e.detail, start: new Date(e.start), allDay: e.allDay, venue: e.venue }))
   : [];
+import ExtraSections from '../components/ExtraSections.astro';
 ---
 
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/calendar">
@@ -72,4 +73,5 @@ const upcoming = en
       <EventList events={upcoming} />
     </Section>
   )}
+<ExtraSections page="calendar" />
 </Page>

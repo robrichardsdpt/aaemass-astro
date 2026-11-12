@@ -1,12 +1,16 @@
 name: District 10
 order: 90
-lines:
-  - Meets hybrid on the 1st Wednesday at 730pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 894 1003 4754
-  - Password – 130635
-  - "In person:"
-  - St. Stephen’s Church
-  - 5160 Washington St, West Roxbury, MA 02132
-  - "Please mail contributions to: P.O. Box 264 Dedham, MA 02027"
+meeting:
+  how: hybrid
+  week: 1
+  weekday: Wednesday
+  start: "19:30"
+online:
+  platform: Zoom
+  id: 894 1003 4754
+  password: "130635"
+  password_label: Password
+in_person:
+  place: St. Stephen’s Church
+  address: 5160 Washington St, West Roxbury, MA 02132
+mail: P.O. Box 264 Dedham, MA 02027

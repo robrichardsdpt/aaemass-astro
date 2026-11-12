@@ -9,6 +9,8 @@
 //   pages/<name>.yml       -> pages-i18n/<lang>/<name>.yml
 //   committees/<slug>.yml  -> committees-i18n/<lang>/<slug>.yml
 //   events/<name>.md       -> events-i18n/<lang>/<name>.md   (title, summary, image description and details)
+//   site/<page>.yml        -> site-i18n/<lang>/<page>.yml    (Home, Contribute, Resources, ... and any "Extra sections"; only the texts
+//                             whose English changed since the translation in src/i18n/pages/*.ts was written, one record per text)
 // Each output stores a hash of the English it came from (sourceHash), so unchanged files are skipped and a hand edit
 // by a bilingual reviewer is kept until the English changes again.
 //
@@ -24,6 +26,9 @@ import { execFileSync } from 'node:child_process';
 import { parse, stringify } from 'yaml';
 import { ensureGlossary } from './glossary.mjs';
 import { mask, unmask, markdownPieces } from './translate-text.mjs';
+import { leavesOf, hashOf as leafHash } from '../src/lib/leaf-paths.ts';
+import { SITE_PAGES } from '../src/lib/site-page-specs.ts';
+import { pathToFileURL } from 'node:url';
 
 const args = process.argv.slice(2);
 const flag = (n) => args.includes(`--${n}`);
@@ -42,9 +47,9 @@ function git(...a) {
 const sourceFiles = (dir) => (fs.existsSync(path.join(root, dir)) ? fs.readdirSync(path.join(root, dir)) : []).filter((f) => /\.(yml|md)$/.test(f)).map((f) => `${dir}/${f}`);
 let files;
 if (opt('files')) files = opt('files').split(',');
-else if (flag('all')) files = [...sourceFiles('src/content/pages'), ...sourceFiles('src/content/committees'), ...sourceFiles('src/content/events')];
+else if (flag('all')) files = [...sourceFiles('src/content/pages'), ...sourceFiles('src/content/committees'), ...sourceFiles('src/content/events'), ...Object.keys(SITE_PAGES).map((n) => `src/content/site/${n}.yml`)];
 else files = git('diff', '--name-only', '--diff-filter=AM', `${opt('base') ?? 'origin/main'}...HEAD`);
-files = files.filter((f) => /^src\/content\/((pages|committees)\/[^/]+\.yml|events\/[^/]+\.md)$/.test(f) && fs.existsSync(path.join(root, f)));
+files = files.filter((f) => /^src\/content\/((pages|committees)\/[^/]+\.yml|events\/[^/]+\.md|site\/(home|contribute|resources|literature|aa|registrar|volunteer|calendar|service)\.yml)$/.test(f) && fs.existsSync(path.join(root, f)));
 
 // ------------------------------------------------------------------ DeepL
 const TARGET = { es: 'ES', fr: 'FR' };
@@ -80,7 +85,12 @@ async function translateStrings(strings, lang) {
   if (!strings.length) return [];
   const prepared = strings.map(mask);
   const raw = await (MOCK ? mock : deepl)(prepared.map((p) => p.masked), lang);
-  return raw.map((t, i) => unmask(t, prepared[i].kept));
+  return raw.map((t, i) => {
+    const out = unmask(t, prepared[i].kept);
+    const marks = (x) => (x.match(/\*\*/g) ?? []).length;
+    if (marks(out) !== marks(strings[i])) throw new Error(`bold markers were changed while translating ("${strings[i].slice(0, 40)}...")`);
+    return out;
+  });
 }
 
 // ------------------------------------------------------------------ what counts as text
@@ -155,6 +165,52 @@ async function translateEvent(raw, lang) {
   return { front, body: assemble(done) };
 }
 
+// ------------------------------------------------------------------ site pages (Site settings in the CMS)
+// The wording of Home, Contribute and the other code-driven pages lives in src/i18n/pages/*.ts (English, Spanish, French).
+// An editor's English goes in src/content/site/<page>.yml. For each text there that is not covered by the translation already
+// in the code (new, or changed since), one machine translation is stored, with a hash of the English it was made from; the
+// build uses it only while that hash still matches. A text a reviewer corrected by hand is kept until its English changes.
+const SITE_CODE = { home: ['home', 'home'], contribute: ['contribute', 'contribute'], resources: ['resources', 'resources'], literature: ['literature', 'literatureMsgs'], aa: ['aa', 'aa'], registrar: ['registrar', 'registrar'], volunteer: ['volunteer', 'volunteer'], calendar: ['calendar', 'calendar'] };
+const load = (rel) => import(pathToFileURL(path.join(root, rel)).href);
+async function siteCode(name) {
+  if (name === 'service') {
+    const [{ serviceEn }, { service }] = await Promise.all([load('src/i18n/pages/service-en.ts'), load('src/i18n/pages/service.ts')]);
+    return { en: serviceEn, es: service.es, fr: service.fr };
+  }
+  const [file, exportName] = SITE_CODE[name];
+  return (await load(`src/i18n/pages/${file}.ts`))[exportName];
+}
+
+async function translateSite(name, raw, lang, target) {
+  const { extra_blocks = [], ...text } = parse(raw) ?? {};
+  const code = await siteCode(name);
+  const leaves = [
+    ...leavesOf(text, code.en, code[lang], { children: SITE_PAGES[name] }),
+    ...leavesOf(extra_blocks, undefined, undefined, undefined, ['extra_blocks']),
+  ];
+  const old = fs.existsSync(path.join(root, target)) ? (parse(fs.readFileSync(path.join(root, target), 'utf8'))?.t ?? {}) : {};
+  const kept = {};
+  const todo = [];
+  for (const l of leaves) {
+    if (l.skip) continue;
+    const h = leafHash(l.text);
+    if (old[l.id]?.h === h) kept[l.id] = old[l.id]; // already translated from exactly this English (or corrected by a reviewer)
+    else if (l.codeT !== undefined && l.code === l.text) continue; // the translation in the code is for exactly this English
+    else todo.push({ id: l.id, h, text: l.text });
+  }
+  const changed = todo.length > 0 || Object.keys(old).length !== Object.keys(kept).length;
+  if (!changed) return { changed: false, count: 0 };
+  if (DRY) return { changed: true, count: todo.length };
+  const done = await translateStrings(todo.map((x) => x.text), lang);
+  todo.forEach((x, i) => (kept[x.id] = { h: x.h, t: done[i] }));
+  // Keep the records in the order the texts appear on the page, so changes show up cleanly in a pull request.
+  const ordered = Object.fromEntries(leaves.map((l) => l.id).filter((id) => kept[id]).map((id) => [id, kept[id]]));
+  fs.mkdirSync(path.dirname(path.join(root, target)), { recursive: true });
+  const note = '# Machine translation (DeepL) of text edited in the CMS. Each record is used only while its hash matches the English.\n# To correct a translation, edit t: and leave h: alone. Needs review by a bilingual AA member (docs/TRANSLATION.md).\n';
+  fs.writeFileSync(path.join(root, target), note + stringify({ t: ordered }, { lineWidth: 0 }));
+  return { changed: true, count: todo.length };
+}
+
 // ------------------------------------------------------------------ run
 if (!MOCK && !KEY && !DRY) {
   console.log('DEEPL_AUTH_KEY is not set, so nothing was translated. (See docs/TRANSLATION.md.)');
@@ -169,6 +225,27 @@ let wrote = 0;
 let failed = 0;
 for (const file of files) {
   const raw = fs.readFileSync(path.join(root, file), 'utf8');
+  if (file.startsWith('src/content/site/')) {
+    const name = path.basename(file, '.yml');
+    for (const lang of LANGS) {
+      const target = `src/content/site-i18n/${lang}/${name}.yml`;
+      try {
+        const r = await translateSite(name, raw, lang, target);
+        if (!r.changed) console.log(`skip   ${target} (nothing new to translate)`);
+        else if (DRY) console.log(`would translate ${r.count} text(s) of ${file} -> ${target}`);
+        else {
+          console.log(`wrote  ${target} (${r.count} text(s))`);
+          report.push(`- ${target}`);
+          wrote++;
+        }
+      } catch (e) {
+        failed++;
+        console.log(`FAILED ${target}: ${e.message}`);
+        report.push(`- ${target}: **${e.message}**`);
+      }
+    }
+    continue;
+  }
   const hash = hashOf(raw);
   const kind = file.includes('/committees/') ? 'committees' : file.includes('/events/') ? 'events' : 'pages';
   const en = kind === 'events' ? null : parse(raw);

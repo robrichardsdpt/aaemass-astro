@@ -4,13 +4,13 @@ import Msg from '../components/Msg.astro';
 import { site } from '../lib/site';
 import LiveForm from '../components/ui/LiveForm.astro';
 import { districts } from '../lib/districts';
-import { getLang, pick } from '../i18n';
+import { getLang } from '../i18n';
 import { ui } from '../i18n/ui';
-import { contribute } from '../i18n/pages/contribute';
+import { getContribute } from '../lib/editable-pages';
 import { districtName } from '../i18n/districts';
 
 const lang = getLang(Astro);
-const m = pick(contribute, lang);
+const m = getContribute(lang);
 const u = ui[lang];
 const seen = new Set<string>();
 const vars = { registrarEmail: site.registrarEmail };
@@ -21,6 +21,7 @@ const hrefs = [`${live}#GCF`, `${live}#MCF`, `${live}#DCF`];
 const types = ['grp', 'mem', 'dist'];
 const online = Boolean(site.formsEndpoint);
 const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-mix';
+import ExtraSections from '../components/ExtraSections.astro';
 ---
 
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/contribute">
@@ -206,4 +207,5 @@ const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-m
       </ul>
     </div>
   </section>
+<ExtraSections page="contribute" />
 </Page>

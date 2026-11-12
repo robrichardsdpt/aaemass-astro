@@ -1,13 +1,17 @@
 name: District 23
 order: 190
-lines:
-  - Meets hybrid on the 2nd Tuesday of the month at 7:30pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 870 4176 6277
-  - Passcode – District23
-  - "In person:"
-  - First Congregational Church
-  - 146 East Main St (Route 135), Hopkinton, MA01748
-  - "[www.district23aa.org](https://www.district23aa.org/)"
-  - "Please mail contributions to: P.O. Box 492, Framingham, MA 01702"
+meeting:
+  how: hybrid
+  week: 2
+  weekday: Tuesday
+  start: "19:30"
+online:
+  platform: Zoom
+  id: 870 4176 6277
+  password: District23
+  password_label: Passcode
+in_person:
+  place: First Congregational Church
+  address: 146 East Main St (Route 135), Hopkinton, MA01748
+website: https://www.district23aa.org/
+mail: P.O. Box 492, Framingham, MA 01702

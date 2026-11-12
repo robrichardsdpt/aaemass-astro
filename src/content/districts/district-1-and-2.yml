@@ -1,12 +1,15 @@
 name: District 1 & 2
 order: 10
-lines:
-  - Meets hybrid on the 2nd Tuesday of the month at 7:00pm
-  - "Online:"
-  - Platform – Zoom
-  - ID – 508 487 9451
-  - "In person:"
-  - Cape Cod Covenant Church
-  - 11 Satucket Road, Brewster, MA 02631
-  - "[capecodaa.org](https://capecodaa.org)"
-  - "Mail contributions to: PO Box 1270, South Dennis, MA 02660"
+meeting:
+  how: hybrid
+  week: 2
+  weekday: Tuesday
+  start: "19:00"
+online:
+  platform: Zoom
+  id: 508 487 9451
+in_person:
+  place: Cape Cod Covenant Church
+  address: 11 Satucket Road, Brewster, MA 02631
+website: https://capecodaa.org
+mail: PO Box 1270, South Dennis, MA 02660

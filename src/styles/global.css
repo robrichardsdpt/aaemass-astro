@@ -190,6 +190,10 @@
 @layer components {
   /* Header */
   .site-header { position: relative; z-index: 50; border-block-end: 1px solid var(--line); }
+  .notice-bar { background: var(--accent); color: var(--accent-ink); font-size: var(--step--1, 0.95rem); line-height: 1.45; }
+  .notice-bar p { margin: 0; padding-block: var(--s-3); text-wrap: pretty; font-weight: 600; }
+  .notice-bar a { color: inherit; text-decoration-thickness: 0.12em; }
+  .notice-bar a:hover { color: inherit; text-decoration-thickness: 0.2em; }
   .site-header .wrap {
     display: flex;
     flex-wrap: wrap;
@@ -496,8 +500,10 @@
   .card-link:has(a:focus-visible) { outline: 3px solid var(--accent); outline-offset: 3px; }
   .card-link a:focus-visible { outline: none; }
   .card-link h3 { font-size: var(--step-1); }
-  /* Popover terms inside a card stay clickable above the stretched link. */
-  .card-link .term abbr, .card-link .term-card { position: relative; z-index: 1; }
+  /* Popover terms inside a card stay clickable above the stretched link. Only the word is lifted: the definition card must
+     keep its own position (fixed). A relative card is treated as absolute by the browser, which centers it on the whole
+     page instead of the screen, so on a scrolled page it appeared at the top, out of view. */
+  .card-link .term abbr { position: relative; z-index: 1; }
   /* Live forms */
   .live-form { display: grid; gap: var(--s-4); }
   .live-form .button { justify-self: start; }
@@ -714,6 +720,9 @@
     background: var(--ground);
     color: var(--ink);
     box-shadow: 0 1rem 3rem oklch(0 0 0 / 0.35);
+    /* Never taller than the screen (a phone held sideways), and scrolls inside itself if the definition is long. */
+    max-block-size: calc(100dvh - 2rem);
+    overflow-y: auto;
   }
   .term-card:popover-open { display: grid; gap: var(--s-3); }
   .term-card::backdrop { background: oklch(0 0 0 / 0.45); }
