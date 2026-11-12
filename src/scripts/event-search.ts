@@ -21,6 +21,7 @@ const hl = $<HTMLInputElement>('es-hl');
 const status = $('es-status');
 const list = $('es-results');
 const more = $<HTMLButtonElement>('es-more');
+const clearBtn = $<HTMLButtonElement>('es-reset');
 const eventsBase = dlg.dataset.events!;
 
 type Indexed = SearchEvent & { hay: string; head: string };
@@ -52,7 +53,28 @@ function setEvents() {
   cat.replaceChildren(el('option', { value: '' }, 'All categories'), ...cats.map((c) => el('option', { value: c }, c)));
   cat.value = cats.includes(keep) ? keep : '';
   catField.hidden = cats.length === 0;
+  lastDay = merged.length ? nyDate(merged[merged.length - 1].start) : '';
+  syncDates();
 }
+
+// From and To work as a pair: neither can be before today or after the last event, From cannot be after To, and To
+// cannot be before From. The native pickers grey out the days that are not allowed; typed values are clamped.
+let lastDay = '';
+function syncDates() {
+  const today = nyDate(Date.now());
+  for (const input of [from, to]) {
+    input.min = today;
+    input.max = lastDay;
+    if (input.value && input.value < today) input.value = today;
+    if (lastDay && input.value > lastDay) input.value = lastDay;
+  }
+  // Whichever one was just changed, To never ends up before From.
+  if (from.value && to.value && to.value < from.value) to.value = from.value;
+  to.min = from.value || today;
+  from.max = to.value || lastDay;
+}
+
+const filtersActive = () => Boolean(q.value || from.value || to.value || type.value || format.value || cat.value || hl.checked);
 
 function matches(e: Indexed, terms: string[], f: string, t: string): boolean {
   const day = nyDate(e.start);
@@ -64,6 +86,15 @@ function matches(e: Indexed, terms: string[], f: string, t: string): boolean {
   if (format.value === 'online' && !e.online) return false;
   if (format.value === 'in-person' && !(e.venue || e.address)) return false;
   return terms.every((w) => e.hay.includes(' ' + w));
+}
+
+// The entrance animation is tied to a one-shot attribute, not to [open], so it never replays (for example when the
+// keyboard closes and the sheet changes layout).
+function openDialog() {
+  if (dlg.open) return;
+  dlg.showModal();
+  dlg.dataset.opening = '';
+  setTimeout(() => { delete dlg.dataset.opening; }, 400);
 }
 
 // ---- Results list ---------------------------------------------------------------------------------------------
@@ -109,6 +140,7 @@ function render(reset = true) {
   for (const e of found.slice(0, shown)) frag.append(row(e));
   list.replaceChildren(frag);
   more.hidden = found.length <= shown;
+  clearBtn.hidden = !filtersActive();
   status.textContent = found.length
     ? `${found.length} ${found.length === 1 ? 'event' : 'events'}${found.length > shown ? `, showing the first ${shown}` : ''}`
     : 'No events match. Try fewer words or a wider date range.';
@@ -194,7 +226,7 @@ const idFromHash = () => {
 };
 
 async function openById(id: string, push: boolean) {
-  if (!dlg.open) dlg.showModal();
+  openDialog();
   await start();
   let hit = events.find((e) => e.id === id);
   // An event added to WordPress since the last build is only in the live feed.
@@ -255,7 +287,16 @@ function start(): Promise<boolean> {
 
 let timer: number | undefined;
 const later = () => { clearTimeout(timer); timer = window.setTimeout(() => render(), 150); };
-for (const c of [q, from, to]) c.addEventListener('input', later);
+q.addEventListener('input', later);
+from.addEventListener('input', () => { syncDates(); later(); });
+to.addEventListener('input', () => { syncDates(); later(); });
+clearBtn.addEventListener('click', () => {
+  q.value = from.value = to.value = type.value = format.value = cat.value = '';
+  hl.checked = false;
+  syncDates();
+  render();
+  q.focus({ preventScroll: true });
+});
 for (const c of [type, format, cat, hl]) c.addEventListener('change', () => render());
 more.addEventListener('click', () => { shown += PAGE; render(false); });
 
@@ -360,7 +401,7 @@ q.addEventListener('keydown', (e) => { if (e.key === 'Enter' && sheet.matches) {
 list.addEventListener('touchstart', () => { if (sheet.matches && document.activeElement === q) q.blur(); }, { passive: true });
 
 export function openSearch(query = '') {
-  if (!dlg.open) dlg.showModal();
+  openDialog();
   if (query.trim()) q.value = query.trim();
   syncViewport();
   // On phones the keyboard would cover the results and fight the sheet's slide-up, so the search box is not focused for you.
