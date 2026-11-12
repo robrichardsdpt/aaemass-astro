@@ -71,6 +71,11 @@
     }
   }
 
+  /* The site's own theme choice decides how native controls (checkboxes, date pickers, dropdown lists, scrollbars) draw,
+     not the operating system's: otherwise a visitor whose system is dark but who chose the light theme gets dark controls. */
+  :root[data-theme='light'] { color-scheme: light; }
+  :root[data-theme='dark'] { color-scheme: dark; }
+
   :root[data-theme='dark'] {
     --ground: oklch(0.19 0.03 258);
     --surface: oklch(0.24 0.035 258);
@@ -775,7 +780,13 @@
   .esearch .events { gap: 0; }
   .esearch .events li { grid-template-columns: 4.5rem minmax(0, 1fr); gap: var(--s-3); overflow-wrap: anywhere; }
   .esearch__results { padding-block-end: var(--s-4); min-block-size: 12rem; }
-  .esearch__empty { display: block; padding-block: var(--s-6); color: var(--ink-muted); text-align: center; border: 0; }
+  /* Empty list: a centered message and one way out. It must beat the result-row grid (.esearch .events li). */
+  .esearch .events li.esearch__empty {
+    display: grid; grid-template-columns: none; justify-items: center; align-content: center; gap: var(--s-3);
+    min-block-size: 16rem; padding: var(--s-7) var(--s-4); border: 0; text-align: center;
+  }
+  .esearch__empty p { margin: 0; max-inline-size: 32ch; color: var(--ink-muted); }
+  .esearch__empty .esearch__empty-title { color: var(--ink); font-family: var(--font-display); font-size: var(--step-1); font-weight: 600; }
   /* Placeholder rows while the events load: same grid as a real row, so nothing shifts when they are replaced. */
   .esearch__skeleton > div { display: grid; gap: var(--s-2); }
   .sk { display: block; border-radius: 0.25rem; background: var(--surface); }
