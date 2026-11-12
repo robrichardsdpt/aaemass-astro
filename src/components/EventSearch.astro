@@ -41,7 +41,10 @@ import { path } from '../lib/site';
       </div>
       <label class="esearch__check"><input id="es-hl" type="checkbox" /> Highlighted events only</label>
     </form>
-    <p id="es-status" class="esearch__status" role="status" aria-live="polite">Loading events…</p>
+    <div class="esearch__meta">
+      <p id="es-status" class="esearch__status" role="status" aria-live="polite">Loading events…</p>
+      <button type="button" class="button button--quiet" id="es-reset" hidden>Clear filters</button>
+    </div>
     <ul id="es-results" class="events esearch__results"></ul>
     <p class="esearch__more"><button type="button" class="button button--quiet" id="es-more" hidden>Show more</button></p>
   </div>

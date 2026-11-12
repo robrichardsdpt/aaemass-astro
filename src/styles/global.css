@@ -769,7 +769,8 @@
   .esearch__q, .esearch__check, #es-cat-field { grid-column: 1 / -1; }
   .esearch__check { display: flex; align-items: center; gap: var(--s-3); min-block-size: 2.75rem; cursor: pointer; }
   .esearch__check input { inline-size: 1.25rem; block-size: 1.25rem; accent-color: var(--accent); flex: none; }
-  .esearch__status { color: var(--ink-muted); font-size: var(--step--1); min-block-size: 1.5em; }
+  .esearch__meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-2) var(--s-3); }
+  .esearch__status { color: var(--ink-muted); font-size: var(--step--1); min-block-size: 1.5em; margin: 0; }
   .esearch .events { gap: 0; }
   .esearch .events li { grid-template-columns: 4.5rem minmax(0, 1fr); gap: var(--s-3); overflow-wrap: anywhere; }
   .esearch__results { padding-block-end: var(--s-4); min-block-size: 12rem; }
@@ -782,8 +783,10 @@
   .esearch .cal-links { gap: var(--s-2); }
 
   @media (prefers-reduced-motion: no-preference) {
-    .esearch[open] { animation: esearch-in 180ms ease-out; }
-    .esearch[open]::backdrop { animation: esearch-fade 180ms ease-out; }
+    /* The entrance animations run only while data-opening is set (the script sets it on open, then removes it). Tying them
+       to [open] made them replay whenever another rule that changed `animation` stopped matching, e.g. the keyboard closing. */
+    .esearch[data-opening] { animation: esearch-in 180ms ease-out; }
+    .esearch[data-opening]::backdrop { animation: esearch-fade 180ms ease-out; }
   }
   @keyframes esearch-in { from { opacity: 0; transform: translateY(0.75rem) scale(0.985); } }
   @keyframes esearch-fade { from { opacity: 0; } }
@@ -797,7 +800,7 @@
     /* While the on-screen keyboard is open the sheet fills exactly the visible area (see syncViewport in event-search.ts). */
     .esearch[open][data-kb] {
       margin: 0; inset-block: var(--es-top, 0) auto; block-size: var(--es-vh, 100dvh); max-block-size: var(--es-vh, 100dvh);
-      border-radius: 0; padding-block-end: 0; animation: none;
+      border-radius: 0; padding-block-end: 0;
     }
     .esearch__bar { padding-block-start: var(--s-5); touch-action: none; }
     .esearch__bar::before {
@@ -809,7 +812,7 @@
   }
   @media (prefers-reduced-motion: no-preference) {
     @media (max-width: 39.99rem) {
-      .esearch[open] { animation: esearch-sheet 260ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+      .esearch[data-opening] { animation: esearch-sheet 260ms cubic-bezier(0.2, 0.8, 0.2, 1); }
     }
   }
   @keyframes esearch-sheet { from { transform: translateY(100%); } }
