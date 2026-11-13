@@ -45,7 +45,17 @@ const schema = z.object({
 });
 type DistrictFile = z.infer<typeof schema>;
 
-export interface District { name: string; lines: string[] }
+export interface District {
+  id: string; // the anchor on the Districts page: "district-12-and-13"
+  name: string;
+  lines: string[];
+  // Structured details for the card's extras (next meeting, calendar entry, Zoom). Absent when the card is free text.
+  meeting?: { how: string; week: number; weekday: number; start: string; end?: string; note?: string };
+  online?: { platform?: string; id?: string; password?: string; passwordLabel?: string };
+  place?: { place?: string; address?: string };
+  website?: string;
+}
+export const districtId = (name: string) => name.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 // "19:30" -> "7:30pm", "19:00" -> "7pm"
 export function clockText(hm: string): string {
@@ -101,7 +111,15 @@ const parsed = Object.entries(files).map(([file, raw]) => {
 export const districts: District[] = parsed
   .filter((d) => !d.removed)
   .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name, 'en', { numeric: true }))
-  .map(({ name, resolved }) => ({ name, lines: resolved }));
+  .map((d) => ({
+    id: districtId(d.name),
+    name: d.name,
+    lines: d.resolved,
+    meeting: d.meeting && { how: d.meeting.how, week: d.meeting.week, weekday: WEEKDAYS.indexOf(d.meeting.weekday), start: d.meeting.start, end: d.meeting.end, note: d.meeting.note },
+    online: d.online && { platform: d.online.platform, id: d.online.id, password: d.online.password, passwordLabel: d.online.password_label },
+    place: d.in_person,
+    website: d.website,
+  }));
 
 // ---- Card layout -------------------------------------------------------------------------------------------------------
 // The card is drawn as blocks (when it meets, online, in person, website, mailing address) instead of one long list. The

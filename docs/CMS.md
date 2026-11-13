@@ -20,7 +20,11 @@ the site in about a minute. Nothing runs on a server.
 - **Districts**: one file per district in `src/content/districts/`, filled in as structured fields (when it meets,
   online meeting, in-person meeting, website, mail address). `src/lib/districts.ts` turns them into the standard card
   lines, worded exactly as the Spanish and French translator (`src/i18n/districts.ts`) expects. Anything that does not
-  fit goes in `extra_lines` (District 27 uses this for its bilingual lines).
+  fit goes in `extra_lines` (District 27 uses this for its bilingual lines). The same fields power the card's extras:
+  **Next meeting** (`src/lib/next-meeting.ts`, New York time; worked out at build and again in the browser; skipped for a district
+  whose "When it meets" has a note such as a holiday exception), **Add to calendar** (a repeating `.ics`, `src/lib/district-ics.ts`),
+  **Copy** buttons and an **Open in Zoom** link for Zoom meetings, the **Find a district** search, and one `Event` (with a
+  schedule) per district in the page's structured data. A district written only as free text (`extra_lines`) gets none of these.
 - **Site settings pages**: Home, Contribute, Resources, Literature, What is AA?, Registrar, 12th Step Volunteer, Calendar
   and Services (`src/content/site/<page>.yml`). They hold the English text an editor may change, checked against the
   English in `src/i18n/pages/<page>.ts` (an unknown or mistyped field fails the build). Anything not in those files stays
