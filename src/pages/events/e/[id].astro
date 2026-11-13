@@ -4,6 +4,7 @@ import Page from '../../../layouts/Page.astro';
 import Section from '../../../components/ui/Section.astro';
 import Callout from '../../../components/ui/Callout.astro';
 import EventText from '../../../components/ui/EventText.astro';
+import ShareButton from '../../../components/ShareButton.astro';
 import { getAllEvents } from '../../../lib/all-events';
 import { googleCalendarUrl, icsFile, icsFileName, mapUrl, outlookCalendarUrl, whenText, type SearchEvent } from '../../../lib/event-model';
 import { path, site } from '../../../lib/site';
@@ -69,6 +70,10 @@ const extraLd = location.length === 0 ? [] : [{
           <li><a class="button button--quiet" href={outlookCalendarUrl(e)} rel="noopener noreferrer">Outlook</a></li>
           <li><a class="button button--quiet" href={ics} download={icsFileName(e)}>Apple / other (.ics)</a></li>
         </ul>
+      </div>
+      <div>
+        <h2 class="event-sub">Share this event</h2>
+        <ShareButton title={e.title} text={`${e.title}: ${when}`} />
       </div>
       {e.external && <p><a href={e.external} rel="noopener noreferrer">View on the original calendar</a></p>}
       <p><a href={path('/calendar/')}>← Back to the calendar</a></p>

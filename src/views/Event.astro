@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import Page from '../layouts/Page.astro';
 import Section from '../components/ui/Section.astro';
 import Callout from '../components/ui/Callout.astro';
+import ShareButton from '../components/ShareButton.astro';
 import { href, md } from '../lib/cms';
 import { site } from '../lib/site';
 import { getLang, lp, htmlLang } from '../i18n';
@@ -69,6 +70,10 @@ const extraLd = [{
       </Callout>
       {d.image && <img src={href(d.image)} alt={t?.image_alt ?? d.image_alt ?? ''} loading="lazy" style="width:100%;height:auto;border-radius:0.5rem" />}
       <div class="stack prose-body" set:html={bodyHtml} />
+      <div>
+        <h2 class="event-sub">{ui[lang].shareEvent}</h2>
+        <ShareButton title={title} text={`${title}: ${when}`} />
+      </div>
     </div>
   </Section>
 </Page>

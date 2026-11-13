@@ -829,6 +829,9 @@
   .esearch__detail:focus, .esearch__dtitle:focus { outline: none; }
   .esearch__dtitle { font-size: var(--step-2); margin-block-end: var(--s-2); }
   .esearch__back { justify-self: start; }
+  /* Share button: space is kept until the script has chosen its label, so the page does not shift. */
+  .share { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); }
+  .share:not([data-ready]) { visibility: hidden; }
   .esearch__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); }
   .esearch .cal-links { gap: var(--s-2); }
 
