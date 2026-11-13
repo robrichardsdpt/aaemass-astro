@@ -3,6 +3,7 @@
 // keeps the list exactly as it was (query, filters, how many are shown, scroll position).
 // Data: the build's snapshot (highlighted + Google Calendar + WordPress), then the live WordPress calendar on top of it.
 import { calendarLinks, el, htmlStrip, shortDay, shortWhen, textBlocks } from './event-dom';
+import { canNativeShare, shareOrCopy } from './share';
 import { htmlToText, mapUrl, mergeEvents, normalizeTribe, nyDate, safeUrl, TRIBE_API, whenText, type SearchEvent } from '../lib/event-model';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -184,15 +185,12 @@ function renderDetail(e: SearchEvent) {
   const online = safeUrl(e.online);
   const back = el('button', { type: 'button', class: 'button button--quiet esearch__back' }, '← Back to results');
   back.addEventListener('click', goBack);
-  const copy = el('button', { type: 'button', class: 'button button--quiet' }, 'Copy link');
+  const copy = el('button', { type: 'button', class: 'button button--quiet' }, canNativeShare() ? 'Share' : 'Copy link');
   const copied = el('span', { role: 'status', 'aria-live': 'polite', class: 'when' });
   copy.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(shareUrl(e));
-      copied.textContent = 'Link copied.';
-    } catch {
-      copied.textContent = shareUrl(e);
-    }
+    const url = shareUrl(e);
+    const result = await shareOrCopy({ title: e.title, text: `${e.title}: ${whenText(e)}`, url });
+    copied.textContent = result === 'copied' ? 'Link copied.' : result === 'failed' ? url : '';
   });
   const heading = el('h2', { id: 'es-detail-title', class: 'esearch__dtitle', tabindex: '-1' }, e.title);
   detailView.replaceChildren(

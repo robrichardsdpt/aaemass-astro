@@ -1,0 +1,32 @@
+---
+// "Share" on a phone (its own share sheet), "Copy link" elsewhere. The link is the page the visitor is on, so it is right
+// in every environment. Hidden (but space is kept, so nothing shifts) until the script has chosen the label.
+import { getLang } from '../i18n';
+import { ui } from '../i18n/ui';
+
+interface Props { title: string; text?: string }
+const { title, text } = Astro.props;
+const u = ui[getLang(Astro)];
+---
+
+<span class="share" data-share data-title={title} data-text={text} data-share-label={u.share} data-copy-label={u.copyLink} data-copied={u.linkCopied}>
+  <button type="button" class="button button--quiet">{u.copyLink}</button>
+  <span class="when" role="status" aria-live="polite"></span>
+</span>
+
+<script>
+  import { canNativeShare, shareOrCopy } from '../scripts/share';
+
+  document.querySelectorAll<HTMLElement>('[data-share]').forEach((box) => {
+    const button = box.querySelector('button')!;
+    const status = box.querySelector<HTMLElement>('[role=status]')!;
+    button.textContent = canNativeShare() ? box.dataset.shareLabel! : box.dataset.copyLabel!;
+    box.dataset.ready = '';
+    button.addEventListener('click', async () => {
+      const url = location.href;
+      const result = await shareOrCopy({ title: box.dataset.title!, text: box.dataset.text, url });
+      // After a native share the phone says what happened; otherwise confirm, or show the link to copy by hand.
+      status.textContent = result === 'copied' ? box.dataset.copied! : result === 'failed' ? url : '';
+    });
+  });
+</script>

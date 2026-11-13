@@ -16,6 +16,10 @@ export interface Ui {
   language: string;
   faqHeading: string;
   close: string;
+  share: string;
+  copyLink: string;
+  linkCopied: string;
+  shareEvent: string; // heading above the share button on an event page
   allDay: string;
   noEventsShort: string;
   opensAaOrg: string;
@@ -60,6 +64,10 @@ const en: Ui = {
   language: 'Language',
   faqHeading: 'Frequently asked questions',
   close: 'Close',
+  share: 'Share',
+  copyLink: 'Copy link',
+  linkCopied: 'Link copied.',
+  shareEvent: 'Share this event',
   allDay: 'All day',
   noEventsShort: 'No events are posted right now. Check back soon.',
   opensAaOrg: ' (opens aa.org)',
@@ -105,6 +113,10 @@ const es: Ui = {
   language: 'Idioma',
   faqHeading: 'Preguntas frecuentes',
   close: 'Cerrar',
+  share: 'Compartir',
+  copyLink: 'Copiar enlace',
+  linkCopied: 'Enlace copiado.',
+  shareEvent: 'Compartir este evento',
   allDay: 'Todo el día',
   noEventsShort: 'Por ahora no hay eventos publicados. Vuelva a consultar pronto.',
   opensAaOrg: ' (se abre en aa.org)',
@@ -161,6 +173,10 @@ const fr: Ui = {
   language: 'Langue',
   faqHeading: 'Questions fréquentes',
   close: 'Fermer',
+  share: 'Partager',
+  copyLink: 'Copier le lien',
+  linkCopied: 'Lien copié.',
+  shareEvent: 'Partager cet événement',
   allDay: 'Toute la journée',
   noEventsShort: 'Aucun événement n’est annoncé pour le moment. Revenez bientôt.',
   opensAaOrg: ' (s’ouvre sur aa.org)',
