@@ -146,10 +146,12 @@ const jsonLd = {
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
       } catch (e) {}
     </script>
-    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="48x48" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="16x16 32x32 48x48" />
     <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
     <link rel="preload" href={publicSans} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={sourceSerif} as="font" type="font/woff2" crossorigin />
+    {/* Chrome and Firefox use the vector seal for the tab, so it stays sharp at any size. Other browsers use favicon.ico above. */}
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" sizes="any" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>

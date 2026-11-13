@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import { getEntry } from 'astro:content';
 import { path, site } from '../lib/site';
 import { getLang, lp, alternates, locales, langName, htmlLang } from '../i18n';
@@ -28,7 +27,8 @@ const switcher = locales.map((l) => ({ l, href: path(alts[l] ?? (l === 'en' ? '/
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href={lp(lang, '/')}>
-      <Image src={seal} width={56} height={51} alt="" loading="eager" />
+      {/* The original 399px PNG, served as is (the same file the WordPress site uses) and scaled down by CSS, so every screen gets full detail. Size it in global.css (.brand img). */}
+      <img src={seal.src} width={seal.width} height={seal.height} alt="" loading="eager" decoding="async" />
       <span>{u.brand[0]}<br />{u.brand[1]}</span>
     </a>
     {showSwitcher && <nav class="lang-switch" aria-label={u.language}>
