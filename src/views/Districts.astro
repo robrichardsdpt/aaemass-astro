@@ -4,7 +4,11 @@ import { districtsAbout } from '../lib/mirror-data';
 import { districts, districtBlocks } from '../lib/districts';
 import { linkify } from '../lib/links';
 import Rich from '../components/Rich.astro';
-import { getLang, pick } from '../i18n';
+import { getLang, pick, fmt, htmlLang } from '../i18n';
+import { nextMeeting, dayLabel } from '../lib/next-meeting';
+import { zoomLink } from '../lib/district-ics';
+import { nyInstant } from '../lib/event-model';
+import { site } from '../lib/site';
 import { districtMsgs } from '../i18n/pages/districts';
 import { translateDistrictLine, districtName } from '../i18n/districts';
 
@@ -12,10 +16,48 @@ const lang = getLang(Astro);
 const m = pick(districtMsgs, lang);
 const seen = new Set<string>();
 
-const idOf = (name: string) => name.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const c = m.cards;
+const locale = lang === 'en' ? 'en-US' : htmlLang[lang];
+// Districts whose meeting has a holiday exception ("if the 1st Monday falls on a holiday ...") get no computed "next meeting": the date could be wrong.
+const nextOf = (d: (typeof districts)[number]) => (d.meeting && !d.meeting.note ? nextMeeting(d.meeting) : undefined);
+
+// What the browser needs for the calendar download and to keep "next meeting" right between daily rebuilds.
+const clientData = districts.filter((d) => d.meeting).map((d) => ({
+  id: d.id, name: districtName(d.name, lang), ...d.meeting!,
+  place: d.place?.place, address: d.place?.address, platform: d.online?.platform, zoomId: d.online?.id, password: d.online?.password, website: d.website,
+}));
+
+// One recurring Event per district for search engines (when it meets, where, how to join).
+const WEEKDAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const pageUrl = new URL(Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/', site.url).href;
+const extraLd = districts.flatMap((d) => {
+  const next = nextOf(d);
+  const mt = d.meeting;
+  if (!mt || !next) return [];
+  const inPerson = mt.how !== 'virtually' && (d.place?.place || d.place?.address);
+  const online = mt.how !== 'in person';
+  const where = [d.place?.place, d.place?.address].filter(Boolean).join(', ');
+  return [{
+    '@type': 'Event',
+    name: `${districtName(d.name, lang)}`,
+    description: translateDistrictLine(d.lines[0], lang),
+    startDate: nyInstant(next.ymd, mt.start).toISOString(),
+    ...(mt.end ? { endDate: nyInstant(next.ymd, mt.end).toISOString() } : {}),
+    eventSchedule: { '@type': 'Schedule', repeatFrequency: 'P1M', byDay: `https://schema.org/${WEEKDAY_NAMES[mt.weekday]}`, byMonthWeek: mt.week, startTime: mt.start, ...(mt.end ? { endTime: mt.end } : {}), scheduleTimezone: 'America/New_York' },
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: inPerson && online ? 'https://schema.org/MixedEventAttendanceMode' : online ? 'https://schema.org/OnlineEventAttendanceMode' : 'https://schema.org/OfflineEventAttendanceMode',
+    location: [
+      ...(inPerson ? [{ '@type': 'Place', name: d.place?.place ?? where, address: d.place?.address ?? where }] : []),
+      ...(online ? [{ '@type': 'VirtualLocation', url: zoomLink(d.online?.platform, d.online?.id) ?? d.website ?? `${pageUrl}#${d.id}` }] : []),
+    ],
+    organizer: { '@id': `${site.url}/#org` },
+    isAccessibleForFree: true,
+    url: `${pageUrl}#${d.id}`,
+  }];
+});
 ---
 
-<Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/districts">
+<Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/districts" extraLd={extraLd}>
   <section class="section" aria-labelledby="what-title">
     <div class="wrap prose stack">
       <h2 id="what-title">{m.whatTitle}</h2>
@@ -31,6 +73,13 @@ const idOf = (name: string) => name.toLowerCase().replace(/&/g, 'and').replace(/
       <div class="stack prose" style="margin-block-end: var(--s-5)">
         <h2 id="meet-title">{m.meetTitle}</h2>
       </div>
+      <div class="d-tools" id="d-tools" data-js hidden data-shown={c.shown} data-copied={c.copiedThing} data-copied-label={c.copied} data-today={c.today} data-locale={locale}>
+        <label for="d-q">{c.searchLabel}</label>
+        <input id="d-q" type="search" placeholder={c.searchHint} autocomplete="off" enterkeyhint="search" spellcheck="false" />
+        <p id="d-count" class="when" aria-hidden="true"></p>
+      </div>
+      <p id="d-none" class="notice" hidden>{c.none}</p>
+      <p id="d-announce" class="visually-hidden" role="status" aria-live="polite"></p>
       <ul class="district-grid">
         {districts.map((d) => {
           const t = (l: string) => translateDistrictLine(l, lang).trim();
@@ -39,16 +88,29 @@ const idOf = (name: string) => name.toLowerCase().replace(/&/g, 'and').replace(/
             const m = t(l).match(/^(.+?) – (.+)$/);
             return m ? [m[1], m[2]] : undefined;
           };
+          const next = nextOf(d);
+          const zoom = d.meeting?.how !== 'in person' ? zoomLink(d.online?.platform, d.online?.id) : undefined;
           return (
-            <li class="notice district anchor" id={idOf(d.name)}>
+            <li class="notice district anchor" id={d.id}>
               <h3>{districtName(d.name, lang)}</h3>
               {districtBlocks(d.lines).map((b) => {
                 if (b.kind === 'when')
-                  return b.lines.map(t).filter(Boolean).map((l) => {
-                    // "Meets hybrid on the 1st Monday at 7pm (if it falls on a holiday, ...)": the note is secondary.
-                    const m = l.match(/^(.*?)\s*(\(.*\))$/);
-                    return m ? <p class="d-when">{m[1]} <span class="d-when__note">{m[2]}</span></p> : <p class="d-when">{l}</p>;
-                  });
+                  return (
+                    <>
+                      {b.lines.map(t).filter(Boolean).map((l) => {
+                        // "Meets hybrid on the 1st Monday at 7pm (if it falls on a holiday, ...)": the note is secondary.
+                        const m = l.match(/^(.*?)\s*(\(.*\))$/);
+                        return m ? <p class="d-when">{m[1]} <span class="d-when__note">{m[2]}</span></p> : <p class="d-when">{l}</p>;
+                      })}
+                      {next && (
+                        <p class="d-next">
+                          <span class="d-next__label">{c.nextMeeting}</span>{' '}
+                          <time datetime={next.ymd}>{next.today ? c.today : dayLabel(next.ymd, locale)}</time>
+                        </p>
+                      )}
+                      {d.meeting && <button type="button" class="d-copy d-cal" data-js hidden data-cal={d.id}>{c.addToCalendar}</button>}
+                    </>
+                  );
                 if (b.kind === 'online') {
                   // Platform, ID and password line up as label/value rows; anything longer (for the password, email ...) is a note.
                   const rows = b.rows.filter((r) => /^(Platform|Zoom ID|ID|Password|Passcode) – /.test(r));
@@ -60,15 +122,21 @@ const idOf = (name: string) => name.toLowerCase().replace(/&/g, 'and').replace(/
                         <dl class="d-rows">
                           {rows.map((r) => {
                             const kv = split(r);
+                            // The ID is copied without its spaces (Zoom accepts it that way); the password exactly as written.
+                            const copy = /^(Zoom )?ID – /.test(r) ? kv?.[1].replace(/\D/g, '') : /^(Password|Passcode) – /.test(r) ? kv?.[1] : undefined;
                             return kv && (
                               <>
                                 <dt>{kv[0]}</dt>
-                                <dd><span class="d-code">{kv[1]}</span></dd>
+                                <dd>
+                                  <span class="d-code">{kv[1]}</span>
+                                  {copy && <button type="button" class="d-copy" data-js hidden data-copy={copy} data-what={kv[0]} aria-label={fmt(c.copyThing, { what: kv[0] })}>{c.copy}</button>}
+                                </dd>
                               </>
                             );
                           })}
                         </dl>
                       )}
+                      {zoom && <p class="d-zoom"><a href={zoom} target="_blank" rel="noopener noreferrer">{c.openZoom}</a></p>}
                       {notes.map((r) => <p class="d-note" set:html={linkify(t(r))} />)}
                     </section>
                   );
@@ -92,4 +160,9 @@ const idOf = (name: string) => name.toLowerCase().replace(/&/g, 'and').replace(/
       </ul>
     </div>
   </section>
+
+  <script type="application/json" id="d-data" is:inline set:html={JSON.stringify(clientData).replace(/</g, '\\u003c')} />
+  <script>
+    import '../scripts/districts';
+  </script>
 </Page>

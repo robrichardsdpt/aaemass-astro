@@ -184,9 +184,9 @@ export function outlookCalendarUrl(e: SearchEvent): string {
   return `https://outlook.live.com/calendar/0/deeplink/compose?${q}`;
 }
 
-const escapeIcs = (s: string) => s.replace(/\\/g, '\\\\').replace(/\r?\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
+export const escapeIcs = (s: string) => s.replace(/\\/g, '\\\\').replace(/\r?\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
 // Lines are folded at 75 characters (spaces continue a line), as the format requires.
-const fold = (line: string) => {
+export const fold = (line: string) => {
   const chars = [...line];
   if (chars.length <= 75) return line;
   const parts = [chars.slice(0, 75).join('')];

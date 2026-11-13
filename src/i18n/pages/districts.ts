@@ -16,6 +16,20 @@ const en = {
     { q: 'What is a DCM?', a: 'A District Committee Member (DCM) is an experienced GSR elected by the district to link the groups’ GSRs with the Area Delegate and the area committee.' },
     { q: 'How do I find out which district I am in?', a: 'Use the “What District am I in?” link on this page, or email info@aaemass.org.' },
   ],
+  cards: {
+    nextMeeting: 'Next meeting',
+    today: 'Today',
+    addToCalendar: 'Add to calendar',
+    openZoom: 'Open in Zoom',
+    copy: 'Copy',
+    copied: 'Copied',
+    copyThing: 'Copy {what}',
+    copiedThing: '{what} copied',
+    searchLabel: 'Find a district',
+    searchHint: 'Try a district number, a town or a church name',
+    shown: '{n} of {total} districts',
+    none: 'No districts match. Try a different word, or clear the search.',
+  },
 };
 type D = typeof en;
 
@@ -35,6 +49,20 @@ const es: D = {
     { q: '¿Qué es un MCD?', a: 'Un Miembro del Comité de Distrito (MCD) es un RSG con experiencia, elegido por el distrito para enlazar a los RSG de los grupos con el delegado del área y el comité de área.' },
     { q: '¿Cómo averiguo en qué distrito estoy?', a: 'Use el enlace «¿En qué distrito estoy?» de esta página, o escriba a info@aaemass.org.' },
   ],
+  cards: {
+    nextMeeting: 'Próxima reunión',
+    today: 'Hoy',
+    addToCalendar: 'Añadir al calendario',
+    openZoom: 'Abrir en Zoom',
+    copy: 'Copiar',
+    copied: 'Copiado',
+    copyThing: 'Copiar {what}',
+    copiedThing: '{what} copiado',
+    searchLabel: 'Buscar un distrito',
+    searchHint: 'Pruebe con un número de distrito, una ciudad o el nombre de una iglesia',
+    shown: '{n} de {total} distritos',
+    none: 'Ningún distrito coincide. Pruebe con otra palabra o borre la búsqueda.',
+  },
 };
 
 const fr: D = {
@@ -53,5 +81,19 @@ const fr: D = {
     { q: 'Qu’est-ce qu’un MCD?', a: 'Un membre du comité de district (MCD) est un RSG d’expérience élu par le district pour relier les RSG des groupes au délégué de la région et au comité de région.' },
     { q: 'Comment savoir dans quel district je me trouve?', a: 'Utilisez le lien « Dans quel district suis-je? » sur cette page, ou écrivez à info@aaemass.org.' },
   ],
+  cards: {
+    nextMeeting: 'Prochaine réunion',
+    today: 'Aujourd’hui',
+    addToCalendar: 'Ajouter au calendrier',
+    openZoom: 'Ouvrir dans Zoom',
+    copy: 'Copier',
+    copied: 'Copié',
+    copyThing: 'Copier {what}',
+    copiedThing: '{what} copié',
+    searchLabel: 'Trouver un district',
+    searchHint: 'Essayez un numéro de district, une ville ou le nom d’une église',
+    shown: '{n} districts sur {total}',
+    none: 'Aucun district ne correspond. Essayez un autre mot ou effacez la recherche.',
+  },
 };
 export const districtMsgs: Record<Lang, D> = { en, es, fr };
