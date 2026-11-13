@@ -1,7 +1,7 @@
 ---
 import Page from '../layouts/Page.astro';
 import { districtsAbout } from '../lib/mirror-data';
-import { districts } from '../lib/districts';
+import { districts, districtBlocks } from '../lib/districts';
 import { linkify } from '../lib/links';
 import Rich from '../components/Rich.astro';
 import { getLang, pick } from '../i18n';
@@ -32,12 +32,63 @@ const idOf = (name: string) => name.toLowerCase().replace(/&/g, 'and').replace(/
         <h2 id="meet-title">{m.meetTitle}</h2>
       </div>
       <ul class="district-grid">
-        {districts.map((d) => (
-          <li class="notice stack anchor" id={idOf(d.name)}>
-            <h3>{districtName(d.name, lang)}</h3>
-            {d.lines.map((l) => translateDistrictLine(l, lang)).filter(Boolean).map((l) => <p set:html={linkify(l)} />)}
-          </li>
-        ))}
+        {districts.map((d) => {
+          const t = (l: string) => translateDistrictLine(l, lang).trim();
+          const title = (l: string) => t(l).replace(/\s*:$/, '');
+          const split = (l: string): [string, string] | undefined => {
+            const m = t(l).match(/^(.+?) – (.+)$/);
+            return m ? [m[1], m[2]] : undefined;
+          };
+          return (
+            <li class="notice district anchor" id={idOf(d.name)}>
+              <h3>{districtName(d.name, lang)}</h3>
+              {districtBlocks(d.lines).map((b) => {
+                if (b.kind === 'when')
+                  return b.lines.map(t).filter(Boolean).map((l) => {
+                    // "Meets hybrid on the 1st Monday at 7pm (if it falls on a holiday, ...)": the note is secondary.
+                    const m = l.match(/^(.*?)\s*(\(.*\))$/);
+                    return m ? <p class="d-when">{m[1]} <span class="d-when__note">{m[2]}</span></p> : <p class="d-when">{l}</p>;
+                  });
+                if (b.kind === 'online') {
+                  // Platform, ID and password line up as label/value rows; anything longer (for the password, email ...) is a note.
+                  const rows = b.rows.filter((r) => /^(Platform|Zoom ID|ID|Password|Passcode) – /.test(r));
+                  const notes = b.rows.filter((r) => !rows.includes(r));
+                  return (
+                    <section class="d-block">
+                      <h4 class="d-label">{title(b.title)}</h4>
+                      {rows.length > 0 && (
+                        <dl class="d-rows">
+                          {rows.map((r) => {
+                            const kv = split(r);
+                            return kv && (
+                              <>
+                                <dt>{kv[0]}</dt>
+                                <dd><span class="d-code">{kv[1]}</span></dd>
+                              </>
+                            );
+                          })}
+                        </dl>
+                      )}
+                      {notes.map((r) => <p class="d-note" set:html={linkify(t(r))} />)}
+                    </section>
+                  );
+                }
+                if (b.kind === 'place')
+                  return (
+                    <section class="d-block">
+                      <h4 class="d-label">{title(b.title)}</h4>
+                      <p class="d-place">
+                        {b.lines.map((l, i) => <span class={i === 0 ? 'd-place__name' : 'd-place__addr'}>{t(l)}</span>)}
+                      </p>
+                    </section>
+                  );
+                if (b.kind === 'link') return <p class="d-link" set:html={linkify(t(b.line))} />;
+                if (b.kind === 'mail') return <div class="d-mail">{b.lines.map((l) => <p set:html={linkify(t(l))} />)}</div>;
+                return <p set:html={linkify(t(b.line))} />;
+              })}
+            </li>
+          );
+        })}
       </ul>
     </div>
   </section>
