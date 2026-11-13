@@ -4,39 +4,44 @@ import Msg from '../components/Msg.astro';
 import Section from '../components/ui/Section.astro';
 import EventList from '../components/ui/EventList.astro';
 import EventSearch from '../components/EventSearch.astro';
+import ExtraSections from '../components/ExtraSections.astro';
 import { getCmsEvents } from '../lib/events';
 import { getAllEvents } from '../lib/all-events';
-import { site } from '../lib/site';
-import { getLang } from '../i18n';
+import { agenda, chipTime, kindOf, type CalItem } from '../lib/calendar-grid';
+import { nyDate } from '../lib/event-model';
+import { CALENDAR_ID } from '../lib/gcal';
+import { path, site } from '../lib/site';
+import { getLang, fmt, htmlLang } from '../i18n';
 import { ui } from '../i18n/ui';
 import { getCalendar } from '../lib/editable-pages';
 
 const lang = getLang(Astro);
 const m = getCalendar(lang);
+const c = m.cal;
 const u = ui[lang];
-
-// Area 30's public Google Calendar (the same one embedded on aaemass.org/cal).
-const calendarId = 'Y19lNDBlMzBmZmQ1ZWI5MjMwYzZiOTlhZGJmNDA4YjUwZGNiMGFjNzIyYjQ5ZDIzNmY5NThkMjg2NWViOWRmYWJkQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20';
-const embed = (mode: 'AGENDA' | 'MONTH') =>
-  `https://calendar.google.com/calendar/embed?${new URLSearchParams({
-    height: '700', wkst: '1', ctz: 'America/New_York', mode, showTitle: '0', showPrint: '0', showTz: '0', src: atob(calendarId), color: '#1d4ed8',
-    ...(lang === 'en' ? {} : { hl: lang }),
-  })}`;
-const subscribe = `https://calendar.google.com/calendar/u/0?cid=${calendarId}`;
-
-// Highlighted events, the search and the "coming up" list are English only for now.
 const en = lang === 'en';
+const locale = en ? 'en-US' : htmlLang[lang];
+
+// Area 30's public Google Calendar. We draw it ourselves from the same events as Explore events (no Google frames), and link to it.
+const subscribe = `https://calendar.google.com/calendar/u/0?cid=${btoa(CALENDAR_ID).replace(/=+$/, '')}`;
+const ics = `webcal://calendar.google.com/calendar/ical/${encodeURIComponent(CALENDAR_ID)}/public/basic.ics`;
+const live = `https://calendar.google.com/calendar/embed?${new URLSearchParams({ src: CALENDAR_ID, ctz: 'America/New_York', ...(en ? {} : { hl: lang }) })}`;
+
+// Highlighted events and the search window are English only for now.
 const highlighted = en ? (await getCmsEvents()).sort((a, b) => a.start.getTime() - b.start.getTime()) : [];
-// The next few events from the Google and WordPress calendars as plain links: the Google embed below is an iframe, so this
-// is what crawlers and people without JavaScript see. The full list is in the search window.
+const all = await getAllEvents();
 // One-off events (assemblies, Alcathons, the Conference) each have their own page. Linking them here is what lets crawlers find them.
-const special = en
-  ? (await getAllEvents()).filter((e) => e.slug).map((e) => ({ title: e.title, url: e.detail, start: new Date(e.start), allDay: e.allDay, venue: e.venue }))
-  : [];
-const upcoming = en
-  ? (await getAllEvents()).filter((e) => e.source !== 'highlight').slice(0, 10).map((e) => ({ title: e.title, url: e.detail, start: new Date(e.start), allDay: e.allDay, venue: e.venue }))
-  : [];
-import ExtraSections from '../components/ExtraSections.astro';
+const special = en ? all.filter((e) => e.slug).map((e) => ({ title: e.title, url: e.detail, start: new Date(e.start), allDay: e.allDay, venue: e.venue })) : [];
+
+// The next 30 days as a list, in the page itself: what crawlers and people without JavaScript see, and the whole calendar on phones.
+const items: CalItem[] = all.map((e) => ({ id: e.id, title: e.title, start: e.start, end: e.end, allDay: e.allDay, source: e.source, venue: e.venue, recurring: Boolean(e.recurring), href: e.detail }));
+const today = nyDate(new Date());
+const days = agenda(items, today, 30);
+const twoWeeks = nyDate(new Date(Date.now() + 14 * 86_400_000));
+// A repeating date has no page of its own: it opens in the Explore events window, which is English only.
+const linked = (i: CalItem) => en || !i.href.includes('#e=');
+const dayName = new Intl.DateTimeFormat(locale, { timeZone: 'UTC', weekday: 'long', month: 'long', day: 'numeric' });
+const stamp = `${new Intl.DateTimeFormat(locale, { timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }).format(new Date())} ET`;
 ---
 
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/calendar">
@@ -53,10 +58,44 @@ import ExtraSections from '../components/ExtraSections.astro';
   <section class="section" aria-labelledby="calendar-title">
     <div class="wrap">
       <h2 id="calendar-title" class="visually-hidden">{m.calendarHeading}</h2>
-      <div class="calendar-frame">
-        <iframe class="calendar-agenda" title={m.agendaTitle} src={embed('AGENDA')} loading="lazy"></iframe>
-        <iframe class="calendar-month" title={m.monthTitle} src={embed('MONTH')} loading="lazy"></iframe>
+      <ul class="cal-legend" aria-label={c.legend}>
+        <li class="k-district"><span class="cal-legend__swatch"></span>{c.kindDistrict}</li>
+        <li class="k-committee"><span class="cal-legend__swatch"></span>{c.kindCommittee}</li>
+        <li class="k-event"><span class="cal-legend__swatch"></span>{c.kindEvent}</li>
+      </ul>
+      <div class="cal">
+        <div
+          class="cal-month" id="cal-month" aria-busy="true"
+          data-src={path('/events/calendar.json')} data-history={path('/events/calendar-history.json')} data-page={path('/calendar/')} data-lang={lang} data-locale={locale}
+          data-prev={c.prev} data-next={c.next} data-today={c.today} data-more={c.more} data-less={c.less} data-all-day={u.allDay} data-failed={c.failed} data-close={u.close} data-day-open={c.dayOpen}
+        >
+          <noscript><p class="cal-note">{c.failed}</p></noscript>
+        </div>
+        <div class="cal-agenda">
+          <h3 class="cal-agenda__title">{c.comingUp}</h3>
+          {days.length === 0 && <p>{c.nothing}</p>}
+          <div class="cal-groups">
+          {days.map((d) => (
+            <div class:list={['cal-daygroup', d.ymd >= twoWeeks && 'cal-daygroup--later']}>
+              <h4 class="cal-dayhead"><time datetime={d.ymd}>{dayName.format(new Date(`${d.ymd}T12:00:00Z`))}</time>{d.ymd === today && <span class="cal-today-tag">{c.today}</span>}</h4>
+              <ul class="cal-list">
+                {d.items.map((i) => (
+                  <li class={`k-${kindOf(i)}`}>
+                    <span class="cal-time">{i.allDay ? u.allDay : chipTime(i.start, locale)}</span>
+                    <span class="cal-what">{linked(i) ? <a href={i.href}>{i.title}</a> : i.title}{i.venue ? <span class="cal-where">{i.venue}</span> : null}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          </div>
+          {en && <p class="cal-more"><button type="button" class="button button--quiet" data-es-open aria-haspopup="dialog">Explore all events</button></p>}
+        </div>
       </div>
+      <p class="cal-note">
+        <strong>{c.addTitle}:</strong> <a href={subscribe}>Google Calendar</a> · <a href={ics}>{c.addApple}</a>
+        <span class="cal-note__sep"> · </span>{fmt(c.updated, { when: stamp })} · <a href={live}>{c.live}</a>
+      </p>
       <p class="prose" style="margin-block-start: var(--s-4)">
         <Msg text={m.meets} vars={{ when: u.meetingWhen, where: `[${u.meetingWhere}](${site.meeting.map})` }} />
       </p>
@@ -68,10 +107,9 @@ import ExtraSections from '../components/ExtraSections.astro';
       <EventList events={special} />
     </Section>
   )}
-  {upcoming.length > 0 && (
-    <Section id="coming-up" title="Coming up" narrow>
-      <EventList events={upcoming} />
-    </Section>
-  )}
-<ExtraSections page="calendar" />
+  <ExtraSections page="calendar" />
+
+  <script>
+    import '../scripts/calendar-month';
+  </script>
 </Page>

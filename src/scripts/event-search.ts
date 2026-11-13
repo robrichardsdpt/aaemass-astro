@@ -445,6 +445,12 @@ export function openSearch(query = '') {
   void start().then((ok) => { if (ok) render(); });
 }
 
+/** Opens one event's details (a click on an event in the Calendar page's month view). */
+export function openEvent(id: string) {
+  syncViewport();
+  void openById(id, true);
+}
+
 export function openFromHash() {
   syncViewport();
   const id = idFromHash();
