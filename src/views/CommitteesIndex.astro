@@ -1,11 +1,15 @@
 ---
 import { Image } from 'astro:assets';
 import Page from '../layouts/Page.astro';
+import CommitteeTile from '../components/CommitteeTile.astro';
+import CommitteeCard from '../components/CommitteeCard.astro';
 import Msg from '../components/Msg.astro';
-import { featuredCommittees, listedCommittees } from '../lib/committee-pages';
+import { featuredCommittees, listedCommittees, committees } from '../lib/committee-pages';
 import { getLang, lp, pick } from '../i18n';
 import { committeesIndex } from '../i18n/pages/committeesIndex';
 import { committeeNames } from '../i18n/committees';
+import { committeeText } from '../i18n/pages/committees';
+import { getRegistrar } from '../lib/editable-pages';
 import archives from '../assets/home-archives.jpg';
 import cpc from '../assets/home-cpc.jpg';
 import corrections from '../assets/home-corrections.jpg';
@@ -27,12 +31,7 @@ const images = { archives, cpc, corrections, grapevine, literature, pi };
         <a href={lp(lang, '/service')}>{m.reports}</a>
       </div>
       <ul class="committee-grid">
-        {featuredCommittees.map((c) => (
-          <li>
-            <Image src={images[c.tileImage!]} alt="" widths={[200, 300, 400]} sizes="(min-width: 64rem) 11rem, (min-width: 36rem) 30vw, 46vw" />
-            <a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].tile}</a>
-          </li>
-        ))}
+        {featuredCommittees.map((c) => <CommitteeTile image={images[c.tileImage!]} href={lp(lang, `/committees/${c.slug}`)} name={names[c.slug].tile} />)}
       </ul>
     </div>
   </section>
@@ -40,8 +39,8 @@ const images = { archives, cpc, corrections, grapevine, literature, pi };
   <section class="section" aria-labelledby="more-title">
     <div class="wrap">
       <h2 id="more-title" style="margin-block-end: var(--s-4)">{m.moreTitle}</h2>
-      <ul class="inline-list">
-        {listedCommittees.map((c) => <li><a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].name}</a></li>)}
+      <ul class="ccard-grid">
+        {listedCommittees.map((c) => <CommitteeCard href={lp(lang, `/committees/${c.slug}`)} name={names[c.slug].name} text={(c.slug === 'registrar' ? getRegistrar(lang).lede : lang === 'en' ? committees[c.slug]?.lede : committeeText[lang]?.[c.slug]?.lede ?? committees[c.slug]?.lede) || undefined} />)}
       </ul>
       <p class="prose" style="margin-block-start: var(--s-5)"><Msg text={m.email} /></p>
     </div>

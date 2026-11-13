@@ -1,0 +1,17 @@
+---
+// One committee in the picture grid. The whole tile is the link. The pictures are very different (photos, a text graphic,
+// magazine covers, an illustration), so they share one frame and crop (.tile__media in global.css) but keep their colours.
+import { Image } from 'astro:assets';
+
+interface Props { image: ImageMetadata; href: string; name: string }
+const { image, href, name } = Astro.props;
+---
+
+<li class="tile">
+  <a class="tile__link" href={href}>
+    <span class="tile__media">
+      <Image src={image} alt="" widths={[200, 300, 400]} sizes="(min-width: 64rem) 11rem, (min-width: 36rem) 30vw, 46vw" />
+    </span>
+    <span class="tile__name">{name}</span>
+  </a>
+</li>
