@@ -44,7 +44,7 @@ export function nyInstant(ymd: string, hm = '00:00'): Date {
   return new Date(wall - nyOffset(first));
 }
 
-const addDays = (ymd: string, n: number): string => {
+export const addDays = (ymd: string, n: number): string => {
   const d = new Date(`${ymd}T12:00:00Z`);
   d.setUTCDate(d.getUTCDate() + n);
   return d.toISOString().slice(0, 10);
@@ -151,7 +151,7 @@ const utcStamp = (d: Date) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d
 const compact = (ymd: string) => ymd.replace(/-/g, '');
 
 // For all-day events: first day and the day after the last one (the exclusive end calendars expect).
-function allDayRange(e: SearchEvent): [string, string] {
+export function allDayRange(e: SearchEvent): [string, string] {
   const s = nyDate(e.start);
   if (!e.end) return [s, addDays(s, 1)];
   const last = nyDate(e.end);

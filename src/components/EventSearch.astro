@@ -72,4 +72,6 @@ import { path } from '../lib/site';
   const fromHash = () => { if (location.hash.startsWith('#e=')) void load().then((m) => m.openFromHash()); };
   fromHash();
   addEventListener('hashchange', fromHash);
+  // The month view on the Calendar page asks for an event by id.
+  addEventListener('area30:open-event', (e) => void load().then((m) => m.openEvent((e as CustomEvent<{ id: string }>).detail.id)));
 </script>

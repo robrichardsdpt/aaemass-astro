@@ -78,15 +78,21 @@ const val = (r: Raw, k: string) => unescapeText(first(r, k)?.value ?? '');
 
 const DAY = 86_400_000;
 
+// The feed is downloaded once per build, however many pages and data files ask for it.
+let feed: Promise<string | undefined> | undefined;
+const fetchFeed = () =>
+  (feed ??= (async () => {
+    try {
+      const res = await fetch(FEED, { signal: AbortSignal.timeout(15_000) });
+      return res.ok ? await res.text() : undefined;
+    } catch {
+      return undefined;
+    }
+  })());
+
 export async function getGoogleEvents(from = Date.now(), days = 548): Promise<SearchEvent[]> {
-  let ics: string;
-  try {
-    const res = await fetch(FEED, { signal: AbortSignal.timeout(15_000) });
-    if (!res.ok) return [];
-    ics = await res.text();
-  } catch {
-    return [];
-  }
+  const ics = await fetchFeed();
+  if (ics === undefined) return [];
   const to = from + days * DAY;
   const raw = parseVEvents(ics);
   const overrides = new Set<string>();

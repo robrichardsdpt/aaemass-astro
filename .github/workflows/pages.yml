@@ -5,8 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    # Daily rebuild so the events fetched at build time (Google Calendar, WordPress) stay current.
-    - cron: '0 9 * * *'
+    # Every six hours, so the events fetched at build time (Google Calendar, WordPress) stay current: the Calendar page is drawn from
+    # that snapshot, not from a live Google frame.
+    - cron: '0 */6 * * *'
 
 permissions:
   contents: read
