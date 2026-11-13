@@ -2,11 +2,12 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { site } from '../lib/site';
-import { featuredCommittees, listedCommittees } from '../lib/committee-pages';
+import { featuredCommittees } from '../lib/committee-pages';
 import { getUpcomingEvents, localizeEvents } from '../lib/events';
 import Msg from '../components/Msg.astro';
 import Rich from '../components/Rich.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import CommitteeTile from '../components/CommitteeTile.astro';
 import NoticeBar from '../components/NoticeBar.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteScripts from '../components/SiteScripts.astro';
@@ -51,7 +52,7 @@ import ExtraSections from '../components/ExtraSections.astro';
 
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
-      <Image src={heroImg} alt="" widths={[640, 1024, 1600]} sizes="100vw" quality={55} loading="eager" fetchpriority="high" />
+      <Image src={heroImg} alt="" widths={[640, 1024, 1600, 1920]} sizes="100vw" quality={55} loading="eager" fetchpriority="high" />
       <div class="wrap">
         <p class="eyebrow">{m.eyebrow}</p>
         <h1 id="hero-title">{m.h1}</h1>
@@ -182,19 +183,10 @@ import ExtraSections from '../components/ExtraSections.astro';
       <div class="wrap">
         <div class="section-head">
           <h2 id="committees-title">{m.committees.title}</h2>
-          <a href={lp(lang, '/service')}>{m.committees.all}</a>
+          <a href={lp(lang, '/committees')}>{m.committees.all}</a>
         </div>
         <ul class="committee-grid">
-          {featuredCommittees.map((c) => (
-            <li>
-              <Image src={committeeImages[c.tileImage!]} alt="" widths={[200, 300, 400]} sizes="(min-width: 64rem) 11rem, (min-width: 36rem) 30vw, 46vw" />
-              <a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].tile}</a>
-            </li>
-          ))}
-        </ul>
-        <p class="eyebrow" style="margin-block: var(--s-6) var(--s-2)">{m.committees.also}</p>
-        <ul class="inline-list">
-          {listedCommittees.map((c) => <li><a href={lp(lang, `/committees/${c.slug}`)}>{names[c.slug].name}</a></li>)}
+          {featuredCommittees.map((c) => <CommitteeTile image={committeeImages[c.tileImage!]} href={lp(lang, `/committees/${c.slug}`)} name={names[c.slug].tile} />)}
         </ul>
       </div>
     </section>

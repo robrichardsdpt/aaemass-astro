@@ -1,0 +1,13 @@
+---
+// A committee without a picture: its name and what it does, as a card. Sits below the picture tiles so every committee
+// looks like a committee (the small rounded "pills" read as tags or filters).
+interface Props { href: string; name: string; text?: string }
+const { href, name, text } = Astro.props;
+---
+
+<li class="ccard">
+  <a class="ccard__link" href={href}>
+    <span class="ccard__name">{name}</span>
+    {text && <span class="ccard__text">{text}</span>}
+  </a>
+</li>
