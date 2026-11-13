@@ -102,3 +102,47 @@ export const districts: District[] = parsed
   .filter((d) => !d.removed)
   .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name, 'en', { numeric: true }))
   .map(({ name, resolved }) => ({ name, lines: resolved }));
+
+// ---- Card layout -------------------------------------------------------------------------------------------------------
+// The card is drawn as blocks (when it meets, online, in person, website, mailing address) instead of one long list. The
+// English lines are grouped here and each line is translated afterwards, so the grouping never depends on the language.
+export type DistrictBlock =
+  | { kind: 'when'; lines: string[] }
+  | { kind: 'online'; title: string; rows: string[] }
+  | { kind: 'place'; title: string; lines: string[] }
+  | { kind: 'link'; line: string }
+  | { kind: 'mail'; lines: string[] }
+  | { kind: 'text'; line: string };
+
+const WHEN = /^(Meets |Reuniones )/;
+const ONLINE = /^(Online|Join online|Join virtually):$/;
+const PLACE = /^(In person|Join in person|Address|Dirección \/ Address):$/;
+const ROW = /^(Platform|Zoom ID|ID|Password|Passcode|For password email|For more info, email)\b/;
+const LINK = /^\[[^\]]+\]\([^)]*\)$/;
+const MAIL = /^((Please )?[Mm]ail contributions to|Make checks payable to):/;
+
+export function districtBlocks(lines: string[]): DistrictBlock[] {
+  const out: DistrictBlock[] = [];
+  const stop = (l: string) => WHEN.test(l) || ONLINE.test(l) || PLACE.test(l) || LINK.test(l) || MAIL.test(l);
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
+    const last = out[out.length - 1];
+    if (WHEN.test(l)) {
+      if (last?.kind === 'when') last.lines.push(l);
+      else out.push({ kind: 'when', lines: [l] });
+    } else if (ONLINE.test(l)) {
+      const rows: string[] = [];
+      while (i + 1 < lines.length && ROW.test(lines[i + 1])) rows.push(lines[++i]);
+      out.push({ kind: 'online', title: l, rows });
+    } else if (PLACE.test(l)) {
+      const body: string[] = [];
+      while (i + 1 < lines.length && !stop(lines[i + 1])) body.push(lines[++i]);
+      out.push({ kind: 'place', title: l, lines: body });
+    } else if (LINK.test(l)) out.push({ kind: 'link', line: l });
+    else if (MAIL.test(l)) {
+      if (last?.kind === 'mail') last.lines.push(l);
+      else out.push({ kind: 'mail', lines: [l] });
+    } else out.push({ kind: 'text', line: l });
+  }
+  return out;
+}

@@ -466,9 +466,27 @@
   .district-grid { display: grid; gap: var(--s-4); padding: 0; list-style: none; }
   @media (min-width: 40rem) { .district-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 64rem) { .district-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  .district-grid .notice { align-content: start; overflow-wrap: anywhere; }
-  .district-grid .stack > * + * { margin-block-start: var(--s-2); }
-  .district-grid h3 { font-size: var(--step-1); margin-block-end: var(--s-1); }
+  .district-grid .notice { overflow-wrap: anywhere; }
+  /* A district card: name, when it meets, then labelled blocks; the mailing address sits at the bottom of every card. */
+  .district { display: flex; flex-direction: column; gap: var(--s-4); }
+  .district h3 { font-size: var(--step-1); margin: 0; }
+  .d-when { margin: 0; font-weight: 600; line-height: 1.4; text-wrap: balance; }
+  .d-when__note { display: block; margin-block-start: var(--s-1); font-weight: 400; font-size: var(--step--1); color: var(--ink-muted); }
+  .d-when + .d-when { margin-block-start: calc(var(--s-3) * -1); font-weight: 400; color: var(--ink-muted); }
+  .d-block { display: grid; gap: var(--s-2); }
+  .d-label { margin: 0; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+  .d-rows { display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: var(--s-4); row-gap: var(--s-1); margin: 0; }
+  .d-rows dt { color: var(--ink-muted); }
+  .d-rows dd { margin: 0; }
+  .d-note { margin: 0; font-size: var(--step--1); color: var(--ink-muted); }
+  .d-code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 0.94em; font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
+  .d-place { display: grid; gap: 0.15em; margin: 0; }
+  .d-place__name { font-weight: 600; }
+  .d-place__addr { color: var(--ink-muted); }
+  .d-link { margin: 0; font-weight: 600; }
+  .d-mail { margin-block-start: auto; padding-block-start: var(--s-3); border-block-start: 1px solid var(--line); font-size: var(--step--1); color: var(--ink-muted); }
+  .d-mail p { margin: 0; }
+  .d-mail p + p { margin-block-start: var(--s-1); }
   .chip { display: inline-block; padding: var(--s-1) var(--s-4); border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-weight: 600; }
   .quote { margin: 0; padding-inline-start: var(--s-5); border-inline-start: 4px solid var(--accent); font-family: var(--font-display); font-size: var(--step-1); line-height: 1.4; }
   .quote footer { margin-block-start: var(--s-3); font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; color: var(--ink-muted); }
