@@ -222,8 +222,8 @@
     padding-block: var(--s-3);
   }
   .brand { display: flex; align-items: center; gap: var(--s-3); color: var(--ink); text-decoration: none; }
-  .brand img { width: 4.5rem; height: auto; }
-  @media (min-width: 40rem) { .brand img { width: 6.5rem; } }
+  .brand img { width: 4rem; height: auto; }
+  @media (min-width: 40rem) { .brand img { width: 5.5rem; } }
   .brand span { font-family: var(--font-display); font-weight: 650; font-size: var(--step-1); line-height: 1.15; }
   .brand:hover { color: var(--ink); }
   .site-nav { flex: 1 1 100%; }
