@@ -14,7 +14,7 @@ import ExtraSections from '../components/ExtraSections.astro';
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/alcoholics-anonymous">
   <div slot="actions" class="actions">
     <a class="button" href={site.links.findMeeting}>{m.findNear}</a>
-    <a class="button button--quiet" href="https://www.aa.org/what-is-aa">{m.learnAa}</a>
+    <a class="button button--quiet" href="https://www.aa.org/what-is-aa" target="_blank" rel="noopener">{m.learnAa}</a>
   </div>
 
   <section class="section" aria-labelledby="what-title">
@@ -31,19 +31,22 @@ import ExtraSections from '../components/ExtraSections.astro';
         <li class="notice stack">
           <h3>{m.steps.title}</h3>
           <p>{m.steps.text}</p>
+          <p><a href="https://www.aa.org/the-twelve-steps" target="_blank" rel="noopener">{m.learnAa}<span class="visually-hidden">: {m.steps.title}</span></a></p>
         </li>
         <li class="notice stack">
           <h3>{m.traditions.title}</h3>
           <p>{m.traditions.text}</p>
+          <p><a href="https://www.aa.org/the-twelve-traditions" target="_blank" rel="noopener">{m.learnAa}<span class="visually-hidden">: {m.traditions.title}</span></a></p>
         </li>
         <li class="notice stack">
           <h3>{m.bigbook.title}</h3>
           <p>{m.bigbook.text}</p>
+          <p><a href="https://www.aa.org/the-big-book" target="_blank" rel="noopener">{m.learnAa}<span class="visually-hidden">: {m.bigbook.title}</span></a></p>
         </li>
       </ul>
       <p style="margin-block-start: var(--s-5)" class="prose">
         <Rich text={m.members} seen={seen} /> {m.area}
-        <a href="https://www.aa.org/what-is-aa">{m.learnMore}</a>
+        <a href="https://www.aa.org/what-is-aa" target="_blank" rel="noopener">{m.learnMore}</a>
       </p>
     </div>
   </section>
@@ -53,7 +56,7 @@ import ExtraSections from '../components/ExtraSections.astro';
       <div class="stack prose">
         <h2 id="help-title">{m.helpTitle}</h2>
         <p>{m.help1}</p>
-        <p><a class="button button--quiet" href="https://www.aa.org/new-to-aa">{m.newToAa}</a></p>
+        <p><a class="button button--quiet" href="https://www.aa.org/new-to-aa" target="_blank" rel="noopener">{m.newToAa}</a></p>
       </div>
       <div class="stack prose">
         <h2>{m.firstTitle}</h2>
@@ -69,8 +72,8 @@ import ExtraSections from '../components/ExtraSections.astro';
       <h2 id="enduring-title">{m.enduringTitle}</h2>
       <p>{m.enduring}</p>
       <p class="actions" style="display:flex;flex-wrap:wrap;gap:var(--s-3)">
-        <a class="button button--quiet" href="http://aa.org/the-big-book">{m.bigBookStories}</a>
-        <a class="button button--quiet" href="http://aagrapevine.org">{m.grapevineStories}</a>
+        <a class="button button--quiet" href="https://aa.org/the-big-book" target="_blank" rel="noopener">{m.bigBookStories}</a>
+        <a class="button button--quiet" href="https://aagrapevine.org" target="_blank" rel="noopener">{m.grapevineStories}</a>
         <a class="button button--quiet" href={lp(lang, '/contact')}>{m.contact}</a>
       </p>
     </div>
