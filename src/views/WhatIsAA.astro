@@ -14,7 +14,7 @@ import ExtraSections from '../components/ExtraSections.astro';
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/alcoholics-anonymous">
   <div slot="actions" class="actions">
     <a class="button" href={site.links.findMeeting}>{m.findNear}</a>
-    <a class="button button--quiet" href="https://www.aa.org/what-is-aa">{m.learnAa}</a>
+    <a class="button button--quiet" href="https://www.aa.org/what-is-aa" target="_blank" rel="noopener">{m.learnAa}</a>
   </div>
 
   <section class="section" aria-labelledby="what-title">
@@ -46,7 +46,7 @@ import ExtraSections from '../components/ExtraSections.astro';
       </ul>
       <p style="margin-block-start: var(--s-5)" class="prose">
         <Rich text={m.members} seen={seen} /> {m.area}
-        <a href="https://www.aa.org/what-is-aa">{m.learnMore}</a>
+        <a href="https://www.aa.org/what-is-aa" target="_blank" rel="noopener">{m.learnMore}</a>
       </p>
     </div>
   </section>
