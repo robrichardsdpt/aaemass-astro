@@ -17,7 +17,7 @@ sections:
 meeting:
   intro: The Convention Planning Committee meets monthly, hybrid, in person and online. Check the calendar or the convention website for the next meeting date.
   lines:
-    - "In person: Royal Plaza, 181 Boston Post Road W., Marlborough"
+    - "In person: Royal Plaza, [181 Boston Post Road W., Marlborough](https://www.google.com/maps/search/?api=1&query=Royal+Plaza%2C+181+Boston+Post+Road+W%2C+Marlborough%2C+MA)"
     - "Online: Meeting ID 878 4199 4146, passcode hkJvj8"
   calendar: true
 cta: To ask a question or get involved, email the Convention Committee.

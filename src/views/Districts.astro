@@ -146,7 +146,9 @@ const extraLd = districts.flatMap((d) => {
                     <section class="d-block">
                       <h4 class="d-label">{title(b.title)}</h4>
                       <p class="d-place">
-                        {b.lines.map((l, i) => <span class={i === 0 ? 'd-place__name' : 'd-place__addr'}>{t(l)}</span>)}
+                        <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(b.lines.join(', '))}`}>
+                          {b.lines.map((l, i) => <span class={i === 0 ? 'd-place__name' : 'd-place__addr'}>{t(l)}</span>)}
+                        </a>
                       </p>
                     </section>
                   );

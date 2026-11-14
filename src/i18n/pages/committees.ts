@@ -282,7 +282,7 @@ const es: Record<string, CommitteeText> = {
     ],
     meeting: {
       intro: 'El Comité de Planificación de la Convención se reúne todos los meses, en modalidad híbrida, en persona y en línea. Consulte el calendario o el sitio web de la convención para conocer la fecha de la próxima reunión.',
-      lines: ['En persona: Royal Plaza, 181 Boston Post Road W., Marlborough', 'En línea: ID de reunión 878 4199 4146, código de acceso hkJvj8'],
+      lines: ['En persona: Royal Plaza, [181 Boston Post Road W., Marlborough](https://www.google.com/maps/search/?api=1&query=Royal+Plaza%2C+181+Boston+Post+Road+W%2C+Marlborough%2C+MA)', 'En línea: ID de reunión 878 4199 4146, código de acceso hkJvj8'],
     },
     cta: 'Para hacer una pregunta o participar, escriba al Comité de la Convención.',
   },
@@ -575,7 +575,7 @@ const fr: Record<string, CommitteeText> = {
     ],
     meeting: {
       intro: 'Le Comité de planification du congrès se réunit chaque mois, en mode hybride, en personne et en ligne. Consultez le calendrier ou le site web du congrès pour connaître la date de la prochaine réunion.',
-      lines: ['En personne : Royal Plaza, 181 Boston Post Road W., Marlborough', 'En ligne : ID de réunion 878 4199 4146, code d’accès hkJvj8'],
+      lines: ['En personne : Royal Plaza, [181 Boston Post Road W., Marlborough](https://www.google.com/maps/search/?api=1&query=Royal+Plaza%2C+181+Boston+Post+Road+W%2C+Marlborough%2C+MA)', 'En ligne : ID de réunion 878 4199 4146, code d’accès hkJvj8'],
     },
     cta: 'Pour poser une question ou vous engager, écrivez au Comité du congrès.',
   },
