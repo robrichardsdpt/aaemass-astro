@@ -90,7 +90,7 @@ const es: Svc = {
         'El comité de Cooperación con la Comunidad Profesional (CCP) puede llevar el mensaje de A.A. a los profesionales y a los estudiantes de escuelas profesionales, ayudándoles a comprender cómo y por qué funciona A.A.',
         'A.A. siempre ha valorado a los amigos de todos los campos profesionales. Estas relaciones han sido mutuamente beneficiosas y totalmente acordes con las Tradiciones de A.A.',
         'Los miembros de los comités de CCP informan a los profesionales y a los futuros profesionales sobre A.A.: qué somos, dónde estamos, qué podemos hacer y qué no podemos hacer. Procuran establecer una mejor comunicación entre los miembros de A.A. y los profesionales, y encontrar maneras sencillas y eficaces de cooperar sin afiliarse.',
-        'Todos los miembros de A.A. son bienvenidos a asistir a la reunión mensual del comité de CCP, que se celebra el segundo jueves del mes, a las 7:00 p. m., en Central Service, [12 Channel Street, Suite 604, Boston, MA, 02210](https://www.google.com/maps/search/?api=1&query=12+Channel+St%2C+Boston%2C+MA+02210).',
+        'Todos los miembros de A.A. son bienvenidos a asistir a la reunión mensual del comité de CCP, que se celebra el segundo jueves del mes, a las 7:00 p. m., en Central Service, [12 Channel Street, Suite 604, Boston, MA 02210](https://www.google.com/maps/search/?api=1&query=12+Channel+St%2C+Boston%2C+MA+02210).',
       ],
     },
     {
@@ -224,7 +224,7 @@ const fr: Svc = {
         'Le comité de Collaboration avec les milieux professionnels (CMP) peut transmettre le message des A.A. aux professionnels et aux étudiants des écoles professionnelles, en les aidant à comprendre comment et pourquoi les A.A. fonctionnent.',
         'Les A.A. ont toujours apprécié leurs amis de tous les milieux professionnels. Ces relations ont été mutuellement bénéfiques et tout à fait conformes aux Traditions des A.A.',
         'Les membres des comités CMP renseignent les professionnels et les futurs professionnels sur les A.A. : ce que nous sommes, où nous sommes, ce que nous pouvons faire et ce que nous ne pouvons pas faire. Ils s’efforcent d’établir une meilleure communication entre les membres des A.A. et les professionnels, et de trouver des moyens simples et efficaces de collaborer sans s’affilier.',
-        'Tous les membres des A.A. sont les bienvenus à la réunion mensuelle du comité CMP, qui a lieu le deuxième jeudi du mois, à 19 h, à Central Service, [12 Channel Street, Suite 604, Boston, MA, 02210](https://www.google.com/maps/search/?api=1&query=12+Channel+St%2C+Boston%2C+MA+02210).',
+        'Tous les membres des A.A. sont les bienvenus à la réunion mensuelle du comité CMP, qui a lieu le deuxième jeudi du mois, à 19 h, à Central Service, [12 Channel Street, Suite 604, Boston, MA 02210](https://www.google.com/maps/search/?api=1&query=12+Channel+St%2C+Boston%2C+MA+02210).',
       ],
     },
     {
