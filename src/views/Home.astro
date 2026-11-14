@@ -105,10 +105,12 @@ import ExtraSections from '../components/ExtraSections.astro';
     </section>
 
     <section class="section" aria-labelledby="register-title">
-      <div class="wrap prose">
-        <div class="notice stack">
-          <h3 id="register-title">{m.register.title}</h3>
-          <p>{m.register.p1}</p>
+      <div class="wrap">
+        <div class="notice register">
+          <div class="stack">
+            <h2 id="register-title">{m.register.title}</h2>
+            <p>{m.register.p1}</p>
+          </div>
           <p><Msg text={m.register.p2} vars={vars} /></p>
         </div>
       </div>
@@ -156,13 +158,13 @@ import ExtraSections from '../components/ExtraSections.astro';
     </section>
 
     <section class="section" aria-labelledby="events-title">
-      <div class="wrap prose">
+      <div class="wrap">
         <div class="section-head">
           <h2 id="events-title">{m.events.title}</h2>
           <a href={lp(lang, '/calendar')}>{m.events.all}</a>
         </div>
         {events.length > 0 ? (
-          <ul class="events">
+          <ul class="events prose">
             {events.map((e) => (
               <li>
                 <time datetime={e.start.toISOString()}>{day.format(e.start)}</time>
@@ -174,7 +176,7 @@ import ExtraSections from '../components/ExtraSections.astro';
             ))}
           </ul>
         ) : (
-          <p>{m.events.none}</p>
+          <p class="notice prose">{m.events.none}</p>
         )}
       </div>
     </section>

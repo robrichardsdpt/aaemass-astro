@@ -645,6 +645,11 @@
   .site-footer address { font-style: normal; }
   .site-footer .legal { grid-column: 1 / -1; padding-block-start: var(--s-5); border-block-start: 1px solid var(--line); font-size: var(--step--1); color: var(--ink-muted); }
 
+  /* Registration notice: the question and the short answer on the left, how to register on the right. */
+  .register { display: grid; gap: var(--s-5) var(--s-7); padding: var(--s-6); }
+  .register h2 { font-size: var(--step-1); }
+  .register > p { margin: 0; }
+  @media (min-width: 52rem) { .register { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); align-items: start; } }
   .section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--s-2) var(--s-5); margin-block-end: var(--s-5); }
 
   /* Standalone links get a 44px tap area; links inside paragraphs stay inline. */
