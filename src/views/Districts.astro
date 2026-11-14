@@ -96,7 +96,7 @@ const extraLd = districts.flatMap((d) => {
               {districtBlocks(d.lines).map((b) => {
                 if (b.kind === 'when')
                   return (
-                    <>
+                    <div class="d-meet">
                       {b.lines.map(t).filter(Boolean).map((l) => {
                         // "Meets hybrid on the 1st Monday at 7pm (if it falls on a holiday, ...)": the note is secondary.
                         const m = l.match(/^(.*?)\s*(\(.*\))$/);
@@ -109,7 +109,7 @@ const extraLd = districts.flatMap((d) => {
                         </p>
                       )}
                       {d.meeting && <button type="button" class="d-copy d-cal" data-js hidden data-cal={d.id}>{c.addToCalendar}</button>}
-                    </>
+                    </div>
                   );
                 if (b.kind === 'online') {
                   // Platform, ID and password line up as label/value rows; anything longer (for the password, email ...) is a note.
@@ -145,11 +145,13 @@ const extraLd = districts.flatMap((d) => {
                   return (
                     <section class="d-block">
                       <h4 class="d-label">{title(b.title)}</h4>
-                      <p class="d-place">
-                        <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(b.lines.join(', '))}`}>
-                          {b.lines.map((l, i) => <span class={i === 0 ? 'd-place__name' : 'd-place__addr'}>{t(l)}</span>)}
-                        </a>
-                      </p>
+                      <address class="d-place">
+                        {b.lines.map((l, i) => <span class={b.lines.length > 1 && i === 0 ? 'd-place__name' : 'd-place__addr'}>{t(l)}</span>)}
+                      </address>
+                      <a class="d-map" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(b.lines.join(', '))}`} target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><circle cx="12" cy="10" r="2.4" fill="currentColor" /></svg>
+                        {c.directions}<span class="visually-hidden"> ({b.lines[0]})</span>
+                      </a>
                     </section>
                   );
                 if (b.kind === 'link') return <p class="d-link" set:html={linkify(t(b.line))} />;
