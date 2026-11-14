@@ -113,6 +113,8 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Stops iOS/Android auto-linking Zoom IDs (and other digit runs) as phone numbers. Real phone numbers must use explicit tel: links. -->
+    <meta name="format-detection" content="telephone=no" />
     <!-- Forms may only submit to this site; no <base> tricks; no plugins.
          (Only directives that work in a meta tag. Set frame-ancestors / full script-src as real headers if the host allows.) -->
     <meta http-equiv="Content-Security-Policy" content="form-action 'self'; base-uri 'none'; object-src 'none'" />
