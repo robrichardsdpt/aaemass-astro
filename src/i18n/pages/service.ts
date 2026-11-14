@@ -65,7 +65,7 @@ const es: Svc = {
         'comunicarnos con los distritos y con otros grupos del Área 30 para darles noticias y opiniones sobre nuestro trabajo de servicio y animarlos a preservar sus respectivos archivos;',
         'registrar las historias de los grupos y de las personas antes de que sea demasiado tarde; y',
         'compartir nuestros archivos con usted, para que podamos «recorrer el camino» juntos.',
-        'Además, y quizá lo más importante, invitamos a los miembros que han vivido nuestra historia a compartirla con nosotros para que los futuros miembros de A.A. se beneficien de su considerable experiencia, fortaleza y esperanza. Con gusto haremos arreglos mutuamente convenientes para reunirnos. El Comité de Archivos del Área 30 se reúne a las 7:30 p. m. el tercer jueves de cada mes en la Iglesia St. John’s, 80 Mt. Auburn St., Watertown. Hay muchas ideas viejas y nuevas para discutir. Todos los miembros de A.A. son bienvenidos a asistir.',
+        'Además, y quizá lo más importante, invitamos a los miembros que han vivido nuestra historia a compartirla con nosotros para que los futuros miembros de A.A. se beneficien de su considerable experiencia, fortaleza y esperanza. Con gusto haremos arreglos mutuamente convenientes para reunirnos. El Comité de Archivos del Área 30 se reúne a las 7:30 p. m. el tercer jueves de cada mes en la Iglesia St. John’s, [80 Mt. Auburn St., Watertown](https://www.google.com/maps/search/?api=1&query=80+Mt.+Auburn+St%2C+Watertown%2C+MA). Hay muchas ideas viejas y nuevas para discutir. Todos los miembros de A.A. son bienvenidos a asistir.',
         '¡Esté atento a esta página para conocer los informes sobre los avances y los planes futuros!',
       ],
     },
@@ -90,7 +90,7 @@ const es: Svc = {
         'El comité de Cooperación con la Comunidad Profesional (CCP) puede llevar el mensaje de A.A. a los profesionales y a los estudiantes de escuelas profesionales, ayudándoles a comprender cómo y por qué funciona A.A.',
         'A.A. siempre ha valorado a los amigos de todos los campos profesionales. Estas relaciones han sido mutuamente beneficiosas y totalmente acordes con las Tradiciones de A.A.',
         'Los miembros de los comités de CCP informan a los profesionales y a los futuros profesionales sobre A.A.: qué somos, dónde estamos, qué podemos hacer y qué no podemos hacer. Procuran establecer una mejor comunicación entre los miembros de A.A. y los profesionales, y encontrar maneras sencillas y eficaces de cooperar sin afiliarse.',
-        'Todos los miembros de A.A. son bienvenidos a asistir a la reunión mensual del comité de CCP, que se celebra el segundo jueves del mes, a las 7:00 p. m., en Central Service, 12 Channel Street, Suite 604, Boston, MA, 02210.',
+        'Todos los miembros de A.A. son bienvenidos a asistir a la reunión mensual del comité de CCP, que se celebra el segundo jueves del mes, a las 7:00 p. m., en Central Service, [12 Channel Street, Suite 604, Boston, MA, 02210](https://www.google.com/maps/search/?api=1&query=12+Channel+St%2C+Boston%2C+MA+02210).',
       ],
     },
     {
@@ -102,7 +102,7 @@ const es: Svc = {
     {
       title: 'Comité Conjunto de Centros de Tratamiento',
       paras: [
-        'El Comité Conjunto de Centros de Tratamiento se reúne el tercer viernes del mes en la Iglesia St. Paul’s, 59 Court St., Dedham, MA, a las 7 p. m. El propósito del comité es coordinar el trabajo de los miembros y grupos de A.A. interesados en llevar nuestro mensaje de recuperación a los alcohólicos en centros de tratamiento, y establecer medios para «tender el puente» desde el centro hasta la comunidad en general. El comité ofrece información sobre A.A., así como literatura y lineamientos para organizar reuniones de A.A. en centros de tratamiento y de atención ambulatoria. Su objetivo es asegurar que se atienda a todos los centros de tratamiento que quieran que participen reuniones de A.A.',
+        'El Comité Conjunto de Centros de Tratamiento se reúne el tercer viernes del mes en la Iglesia St. Paul’s, [59 Court St., Dedham, MA](https://www.google.com/maps/search/?api=1&query=59+Court+St%2C+Dedham%2C+MA), a las 7 p. m. El propósito del comité es coordinar el trabajo de los miembros y grupos de A.A. interesados en llevar nuestro mensaje de recuperación a los alcohólicos en centros de tratamiento, y establecer medios para «tender el puente» desde el centro hasta la comunidad en general. El comité ofrece información sobre A.A., así como literatura y lineamientos para organizar reuniones de A.A. en centros de tratamiento y de atención ambulatoria. Su objetivo es asegurar que se atienda a todos los centros de tratamiento que quieran que participen reuniones de A.A.',
         'Todos los miembros de A.A. interesados son bienvenidos. Se anima a que participen representantes de distritos y grupos. La palabra «conjunto» indica que hay miembros de las intergrupos del área.',
         'Siempre estamos disponibles para actividades de difusión. Pueden comunicarse con nosotros en: [treatment@aaemass.org](mailto:treatment@aaemass.org)',
       ],
@@ -199,7 +199,7 @@ const fr: Svc = {
         'communiquer avec les districts et les autres groupes de la Région 30 pour leur faire connaître notre travail de service et les encourager à préserver leurs archives respectives;',
         'consigner l’histoire des groupes et des personnes avant qu’il ne soit trop tard; et',
         'partager nos archives avec vous, afin que nous puissions « faire route » ensemble.',
-        'De plus, et c’est peut-être le plus important, nous invitons les membres qui ont vécu notre histoire à la partager avec nous afin que les futurs membres des A.A. profitent de votre grande expérience, force et espoir. Nous prendrons volontiers des arrangements convenant à tous pour nous rencontrer. Le Comité des archives de la Région 30 se réunit à 19 h 30 le troisième jeudi de chaque mois à l’église St. John’s, 80 Mt. Auburn St., Watertown. Les idées, anciennes et nouvelles, ne manquent pas. Tous les membres des A.A. sont les bienvenus.',
+        'De plus, et c’est peut-être le plus important, nous invitons les membres qui ont vécu notre histoire à la partager avec nous afin que les futurs membres des A.A. profitent de votre grande expérience, force et espoir. Nous prendrons volontiers des arrangements convenant à tous pour nous rencontrer. Le Comité des archives de la Région 30 se réunit à 19 h 30 le troisième jeudi de chaque mois à l’église St. John’s, [80 Mt. Auburn St., Watertown](https://www.google.com/maps/search/?api=1&query=80+Mt.+Auburn+St%2C+Watertown%2C+MA). Les idées, anciennes et nouvelles, ne manquent pas. Tous les membres des A.A. sont les bienvenus.',
         'Surveillez cette page pour connaître les rapports sur les progrès et les projets d’avenir!',
       ],
     },
@@ -224,7 +224,7 @@ const fr: Svc = {
         'Le comité de Collaboration avec les milieux professionnels (CMP) peut transmettre le message des A.A. aux professionnels et aux étudiants des écoles professionnelles, en les aidant à comprendre comment et pourquoi les A.A. fonctionnent.',
         'Les A.A. ont toujours apprécié leurs amis de tous les milieux professionnels. Ces relations ont été mutuellement bénéfiques et tout à fait conformes aux Traditions des A.A.',
         'Les membres des comités CMP renseignent les professionnels et les futurs professionnels sur les A.A. : ce que nous sommes, où nous sommes, ce que nous pouvons faire et ce que nous ne pouvons pas faire. Ils s’efforcent d’établir une meilleure communication entre les membres des A.A. et les professionnels, et de trouver des moyens simples et efficaces de collaborer sans s’affilier.',
-        'Tous les membres des A.A. sont les bienvenus à la réunion mensuelle du comité CMP, qui a lieu le deuxième jeudi du mois, à 19 h, à Central Service, 12 Channel Street, Suite 604, Boston, MA, 02210.',
+        'Tous les membres des A.A. sont les bienvenus à la réunion mensuelle du comité CMP, qui a lieu le deuxième jeudi du mois, à 19 h, à Central Service, [12 Channel Street, Suite 604, Boston, MA, 02210](https://www.google.com/maps/search/?api=1&query=12+Channel+St%2C+Boston%2C+MA+02210).',
       ],
     },
     {
@@ -236,7 +236,7 @@ const fr: Svc = {
     {
       title: 'Comité conjoint des centres de traitement',
       paras: [
-        'Le Comité conjoint des centres de traitement se réunit le troisième vendredi du mois à l’église St. Paul’s, 59 Court St., Dedham, MA, à 19 h. Le but du comité est de coordonner le travail des membres et des groupes A.A. qui souhaitent porter notre message de rétablissement aux alcooliques dans les centres de traitement, et de mettre en place des moyens de « jeter un pont » entre l’établissement et la collectivité en général. Le comité fournit des renseignements sur les A.A., ainsi que de la documentation et des lignes directrices pour organiser des réunions des A.A. dans les centres de traitement et les établissements de soins ambulatoires. Son objectif est de veiller à ce que tous les centres de traitement qui désirent la participation de réunions des A.A. soient desservis.',
+        'Le Comité conjoint des centres de traitement se réunit le troisième vendredi du mois à l’église St. Paul’s, [59 Court St., Dedham, MA](https://www.google.com/maps/search/?api=1&query=59+Court+St%2C+Dedham%2C+MA), à 19 h. Le but du comité est de coordonner le travail des membres et des groupes A.A. qui souhaitent porter notre message de rétablissement aux alcooliques dans les centres de traitement, et de mettre en place des moyens de « jeter un pont » entre l’établissement et la collectivité en général. Le comité fournit des renseignements sur les A.A., ainsi que de la documentation et des lignes directrices pour organiser des réunions des A.A. dans les centres de traitement et les établissements de soins ambulatoires. Son objectif est de veiller à ce que tous les centres de traitement qui désirent la participation de réunions des A.A. soient desservis.',
         'Tous les membres des A.A. intéressés sont les bienvenus. Les représentants des districts et des groupes sont encouragés à participer. Le mot « conjoint » indique la présence de membres des intergroupes de la région.',
         'Nous sommes toujours disponibles pour des activités de sensibilisation. On peut nous joindre à : [treatment@aaemass.org](mailto:treatment@aaemass.org)',
       ],

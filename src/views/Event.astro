@@ -65,7 +65,7 @@ const extraLd = [{
       {passed && <div class="notice"><p><strong>{L.passed}</strong> {L.seeCalendarPre} <a href={lp(lang, '/calendar/')}>{L.calendar}</a> {L.seeCalendarPost}</p></div>}
       <Callout title={L.details}>
         <p><strong>{L.when}</strong> {when}</p>
-        {place && <p><strong>{L.where}</strong> {place}</p>}
+        {place && <p><strong>{L.where}</strong> <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}`} rel="noopener noreferrer">{place}</a></p>}
         {d.online_url && <p><strong>{L.online}</strong> <a href={href(d.online_url, lang)}>{L.joinOnline}</a></p>}
       </Callout>
       {d.image && <img src={href(d.image)} alt={t?.image_alt ?? d.image_alt ?? ''} loading="lazy" style="width:100%;height:auto;border-radius:0.5rem" />}
