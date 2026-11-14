@@ -1,0 +1,19 @@
+sourceHash: 849d4e91a256c736
+name: Convención Estatal de Massachusetts
+tile: Comité de la Convención Estatal de Massachusetts
+label: Comité de la Convención Estatal de Massachusetts
+eyebrow: Comisión permanente
+lede: Convivencia, comida y diversión, organizadas por socios de todo Massachusetts.
+description: "El Comité de la Convención Estatal de Massachusetts se reúne mensualmente para organizar la convención anual: ponentes, talleres, comida, momentos de convivencia y diversión."
+sections:
+  - title: Misión
+    paras:
+      - El Comité de la Convención se reúne mensualmente para organizar la Convención Estatal de Massachusetts, un fin de semana en el que se ofrecen ponencias, talleres, comida, momentos de convivencia y diversión.
+    links:
+      - aamastateconvention.org
+meeting:
+  intro: El Comité de Organización de la Convención se reúne mensualmente, en formato híbrido, tanto presencial como en línea. Consulte el calendario o la página web de la convención para conocer la fecha de la próxima reunión.
+  lines:
+    - "En persona: Royal Plaza, [181 Boston Post Road W., Marlborough](https://www.google.com/maps/search/?api=1&query=Royal+Plaza%2C+181+Boston+Post+Road+W%2C+Marlborough%2C+MA)"
+    - "En línea: ID de la reunión 878 4199 4146, código de acceso hkJvj8"
+cta: Si desea plantear alguna pregunta o participar, envíe un correo electrónico al Comité de la Convención.

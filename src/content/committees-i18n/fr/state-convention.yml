@@ -1,0 +1,19 @@
+sourceHash: 849d4e91a256c736
+name: Congrès d’État du Massachusetts
+tile: Comité d'organisation du Congrès d’État du Massachusetts
+label: Comité d'organisation du Congrès d’État du Massachusetts
+eyebrow: Commission permanente
+lede: Convivialité, gastronomie et divertissement, organisés par des membres venus de tout le Massachusetts.
+description: "Le comité d'organisation du Congrès d’État du Massachusetts se réunit chaque mois pour planifier le congrès annuel : intervenants, ateliers, restauration, moments de convivialité et divertissements."
+sections:
+  - title: Mission
+    paras:
+      - Le comité du congrès se réunit chaque mois pour organiser le congrès annuel d’État du Massachusetts, un week-end ponctué d’interventions, d’ateliers, de repas, de moments de convivialité et de divertissement.
+    links:
+      - aamastateconvention.org
+meeting:
+  intro: Le comité d'organisation du congrès se réunit tous les mois, en mode hybride, à la fois en présentiel et en ligne. Veuillez consulter le calendrier ou le site web du congrès pour connaître la date de la prochaine réunion.
+  lines:
+    - "En personne : Royal Plaza, [181 Boston Post Road W., Marlborough](https://www.google.com/maps/search/?api=1&query=Royal+Plaza%2C+181+Boston+Post+Road+W%2C+Marlborough%2C+MA)"
+    - "En ligne : identifiant de la réunion 878 4199 4146, code d'accès hkJvj8"
+cta: Pour poser une question ou vous impliquer, envoyez un e-mail au comité d'organisation du congrès.
