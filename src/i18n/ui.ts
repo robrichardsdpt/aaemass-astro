@@ -49,6 +49,18 @@ export interface Ui {
   formEmail: string;
   formMessage: string;
   eventLabel: string;
+  searchOpen: string; // the magnifying-glass button
+  searchTitle: string;
+  searchLabel: string;
+  searchPlaceholder: string;
+  searchHint: string; // shown before anything is typed
+  searchLoading: string;
+  searchError: string;
+  searchNone: string; // {q}
+  searchCount: string; // {n}
+  searchTry: string; // label above the suggested words
+  searchSuggestions: string[];
+  backToTop: string;
 }
 
 const en: Ui = {
@@ -98,6 +110,18 @@ const en: Ui = {
   formEmail: 'Email address',
   formMessage: 'Message',
   eventLabel: 'Event',
+  searchOpen: 'Search the site',
+  searchTitle: 'Search',
+  searchLabel: 'Search this site',
+  searchPlaceholder: 'For example, “registrar”',
+  searchHint: 'Type a word or two to search every page.',
+  searchLoading: 'Loading search…',
+  searchError: 'Search could not be loaded. Please try again later.',
+  searchNone: 'No pages match “{q}”. Try a different word.',
+  searchCount: '{n} pages found',
+  searchTry: 'Or try one of these',
+  searchSuggestions: ['Registrar', 'Districts', 'Contribute', 'Literature', 'Contact'],
+  backToTop: 'Back to top',
 };
 
 const es: Ui = {
@@ -158,6 +182,18 @@ const es: Ui = {
   formEmail: 'Correo electrónico',
   formMessage: 'Mensaje',
   eventLabel: 'Evento',
+  searchOpen: 'Buscar en el sitio',
+  searchTitle: 'Buscar',
+  searchLabel: 'Buscar en este sitio',
+  searchPlaceholder: 'Por ejemplo, “registrador”',
+  searchHint: 'Escriba una o dos palabras para buscar en todas las páginas.',
+  searchLoading: 'Cargando la búsqueda…',
+  searchError: 'No se pudo cargar la búsqueda. Inténtelo de nuevo más tarde.',
+  searchNone: 'Ninguna página coincide con “{q}”. Pruebe otra palabra.',
+  searchCount: '{n} páginas encontradas',
+  searchTry: 'O pruebe una de estas',
+  searchSuggestions: ['Registrador', 'Distritos', 'Contribuciones', 'Literatura', 'Contacto'],
+  backToTop: 'Volver arriba',
 };
 
 const fr: Ui = {
@@ -218,6 +254,18 @@ const fr: Ui = {
   formEmail: 'Adresse courriel',
   formMessage: 'Message',
   eventLabel: 'Événement',
+  searchOpen: 'Rechercher sur le site',
+  searchTitle: 'Rechercher',
+  searchLabel: 'Rechercher sur ce site',
+  searchPlaceholder: 'Par exemple, « registraire »',
+  searchHint: 'Saisissez un ou deux mots pour chercher dans toutes les pages.',
+  searchLoading: 'Chargement de la recherche…',
+  searchError: 'La recherche n’a pas pu être chargée. Veuillez réessayer plus tard.',
+  searchNone: 'Aucune page ne correspond à « {q} ». Essayez un autre mot.',
+  searchCount: '{n} pages trouvées',
+  searchTry: 'Ou essayez l’un de ces mots',
+  searchSuggestions: ['Registraire', 'Districts', 'Contributions', 'Littérature', 'Contact'],
+  backToTop: 'Haut de page',
 };
 
 export const ui: Record<Lang, Ui> = { en, es, fr };
