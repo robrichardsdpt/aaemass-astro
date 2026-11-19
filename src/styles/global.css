@@ -222,9 +222,10 @@
     padding-block: var(--s-3);
   }
   .brand { display: flex; align-items: center; gap: var(--s-3); color: var(--ink); text-decoration: none; }
-  .brand img { width: 4rem; height: auto; }
+  .brand img { width: 4rem; height: auto; flex: none; }
   @media (min-width: 40rem) { .brand img { width: 5.5rem; } }
-  .brand span { font-family: var(--font-display); font-weight: 650; font-size: var(--step-1); line-height: 1.15; }
+  /* min-inline-size and overflow-wrap let the name wrap when text is enlarged, instead of widening the page. */
+  .brand span { min-inline-size: 0; overflow-wrap: anywhere; font-family: var(--font-display); font-weight: 650; font-size: var(--step-1); line-height: 1.15; }
   .brand:hover { color: var(--ink); }
   .site-nav { flex: 1 1 100%; }
   .site-nav summary {
@@ -287,6 +288,8 @@
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;
+    /* A long label wraps instead of pushing the page wider than the screen. */
+    max-inline-size: 100%; overflow-wrap: anywhere;
   }
   .button:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: var(--accent-ink); }
   .button--quiet { background: transparent; color: var(--accent); }
@@ -535,7 +538,7 @@
   .d-when + .d-when { margin-block-start: calc(var(--s-3) * -1); font-weight: 400; color: var(--ink-muted); }
   .d-block { display: grid; gap: var(--s-2); }
   .d-label { margin: 0; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
-  .d-rows { display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: var(--s-4); row-gap: var(--s-1); margin: 0; }
+  .d-rows { display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); column-gap: var(--s-4); row-gap: var(--s-1); margin: 0; }
   .d-rows dt { color: var(--ink-muted); }
   .d-rows dd { margin: 0; }
   .d-note { margin: 0; font-size: var(--step--1); color: var(--ink-muted); }
@@ -543,7 +546,7 @@
   .d-place { display: grid; gap: 0.15em; margin: 0; font-style: normal; line-height: 1.4; }
   .d-place__name { font-weight: 600; text-wrap: balance; }
   .d-place__addr { color: var(--ink-muted); }
-  .d-map { display: inline-flex; align-items: center; gap: var(--s-2); justify-self: start; min-block-size: 2.25rem; margin-block-start: var(--s-1); padding: 0 var(--s-3); border: 1px solid var(--line); border-radius: 999px; font-size: var(--step--1); font-weight: 600; text-decoration: none; }
+  .d-map { display: inline-flex; align-items: center; gap: var(--s-2); justify-self: start; min-block-size: 2.75rem; margin-block-start: var(--s-1); padding: 0 var(--s-4); border: 1px solid var(--line); border-radius: 999px; font-size: var(--step--1); font-weight: 600; text-decoration: none; }
   .d-map svg { flex: none; }
   .d-map:hover { border-color: var(--accent); background: color-mix(in oklch, var(--accent) 10%, transparent); }
   .d-link { margin: 0; font-weight: 600; }
@@ -554,7 +557,7 @@
   .d-rows { align-items: center; }
   .d-rows dd { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); }
   /* Small outlined buttons for copying a Zoom ID and adding a meeting to a calendar. Shown only once the script is running. */
-  .d-copy { justify-self: start; align-self: start; min-block-size: 2.25rem; padding: 0 var(--s-3); border: 1px solid var(--line); border-radius: 0.375rem; background: transparent; color: var(--accent); font: inherit; font-size: var(--step--1); font-weight: 600; cursor: pointer; }
+  .d-copy { justify-self: start; align-self: start; max-inline-size: 100%; min-block-size: 2.75rem; padding: 0 var(--s-4); border: 1px solid var(--line); border-radius: 0.375rem; background: transparent; color: var(--accent); font: inherit; font-size: var(--step--1); font-weight: 600; cursor: pointer; }
   .d-copy:hover { background: var(--surface); border-color: var(--accent); }
   .d-copy[hidden] { display: none; }
   .d-cal { margin-block-start: calc(var(--s-2) * -1); }
@@ -590,7 +593,7 @@
   .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: 0 var(--s-2); padding: 0; margin: 0; list-style: none; }
   .breadcrumbs li { display: inline-flex; align-items: center; min-block-size: 2.75rem; color: var(--ink-muted); }
   .breadcrumbs li + li::before { content: '/'; margin-inline-end: var(--s-2); }
-  .breadcrumbs a { display: inline-flex; align-items: center; min-block-size: 2.75rem; color: var(--ink); text-underline-offset: 0.2em; }
+  .breadcrumbs a { display: inline-flex; align-items: center; min-block-size: 2.75rem; min-inline-size: 2.75rem; color: var(--ink); text-underline-offset: 0.2em; }
   .breadcrumbs [aria-current] { color: var(--ink-muted); font-weight: 600; }
   .button-row { display: flex; flex-wrap: wrap; gap: var(--s-3); }
   .section-intro { margin-block-end: var(--s-5); }
@@ -614,7 +617,7 @@
   .form-status[data-state='ok'] { border-color: oklch(0.6 0.15 150); }
   .live-form [aria-invalid='true'], .contact-form [aria-invalid='true'], #signup-form [aria-invalid='true'] { border-color: oklch(0.6 0.2 25); }
   .form-fallback { font-weight: 600; }
-  .field-grid { display: grid; gap: var(--s-4); }
+  .field-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
   @media (min-width: 40rem) { .field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .field-grid > .field:not(.field--half) { grid-column: 1 / -1; } }
   .field--check label { display: flex; align-items: flex-start; gap: var(--s-3); font-weight: 600; }
   .field--check input { inline-size: 1.25rem; block-size: 1.25rem; margin-block-start: 0.2rem; flex: none; }
@@ -776,6 +779,13 @@
     .to-top[data-visible] { transition-delay: 0s; }
   }
   @media print { .to-top { display: none; } }
+
+  /* Checkbox and radio rows: the whole row is the tap target, at least 44px tall, with a bigger box. */
+  label:has(> input:is([type='checkbox'], [type='radio'])) { display: flex; align-items: center; gap: var(--s-3); min-block-size: 2.75rem; cursor: pointer; }
+  label > input:is([type='checkbox'], [type='radio']) { inline-size: 1.375rem; block-size: 1.375rem; flex: none; accent-color: var(--accent); }
+  /* Long words, emails and web addresses break onto the next line instead of widening the page, at any zoom or text size. */
+  main { overflow-wrap: anywhere; }
+  .not-found-search { margin-block: var(--s-5); }
 
   /* Site search: reuses the sheet dialog. The magnifying glass shares the theme toggle's look and slot in the header. */
   /* One fixed size on desktop, so the window never grows or shrinks as the results change. On phones the sheet is full screen. */

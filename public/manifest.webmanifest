@@ -1,0 +1,14 @@
+{
+  "name": "Area 30, Eastern Massachusetts Alcoholics Anonymous",
+  "short_name": "Area 30",
+  "description": "Area 30 connects AA groups in Eastern Massachusetts to each other and to the General Service Office.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f9fafc",
+  "theme_color": "#f9fafc",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
