@@ -6,8 +6,8 @@
 import { path } from '../lib/site';
 ---
 
-<dialog id="event-search" class="esearch" aria-labelledby="es-title" data-index={path('/events/search.json')} data-events={path('/calendar/')}>
-  <div class="esearch__bar">
+<dialog id="event-search" class="sheet esearch" aria-labelledby="es-title" data-index={path('/events/search.json')} data-events={path('/calendar/')}>
+  <div class="sheet__bar esearch__bar">
     <h2 id="es-title" tabindex="-1">Explore events</h2>
     <button type="button" class="button button--quiet" data-es-close>Close</button>
   </div>

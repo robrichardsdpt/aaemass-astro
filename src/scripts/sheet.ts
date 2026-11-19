@@ -1,0 +1,115 @@
+// Shared behaviour for every modal window (any <dialog class="sheet">): the site search, the events window, the contribute form.
+// On desktop a sheet is a centered window; on phones it is a bottom sheet. CSS (.sheet in global.css) does the layout and
+// locks the page behind it. This file adds what CSS cannot:
+//   - the one-shot entrance animation,
+//   - swipe down on the header to dismiss (phones),
+//   - keeping the sheet inside the visible area while the on-screen keyboard is open (iOS Safari).
+
+/** True while sheets are bottom sheets (phones). Keep in step with the breakpoint in global.css. */
+export const phoneSheet = matchMedia('(max-width: 39.99rem)');
+
+const DISMISS_DISTANCE = 110;
+const KEYBOARD_MIN_HEIGHT = 120;
+const FIELDS = 'input, select, textarea';
+
+/** Entrance animation is tied to a one-shot attribute, not to [open], so it never replays when the layout changes. */
+function animateOpening(dlg: HTMLDialogElement) {
+  new MutationObserver(() => {
+    if (!dlg.open) return;
+    dlg.dataset.opening = '';
+    setTimeout(() => { delete dlg.dataset.opening; }, 400);
+  }).observe(dlg, { attributes: true, attributeFilter: ['open'] });
+}
+
+/** Dragging the header down dismisses the sheet; a short drag springs back. */
+function dismissOnSwipe(dlg: HTMLDialogElement, bar: HTMLElement) {
+  let start = 0;
+  let dragged = 0;
+  let dragging = false;
+  const settle = () => { dlg.style.transform = ''; dlg.style.transition = ''; };
+  bar.addEventListener('pointerdown', (e) => {
+    if (!phoneSheet.matches || (e.target as HTMLElement).closest('button')) return;
+    (document.activeElement as HTMLElement | null)?.blur?.();
+    dragging = true;
+    start = e.clientY;
+    dragged = 0;
+    bar.setPointerCapture(e.pointerId);
+    dlg.style.transition = 'none';
+  });
+  bar.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    dragged = Math.max(0, e.clientY - start);
+    dlg.style.transform = `translateY(${dragged}px)`;
+  });
+  const end = () => {
+    if (!dragging) return;
+    dragging = false;
+    dlg.style.transition = 'transform 180ms ease-out';
+    if (dragged > DISMISS_DISTANCE) {
+      dlg.style.transform = 'translateY(100%)';
+      setTimeout(() => { dlg.close(); settle(); }, 180);
+    } else {
+      dlg.style.transform = '';
+      setTimeout(settle, 180);
+    }
+  };
+  bar.addEventListener('pointerup', end);
+  bar.addEventListener('pointercancel', end);
+}
+
+// iOS Safari: the on-screen keyboard covers the page without resizing it, and Safari pans the visual viewport to reveal
+// the focused field, reporting the new size only after the keyboard has finished animating. A bottom-anchored sheet sized
+// with dvh therefore ends up behind the keyboard or pushed off screen. While the keyboard is open, the sheet is pinned
+// to exactly what is visible (top and height from the visual viewport), re-checked every frame while the keyboard animates.
+function followKeyboard(dlg: HTMLDialogElement) {
+  const vv = window.visualViewport;
+  if (!vv) return;
+  let frame = 0;
+  // Set when focus leaves the fields: the keyboard is on its way out, but iOS keeps reporting the shrunken viewport until
+  // it has slid away. Without this the sheet would stay shrunk for that moment instead of expanding right away.
+  let leaving = false;
+  const isField = (t: EventTarget | null) => t instanceof HTMLElement && dlg.contains(t) && t.matches(FIELDS);
+
+  function sync() {
+    if (window.innerHeight - vv!.height <= KEYBOARD_MIN_HEIGHT) leaving = false;
+    const keyboard = phoneSheet.matches && dlg.open && !leaving && window.innerHeight - vv!.height > KEYBOARD_MIN_HEIGHT;
+    if (!keyboard) {
+      delete dlg.dataset.kb;
+      dlg.style.removeProperty('--sheet-top');
+      dlg.style.removeProperty('--sheet-vh');
+      return;
+    }
+    dlg.dataset.kb = '';
+    dlg.style.setProperty('--sheet-top', `${Math.round(vv!.offsetTop)}px`);
+    dlg.style.setProperty('--sheet-vh', `${Math.round(vv!.height)}px`);
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && dlg.contains(active) && active.matches('input, select')) active.scrollIntoView({ block: 'nearest' });
+  }
+  function track(ms = 900) {
+    cancelAnimationFrame(frame);
+    const until = performance.now() + ms;
+    const tick = () => {
+      sync();
+      if (performance.now() < until) frame = requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  vv.addEventListener('resize', () => track(300));
+  vv.addEventListener('scroll', sync);
+  dlg.addEventListener('focusin', (e) => { if (isField(e.target)) leaving = false; track(); });
+  dlg.addEventListener('focusout', (e) => {
+    // Focus moving to another field keeps the keyboard up; anywhere else (or nowhere, as with Return) dismisses it.
+    if (isField(e.target) && !isField((e as FocusEvent).relatedTarget)) leaving = true;
+    track();
+  });
+  phoneSheet.addEventListener('change', sync);
+  dlg.addEventListener('close', () => { cancelAnimationFrame(frame); sync(); });
+}
+
+for (const dlg of document.querySelectorAll<HTMLDialogElement>('dialog.sheet')) {
+  const bar = dlg.querySelector<HTMLElement>('.sheet__bar');
+  animateOpening(dlg);
+  if (bar) dismissOnSwipe(dlg, bar);
+  followKeyboard(dlg);
+}
