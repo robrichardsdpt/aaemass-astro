@@ -6,7 +6,8 @@ import sanitizeHtml from 'sanitize-html';
 import { findOnlineUrl, htmlToText, nyDate, safeUrl, TZ, type SearchEvent } from './event-model';
 
 export const CALENDAR_ID = 'c_e40e30ffd5eb9230c6b99adbf408b50dcb0ac722b49d236f958d2865eb9dfabd@group.calendar.google.com';
-const FEED = `https://calendar.google.com/calendar/ical/${encodeURIComponent(CALENDAR_ID)}/public/basic.ics`;
+/** Area 30's public Google Calendar as a live .ics feed: the address calendar apps subscribe to. */
+export const CALENDAR_ICS_URL = `https://calendar.google.com/calendar/ical/${encodeURIComponent(CALENDAR_ID)}/public/basic.ics`;
 
 interface Prop { params: Record<string, string>; value: string }
 interface Raw {
@@ -81,7 +82,7 @@ const DAY = 86_400_000;
 export async function getGoogleEvents(from = Date.now(), days = 548): Promise<SearchEvent[]> {
   let ics: string;
   try {
-    const res = await fetch(FEED, { signal: AbortSignal.timeout(15_000) });
+    const res = await fetch(CALENDAR_ICS_URL, { signal: AbortSignal.timeout(15_000) });
     if (!res.ok) return [];
     ics = await res.text();
   } catch {

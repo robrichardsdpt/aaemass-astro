@@ -3,7 +3,7 @@ description: See upcoming Area 30 events, assemblies and committee meetings for 
 heading: Area 30 calendar
 eyebrow: Events
 lede: Upcoming events, assemblies and committee meetings across Eastern Massachusetts. Times are Eastern.
-subscribe: Add to Google Calendar
+subscribe: Subscribe in Google Calendar
 calendarHeading: Calendar
 meets: The Area 30 committee meets {when} at the {where}. Each committee’s own meeting time is on its page under [Committees](/committees).
 faqs:
@@ -12,4 +12,4 @@ faqs:
   - q: Where can I find a committee’s meeting time?
     a: Each committee’s page lists its monthly meeting time, and the calendar above shows events, assemblies and committee meetings as they are scheduled.
   - q: How do I add the calendar to my phone?
-    a: Use the “Add to Google Calendar” button at the top of this page to subscribe.
+    a: Use “Subscribe in Google Calendar” at the top of this page if you use Google Calendar. On an iPhone, Mac or Outlook, use “Apple Calendar or Outlook” in the Keep this calendar section below the calendar. Either way, new and changed events show up on their own.
