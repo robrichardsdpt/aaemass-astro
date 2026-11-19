@@ -58,6 +58,8 @@ export interface Ui {
   searchError: string;
   searchNone: string; // {q}
   searchCount: string; // {n}
+  searchTry: string; // label above the suggested words
+  searchSuggestions: string[];
   backToTop: string;
 }
 
@@ -111,12 +113,14 @@ const en: Ui = {
   searchOpen: 'Search the site',
   searchTitle: 'Search',
   searchLabel: 'Search this site',
-  searchPlaceholder: 'Try “registrar”, “districts” or “contribute”',
+  searchPlaceholder: 'For example, “registrar”',
   searchHint: 'Type a word or two to search every page.',
   searchLoading: 'Loading search…',
   searchError: 'Search could not be loaded. Please try again later.',
   searchNone: 'No pages match “{q}”. Try a different word.',
   searchCount: '{n} pages found',
+  searchTry: 'Or try one of these',
+  searchSuggestions: ['Registrar', 'Districts', 'Contribute', 'Literature', 'Contact'],
   backToTop: 'Back to top',
 };
 
@@ -181,12 +185,14 @@ const es: Ui = {
   searchOpen: 'Buscar en el sitio',
   searchTitle: 'Buscar',
   searchLabel: 'Buscar en este sitio',
-  searchPlaceholder: 'Pruebe “registrador”, “distritos” o “contribuciones”',
+  searchPlaceholder: 'Por ejemplo, “registrador”',
   searchHint: 'Escriba una o dos palabras para buscar en todas las páginas.',
   searchLoading: 'Cargando la búsqueda…',
   searchError: 'No se pudo cargar la búsqueda. Inténtelo de nuevo más tarde.',
   searchNone: 'Ninguna página coincide con “{q}”. Pruebe otra palabra.',
   searchCount: '{n} páginas encontradas',
+  searchTry: 'O pruebe una de estas',
+  searchSuggestions: ['Registrador', 'Distritos', 'Contribuciones', 'Literatura', 'Contacto'],
   backToTop: 'Volver arriba',
 };
 
@@ -251,12 +257,14 @@ const fr: Ui = {
   searchOpen: 'Rechercher sur le site',
   searchTitle: 'Rechercher',
   searchLabel: 'Rechercher sur ce site',
-  searchPlaceholder: 'Essayez « registraire », « districts » ou « contributions »',
+  searchPlaceholder: 'Par exemple, « registraire »',
   searchHint: 'Saisissez un ou deux mots pour chercher dans toutes les pages.',
   searchLoading: 'Chargement de la recherche…',
   searchError: 'La recherche n’a pas pu être chargée. Veuillez réessayer plus tard.',
   searchNone: 'Aucune page ne correspond à « {q} ». Essayez un autre mot.',
   searchCount: '{n} pages trouvées',
+  searchTry: 'Ou essayez l’un de ces mots',
+  searchSuggestions: ['Registraire', 'Districts', 'Contributions', 'Littérature', 'Contact'],
   backToTop: 'Haut de page',
 };
 

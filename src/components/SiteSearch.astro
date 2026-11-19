@@ -25,8 +25,16 @@ const u = ui[lang];
       <label for="ss-q">{u.searchLabel}</label>
       <input id="ss-q" type="search" enterkeyhint="search" autocomplete="off" placeholder={u.searchPlaceholder} />
     </form>
-    <p id="ss-status" class="site-search__status" role="status" aria-live="polite"></p>
-    <ul id="ss-results" class="site-search__results"></ul>
+    <p id="ss-status" class="site-search__status visually-hidden" role="status" aria-live="polite"></p>
+    <ul id="ss-results" class="site-search__results" hidden></ul>
+    <div id="ss-empty" class="site-search__empty">
+      <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <p id="ss-empty-text" class="site-search__empty-title">{u.searchHint}</p>
+      <p class="site-search__try">{u.searchTry}</p>
+      <ul class="site-search__chips">
+        {u.searchSuggestions.map((w) => <li><button type="button" class="button button--quiet" data-q={w}>{w}</button></li>)}
+      </ul>
+    </div>
   </div>
 </dialog>
 

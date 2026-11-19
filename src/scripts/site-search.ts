@@ -4,6 +4,8 @@ const dlg = document.getElementById('site-search') as HTMLDialogElement;
 const input = document.getElementById('ss-q') as HTMLInputElement;
 const status = document.getElementById('ss-status')!;
 const list = document.getElementById('ss-results')!;
+const empty = document.getElementById('ss-empty')!;
+const emptyText = document.getElementById('ss-empty-text')!;
 const text = dlg.dataset;
 
 interface PageRecord { u: string; t: string; d: string; h: string; b: string }
@@ -60,7 +62,19 @@ function snippet(hit: Hit, terms: string[]): Node[] {
   return out;
 }
 
+/** Shows the centered panel with a message (nothing typed, no match, error) instead of the results list. */
+function showEmpty(message: string) {
+  list.replaceChildren();
+  list.hidden = true;
+  empty.hidden = false;
+  emptyText.textContent = message;
+  status.textContent = message;
+  status.classList.add('visually-hidden');
+}
+
 function render(hits: Hit[], terms: string[]) {
+  empty.hidden = true;
+  list.hidden = false;
   list.replaceChildren(...hits.map((hit) => {
     const li = document.createElement('li');
     const a = document.createElement('a');
@@ -75,7 +89,7 @@ function render(hits: Hit[], terms: string[]) {
 
 async function run() {
   const terms = words(input.value);
-  if (!terms.length) { list.replaceChildren(); status.textContent = text.hint!; return; }
+  if (!terms.length) return showEmpty(text.hint!);
   try {
     const hits = (await load())
       .map((p) => rank(p, terms))
@@ -83,11 +97,12 @@ async function run() {
       .sort((a, b) => b.score - a.score)
       .slice(0, MAX_RESULTS);
     if (words(input.value).join(' ') !== terms.join(' ')) return; // a newer keystroke is already being handled
+    if (!hits.length) return showEmpty(text.none!.replace('{q}', input.value.trim()));
     render(hits, terms);
-    status.textContent = hits.length ? text.count!.replace('{n}', String(hits.length)) : text.none!.replace('{q}', input.value.trim());
+    status.textContent = text.count!.replace('{n}', String(hits.length));
+    status.classList.remove('visually-hidden');
   } catch {
-    list.replaceChildren();
-    status.textContent = text.error!;
+    showEmpty(text.error!);
   }
 }
 
@@ -95,11 +110,18 @@ export function openSearch() {
   if (!dlg.open) dlg.showModal();
   input.focus();
   input.select();
-  if (!status.textContent) status.textContent = text.hint!;
   void load().catch(() => {});
 }
 
 input.addEventListener('input', () => void run());
+// A suggested word fills the box and searches it.
+empty.addEventListener('click', (e) => {
+  const word = (e.target as HTMLElement).closest<HTMLElement>('[data-q]')?.dataset.q;
+  if (!word) return;
+  input.value = word;
+  input.focus();
+  void run();
+});
 dlg.querySelector('form')!.addEventListener('submit', (e) => { e.preventDefault(); list.querySelector('a')?.click(); });
 dlg.querySelector('[data-close]')!.addEventListener('click', () => dlg.close());
 // A click on the dimmed backdrop closes it. Empty space inside the window also targets the dialog element, so the

@@ -770,10 +770,25 @@
   @media print { .to-top { display: none; } }
 
   /* Site search: reuses the sheet dialog. The magnifying glass shares the theme toggle's look and slot in the header. */
-  .site-search { min-block-size: min(30rem, calc(100dvh - 2rem)); }
-  .site-search .field { display: grid; gap: var(--s-2); }
+  /* One fixed size on desktop, so the window never grows or shrinks as the results change. On phones the sheet is full screen. */
+  .site-search[open] { display: flex; flex-direction: column; }
+  @media (min-width: 40.01rem) { .site-search[open] { block-size: min(36rem, calc(100dvh - 2rem)); } }
+  .site-search .sheet__bar { flex: none; }
+  .site-search .sheet__body { flex: 1 1 auto; min-block-size: 0; display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; }
+  .site-search .field { display: grid; gap: var(--s-2); flex: none; }
   .site-search .field input { inline-size: 100%; block-size: 3rem; box-sizing: border-box; }
-  .site-search__status { margin: 0; color: var(--ink-muted); font-size: var(--step--1); min-block-size: 1.5em; }
+  .site-search__status { margin: 0; color: var(--ink-muted); font-size: var(--step--1); }
+  .site-search [hidden] { display: none; }
+  .site-search__empty {
+    flex: 1 1 auto; display: grid; justify-items: center; align-content: center; gap: var(--s-3);
+    padding-block: var(--s-6); text-align: center; color: var(--ink-muted);
+  }
+  .site-search__empty svg { color: var(--accent); opacity: 0.85; }
+  .site-search__empty p { margin: 0; }
+  .site-search__empty-title { max-inline-size: 30ch; color: var(--ink); font-family: var(--font-display); font-size: var(--step-1); font-weight: 600; text-wrap: balance; overflow-wrap: anywhere; }
+  .site-search__try { margin-block-start: var(--s-3) !important; font-size: var(--step--1); }
+  .site-search__chips { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-2); margin: 0; padding: 0; list-style: none; }
+  .site-search__chips .button { min-block-size: 2.75rem; border: 1px solid var(--line); border-radius: 999px; padding-inline: var(--s-4); }
   .site-search__results { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
   .site-search__results li { padding-block: var(--s-3); border-block-start: 1px solid var(--line); overflow-wrap: anywhere; }
   .site-search__results a { font-family: var(--font-display); font-size: var(--step-1); font-weight: 600; }
