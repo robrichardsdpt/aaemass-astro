@@ -3,6 +3,7 @@
 // keeps the list exactly as it was (query, filters, how many are shown, scroll position).
 // Data: the build's snapshot (highlighted + Google Calendar + WordPress), then the live WordPress calendar on top of it.
 import { calendarLinks, el, htmlStrip, shortDay, shortWhen, textBlocks } from './event-dom';
+import { phoneSheet } from './sheet';
 import { canNativeShare, shareOrCopy } from './share';
 import { htmlToText, mapUrl, mergeEvents, normalizeTribe, nyDate, safeUrl, TRIBE_API, whenText, type SearchEvent } from '../lib/event-model';
 
@@ -89,13 +90,8 @@ function matches(e: Indexed, terms: string[], f: string, t: string): boolean {
   return terms.every((w) => e.hay.includes(' ' + w));
 }
 
-// The entrance animation is tied to a one-shot attribute, not to [open], so it never replays (for example when the
-// keyboard closes and the sheet changes layout).
 function openDialog() {
-  if (dlg.open) return;
-  dlg.showModal();
-  dlg.dataset.opening = '';
-  setTimeout(() => { delete dlg.dataset.opening; }, 400);
+  if (!dlg.open) dlg.showModal();
 }
 
 // A centered message for a list with nothing in it. The title says what is true; the button is the way out.
@@ -114,7 +110,7 @@ function clearFilters() {
   hl.checked = false;
   syncDates();
   render();
-  if (!sheet.matches) q.focus({ preventScroll: true });
+  if (!phoneSheet.matches) q.focus({ preventScroll: true });
 }
 
 // ---- Results list ---------------------------------------------------------------------------------------------
@@ -232,7 +228,7 @@ function showList() {
   listView.hidden = false;
   current = undefined;
   dlg.scrollTop = listScroll;
-  (lastTrigger?.isConnected ? lastTrigger : sheet.matches ? title : q).focus({ preventScroll: true });
+  (lastTrigger?.isConnected ? lastTrigger : phoneSheet.matches ? title : q).focus({ preventScroll: true });
 }
 
 // Back from details: the history entry pushed when the details opened is undone, so the browser's Back button and this
@@ -345,108 +341,20 @@ addEventListener('popstate', () => {
   else if (dlg.open && !detailView.hidden) showList();
 });
 
-// Phones: the window is a bottom sheet, and dragging its header down dismisses it.
-const sheet = matchMedia('(max-width: 39.99rem)');
-const bar = dlg.querySelector<HTMLElement>('.esearch__bar')!;
-let dragStart = 0;
-let dragged = 0;
-let dragging = false;
-const settle = () => { dlg.style.transform = ''; dlg.style.transition = ''; };
-bar.addEventListener('pointerdown', (e) => {
-  if (!sheet.matches || (e.target as HTMLElement).closest('button')) return;
-  (document.activeElement as HTMLElement | null)?.blur?.();
-  dragging = true;
-  dragStart = e.clientY;
-  dragged = 0;
-  bar.setPointerCapture(e.pointerId);
-  dlg.style.transition = 'none';
-});
-bar.addEventListener('pointermove', (e) => {
-  if (!dragging) return;
-  dragged = Math.max(0, e.clientY - dragStart);
-  dlg.style.transform = `translateY(${dragged}px)`;
-});
-const endDrag = () => {
-  if (!dragging) return;
-  dragging = false;
-  dlg.style.transition = 'transform 180ms ease-out';
-  if (dragged > 110) {
-    dlg.style.transform = 'translateY(100%)';
-    setTimeout(() => { dlg.close(); settle(); }, 180);
-  } else {
-    dlg.style.transform = '';
-    setTimeout(settle, 180);
-  }
-};
-bar.addEventListener('pointerup', endDrag);
-bar.addEventListener('pointercancel', endDrag);
-
-// iOS Safari: the on-screen keyboard covers the page without resizing it, and Safari pans the visual viewport to reveal
-// the focused field, reporting the new size only after the keyboard has finished animating. A bottom-anchored sheet sized
-// with dvh therefore ends up behind the keyboard or pushed off screen. While the keyboard is open, the sheet is pinned
-// to exactly what is visible (top and height taken from the visual viewport), and it re-checks every frame while the
-// keyboard animates, so it never waits on a late event.
-const vv = window.visualViewport;
-let follow = 0;
-// Set when focus leaves the fields: the keyboard is on its way out, but iOS keeps reporting the shrunken viewport until it
-// has finished sliding away. Without this the sheet would stay shrunk for that moment instead of expanding right away.
-let keyboardLeaving = false;
-function syncViewport() {
-  // Once the viewport reports its full height again there is nothing left to wait for.
-  if (vv && window.innerHeight - vv.height <= 120) keyboardLeaving = false;
-  const keyboard = Boolean(vv) && sheet.matches && dlg.open && !keyboardLeaving && window.innerHeight - vv!.height > 120;
-  if (!keyboard) {
-    delete dlg.dataset.kb;
-    dlg.style.removeProperty('--es-top');
-    dlg.style.removeProperty('--es-vh');
-    return;
-  }
-  dlg.dataset.kb = '';
-  dlg.style.setProperty('--es-top', `${Math.round(vv!.offsetTop)}px`);
-  dlg.style.setProperty('--es-vh', `${Math.round(vv!.height)}px`);
-  const active = document.activeElement;
-  if (active instanceof HTMLElement && dlg.contains(active) && active.matches('input, select')) active.scrollIntoView({ block: 'nearest' });
-}
-// Sync on every frame for a short while after focus changes (the keyboard is animating), then settle.
-function track(ms = 900) {
-  cancelAnimationFrame(follow);
-  const until = performance.now() + ms;
-  const tick = () => {
-    syncViewport();
-    if (performance.now() < until) follow = requestAnimationFrame(tick);
-  };
-  tick();
-}
-vv?.addEventListener('resize', () => track(300));
-vv?.addEventListener('scroll', syncViewport);
-const isField = (el: EventTarget | null) => el instanceof HTMLElement && dlg.contains(el) && el.matches('input, select, textarea');
-dlg.addEventListener('focusin', (e) => {
-  if (isField(e.target)) keyboardLeaving = false;
-  track();
-});
-dlg.addEventListener('focusout', (e) => {
-  // Focus moving to another field keeps the keyboard up; anywhere else (or nowhere, as with Return) dismisses it.
-  if (isField(e.target) && !isField((e as FocusEvent).relatedTarget)) keyboardLeaving = true;
-  track();
-});
-sheet.addEventListener('change', syncViewport);
-dlg.addEventListener('close', () => { cancelAnimationFrame(follow); syncViewport(); });
 // Return closes the keyboard so the results are visible, and so does touching the results.
-q.addEventListener('keydown', (e) => { if (e.key === 'Enter' && sheet.matches) { e.preventDefault(); q.blur(); } });
-list.addEventListener('touchstart', () => { if (sheet.matches && document.activeElement === q) q.blur(); }, { passive: true });
+q.addEventListener('keydown', (e) => { if (e.key === 'Enter' && phoneSheet.matches) { e.preventDefault(); q.blur(); } });
+list.addEventListener('touchstart', () => { if (phoneSheet.matches && document.activeElement === q) q.blur(); }, { passive: true });
 
 export function openSearch(query = '') {
   openDialog();
   if (query.trim()) q.value = query.trim();
-  syncViewport();
   // On phones the keyboard would cover the results and fight the sheet's slide-up, so the search box is not focused for you.
-  if (sheet.matches) title.focus({ preventScroll: true });
+  if (phoneSheet.matches) title.focus({ preventScroll: true });
   else q.focus();
   void start().then((ok) => { if (ok) render(); });
 }
 
 export function openFromHash() {
-  syncViewport();
   const id = idFromHash();
   if (id) void openById(id, false);
 }
