@@ -752,15 +752,23 @@
     .site-header .wrap { column-gap: var(--s-2); }
   }
   @media (min-width: 30rem) and (max-width: 59.99rem) { .site-header .wrap { column-gap: var(--s-3); } }
+  /* Words searched for, marked on the page the search sent you to (see src/scripts/find-on-page.ts). */
+  ::highlight(site-search) { background-color: oklch(0.86 0.15 95 / 0.55); color: inherit; }
+  main :is(h2, h3)[id] { scroll-margin-block-start: var(--s-5); }
   /* Back-to-top button: hidden (and out of the tab order) until the script marks it visible. */
   .to-top {
     position: fixed; z-index: 40;
     inset-block-end: calc(var(--s-5) + env(safe-area-inset-bottom)); inset-inline-end: calc(var(--s-4) + env(safe-area-inset-right));
-    display: grid; place-items: center; inline-size: 3.25rem; block-size: 3.25rem;
+    display: grid; place-items: center; inline-size: 3.5rem; block-size: 3.5rem;
     border: 0; border-radius: 50%; background: var(--accent); color: var(--accent-ink); cursor: pointer;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
     box-shadow: 0 0.25rem 1rem oklch(0.1 0.04 258 / 0.35);
     opacity: 0; visibility: hidden; transform: translateY(0.5rem);
   }
+  /* An invisible ring around the circle makes the tap target larger than it looks. */
+  .to-top::before { content: ''; position: absolute; inset: -0.5rem; border-radius: 50%; }
+  /* Touch screens: lift it clear of the phone's bottom edge (home bar, browser toolbar) where taps are least reliable. */
+  @media (pointer: coarse) { .to-top { inset-block-end: calc(var(--s-7) + env(safe-area-inset-bottom)); } }
   .to-top[data-visible] { opacity: 1; visibility: visible; transform: none; }
   .to-top:hover { background: var(--accent-hover); }
   @media (prefers-reduced-motion: no-preference) {
@@ -792,6 +800,7 @@
   .site-search__results { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
   .site-search__results li { padding-block: var(--s-3); border-block-start: 1px solid var(--line); overflow-wrap: anywhere; }
   .site-search__results a { font-family: var(--font-display); font-size: var(--step-1); font-weight: 600; }
+  .site-search__results .site-search__where { margin-block-start: var(--s-1); color: var(--ink); font-weight: 600; }
   .site-search__results p { margin: var(--s-1) 0 0; color: var(--ink-muted); font-size: var(--step--1); }
   .site-search__results mark { background: color-mix(in oklch, var(--accent), transparent 78%); color: var(--ink); border-radius: 0.125rem; }
 
