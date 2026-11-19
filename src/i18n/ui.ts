@@ -58,6 +58,7 @@ export interface Ui {
   searchError: string;
   searchNone: string; // {q}
   searchCount: string; // {n}
+  backToTop: string;
 }
 
 const en: Ui = {
@@ -116,6 +117,7 @@ const en: Ui = {
   searchError: 'Search could not be loaded. Please try again later.',
   searchNone: 'No pages match “{q}”. Try a different word.',
   searchCount: '{n} pages found',
+  backToTop: 'Back to top',
 };
 
 const es: Ui = {
@@ -185,6 +187,7 @@ const es: Ui = {
   searchError: 'No se pudo cargar la búsqueda. Inténtelo de nuevo más tarde.',
   searchNone: 'Ninguna página coincide con “{q}”. Pruebe otra palabra.',
   searchCount: '{n} páginas encontradas',
+  backToTop: 'Volver arriba',
 };
 
 const fr: Ui = {
@@ -254,6 +257,7 @@ const fr: Ui = {
   searchError: 'La recherche n’a pas pu être chargée. Veuillez réessayer plus tard.',
   searchNone: 'Aucune page ne correspond à « {q} ». Essayez un autre mot.',
   searchCount: '{n} pages trouvées',
+  backToTop: 'Haut de page',
 };
 
 export const ui: Record<Lang, Ui> = { en, es, fr };

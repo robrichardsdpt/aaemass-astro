@@ -752,6 +752,23 @@
     .site-header .wrap { column-gap: var(--s-2); }
   }
   @media (min-width: 30rem) and (max-width: 59.99rem) { .site-header .wrap { column-gap: var(--s-3); } }
+  /* Back-to-top button: hidden (and out of the tab order) until the script marks it visible. */
+  .to-top {
+    position: fixed; z-index: 40;
+    inset-block-end: calc(var(--s-5) + env(safe-area-inset-bottom)); inset-inline-end: calc(var(--s-4) + env(safe-area-inset-right));
+    display: grid; place-items: center; inline-size: 3.25rem; block-size: 3.25rem;
+    border: 0; border-radius: 50%; background: var(--accent); color: var(--accent-ink); cursor: pointer;
+    box-shadow: 0 0.25rem 1rem oklch(0.1 0.04 258 / 0.35);
+    opacity: 0; visibility: hidden; transform: translateY(0.5rem);
+  }
+  .to-top[data-visible] { opacity: 1; visibility: visible; transform: none; }
+  .to-top:hover { background: var(--accent-hover); }
+  @media (prefers-reduced-motion: no-preference) {
+    .to-top { transition: opacity 180ms, transform 180ms, visibility 0s 180ms; }
+    .to-top[data-visible] { transition-delay: 0s; }
+  }
+  @media print { .to-top { display: none; } }
+
   /* Site search: reuses the sheet dialog. The magnifying glass shares the theme toggle's look and slot in the header. */
   .site-search { min-block-size: min(30rem, calc(100dvh - 2rem)); }
   .site-search .field { display: grid; gap: var(--s-2); }

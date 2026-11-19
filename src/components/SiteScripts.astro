@@ -1,3 +1,8 @@
+---
+import BackToTop from './BackToTop.astro';
+---
+
+<BackToTop />
 <script is:inline>
   // Menu is a plain <details>. Keep it open on wide screens (where the summary is hidden)
   // and closed on narrow ones, including when the window is resized after load.
@@ -38,6 +43,26 @@
       document.documentElement.dataset.theme = next;
       try { localStorage.setItem('theme', next); } catch (e) {}
       labelToggle();
+    });
+  }
+  // Back-to-top button: shown after scrolling about one screen.
+  var toTop = document.getElementById('to-top');
+  if (toTop) {
+    var ticking = false;
+    function syncToTop() {
+      ticking = false;
+      toTop.toggleAttribute('data-visible', window.scrollY > Math.max(400, innerHeight));
+    }
+    addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(syncToTop); }
+    }, { passive: true });
+    syncToTop();
+    toTop.addEventListener('click', function () {
+      var calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      scrollTo({ top: 0, behavior: calm ? 'auto' : 'smooth' });
+      // The button hides once the page is at the top, so keyboard focus moves to the first link instead of being lost.
+      var first = document.querySelector('.skip-link');
+      if (first) first.focus({ preventScroll: true });
     });
   }
 </script>
