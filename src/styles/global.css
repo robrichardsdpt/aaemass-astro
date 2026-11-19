@@ -823,7 +823,7 @@
   /* Site search: reuses the sheet dialog. The magnifying glass shares the theme toggle's look and slot in the header. */
   /* One fixed size on desktop, so the window never grows or shrinks as the results change. On phones the sheet is full screen. */
   .site-search[open] { display: flex; flex-direction: column; }
-  @media (min-width: 40.01rem) { .site-search[open] { block-size: min(36rem, calc(100dvh - 2rem)); } }
+  @media (min-width: 40rem) { .site-search[open] { block-size: min(36rem, calc(100dvh - 2rem)); } }
   .site-search .sheet__bar { flex: none; }
   .site-search .sheet__body { flex: 1 1 auto; min-block-size: 0; display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; }
   .site-search .field { display: grid; gap: var(--s-2); flex: none; }
