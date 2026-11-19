@@ -3,6 +3,10 @@ import BackToTop from './BackToTop.astro';
 ---
 
 <BackToTop />
+<script>
+  // Arrived from the site search: highlight the searched words and show the first one.
+  if (location.search.includes('q=')) void import('../scripts/find-on-page');
+</script>
 <script is:inline>
   // Menu is a plain <details>. Keep it open on wide screens (where the summary is hidden)
   // and closed on narrow ones, including when the window is resized after load.

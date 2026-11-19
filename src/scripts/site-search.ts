@@ -8,9 +8,11 @@ const empty = document.getElementById('ss-empty')!;
 const emptyText = document.getElementById('ss-empty-text')!;
 const text = dlg.dataset;
 
-interface PageRecord { u: string; t: string; d: string; h: string; b: string }
-interface Indexed extends PageRecord { title: string; head: string; desc: string; body: string }
-interface Hit { page: Indexed; score: number; at: number }
+interface SectionRecord { i: string; h: string; b: string }
+interface PageRecord { u: string; t: string; d: string; s: SectionRecord[] }
+interface Section extends SectionRecord { head: string; body: string }
+interface Indexed extends PageRecord { title: string; desc: string; secs: Section[] }
+interface Hit { page: Indexed; score: number; section: Section; at: number }
 
 const MAX_RESULTS = 20;
 const SNIPPET = 160;
@@ -24,30 +26,38 @@ let pages: Promise<Indexed[]> | undefined;
 const load = () =>
   (pages ??= fetch(text.index!)
     .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json() as Promise<PageRecord[]>; })
-    .then((rows) => rows.map((r) => ({ ...r, title: norm(r.t), head: norm(r.h), desc: norm(r.d), body: norm(r.b) })))
+    .then((rows) => rows.map((r) => ({ ...r, title: norm(r.t), desc: norm(r.d), secs: r.s.map((x) => ({ ...x, head: norm(x.h), body: norm(x.b) })) })))
     .catch((e) => { pages = undefined; throw e; }));
 
-/** Every word must start a word somewhere on the page. Title matches count most, then headings, description, body. */
+/**
+ * Every word must start a word somewhere on the page. Title matches count most, then headings, description, body.
+ * The hit points at the section that matches the most words, so the result can link to it.
+ */
 function rank(page: Indexed, terms: string[]): Hit | undefined {
   let score = 0;
-  let at = -1;
   for (const t of terms) {
     const needle = ' ' + t;
-    const inBody = page.body.indexOf(needle);
-    const s = (page.title.includes(needle) ? 10 : 0) + (page.head.includes(needle) ? 5 : 0) + (page.desc.includes(needle) ? 3 : 0) + (inBody >= 0 ? 1 : 0);
+    const s = (page.title.includes(needle) ? 10 : 0) + (page.desc.includes(needle) ? 3 : 0)
+      + (page.secs.some((x) => x.head.includes(needle)) ? 5 : 0) + (page.secs.some((x) => x.body.includes(needle)) ? 1 : 0);
     if (!s) return undefined;
     score += s;
-    if (at < 0 && inBody >= 0) at = inBody + 1;
   }
-  return { page, score, at };
+  let best = page.secs[0];
+  let bestCount = 0;
+  for (const sec of page.secs) {
+    const count = terms.filter((t) => (sec.head + sec.body).includes(' ' + t)).length;
+    if (count > bestCount) { best = sec; bestCount = count; }
+  }
+  const at = best ? best.body.indexOf(' ' + terms.find((t) => best.body.includes(' ' + t))!) : -1;
+  return { page, score, section: best, at: at < 0 ? -1 : at + 1 };
 }
 
 function snippet(hit: Hit, terms: string[]): Node[] {
-  const raw = hit.page.b;
-  if (hit.at < 0 || raw.length !== hit.page.body.length - 1) return [document.createTextNode(hit.page.d || raw.slice(0, SNIPPET))];
+  const raw = hit.section?.b ?? '';
+  if (hit.at < 0 || raw.length !== hit.section.body.length - 1) return [document.createTextNode(raw ? raw.slice(0, SNIPPET) : hit.page.d)];
   const start = Math.max(0, hit.at - 40);
   const end = Math.min(raw.length, start + SNIPPET);
-  const lower = hit.page.body.slice(1 + start, 1 + end);
+  const lower = hit.section.body.slice(1 + start, 1 + end);
   const out: Node[] = [document.createTextNode(start > 0 ? '… ' : '')];
   let cursor = 0;
   const re = new RegExp(`(?<=^| )(${terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})[\\p{L}\\p{N}]*`, 'gu');
@@ -78,11 +88,19 @@ function render(hits: Hit[], terms: string[]) {
   list.replaceChildren(...hits.map((hit) => {
     const li = document.createElement('li');
     const a = document.createElement('a');
-    a.href = text.base! + hit.page.u.replace(/^\//, '');
+    // ?q= lets the page highlight the words (see find-on-page.ts); #id scrolls to the section that matched.
+    a.href = text.base! + hit.page.u.replace(/^\//, '') + '?q=' + encodeURIComponent(terms.join(' ')) + (hit.section?.i ? '#' + hit.section.i : '');
     a.textContent = hit.page.t.replace(/\s*\|\s*[^|]*$/, '') || hit.page.t;
+    li.append(a);
+    if (hit.section?.h) {
+      const where = document.createElement('p');
+      where.className = 'site-search__where';
+      where.textContent = '› ' + hit.section.h;
+      li.append(where);
+    }
     const p = document.createElement('p');
     p.append(...snippet(hit, terms));
-    li.append(a, p);
+    li.append(p);
     return li;
   }));
 }
