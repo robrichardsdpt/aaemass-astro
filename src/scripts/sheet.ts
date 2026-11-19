@@ -12,12 +12,38 @@ const DISMISS_DISTANCE = 110;
 const KEYBOARD_MIN_HEIGHT = 120;
 const FIELDS = 'input, select, textarea';
 
-/** Entrance animation is tied to a one-shot attribute, not to [open], so it never replays when the layout changes. */
-function animateOpening(dlg: HTMLDialogElement) {
+/**
+ * Pins the page where it is while a sheet is open. `overflow: hidden` on the page is not enough on iOS Safari: a touch on
+ * anything that cannot scroll (a header, short results) still scrolls the page behind. Fixing the body in place stops that,
+ * and the scroll position is put back when the sheet closes.
+ */
+function lockPage() {
+  const body = document.body;
+  const y = window.scrollY;
+  body.style.position = 'fixed';
+  body.style.top = `${-y}px`;
+  body.style.inlineSize = '100%';
+  return () => {
+    body.style.position = body.style.top = body.style.inlineSize = '';
+    window.scrollTo({ top: y, behavior: 'instant' }); // the page's smooth scrolling would otherwise animate back
+  };
+}
+
+/**
+ * On open: the one-shot entrance animation (tied to an attribute, not to [open], so it never replays when the layout
+ * changes) and the page lock. On close: the page is released.
+ */
+function onOpenClose(dlg: HTMLDialogElement) {
+  let unlock: (() => void) | undefined;
   new MutationObserver(() => {
-    if (!dlg.open) return;
-    dlg.dataset.opening = '';
-    setTimeout(() => { delete dlg.dataset.opening; }, 400);
+    if (dlg.open && !unlock) {
+      unlock = lockPage();
+      dlg.dataset.opening = '';
+      setTimeout(() => { delete dlg.dataset.opening; }, 400);
+    } else if (!dlg.open && unlock) {
+      unlock();
+      unlock = undefined;
+    }
   }).observe(dlg, { attributes: true, attributeFilter: ['open'] });
 }
 
@@ -109,7 +135,7 @@ function followKeyboard(dlg: HTMLDialogElement) {
 
 for (const dlg of document.querySelectorAll<HTMLDialogElement>('dialog.sheet')) {
   const bar = dlg.querySelector<HTMLElement>('.sheet__bar');
-  animateOpening(dlg);
+  onOpenClose(dlg);
   if (bar) dismissOnSwipe(dlg, bar);
   followKeyboard(dlg);
 }
