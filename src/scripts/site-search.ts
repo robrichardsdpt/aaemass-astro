@@ -1,5 +1,7 @@
 // The site search window. Loaded on demand (first hover, focus or click on the header's magnifying glass), never with the page.
 // Data: search-index-<lang>.json, written after the build by integrations/search-index.mjs (one record per page).
+import { phoneSheet } from './sheet';
+
 const dlg = document.getElementById('site-search') as HTMLDialogElement;
 const input = document.getElementById('ss-q') as HTMLInputElement;
 const status = document.getElementById('ss-status')!;
@@ -126,8 +128,13 @@ async function run() {
 
 export function openSearch() {
   if (!dlg.open) dlg.showModal();
-  input.focus();
-  input.select();
+  // On phones the keyboard would cover the results and fight the sheet's slide-up, so the box is not focused for you (as in the events window).
+  if (phoneSheet.matches) {
+    dlg.querySelector<HTMLElement>('#ss-title')!.focus({ preventScroll: true });
+  } else {
+    input.focus();
+    input.select();
+  }
   void load().catch(() => {});
 }
 
@@ -151,3 +158,5 @@ dlg.addEventListener('click', (e) => {
 });
 // Following a result to the page you are already on would leave the window open over it.
 list.addEventListener('click', () => dlg.close());
+// Touching the results puts the keyboard away so they can be read.
+list.addEventListener('touchstart', () => { if (phoneSheet.matches && document.activeElement === input) input.blur(); }, { passive: true });
