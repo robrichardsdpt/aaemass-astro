@@ -27,6 +27,9 @@ jobs:
     environment: release
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history, so each page's last-modified date (src/lib/last-modified.ts) comes from git.
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 24

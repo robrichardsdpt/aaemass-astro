@@ -2,6 +2,7 @@
 import Page from '../layouts/Page.astro';
 import Section from '../components/ui/Section.astro';
 import { site, path } from '../lib/site';
+import { ui } from '../i18n/ui';
 
 // Static hosts serve this file for any unknown URL. It cannot know the visitor's language, so the
 // copy is English with Spanish and French pointers below the links.
@@ -22,6 +23,12 @@ const links = [
   noindex
 >
   <Section id="not-found" narrow>
+    <p class="not-found-search">
+      <button class="button" type="button" data-site-search aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        {ui.en.searchLabel}
+      </button>
+    </p>
     <ul class="paths">
       {links.map((l) => (
         <li>

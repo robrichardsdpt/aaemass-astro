@@ -2,7 +2,8 @@ import { site } from '../lib/site';
 import { getLiveEvents, getLivePages } from '../lib/live-content';
 import { getAllEvents } from '../lib/all-events';
 import { committees } from '../lib/committee-pages';
-import { locales, otherLangs, publicPath, translatedKeys, isIndexable, seoAlternates, htmlLang } from '../i18n';
+import { lastModified } from '../lib/last-modified';
+import { locales, resolve, otherLangs, publicPath, translatedKeys, isIndexable, seoAlternates, htmlLang } from '../i18n';
 
 const pages = import.meta.glob('./**/*.astro');
 
@@ -24,7 +25,6 @@ export const GET = async () => {
   for (const e of await getLiveEvents()) if ((e.data.end ?? e.data.start).getTime() >= now) routes.add(`/events/${e.id}`);
   // One-off Google Calendar and WordPress events have a page (the highlighted ones are listed just above). Repeating events do not.
   for (const e of await getAllEvents()) if (e.slug) routes.add(`/events/e/${e.slug}`);
-  const lastmod = new Date().toISOString().slice(0, 10);
   const loc = (r: string) => `${site.url}${r === '/' ? '/' : `${r}/`}`;
   // Reviewed Spanish and French pages are listed too, and every page names its other-language versions.
   const all = new Set(routes);
@@ -37,7 +37,8 @@ export const GET = async () => {
       const links = Object.keys(alts).length > 1
         ? Object.entries(alts).map(([l, p]) => `<xhtml:link rel="alternate" hreflang="${htmlLang[l as (typeof locales)[number]]}" href="${site.url}${p}"/>`).join('')
         : '';
-      return `  <url><loc>${loc(r)}</loc><lastmod>${lastmod}</lastmod>${links}</url>`;
+      const modified = lastModified(resolve(r)?.key ?? r);
+      return `  <url><loc>${loc(r)}</loc>${modified ? `<lastmod>${modified}</lastmod>` : ''}${links}</url>`;
     })
     .join('\n');
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n</urlset>\n`;

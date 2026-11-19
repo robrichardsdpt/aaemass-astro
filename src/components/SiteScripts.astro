@@ -40,6 +40,15 @@ import BackToTop from './BackToTop.astro';
     var next = currentTheme() === 'dark' ? 'light' : 'dark';
     toggle.setAttribute('aria-label', next === 'dark' ? toggle.dataset.toDark : toggle.dataset.toLight);
   }
+  // The browser's address-bar tint follows the page's theme, including a choice made with the toggle.
+  function syncThemeColor() {
+    if (!document.documentElement.dataset.theme) return;
+    document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
+      m.removeAttribute('media');
+      m.setAttribute('content', currentTheme() === 'dark' ? '#0a1420' : '#f9fafc');
+    });
+  }
+  syncThemeColor();
   if (toggle) {
     labelToggle();
     toggle.addEventListener('click', function () {
@@ -47,6 +56,7 @@ import BackToTop from './BackToTop.astro';
       document.documentElement.dataset.theme = next;
       try { localStorage.setItem('theme', next); } catch (e) {}
       labelToggle();
+      syncThemeColor();
     });
   }
   // Back-to-top button: shown after scrolling about one screen.
