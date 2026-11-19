@@ -960,10 +960,11 @@
   .addcal { margin-block-start: var(--s-1); font-size: var(--step--1); }
   .addcal summary { cursor: pointer; color: var(--accent); min-block-size: 2.75rem; display: flex; align-items: center; }
   /* Explore events window: a .sheet with its own size and content. */
-  .esearch {
+  .esearch { border: 0; box-shadow: 0 1.5rem 3rem oklch(0.1 0.04 258 / 0.45); }
+  /* Larger screens only: on phones the shared bottom-sheet size (full width) from .sheet applies. */
+  @media (min-width: 40rem) {
     /* A fixed height, not a maximum: the window never grows or shrinks (or jumps) as the results change. */
-    inline-size: min(48rem, calc(100vw - 2rem)); block-size: min(46rem, calc(100dvh - 2rem)); max-block-size: calc(100dvh - 2rem);
-    border: 0; box-shadow: 0 1.5rem 3rem oklch(0.1 0.04 258 / 0.45);
+    .esearch { inline-size: min(48rem, calc(100vw - 2rem)); block-size: min(46rem, calc(100dvh - 2rem)); max-block-size: calc(100dvh - 2rem); }
   }
   .esearch > * { padding-inline: var(--s-4); }
   .esearch [hidden] { display: none; }
