@@ -1,0 +1,42 @@
+---
+// The site search window: a native <dialog> opened by the header's magnifying glass (any button marked data-site-search).
+// Its script and the page index are not fetched until that button is first hovered, focused or clicked.
+import { path } from '../lib/site';
+import { getLang } from '../i18n';
+import { ui } from '../i18n/ui';
+
+const lang = getLang(Astro);
+const u = ui[lang];
+---
+
+<dialog
+  id="site-search" class="sheet site-search" aria-labelledby="ss-title"
+  data-index={path(`/search-index-${lang}.json`)} data-base={path('/')}
+  data-hint={u.searchHint} data-error={u.searchError} data-none={u.searchNone} data-count={u.searchCount}
+>
+  <div class="sheet__bar">
+    <h2 id="ss-title">{u.searchTitle}</h2>
+    <button class="sheet__close" type="button" data-close aria-label={u.close}>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="sheet__body stack">
+    <form role="search" class="field">
+      <label for="ss-q">{u.searchLabel}</label>
+      <input id="ss-q" type="search" enterkeyhint="search" autocomplete="off" placeholder={u.searchPlaceholder} />
+    </form>
+    <p id="ss-status" class="site-search__status" role="status" aria-live="polite"></p>
+    <ul id="ss-results" class="site-search__results"></ul>
+  </div>
+</dialog>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-site-search]');
+  let mod: Promise<typeof import('../scripts/site-search')> | undefined;
+  const load = () => (mod ??= import('../scripts/site-search'));
+  for (const b of buttons) {
+    b.addEventListener('pointerenter', load, { once: true });
+    b.addEventListener('focus', load, { once: true });
+    b.addEventListener('click', async () => (await load()).openSearch());
+  }
+</script>

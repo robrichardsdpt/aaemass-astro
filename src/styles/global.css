@@ -746,6 +746,23 @@
     .sheet { inline-size: 100vw; max-inline-size: none; block-size: 100dvh; max-block-size: none; margin: 0; border: 0; border-radius: 0; }
   }
 
+  /* Narrow phones: the language switch shows only its globe and arrow (the name stays for screen readers), so Menu, language, search and theme fit one row. */
+  @media (max-width: 29.99rem) {
+    .lang-switch summary span { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .site-header .wrap { column-gap: var(--s-2); }
+  }
+  @media (min-width: 30rem) and (max-width: 59.99rem) { .site-header .wrap { column-gap: var(--s-3); } }
+  /* Site search: reuses the sheet dialog. The magnifying glass shares the theme toggle's look and slot in the header. */
+  .site-search { min-block-size: min(30rem, calc(100dvh - 2rem)); }
+  .site-search .field { display: grid; gap: var(--s-2); }
+  .site-search .field input { inline-size: 100%; block-size: 3rem; box-sizing: border-box; }
+  .site-search__status { margin: 0; color: var(--ink-muted); font-size: var(--step--1); min-block-size: 1.5em; }
+  .site-search__results { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+  .site-search__results li { padding-block: var(--s-3); border-block-start: 1px solid var(--line); overflow-wrap: anywhere; }
+  .site-search__results a { font-family: var(--font-display); font-size: var(--step-1); font-weight: 600; }
+  .site-search__results p { margin: var(--s-1) 0 0; color: var(--ink-muted); font-size: var(--step--1); }
+  .site-search__results mark { background: color-mix(in oklch, var(--accent), transparent 78%); color: var(--ink); border-radius: 0.125rem; }
+
   /* Service steps */
   .steps { display: grid; gap: var(--s-4); row-gap: var(--s-4); padding: 0; list-style: none; counter-reset: step; }
   .steps li > h3 { align-self: start; }

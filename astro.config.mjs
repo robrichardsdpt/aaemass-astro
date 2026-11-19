@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import searchIndex from './integrations/search-index.mjs';
 
 // The site is served at the root, or under a base path (GitHub Pages preview, WordPress plugin).
 const base = process.env.WP_BUILD ? `/${process.env.WP_PREFIX || 'a30-preview'}/` : process.env.GH_PAGES ? '/aaemass-astro/' : '/';
@@ -11,6 +12,8 @@ export default defineConfig({
   i18n: { defaultLocale: 'en', locales: ['en', 'es', 'fr'], routing: { prefixDefaultLocale: false } },
   // One canonical form per URL: directory-style with a trailing slash.
   trailingSlash: 'always',
+  // After the build, writes the per-language search index that the header's search window reads.
+  integrations: [searchIndex()],
   // The events page is now part of the calendar page.
   // Astro adds the base to the old address but not to the destination, so the destination carries it.
   redirects: { '/events/': `${base}calendar/` },
