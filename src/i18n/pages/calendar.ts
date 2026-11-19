@@ -6,7 +6,12 @@ const en = {
   heading: 'Area 30 calendar',
   eyebrow: 'Events',
   lede: 'Upcoming events, assemblies and committee meetings across Eastern Massachusetts. Times are Eastern.',
-  subscribe: 'Add to Google Calendar',
+  subscribe: 'Subscribe in Google Calendar',
+  subscribeTitle: 'Keep this calendar on your phone or computer',
+  subscribeHelp: 'Subscribing adds the whole Area 30 calendar to your own calendar app. New and changed events appear on their own, with nothing to re-download.',
+  subscribeApple: 'Apple Calendar or Outlook',
+  subscribeCopy: 'Copy calendar link',
+  subscribeCopied: 'Link copied.',
   calendarHeading: 'Calendar',
   agendaTitle: 'Area 30 calendar, agenda view',
   monthTitle: 'Area 30 calendar, month view',
@@ -14,7 +19,7 @@ const en = {
   faqs: [
     { q: 'Can any AA member attend Area 30 committee meetings?', a: 'Yes. All AA members are welcome at Area 30 committee meetings, and committees are always looking for people to help.' },
     { q: 'Where can I find a committee’s meeting time?', a: 'Each committee’s page lists its monthly meeting time, and the calendar above shows events, assemblies and committee meetings as they are scheduled.' },
-    { q: 'How do I add the calendar to my phone?', a: 'Use the “Add to Google Calendar” button at the top of this page to subscribe.' },
+    { q: 'How do I add the calendar to my phone?', a: 'Use “Subscribe in Google Calendar” at the top of this page if you use Google Calendar. On an iPhone, Mac or Outlook, use “Apple Calendar or Outlook” in the Keep this calendar section below the calendar. Either way, new and changed events show up on their own.' },
   ],
 };
 type C = typeof en;
@@ -24,7 +29,12 @@ const es: C = {
   heading: 'Calendario del Área 30',
   eyebrow: 'Eventos',
   lede: 'Próximos eventos, asambleas y reuniones de comités en todo el Este de Massachusetts. Las horas son del Este (hora de Nueva York).',
-  subscribe: 'Agregar a Google Calendar',
+  subscribe: 'Suscribirse en Google Calendar',
+  subscribeTitle: 'Mantenga este calendario en su teléfono o computadora',
+  subscribeHelp: 'Al suscribirse, todo el calendario del Área 30 se agrega a su propia aplicación de calendario. Los eventos nuevos y los cambios aparecen solos, sin nada que volver a descargar.',
+  subscribeApple: 'Apple Calendar u Outlook',
+  subscribeCopy: 'Copiar el enlace del calendario',
+  subscribeCopied: 'Enlace copiado.',
   calendarHeading: 'Calendario',
   agendaTitle: 'Calendario del Área 30, vista de agenda',
   monthTitle: 'Calendario del Área 30, vista mensual',
@@ -32,7 +42,7 @@ const es: C = {
   faqs: [
     { q: '¿Puede asistir cualquier miembro de A.A. a las reuniones de los comités del Área 30?', a: 'Sí. Todos los miembros de A.A. son bienvenidos a las reuniones de los comités del Área 30, y los comités siempre buscan personas que ayuden.' },
     { q: '¿Dónde puedo encontrar la hora de reunión de un comité?', a: 'La página de cada comité indica su hora de reunión mensual, y el calendario de arriba muestra los eventos, las asambleas y las reuniones de comités a medida que se programan.' },
-    { q: '¿Cómo agrego el calendario a mi teléfono?', a: 'Use el botón «Agregar a Google Calendar» en la parte superior de esta página para suscribirse.' },
+    { q: '¿Cómo agrego el calendario a mi teléfono?', a: 'Si usa Google Calendar, use «Suscribirse en Google Calendar» en la parte superior de esta página. En un iPhone, una Mac u Outlook, use «Apple Calendar u Outlook» en la sección Mantenga este calendario, debajo del calendario. De cualquier manera, los eventos nuevos y los cambios aparecen solos.' },
   ],
 };
 const fr: C = {
@@ -41,7 +51,12 @@ const fr: C = {
   heading: 'Calendrier de la Région 30',
   eyebrow: 'Événements',
   lede: 'Prochains événements, assemblées et réunions de comités dans tout l’Est du Massachusetts. Les heures sont celles de l’Est (heure de New York).',
-  subscribe: 'Ajouter à Google Agenda',
+  subscribe: 'S’abonner dans Google Agenda',
+  subscribeTitle: 'Gardez ce calendrier sur votre téléphone ou votre ordinateur',
+  subscribeHelp: 'L’abonnement ajoute tout le calendrier de la Région 30 à votre propre application de calendrier. Les nouveaux événements et les changements apparaissent d’eux-mêmes, sans rien retélécharger.',
+  subscribeApple: 'Apple Calendar ou Outlook',
+  subscribeCopy: 'Copier le lien du calendrier',
+  subscribeCopied: 'Lien copié.',
   calendarHeading: 'Calendrier',
   agendaTitle: 'Calendrier de la Région 30, vue agenda',
   monthTitle: 'Calendrier de la Région 30, vue mensuelle',
@@ -49,7 +64,7 @@ const fr: C = {
   faqs: [
     { q: 'Tout membre des A.A. peut-il assister aux réunions des comités de la Région 30?', a: 'Oui. Tous les membres des A.A. sont les bienvenus aux réunions des comités de la Région 30, et les comités cherchent toujours des personnes pour aider.' },
     { q: 'Où trouver l’heure de réunion d’un comité?', a: 'La page de chaque comité indique son heure de réunion mensuelle, et le calendrier ci-dessus montre les événements, les assemblées et les réunions de comités à mesure qu’ils sont fixés.' },
-    { q: 'Comment ajouter le calendrier à mon téléphone?', a: 'Utilisez le bouton « Ajouter à Google Agenda » en haut de cette page pour vous abonner.' },
+    { q: 'Comment ajouter le calendrier à mon téléphone?', a: 'Si vous utilisez Google Agenda, utilisez « S’abonner dans Google Agenda » en haut de cette page. Sur un iPhone, un Mac ou Outlook, utilisez « Apple Calendar ou Outlook » dans la section Gardez ce calendrier, sous le calendrier. Dans les deux cas, les nouveaux événements et les changements apparaissent d’eux-mêmes.' },
   ],
 };
 export const calendar: Record<Lang, C> = { en, es, fr };

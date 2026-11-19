@@ -6,6 +6,7 @@ import EventList from '../components/ui/EventList.astro';
 import EventSearch from '../components/EventSearch.astro';
 import { getCmsEvents } from '../lib/events';
 import { getAllEvents } from '../lib/all-events';
+import { CALENDAR_ICS_URL } from '../lib/gcal';
 import { site } from '../lib/site';
 import { getLang } from '../i18n';
 import { ui } from '../i18n/ui';
@@ -23,6 +24,8 @@ const embed = (mode: 'AGENDA' | 'MONTH') =>
     ...(lang === 'en' ? {} : { hl: lang }),
   })}`;
 const subscribe = `https://calendar.google.com/calendar/u/0?cid=${calendarId}`;
+// The same calendar as a live feed. webcal:// makes Apple Calendar and Outlook offer to subscribe; the https address is for apps that need it pasted.
+const webcal = CALENDAR_ICS_URL.replace(/^https:/, 'webcal:');
 
 // Highlighted events, the search and the "coming up" list are English only for now.
 const en = lang === 'en';
@@ -62,6 +65,18 @@ import ExtraSections from '../components/ExtraSections.astro';
       </p>
     </div>
   </section>
+  <section class="section subscribe" aria-labelledby="subscribe-title">
+    <div class="wrap prose stack">
+      <h2 id="subscribe-title">{m.subscribeTitle}</h2>
+      <p>{m.subscribeHelp}</p>
+      <p class="subscribe__actions">
+        <a class="button" href={subscribe}>{m.subscribe}</a>
+        <a class="button button--quiet" href={webcal}>{m.subscribeApple}</a>
+        <button type="button" class="button button--quiet" id="copy-feed" data-url={CALENDAR_ICS_URL} data-done={m.subscribeCopied} hidden>{m.subscribeCopy}</button>
+      </p>
+      <p id="copy-feed-status" class="visually-hidden" role="status" aria-live="polite"></p>
+    </div>
+  </section>
   {en && <EventSearch />}
   {special.length > 0 && (
     <Section id="special-events" title="Special events" narrow>
@@ -75,3 +90,22 @@ import ExtraSections from '../components/ExtraSections.astro';
   )}
 <ExtraSections page="calendar" />
 </Page>
+
+<script>
+  // Copy the feed address for calendar apps that ask for it to be pasted. Hidden without JavaScript or clipboard access.
+  const copy = document.getElementById('copy-feed') as HTMLButtonElement | null;
+  if (copy && navigator.clipboard) {
+    copy.hidden = false;
+    copy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(copy.dataset.url!);
+        document.getElementById('copy-feed-status')!.textContent = copy.dataset.done!;
+        const label = copy.textContent;
+        copy.textContent = copy.dataset.done!;
+        setTimeout(() => { copy.textContent = label; }, 2000);
+      } catch {
+        // Clipboard blocked: the https address is still reachable through the Apple / Outlook link's destination.
+      }
+    });
+  }
+</script>
