@@ -1,7 +1,7 @@
 ---
 import Page from '../layouts/Page.astro';
 import Msg from '../components/Msg.astro';
-import { site } from '../lib/site';
+import { site, path } from '../lib/site';
 import LiveForm from '../components/ui/LiveForm.astro';
 import { districts } from '../lib/districts';
 import { getLang } from '../i18n';
@@ -102,12 +102,13 @@ import ExtraSections from '../components/ExtraSections.astro';
           id="grp"
           kind="contribute"
           hidden={{ type: 'grp', lang }}
+          lookup={{ url: path('/data/area30-groups.json'), ...m.group.lookup }}
           submitLabel={m.continuePayPal}
           fallback={{ text: m.liveAlt, href: live, label: live.replace('https://', '') }}
           fields={[
             { name: 'member', label: m.group.member, type: 'checkbox', required: true },
-            { name: 'group', label: m.group.name, required: true, half: true },
-            { name: 'number', label: m.group.number, required: true, half: true, hint: m.group.numberHint, max: 20 },
+            { name: 'group', label: m.group.name, required: true, hint: m.group.nameHint, max: 100 },
+            { name: 'number', label: m.group.number, required: true, hint: m.group.numberHint, max: 20 },
             { name: 'street', label: m.group.street, required: true, autocomplete: 'street-address' },
             { name: 'town', label: m.group.town, required: true, half: true, autocomplete: 'address-level2' },
             { name: 'state', label: m.group.state, required: true, half: true, value: 'MA', max: 30, autocomplete: 'address-level1' },

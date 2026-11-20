@@ -28,15 +28,20 @@ interface Props {
   email?: string;
   okText?: string;
   fallback?: { text: string; href: string; label: string };
+  // Group contribution form: turns the "group" field into a search over the Area 30 group list (see src/scripts/group-lookup.ts).
+  lookup?: { url: string; found: string; none: string; filled: string; offer: string; use: string; choose: string; when: string };
 }
 const u = ui[getLang(Astro)];
-const { id, kind, fields, submitLabel = u.formSubmit, hidden = {}, email, okText, fallback } = Astro.props;
+const { id, kind, fields, submitLabel = u.formSubmit, hidden = {}, email, okText, fallback, lookup } = Astro.props;
 const endpoint = site.formsEndpoint;
+const lookupAttrs = lookup
+  ? { 'data-group-lookup': lookup.url, 'data-gl-found': lookup.found, 'data-gl-none': lookup.none, 'data-gl-filled': lookup.filled, 'data-gl-offer': lookup.offer, 'data-gl-use': lookup.use, 'data-gl-choose': lookup.choose, 'data-gl-when': lookup.when }
+  : {};
 ---
 {endpoint ? (
   <form class="live-form" data-live-form data-kind={kind} data-endpoint={endpoint} data-ok={okText ?? u.formThanks}
     data-invalid={u.formInvalid} data-sending={u.formSending} data-redirecting={u.formRedirecting}
-    data-error={u.formError.replace('{email}', email ?? site.email)} novalidate>
+    data-error={u.formError.replace('{email}', email ?? site.email)} {...lookupAttrs} novalidate>
     {Object.entries(hidden).map(([k, v]) => <input type="hidden" name={k} value={v} />)}
     <div class="field-grid">
       {fields.map((f) => {
