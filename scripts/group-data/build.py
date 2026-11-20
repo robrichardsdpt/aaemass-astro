@@ -7,8 +7,13 @@ Decision per group:
   offer   - one address, not confirmed: the form shows it and the person accepts it
   choose  - two to four addresses left after the district's towns are applied: a pick-list
   none    - no match, or too many candidates to be useful
+Groups the exact-name pass cannot place get a second pass on place, day and time words (matching.py). Its results are never
+pre-filled: one address is offered, two to four become a pick-list.
 """
-import csv, difflib, html, json, re, sys, collections
+import csv, difflib, html, json, os, re, sys, collections
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # python -I leaves the script's own folder off the path
+from matching import Index, find_candidates
 
 S = sys.argv[1]
 STOP = {'group', 'gp', 'meeting', 'the', 'aa', 'a', 'of', 'and', 'step', 'steps', 'in', 'at', 'hybrid', 'virtual'}
@@ -119,6 +124,44 @@ def learned_towns(g, ds):
     return {t for t, n in c.items() if n > 0}
 
 
+MIN_NAMED_TOWNS = 3  # towns that must be known for a district before they can rule out a meeting elsewhere
+place_index = Index(meetings)
+same_town = lambda d: d['town'].lower().replace(' ', '')  # "Harwich Port" and "Harwichport" are one place
+
+
+def district_numbers(label):
+    """"District 01,02", "District 1 & 2" and "District 02" all include district 2."""
+    return {int(n) for n in re.findall(r'\d+', label)}
+
+
+# Towns known for each district, taken only from groups whose own name contains the town ("Quincy Monday Night Group" at a Quincy
+# address). Towns learned from generic names are not trusted here: a few wrong matches would teach the wrong towns.
+named_towns = collections.defaultdict(set)
+for g, ds, how in pass1:
+    if len(ds) == 1 and how == 'name' and ds[0]['town_tokens'] <= toks(g['name']):
+        for n in district_numbers(g['district']):
+            named_towns[n].add(ds[0]['town'].lower())
+
+
+def second_pass(g):
+    """For a group the exact-name pass could not place: candidates by place, day and time words (matching.py).
+    One address is offered. Several become a pick-list only when they are all in one town."""
+    ds = list({(d['street'].lower(), same_town(d)): d for d in find_candidates(place_index, g['name'])}.values())
+    known = set().union(*(named_towns[n] for n in district_numbers(g['district'])))
+    if len(known) >= MIN_NAMED_TOWNS:
+        ds = [d for d in ds if d['town'].lower() in known]
+    if len(ds) == 1:
+        return 'offer', ds
+    if 2 <= len(ds) <= 4 and len({same_town(d) for d in ds}) == 1:
+        return 'choose', ds
+    return 'none', []
+
+
+def place_name(location):
+    """The location's name without the listing's "In-person and Online" style suffix: "Old South Church In-person and Online" -> "Old South Church"."""
+    return re.sub(r'\s*\b(in-person and online|in-person|online|hybrid)$', '', location.strip(), flags=re.I).strip()
+
+
 how_of = {g['group_id']: how for g, ds, how in pass1}
 result, stats = [], collections.Counter()
 for g, ds, how in pass1:
@@ -134,12 +177,13 @@ for g, ds, how in pass1:
     elif 2 <= len(ds) <= 4:
         action = 'choose'
     else:
-        action = 'none'
-        ds = []
-    stats[action + ('+district' if narrowed and action != 'none' else '')] += 1
+        action, ds = second_pass(g)
+        how = 'place' if ds else how
+    stats[action + ('+district' if narrowed and action != 'none' else '') + ('+place' if how == 'place' and ds else '')] += 1
     result.append(dict(group_id=g['group_id'], name=g['name'], district=g['district'], action=action,
                        match=how if ds else '', narrowed=narrowed,
                        options=[dict(street=d['street'], town=d['town'], zip=d.get('zip', ''), url=d['url'], src=d['src'],
+                                     place=place_name(d['location']),
                                      meetings=[dict(day=day, time=tm) for day, tm in sorted(d['whens'])]) for d in ds]))
 
 json.dump(result, open(f'{S}/data/suggestions.json', 'w'), indent=1)

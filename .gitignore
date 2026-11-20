@@ -35,3 +35,6 @@ aa30-home.zip
 # Written by scripts/translate.mjs
 .translate-report.md
 .remove-report.md
+
+# Written when the Python scripts in scripts/group-data run
+__pycache__/

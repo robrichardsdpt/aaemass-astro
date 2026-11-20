@@ -68,6 +68,12 @@ test('the address line reads the way a person would write it', async () => {
   assert.equal(addressLine({ street: '5 Oak St', town: 'Natick', zip: '' }), '5 Oak St, Natick');
 });
 
+test('the place name leads the address when the listing gave one, so people can recognise it', async () => {
+  const { addressLine } = await import('../src/lib/group-lookup.ts');
+  assert.equal(addressLine({ ...marl, place: 'Old South Church' }), 'Old South Church, 31 Main St, Marlborough 01752');
+  assert.equal(addressLine({ ...marl, place: '' }), '31 Main St, Marlborough 01752');
+});
+
 test('times read as 12-hour clock text', () => {
   assert.equal(clock('07:00'), '7:00 am');
   assert.equal(clock('19:30'), '7:30 pm');

@@ -10,7 +10,7 @@ zips = json.load(open(f'{work}/data/zips.json'))
 
 groups = []
 for r in suggestions:
-    options = [dict(street=o['street'], town=o['town'], zip=o['zip'] or zips.get(o['url'], ''), meetings=o['meetings'])
+    options = [dict(street=o['street'], town=o['town'], zip=o['zip'] or zips.get(o['url'], ''), place=o.get('place', ''), meetings=o['meetings'])
                for o in r['options']]
     groups.append(dict(id=r['group_id'], name=r['name'], district=r['district'], address=r['action'], options=options))
 groups.sort(key=lambda g: (g['name'].lower(), g['id']))

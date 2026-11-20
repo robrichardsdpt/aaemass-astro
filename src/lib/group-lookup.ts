@@ -12,6 +12,7 @@ export interface GroupOption {
   street: string;
   town: string;
   zip: string;
+  place?: string; // the location's name in the listing ("Old South Church"), so people can recognise the address
   meetings?: GroupMeeting[]; // what the listings show at this address; absent when they did not say
 }
 
@@ -55,8 +56,8 @@ const withoutZeros = (digits: string): string => digits.replace(/^0+(?=\d)/, '')
 /** One line for a result list. District and number tell apart groups that share a name. */
 export const groupLabel = (g: GroupEntry): string => `${g.name} · ${g.district} · #${groupNumber(g)}`;
 
-/** "31 Main St, Marlborough 01752" (the zip is left off when we do not have it). */
-export const addressLine = (o: GroupOption): string => `${o.street}, ${o.town}${o.zip ? ` ${o.zip}` : ''}`;
+/** "Old South Church, 31 Main St, Marlborough 01752" (the place and the zip are left off when we do not have them). */
+export const addressLine = (o: GroupOption): string => `${o.place ? `${o.place}, ` : ''}${o.street}, ${o.town}${o.zip ? ` ${o.zip}` : ''}`;
 
 // Lower is better: 0 the name starts with the query, 1 a word in the name starts with it, 2 it is a number match.
 function rank(g: GroupEntry, query: string[], digits: string | null): number | null {
