@@ -1,0 +1,16 @@
+{
+  "000336495": {
+    "name": "Copley Friday Group",
+    "why": "The listings show two Friday meetings called Copley (Copley Noontime at Trinity Church and Copley Square at Old South Church), so name matching cannot tell which is this group. Confirmed by the site owner: Copley Friday Group is the Friday 5:30 pm meeting at Old South Church.",
+    "address": "prefill",
+    "options": [
+      {
+        "place": "Old South Church",
+        "street": "645 Boylston St",
+        "town": "Boston",
+        "zip": "02116",
+        "meetings": [{ "day": 5, "time": "17:30" }]
+      }
+    ]
+  }
+}

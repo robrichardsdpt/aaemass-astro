@@ -113,11 +113,13 @@ function attach(form: HTMLFormElement) {
     }
     put(time, m.time, force);
   };
-  const showPanel = (...nodes: Node[]) => {
-    panel.replaceChildren(...nodes);
-    panel.hidden = nodes.length === 0;
-  };
   const text = (s: string) => Object.assign(document.createElement('p'), { textContent: s });
+  // A group with no number gets a note above whatever else the panel shows: the number is for the person to enter.
+  let lead: Node[] = [];
+  const showPanel = (...nodes: Node[]) => {
+    panel.replaceChildren(...lead, ...nodes);
+    panel.hidden = lead.length + nodes.length === 0;
+  };
   const button = (label: string, onClick: () => void) => {
     const b = Object.assign(document.createElement('button'), { type: 'button', className: 'button button--quiet', textContent: label });
     b.addEventListener('click', onClick);
@@ -148,7 +150,8 @@ function attach(form: HTMLFormElement) {
     name.value = g.name;
     close();
     clearAuto();
-    put(number, groupNumber(g), true);
+    lead = g.id ? [] : [text(say('Numberhelp'))];
+    if (g.id) put(number, groupNumber(g), true);
     const plan = addressPlan(g);
     if (plan.mode === 'fill') {
       fillAddress(plan.option, false);
@@ -163,6 +166,7 @@ function attach(form: HTMLFormElement) {
   };
 
   name.addEventListener('input', async () => {
+    lead = [];
     showPanel(); // an earlier suggestion no longer applies once the name is edited
     const groups = await load();
     render(searchGroups(groups, name.value));

@@ -20,6 +20,40 @@ test('the label shows the district and number so groups with the same name can b
   assert.equal(groupLabel(groups[3]), 'Serenity Group · District 10 · #000012345');
 });
 
+// Groups from the meeting lists that have no group number in AA's contribution list: no id, no district.
+const trinity = { street: '206 Clarendon St', town: 'Boston', zip: '02116', place: 'Trinity Church', meetings: [{ day: 5, time: '12:00' }] };
+const noon = { id: '', name: 'Copley Noontime', district: '', address: 'prefill', options: [trinity] };
+const serenityListing = { id: '', name: 'Serenity Group', district: '', address: 'prefill', options: [{ street: '9 Elm St', town: 'Acton', zip: '' }] };
+
+test('a group with no number has no number to fill in', () => {
+  assert.equal(groupNumber(noon), '');
+});
+
+test('the label of a group with no number shows where it meets, and nothing about the missing number', () => {
+  assert.equal(groupLabel(noon), 'Copley Noontime · Trinity Church, Boston');
+  assert.equal(groupLabel(serenityListing), 'Serenity Group · Acton');
+});
+
+test('a group with no number is found by its name, its place or its town', () => {
+  const all = [...groups, noon];
+  assert.deepEqual(searchGroups(all, 'copley').map((g) => g.name), ['Copley Noontime']);
+  assert.deepEqual(searchGroups(all, 'trinity').map((g) => g.name), ['Copley Noontime']);
+  assert.deepEqual(searchGroups(all, 'boston').map((g) => g.name), ['Copley Noontime']);
+});
+
+test('a numbered group is not found by the town of its suggested address, only by its name', () => {
+  assert.deepEqual(searchGroups(groups, 'marlborough'), []);
+});
+
+test('numbered groups are listed before groups with no number that match equally well', () => {
+  const all = [serenityListing, ...groups];
+  assert.deepEqual(searchGroups(all, 'serenity').map((g) => g.id), ['000012345', '000099999', '']);
+});
+
+test('searching by number only finds numbered groups', () => {
+  assert.deepEqual(searchGroups([noon, ...groups], '43137').map((g) => g.id), ['000043137']);
+});
+
 test('search finds a group by the start of any word, ignoring case and punctuation', () => {
   assert.deepEqual(searchGroups(groups, 'brook').map((g) => g.id), ['000097058']);
   assert.deepEqual(searchGroups(groups, 'DAY at').map((g) => g.id), ['000043137']);

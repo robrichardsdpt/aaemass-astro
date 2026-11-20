@@ -14,6 +14,7 @@ import csv, difflib, html, json, os, re, sys, collections
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # python -I leaves the script's own folder off the path
 from matching import Index, find_candidates
+from unnumbered import place_name
 
 S = sys.argv[1]
 STOP = {'group', 'gp', 'meeting', 'the', 'aa', 'a', 'of', 'and', 'step', 'steps', 'in', 'at', 'hybrid', 'virtual'}
@@ -157,11 +158,6 @@ def second_pass(g):
     return 'none', []
 
 
-def place_name(location):
-    """The location's name without the listing's "In-person and Online" style suffix: "Old South Church In-person and Online" -> "Old South Church"."""
-    return re.sub(r'\s*\b(in-person and online|in-person|online|hybrid)$', '', location.strip(), flags=re.I).strip()
-
-
 how_of = {g['group_id']: how for g, ds, how in pass1}
 result, stats = [], collections.Counter()
 for g, ds, how in pass1:
@@ -187,6 +183,9 @@ for g, ds, how in pass1:
                                      meetings=[dict(day=day, time=tm) for day, tm in sorted(d['whens'])]) for d in ds]))
 
 json.dump(result, open(f'{S}/data/suggestions.json', 'w'), indent=1)
+# Every meeting with a street address, for the groups that have no number (unnumbered.py).
+json.dump([dict(name=m['name'], location=m['location'], street=m['street'], town=m['town'], when=m.get('when'), zip=m.get('zip', ''), url=m.get('url', ''))
+           for m in meetings], open(f'{S}/data/pool.json', 'w'))
 print('meetings pooled:', len(meetings), dict(collections.Counter(m['src'] for m in meetings)))
 print('groups:', len(groups), dict(stats))
 print('need zip lookups (distinct boston urls among options):', len({o['url'] for r in result for o in r['options'] if o['url'] and not o['zip']}))
