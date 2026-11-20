@@ -2,8 +2,10 @@
 // On desktop a sheet is a centered window; on phones it is a bottom sheet. CSS (.sheet in global.css) does the layout and
 // locks the page behind it. This file adds what CSS cannot:
 //   - the one-shot entrance animation,
+//   - closing when the dimmed backdrop is clicked (and only then: see lib/backdrop.ts),
 //   - swipe down on the header to dismiss (phones),
 //   - keeping the sheet inside the visible area while the on-screen keyboard is open (iOS Safari).
+import { closesOnBackdrop, isOutside } from '../lib/backdrop';
 
 /** True while sheets are bottom sheets (phones). Keep in step with the breakpoint in global.css. */
 export const phoneSheet = matchMedia('(max-width: 39.99rem)');
@@ -133,9 +135,27 @@ function followKeyboard(dlg: HTMLDialogElement) {
   dlg.addEventListener('close', () => { cancelAnimationFrame(frame); sync(); });
 }
 
+/**
+ * Clicking the dimmed backdrop closes the sheet, but only when the press and the release were both on the backdrop. A press
+ * that starts inside the window (selecting text in a field) and lets go outside, or a click on empty space inside the
+ * window, also reports the dialog as its target and must not close it.
+ */
+function closeOnBackdrop(dlg: HTMLDialogElement) {
+  let pressedOutside = false;
+  dlg.addEventListener('pointerdown', (e) => {
+    pressedOutside = e.target === dlg && isOutside(dlg.getBoundingClientRect(), e.clientX, e.clientY);
+  });
+  dlg.addEventListener('click', (e) => {
+    const box = dlg.getBoundingClientRect();
+    if (closesOnBackdrop({ pressedOutside, onDialogItself: e.target === dlg, box, x: e.clientX, y: e.clientY })) dlg.close();
+    pressedOutside = false;
+  });
+}
+
 for (const dlg of document.querySelectorAll<HTMLDialogElement>('dialog.sheet')) {
   const bar = dlg.querySelector<HTMLElement>('.sheet__bar');
   onOpenClose(dlg);
+  closeOnBackdrop(dlg);
   if (bar) dismissOnSwipe(dlg, bar);
   followKeyboard(dlg);
 }
