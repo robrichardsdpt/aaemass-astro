@@ -319,8 +319,6 @@ for (const c of [type, format, cat, hl]) c.addEventListener('change', () => rend
 more.addEventListener('click', () => { shown += PAGE; render(false); });
 
 dlg.querySelector('[data-es-close]')!.addEventListener('click', () => dlg.close());
-// A click on the backdrop (the dialog element itself, outside its content) closes it.
-dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
 // Escape in the details goes back to the list; Escape in the list closes the window.
 dlg.addEventListener('cancel', (e) => {
   if (!detailView.hidden) {

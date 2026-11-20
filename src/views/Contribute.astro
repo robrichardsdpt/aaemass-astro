@@ -178,11 +178,6 @@ import ExtraSections from '../components/ExtraSections.astro';
         a.addEventListener('click', function (e) { e.preventDefault(); openSheet(a.dataset.openType); });
       });
       sheet.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', function () { sheet.close(); }); });
-      // A click on the dimmed backdrop (outside the sheet's box) closes it.
-      sheet.addEventListener('click', function (e) {
-        var r = sheet.getBoundingClientRect();
-        if (e.target === sheet && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom)) sheet.close();
-      });
     })();
   </script>
   </>)}

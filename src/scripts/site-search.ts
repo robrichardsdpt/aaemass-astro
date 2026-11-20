@@ -149,13 +149,6 @@ empty.addEventListener('click', (e) => {
 });
 dlg.querySelector('form')!.addEventListener('submit', (e) => { e.preventDefault(); list.querySelector('a')?.click(); });
 dlg.querySelector('[data-close]')!.addEventListener('click', () => dlg.close());
-// A click on the dimmed backdrop closes it. Empty space inside the window also targets the dialog element, so the
-// click position is compared with the window's box instead.
-dlg.addEventListener('click', (e) => {
-  const box = dlg.getBoundingClientRect();
-  const outside = e.clientX < box.left || e.clientX > box.right || e.clientY < box.top || e.clientY > box.bottom;
-  if (e.target === dlg && outside) dlg.close();
-});
 // Following a result to the page you are already on would leave the window open over it.
 list.addEventListener('click', () => dlg.close());
 // Touching the results puts the keyboard away so they can be read.
