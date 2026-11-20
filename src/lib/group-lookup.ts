@@ -1,6 +1,7 @@
-// Finding an AA group on the contribution form. The list (public/data/area30-groups.json) comes from the
-// contribution page on contributions.aa.org: group number, name and district for every Area 30 group. Addresses
-// come from published meeting lists and are only suggestions: see docs/GROUP-LOOKUP.md.
+// Finding an AA group on the contribution form. The list (public/data/area30-groups.json) starts with the groups on the
+// contribution page on contributions.aa.org: group number, name and district for every Area 30 group. It also holds groups
+// that only appear in published meeting lists and have no number (an empty id), so a donor from one can still have the
+// name, address, day and time filled in. Addresses come from the meeting lists and are only suggestions: see docs/GROUP-LOOKUP.md.
 
 /** One weekly meeting: day 0 is Sunday, time is 24-hour "19:30". */
 export interface GroupMeeting {
@@ -26,9 +27,9 @@ export interface GroupOption {
 export type AddressConfidence = 'fill' | 'offer' | 'choose' | 'none';
 
 export interface GroupEntry {
-  id: string; // GSO number as shown on aa.org, zero padded: "000043137"
+  id: string; // GSO number as shown on aa.org, zero padded: "000043137"; empty for a group that only appears in meeting lists
   name: string;
-  district: string;
+  district: string; // empty when the group has no number
   address: 'prefill' | 'offer' | 'choose' | 'none';
   options: GroupOption[];
 }
@@ -53,22 +54,31 @@ export const groupNumber = (g: Pick<GroupEntry, 'id'>): string => g.id;
 // People search for "43137" as often as "000043137", so numbers are compared without their leading zeros.
 const withoutZeros = (digits: string): string => digits.replace(/^0+(?=\d)/, '');
 
-/** One line for a result list. District and number tell apart groups that share a name. */
-export const groupLabel = (g: GroupEntry): string => `${g.name} · ${g.district} · #${groupNumber(g)}`;
+/**
+ * One line for a result list. District and number tell apart groups that share a name. A group with no number shows where
+ * it meets instead.
+ */
+export function groupLabel(g: GroupEntry): string {
+  if (g.id) return `${g.name} · ${g.district} · #${groupNumber(g)}`;
+  const where = g.options[0] ? [g.options[0].place, g.options[0].town].filter(Boolean).join(', ') : '';
+  return [g.name, where].filter(Boolean).join(' · ');
+}
 
 /** "Old South Church, 31 Main St, Marlborough 01752" (the place and the zip are left off when we do not have them). */
 export const addressLine = (o: GroupOption): string => `${o.place ? `${o.place}, ` : ''}${o.street}, ${o.town}${o.zip ? ` ${o.zip}` : ''}`;
 
 // Lower is better: 0 the name starts with the query, 1 a word in the name starts with it, 2 it is a number match.
 function rank(g: GroupEntry, query: string[], digits: string | null): number | null {
-  if (digits !== null) return withoutZeros(g.id).startsWith(withoutZeros(digits)) ? 2 : null;
+  if (digits !== null) return g.id && withoutZeros(g.id).startsWith(withoutZeros(digits)) ? 2 : null;
   const nameWords = words(g.name);
-  const allMatch = query.every((q) => nameWords.some((w) => w.startsWith(q)));
-  if (!allMatch) return null;
-  return words(g.name).join(' ').startsWith(query.join(' ')) ? 0 : 1;
+  // A numbered group is found by its name only: its suggested address is a guess. A group with no number is also found by
+  // the place and town of its listing, since that is how people know it.
+  const searchable = g.id ? nameWords : [...nameWords, ...words(`${g.options[0]?.place ?? ''} ${g.options[0]?.town ?? ''}`)];
+  if (!query.every((q) => searchable.some((w) => w.startsWith(q)))) return null;
+  return nameWords.join(' ').startsWith(query.join(' ')) ? 0 : 1;
 }
 
-/** Groups whose name (every typed word, as the start of a word) or number matches what was typed. */
+/** Groups whose name (every typed word, as the start of a word) or number matches what was typed; numbered groups first. */
 export function searchGroups(groups: GroupEntry[], text: string, limit = 8): GroupEntry[] {
   const query = words(text);
   if (query.length === 0) return [];
@@ -76,7 +86,7 @@ export function searchGroups(groups: GroupEntry[], text: string, limit = 8): Gro
   return groups
     .map((g) => ({ g, r: rank(g, query, digits) }))
     .filter((x): x is { g: GroupEntry; r: number } => x.r !== null)
-    .sort((a, b) => a.r - b.r || a.g.name.localeCompare(b.g.name) || a.g.id.localeCompare(b.g.id))
+    .sort((a, b) => a.r - b.r || Number(!a.g.id) - Number(!b.g.id) || a.g.name.localeCompare(b.g.name) || a.g.id.localeCompare(b.g.id))
     .slice(0, limit)
     .map((x) => x.g);
 }

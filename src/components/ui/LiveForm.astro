@@ -29,13 +29,13 @@ interface Props {
   okText?: string;
   fallback?: { text: string; href: string; label: string };
   // Group contribution form: turns the "group" field into a search over the Area 30 group list (see src/scripts/group-lookup.ts).
-  lookup?: { url: string; found: string; none: string; filled: string; offer: string; use: string; choose: string; when: string };
+  lookup?: { url: string; found: string; none: string; filled: string; offer: string; use: string; choose: string; when: string; numberhelp: string };
 }
 const u = ui[getLang(Astro)];
 const { id, kind, fields, submitLabel = u.formSubmit, hidden = {}, email, okText, fallback, lookup } = Astro.props;
 const endpoint = site.formsEndpoint;
 const lookupAttrs = lookup
-  ? { 'data-group-lookup': lookup.url, 'data-gl-found': lookup.found, 'data-gl-none': lookup.none, 'data-gl-filled': lookup.filled, 'data-gl-offer': lookup.offer, 'data-gl-use': lookup.use, 'data-gl-choose': lookup.choose, 'data-gl-when': lookup.when }
+  ? { 'data-group-lookup': lookup.url, 'data-gl-found': lookup.found, 'data-gl-none': lookup.none, 'data-gl-filled': lookup.filled, 'data-gl-offer': lookup.offer, 'data-gl-use': lookup.use, 'data-gl-choose': lookup.choose, 'data-gl-when': lookup.when, 'data-gl-numberhelp': lookup.numberhelp }
   : {};
 ---
 {endpoint ? (

@@ -1,23 +1,18 @@
-"""Step 3 of 3 (see docs/GROUP-LOOKUP.md). Merge the zip codes and write the file the contribution form loads.
+"""Step 3 of 3 (see docs/GROUP-LOOKUP.md). Write the file the contribution form loads: the numbered groups, the hand-checked
+overrides, and the groups that have no number.
 
 Usage: python3 -I scripts/group-data/finalize.py <work-folder> public/data/area30-groups.json
 """
-import json, re, sys
+import json, os, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # python -I leaves the script's own folder off the path
+from assemble import assemble, check, load_zips
 
 work, out_path = sys.argv[1:3]
-suggestions = json.load(open(f'{work}/data/suggestions.json'))
-zips = json.load(open(f'{work}/data/zips.json'))
-
-groups = []
-for r in suggestions:
-    options = [dict(street=o['street'], town=o['town'], zip=o['zip'] or zips.get(o['url'], ''), place=o.get('place', ''), meetings=o['meetings'])
-               for o in r['options']]
-    groups.append(dict(id=r['group_id'], name=r['name'], district=r['district'], address=r['action'], options=options))
-groups.sort(key=lambda g: (g['name'].lower(), g['id']))
-
-assert len({g['id'] for g in groups}) == len(groups), 'duplicate group numbers'
-assert all(re.fullmatch(r'\d{9}', g['id']) for g in groups), 'group numbers must be 9 digits'
-assert all(re.fullmatch(r'\d{5}', o['zip']) for g in groups for o in g['options'] if o['zip']), 'zip codes must be 5 digits'
+groups, overrides_applied, _ = assemble(work, load_zips(work))
+check(groups)
 
 json.dump(groups, open(out_path, 'w'), separators=(',', ':'), ensure_ascii=False)
-print(f'{len(groups)} groups written to {out_path}')
+numbered = sum(1 for g in groups if g['id'])
+print(f'{len(groups)} groups written to {out_path}: {numbered} numbered, {len(groups) - numbered} without a number '
+      f'({overrides_applied} hand-checked override(s) applied)')
