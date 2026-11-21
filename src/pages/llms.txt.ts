@@ -27,11 +27,10 @@ export const GET = () => {
 - [The Area Assembly](${site.url}/area-assembly/): What happens at an Assembly, who votes and the yearly schedule.
 - [Service](${site.url}/service/): How the service structure fits together, service roles and committee reports.
 - [Glossary](${site.url}/glossary/): Plain-language meanings of AA service terms and abbreviations.
-- [Where contributions go](${site.url}/where-contributions-go/): How Area 30 is funded and how its budget is made and approved.
 - [Literature](${site.url}/literature/): Conference-approved AA literature.
 - [Resources](${site.url}/resources/): Links to the General Service Office, the Grapevine and AA guidelines.
 - [Contact](${site.url}/contact/): Email addresses for the officers and every committee.
-- [Contribute](${site.url}/contribute/): The Seventh Tradition and how groups, members and districts contribute.
+- [Contribute](${site.url}/contribute/): The Seventh Tradition, how groups, members and districts contribute, and where the money goes (how the budget is made and approved).
 - [12th Step Volunteer](${site.url}/committees/treatment-facilities/12th-step-volunteer/): Sign up for the Treatment Facilities Committee's list of members willing to take a 12th Step call.
 
 ## Committees

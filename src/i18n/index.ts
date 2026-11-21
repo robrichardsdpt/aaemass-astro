@@ -31,7 +31,6 @@ const segments: Record<string, { es: string; fr: string }> = {
   'get-involved': { es: 'participe', fr: 'sengager' },
   'new-gsr': { es: 'nuevo-rsg', fr: 'nouveau-rsg' },
   glossary: { es: 'glosario', fr: 'glossaire' },
-  'where-contributions-go': { es: 'a-donde-van-las-contribuciones', fr: 'ou-vont-les-contributions' },
   'area-assembly': { es: 'asamblea-de-area', fr: 'assemblee-de-region' },
   // committees
   archives: { es: 'archivos', fr: 'archives' },
@@ -65,7 +64,6 @@ export const translatedKeys = [
   'get-involved',
   'new-gsr',
   'glossary',
-  'where-contributions-go',
   'area-assembly',
   'committees/registrar',
   'committees/archives',
