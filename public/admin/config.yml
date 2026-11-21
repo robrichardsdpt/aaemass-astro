@@ -437,14 +437,22 @@ collections:
       - name: navigation
         label: Main menu
         file: src/content/settings/navigation.yml
-        description: 'Drag to reorder. Use /page-name/ for pages on this site, or @documents for the Area 30 documents folder.'
+        description: 'Drag to reorder. Use /page-name/ for pages on this site, or @documents for the Area 30 documents folder. A menu entry is either a link (fill in Address) or a group (leave Address empty and add Links inside the group, shown as a dropdown).'
         fields:
           - label: Menu items
             name: items
             widget: list
             fields:
               - { label: Label, name: label, widget: string }
-              - { label: Address, name: url, widget: string, pattern: ['^(/|https?://|@documents$)', 'Use /page-name/ for this site, https:// for another site, or @documents'] }
+              - { label: Address, name: url, widget: string, required: false, pattern: ['^(/|https?://|@documents$)', 'Use /page-name/ for this site, https:// for another site, or @documents'] }
+              - label: Links inside this group
+                name: children
+                widget: list
+                required: false
+                hint: 'Only for a group. Leave Address empty above.'
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Address, name: url, widget: string, pattern: ['^(/|https?://|@documents$)', 'Use /page-name/ for this site, https:// for another site, or @documents'] }
       - name: contact
         label: Contact details and officers
         file: src/content/site/contact.yml
