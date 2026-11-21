@@ -22,6 +22,8 @@ const types = ['grp', 'mem', 'dist'];
 const online = Boolean(site.formsEndpoint);
 const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-mix';
 import ExtraSections from '../components/ExtraSections.astro';
+import Blocks from '../components/Blocks.astro';
+import { contributeBudget } from '../i18n/pages/contribute-budget';
 ---
 
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/contribute">
@@ -181,6 +183,8 @@ import ExtraSections from '../components/ExtraSections.astro';
     })();
   </script>
   </>)}
+
+  <Blocks blocks={contributeBudget[lang]} />
 
   <section class="section" aria-labelledby="treasurer-title">
     <div class="wrap">

@@ -1,4 +1,4 @@
-sourceHash: b019db9e2bdfd829
+sourceHash: f62c2d3df3f48416
 title: Empiece aquí, nuevo RSG | Área 30
 description: En qué consiste la labor de un Representante de Servicios Generales (RSG), cómo registrarse como tal en el este de Massachusetts, dónde encontrar el número de servicio de su grupo y quién puede ayudarle a dar los primeros pasos.
 eyebrow: Participe
@@ -7,7 +7,7 @@ blocks:
   - type: text
     heading: Qué hace un RSG
     body: |
-      El Representante de Servicios Generales (RSG) sirve de enlace entre su grupo y A.A. en su conjunto. Usted actúa como portavoz de la conciencia de grupo y transmite lo que aprende para que el grupo se mantenga informado.
+      El Representante de Servicios Generales (RSG) sirve de enlace entre su grupo y A.A. en su conjunto. Usted actúa como portavoz de la Conciencia de grupo y transmite lo que aprende para que el grupo se mantenga informado.
 
       En la práctica, esto significa:
 
@@ -18,12 +18,13 @@ blocks:
       - **Ayude a los nuevos grupos** que se estén formando en su entorno a conocer los servicios de los que disponen.
 
       Por encima de todo, un RSG sabe escuchar. Toda la autoridad que existe en A.A. reside en la Conciencia de grupo, y su labor consiste en asegurarse de que se escuche.
+  - type: structure
   - type: checklist
     heading: Sus primeros pasos
     items:
-      - Informe a su MCD de que es el nuevo RSG de su grupo. Él o ella remitirá sus datos al Registrador de área. ¿No sabe quién es su MCD? Busque su distrito en la página de distritos.
+      - Informe a su MCD de que es el nuevo RSG de su grupo. Él se encargará de remitir sus datos al Registrador de área. ¿No sabe quién es su MCD? Busque su distrito en la página de distritos.
       - O bien, inscríbase en cualquier Asamblea de Área, en el mostrador de inscripción.
-      - Averigüe cuál es el número de servicio de su grupo. Pregunte a su MCD, al Registrador del Área o al tesorero del Área. Lo necesitará para cualquier envío que realice al Área 30 o a la Oficina de Servicios Generales de Nueva York; sin él, su grupo no recibirá el reconocimiento correspondiente por sus contribuciones.
+      - Averigüe cuál es el número de servicio de su grupo. Pregunte a su MCD, al Registrador del área o al tesorero del área. Lo necesitará para cualquier envío que realice al Área 30 o a la Oficina de Servicios Generales de Nueva York; sin él, no se reconocerán las contribuciones de su grupo.
       - Esté atento al kit del RSG. Una vez que se haya inscrito, la Oficina de Servicios Generales envía uno por correo a los nuevos RSG y a sus grupos.
       - Elija una fecha para su primera reunión de distrito y su primera Asamblea de Área (consulte la guía de la Asamblea de Área).
   - type: assembly
@@ -44,7 +45,7 @@ blocks:
   - type: text
     heading: Busque un patrocinador del servicio
     body: |
-      Del mismo modo que necesitó a alguien que hubiera pasado por lo mismo cuando logró mantenerse sobrio, resulta de gran ayuda contar con alguien que haya vivido esa experiencia en el servicio. Los nuevos RSG suelen sentirse abrumados por la nueva terminología, la literatura y las preguntas: ¿por dónde empiezo?, ¿cómo presento un informe?, ¿cómo encajo esto en una vida tan ajetreada? Muchos abandonan al cabo de uno o dos meses porque no tenían a nadie a quien preguntar.
+      Del mismo modo que necesitó a alguien que hubiera pasado por lo mismo cuando logró mantenerse sobrio, resulta de gran ayuda contar con alguien que haya vivido esa experiencia en el servicio. Los nuevos RSG suelen sentirse abrumados por la nueva terminología, la literatura y las preguntas: ¿por dónde empiezo?, ¿cómo presento un informe?, ¿cómo encajo esto en una vida ajetreada? Muchos abandonan al cabo de uno o dos meses porque no tenían a nadie a quien preguntar.
 
       Su padrino o madrina de servicio puede ser un MCD con experiencia, un responsable de área o un antiguo Delegado. No es necesario que sea su padrino o madrina de recuperación, y una mujer puede apadrinar a un hombre en el servicio y viceversa. El contacto puede ser tan frecuente o tan esporádico como desee, y puede recurrir a otra persona a medida que su servicio vaya creciendo.
 

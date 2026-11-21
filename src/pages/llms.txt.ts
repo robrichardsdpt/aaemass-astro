@@ -22,11 +22,15 @@ export const GET = () => {
 - [Calendar](${site.url}/calendar/): Area 30 events, assemblies and committee meetings.
 - [Registrar](${site.url}/committees/registrar/): How to register an AA group and the Registrar's forms.
 - [Districts](${site.url}/districts/): When and where each of the Area's districts meets.
-- [Service](${site.url}/service/): Service roles and committee reports.
+- [Get involved](${site.url}/get-involved/): Ways to take part in AA service.
+- [Start here, new GSR](${site.url}/new-gsr/): What a General Service Representative does and how to register as one.
+- [The Area Assembly](${site.url}/area-assembly/): What happens at an Assembly, who votes and the yearly schedule.
+- [Service](${site.url}/service/): How the service structure fits together, service roles and committee reports.
+- [Glossary](${site.url}/glossary/): Plain-language meanings of AA service terms and abbreviations.
 - [Literature](${site.url}/literature/): Conference-approved AA literature.
 - [Resources](${site.url}/resources/): Links to the General Service Office, the Grapevine and AA guidelines.
 - [Contact](${site.url}/contact/): Email addresses for the officers and every committee.
-- [Contribute](${site.url}/contribute/): The Seventh Tradition and how groups, members and districts contribute.
+- [Contribute](${site.url}/contribute/): The Seventh Tradition, how groups, members and districts contribute, and where the money goes (how the budget is made and approved).
 - [12th Step Volunteer](${site.url}/committees/treatment-facilities/12th-step-volunteer/): Sign up for the Treatment Facilities Committee's list of members willing to take a 12th Step call.
 
 ## Committees

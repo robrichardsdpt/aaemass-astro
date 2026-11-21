@@ -10,6 +10,12 @@ const m = getResources(lang);
 const u = ui[lang];
 const seen = new Set<string>();
 import ExtraSections from '../components/ExtraSections.astro';
+import { lp } from '../i18n';
+const handbook = {
+  en: { title: 'Area 30 documents', name: 'Area 30 Handbook (PDF)', text: 'How the Area is organized and how it does business: the roles of GSRs and DCMs, the Assembly, motions and elections, finance and a glossary. Revised January 2022.', glossary: 'Glossary of AA service terms' },
+  es: { title: 'Documentos del Área 30', name: 'Manual del Área 30 (PDF, en inglés)', text: 'Cómo se organiza el Área y cómo lleva sus asuntos: las funciones de los RSG y MCD, la Asamblea, las mociones y elecciones, las finanzas y un glosario. Revisado en enero de 2022.', glossary: 'Glosario de términos del servicio de A.A.' },
+  fr: { title: 'Documents de la région 30', name: 'Manuel de la région 30 (PDF, en anglais)', text: 'Comment la région est organisée et mène ses affaires : le rôle des RSG et des MCD, l’assemblée, les motions et élections, les finances et un glossaire. Révisé en janvier 2022.', glossary: 'Glossaire des termes du service des A.A.' },
+}[lang];
 ---
 
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} current="/resources">
@@ -39,6 +45,13 @@ import ExtraSections from '../components/ExtraSections.astro';
           </li>
         ))}
       </ul>
+    </div>
+  </section>
+  <section class="section" aria-labelledby="area-docs-title">
+    <div class="wrap prose stack">
+      <h2 id="area-docs-title">{handbook.title}</h2>
+      <p><a href="https://aaemass.org/wp-content/uploads/2022/12/Area-Handbook-Jan2022.pdf">{handbook.name}</a>: {handbook.text}</p>
+      <p><a href={lp(lang, '/glossary/')}>{handbook.glossary}</a></p>
     </div>
   </section>
 <ExtraSections page="resources" />
