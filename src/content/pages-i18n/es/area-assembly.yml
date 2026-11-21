@@ -1,15 +1,15 @@
-sourceHash: 4132a6b74a92ba49
+sourceHash: 11602c6a818b35fc
 title: "La Asamblea de Área: guía para principiantes | Área 30"
 description: Qué ocurre en una asamblea del Área 30, quiénes asisten, quiénes pueden votar y el ritmo anual habitual de las asambleas y los actos en el este de Massachusetts.
 eyebrow: Participe
-lede: Cinco veces al año, se reúnen grupos de todo el este de Massachusetts para compartir experiencias y contribuir a la labor informativa del Delegado de área. Cualquier miembro de A.A. es bienvenido a asistir.
+lede: Cinco veces al año, se reúnen grupos de todo el este de Massachusetts para compartir experiencias y contribuir a la labor del Delegado de área. Cualquier miembro de A.A. es bienvenido a asistir.
 blocks:
   - type: text
     heading: Para qué sirve una Asamblea
     body: |
       El objetivo de la Asamblea de Área es el mismo que el de un grupo de A.A.: llevar el mensaje al alcohólico que aún sufre. Lo hace principalmente mediante la elección del Delegado que representa al Área en la Conferencia de Servicios Generales y manteniendo informados a los grupos, a los MCD y al Delegado sobre las actividades de A.A. a nivel local y mundial.
 
-      Se trata de un órgano de servicio, nunca de un órgano de gobierno. Su función consiste en dar voz a todos los grupos, proteger el derecho de las minorías a ser escuchadas y garantizar que no se aprueben apresuradamente las propuestas de ninguna persona o grupo en particular.
+      Se trata de un órgano de servicio, nunca de un gobierno. Su función consiste en dar voz a todos los grupos, proteger el derecho de las minorías a ser escuchadas y garantizar que no se aprueben apresuradamente las propuestas de ninguna persona o grupo en particular.
   - type: assembly
   - type: callout
     title: Cualquier miembro de A.A. puede asistir, y cualquier miembro de A.A. tiene voz y voto
@@ -28,12 +28,12 @@ blocks:
         text: Lecturas, bienvenida y conmemoraciones de aniversarios, seguidas de los informes del secretario, del tesorero, del responsable de área y de los Delegados.
       - when: 10:30 de la mañana
         title: Asuntos pendientes y nuevos asuntos
-      - when: 11:00 h
+      - when: 11:00 de la mañana
         title: Presentaciones
         text: Comisiones de la conferencia e informes sobre los eventos regionales.
       - when: 11:30 de la mañana
         title: Tema de la Asamblea
-        text: A continuación, se servirá el almuerzo, que correrá a cargo del distrito anfitrión.
+        text: A continuación, se servirá el almuerzo, a cargo del distrito anfitrión.
       - when: 13:00 h
         title: Continuación del tema y talleres
       - when: 15:30 h
