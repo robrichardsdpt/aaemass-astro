@@ -913,8 +913,10 @@
   .site-search__chips { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-2); margin: 0; padding: 0; list-style: none; }
   .site-search__chips .button { min-block-size: 2.75rem; border: 1px solid var(--line); border-radius: 999px; padding-inline: var(--s-4); }
   .site-search__results { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
-  .site-search__results li { padding-block: var(--s-3); border-block-start: 1px solid var(--line); overflow-wrap: anywhere; }
+  .site-search__results li { position: relative; padding-block: var(--s-3); border-block-start: 1px solid var(--line); overflow-wrap: anywhere; }
   .site-search__results a { font-family: var(--font-display); font-size: var(--step-1); font-weight: 600; }
+  /* The whole result is the link, not just its title, so a tap anywhere on it goes to the page. */
+  .site-search__results a::after { content: ''; position: absolute; inset: 0; }
   .site-search__results .site-search__where { margin-block-start: var(--s-1); color: var(--ink); font-weight: 600; }
   .site-search__results p { margin: var(--s-1) 0 0; color: var(--ink-muted); font-size: var(--step--1); }
   .site-search__results mark { background: color-mix(in oklch, var(--accent), transparent 78%); color: var(--ink); border-radius: 0.125rem; }

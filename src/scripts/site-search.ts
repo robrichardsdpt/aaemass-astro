@@ -149,7 +149,37 @@ empty.addEventListener('click', (e) => {
 });
 dlg.querySelector('form')!.addEventListener('submit', (e) => { e.preventDefault(); list.querySelector('a')?.click(); });
 dlg.querySelector('[data-close]')!.addEventListener('click', () => dlg.close());
-// Following a result to the page you are already on would leave the window open over it.
-list.addEventListener('click', () => dlg.close());
-// Touching the results puts the keyboard away so they can be read.
-list.addEventListener('touchstart', () => { if (phoneSheet.matches && document.activeElement === input) input.blur(); }, { passive: true });
+// Following a result to the page you are already on would leave the window open over it. For any other page the browser
+// is already navigating, so the window is left alone: closing it here only gave the page a chance to shift under a tap.
+list.addEventListener('click', (e) => {
+  const link = (e.target as Element).closest('a');
+  if (link && link.pathname === location.pathname) dlg.close();
+});
+// A touch stays attached to the element it started on, even if the window resizes under the finger (the on-screen keyboard
+// sliding away does that). So a tap on a result goes to its page when the finger lifts, instead of trusting the later
+// click, which lands on whatever has moved under the finger and was putting the cursor back in the search box.
+let pressed: { link: HTMLAnchorElement; x: number; y: number } | undefined;
+let followed = false;
+list.addEventListener('pointerdown', (e) => {
+  const link = (e.target as Element).closest('li')?.querySelector('a');
+  pressed = link ? { link, x: e.clientX, y: e.clientY } : undefined;
+  followed = false;
+});
+list.addEventListener('pointerup', (e) => {
+  const tap = pressed;
+  pressed = undefined;
+  if (!tap || e.pointerType !== 'touch' || Math.hypot(e.clientX - tap.x, e.clientY - tap.y) > 10) return;
+  followed = true;
+  location.assign(tap.link.href);
+});
+list.addEventListener('click', (e) => { if (followed) e.preventDefault(); }, { capture: true });
+// Scrolling the results puts the keyboard away so they can be read. (Not on touchstart: the sheet grows the moment the
+// keyboard goes, which moves the result out from under a finger that has only just touched it, and the tap is lost.)
+dlg.querySelector('.sheet__body')!.addEventListener('touchmove', () => { if (phoneSheet.matches && document.activeElement === input) input.blur(); }, { passive: true });
+// Coming back with the browser's Back button can restore the page with the window still open and the box focused,
+// which brings the keyboard up again. Start clean instead.
+addEventListener('pageshow', (e) => {
+  if (!e.persisted) return;
+  input.blur();
+  if (dlg.open) dlg.close();
+});
