@@ -25,6 +25,7 @@ blocks:
       - Find your group service number. Ask your DCM, the Area Registrar or the Area Treasurer. You need it for anything you send to Area 30 or the General Service Office in New York, and without it your group does not get credit for its contributions.
       - Watch for the GSR kit. Once you are registered, the General Service Office mails one to new GSRs and their groups.
       - Pick a date for your first district meeting and your first Area Assembly (see the Area Assembly guide).
+  - type: assembly
   - type: buttons
     items:
       - label: Find your district

@@ -1,17 +1,18 @@
-sourceHash: 4132a6b74a92ba49
+sourceHash: 11602c6a818b35fc
 title: "L'Assemblée de région : guide à l'intention des nouveaux venus | Région 30"
-description: Comment se déroule une assemblée de Région 30, qui y participe, qui peut voter, ainsi que le calendrier annuel habituel des assemblées et des événements dans l'est du Massachusetts.
+description: Comment se déroule une assemblée de région de la Région 30, qui y participe, qui peut voter, ainsi que le calendrier annuel habituel des assemblées et des événements dans l'est du Massachusetts.
 eyebrow: Impliquez-vous
 lede: Cinq fois par an, des groupes de tout l'est du Massachusetts se réunissent pour partager leurs expériences et contribuer à l'information du Délégué. Tous les membres de l'A.A. sont les bienvenus.
 blocks:
   - type: text
     heading: À quoi sert une Assemblée ?
     body: |
-      L’objectif de l’Assemblée de région est le même que celui d’un groupe des A.A. : transmettre le message à l’alcoolique qui souffre encore. Elle y parvient principalement en élisant le Délégué qui représente la région à la Conférence des services généraux, et en tenant les groupes, les MCD et le Délégué informés des activités locales et mondiales des A.A.
+      L’objectif de l’Assemblée de région est le même que celui d’un groupe des A.A. : transmettre le message à l’alcoolique qui souffre encore. Elle y parvient principalement en élisant le Délégué qui représente la région à la Conférence des services généraux, et en tenant les groupes, les MCD et le Délégué informés des activités des A.A. au niveau local et mondial.
 
       Il s’agit d’un organe de service, et en aucun cas d’un organe de direction. Sa mission consiste à donner la parole à chaque groupe, à protéger le droit des minorités à être entendues et à veiller à ce qu’aucun programme, qu’il émane d’une personne ou d’un groupe, ne soit adopté à la hâte.
+  - type: assembly
   - type: callout
-    title: Tout membre de l'A.A. peut venir, et tout membre de l'A.A. a son mot à dire
+    title: Tout membre de l’A.A. peut venir, et tout membre de l’A.A. a son mot à dire
     body: Il n'est pas nécessaire d'être membre du RSG pour assister à la réunion ou prendre la parole. Seuls certains responsables ont le droit de vote (voir ci-dessous), mais toutes les personnes présentes peuvent s'exprimer. Les assemblées ont lieu le dimanche, généralement dans un lieu différent à chaque fois, selon le district.
   - type: timeline
     heading: Une journée type à l'Assemblée
@@ -21,7 +22,7 @@ blocks:
         title: Inscription
       - when: 9 h 15
         title: Séance d'orientation destinée aux nouveaux RSG et MCD
-        text: C'est un bon point de départ si vous êtes nouveau. Posez vos questions ici.
+        text: C'est un bon point de départ si vous êtes nouveau. N'hésitez pas à poser vos questions ici.
       - when: 10 h 00
         title: Ouverture de la séance et rapports
         text: Lectures, mot de bienvenue et commémorations, puis les rapports du secrétaire, du trésorier, de la région et des Délégués.
@@ -73,7 +74,7 @@ blocks:
         title: NERAASA
         text: L'Assemblée régionale des services A.A. du Nord-Est, qui s'est tenue le dernier week-end de février.
       - when: avril
-        title: Réunion préparatoire à la conférence
+        title: Réunion préalable à la conférence
         text: Elle se tient avant la Conférence des services généraux à New York.
       - when: juin
         title: Assemblée post-conférence

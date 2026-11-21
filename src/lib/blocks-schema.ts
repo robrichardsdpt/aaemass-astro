@@ -51,6 +51,7 @@ export const blockSchema = z.discriminatedUnion('type', [
     intro: opt,
     steps: z.array(z.object({ when: str, title: str, text: opt })).default([]),
   }),
+  z.object({ type: z.literal('assembly'), heading: opt }),
   z.object({ type: z.literal('events'), heading: opt, count: z.coerce.number().optional() }),
 ]);
 export type Block = z.infer<typeof blockSchema>;

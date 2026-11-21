@@ -176,6 +176,11 @@ collections:
                   - { label: When, name: when, widget: string, hint: 'For example: January' }
                   - { label: Title, name: title, widget: string }
                   - { label: Text, name: text, widget: text, required: false }
+          - label: Next Area Assembly
+            name: assembly
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false, hint: 'Shows the next Area 30 Assembly from the calendar, with what happens at it. Defaults to The next Area Assembly' }
           - label: Upcoming events
             name: events
             widget: object
