@@ -10,6 +10,7 @@ import Literature from '../../views/Literature.astro';
 import Calendar from '../../views/Calendar.astro';
 import WhatIsAA from '../../views/WhatIsAA.astro';
 import Districts from '../../views/Districts.astro';
+import DistrictMap from '../../views/DistrictMap.astro';
 import Contribute from '../../views/Contribute.astro';
 import Contact from '../../views/Contact.astro';
 import CommitteesIndex from '../../views/CommitteesIndex.astro';
@@ -29,6 +30,7 @@ export async function getStaticPaths() {
     { key: 'calendar', view: Calendar },
     { key: 'alcoholics-anonymous', view: WhatIsAA },
     { key: 'districts', view: Districts },
+    { key: 'districts/map', view: DistrictMap },
     { key: 'contribute', view: Contribute },
     { key: 'contact', view: Contact },
     { key: 'committees', view: CommitteesIndex },

@@ -1,0 +1,137 @@
+---
+// The district cards, with their search box. Shown on the Districts page and under the district map, so a district chosen on the map opens here.
+import { districts, districtBlocks } from '../lib/districts';
+import { townsOfCard } from '../lib/district-towns';
+import { linkify } from '../lib/links';
+import { getLang, pick, fmt, htmlLang } from '../i18n';
+import { nextMeeting, dayLabel } from '../lib/next-meeting';
+import { zoomLink } from '../lib/district-ics';
+import { districtMsgs } from '../i18n/pages/districts';
+import { translateDistrictLine, districtName } from '../i18n/districts';
+
+const lang = getLang(Astro);
+const m = pick(districtMsgs, lang);
+const c = m.cards;
+const locale = lang === 'en' ? 'en-US' : htmlLang[lang];
+// Districts whose meeting has a holiday exception ("if the 1st Monday falls on a holiday ...") get no computed "next meeting": the date could be wrong.
+const nextOf = (d: (typeof districts)[number]) => (d.meeting && !d.meeting.note ? nextMeeting(d.meeting) : undefined);
+
+// What the browser needs for the calendar download and to keep "next meeting" right between daily rebuilds.
+const clientData = districts.filter((d) => d.meeting).map((d) => ({
+  id: d.id, name: districtName(d.name, lang), ...d.meeting!,
+  place: d.place?.place, address: d.place?.address, platform: d.online?.platform, zoomId: d.online?.id, password: d.online?.password, website: d.website,
+}));
+---
+
+<section class="section" aria-labelledby="meet-title">
+  <div class="wrap">
+    <div class="stack prose" style="margin-block-end: var(--s-5)">
+      <h2 id="meet-title">{m.meetTitle}</h2>
+    </div>
+    <div class="d-tools" id="d-tools" data-js hidden data-shown={c.shown} data-copied={c.copiedThing} data-copied-label={c.copied} data-today={c.today} data-locale={locale}>
+      <label for="d-q">{c.searchLabel}</label>
+      <input id="d-q" type="search" placeholder={c.searchHint} autocomplete="off" enterkeyhint="search" spellcheck="false" />
+      <p id="d-count" class="when" aria-hidden="true"></p>
+    </div>
+    <p id="d-none" class="notice" hidden>{c.none}</p>
+    <p id="d-announce" class="visually-hidden" role="status" aria-live="polite"></p>
+    <ul class="district-grid">
+      {districts.map((d) => {
+        const t = (l: string) => translateDistrictLine(l, lang).trim();
+        const title = (l: string) => t(l).replace(/\s*:$/, '');
+        const split = (l: string): [string, string] | undefined => {
+          const m = t(l).match(/^(.+?) – (.+)$/);
+          return m ? [m[1], m[2]] : undefined;
+        };
+        const next = nextOf(d);
+        const zoom = d.meeting?.how !== 'in person' ? zoomLink(d.online?.platform, d.online?.id) : undefined;
+        // Part of the card's text, so the "Find a district" search above the cards finds a district by its towns too.
+        const townLists = townsOfCard(d.id);
+        const townCount = townLists.reduce((n, l) => n + l.towns.length, 0);
+        return (
+          <li class="notice district anchor" id={d.id}>
+            <h3>{districtName(d.name, lang)}</h3>
+            {districtBlocks(d.lines).map((b) => {
+              if (b.kind === 'when')
+                return (
+                  <div class="d-meet">
+                    {b.lines.map(t).filter(Boolean).map((l) => {
+                      // "Meets hybrid on the 1st Monday at 7pm (if it falls on a holiday, ...)": the note is secondary.
+                      const m = l.match(/^(.*?)\s*(\(.*\))$/);
+                      return m ? <p class="d-when">{m[1]} <span class="d-when__note">{m[2]}</span></p> : <p class="d-when">{l}</p>;
+                    })}
+                    {next && (
+                      <p class="d-next">
+                        <span class="d-next__label">{c.nextMeeting}</span>{' '}
+                        <time datetime={next.ymd}>{next.today ? c.today : dayLabel(next.ymd, locale)}</time>
+                      </p>
+                    )}
+                    {d.meeting && <button type="button" class="d-copy d-cal" data-js hidden data-cal={d.id}>{c.addToCalendar}</button>}
+                  </div>
+                );
+              if (b.kind === 'online') {
+                // Platform, ID and password line up as label/value rows; anything longer (for the password, email ...) is a note.
+                const rows = b.rows.filter((r) => /^(Platform|Zoom ID|ID|Password|Passcode) – /.test(r));
+                const notes = b.rows.filter((r) => !rows.includes(r));
+                return (
+                  <section class="d-block">
+                    <h4 class="d-label">{title(b.title)}</h4>
+                    {rows.length > 0 && (
+                      <dl class="d-rows">
+                        {rows.map((r) => {
+                          const kv = split(r);
+                          // The ID is copied without its spaces (Zoom accepts it that way); the password exactly as written.
+                          const copy = /^(Zoom )?ID – /.test(r) ? kv?.[1].replace(/\D/g, '') : /^(Password|Passcode) – /.test(r) ? kv?.[1] : undefined;
+                          return kv && (
+                            <>
+                              <dt>{kv[0]}</dt>
+                              <dd>
+                                <span class="d-code">{kv[1]}</span>
+                                {copy && <button type="button" class="d-copy" data-js hidden data-copy={copy} data-what={kv[0]} aria-label={fmt(c.copyThing, { what: kv[0] })}>{c.copy}</button>}
+                              </dd>
+                            </>
+                          );
+                        })}
+                      </dl>
+                    )}
+                    {zoom && <p class="d-zoom"><a href={zoom} target="_blank" rel="noopener noreferrer">{c.openZoom}</a></p>}
+                    {notes.map((r) => <p class="d-note" set:html={linkify(t(r))} />)}
+                  </section>
+                );
+              }
+              if (b.kind === 'place')
+                return (
+                  <section class="d-block">
+                    <h4 class="d-label">{title(b.title)}</h4>
+                    <address class="d-place">
+                      {b.lines.map((l, i) => <span class={b.lines.length > 1 && i === 0 ? 'd-place__name' : 'd-place__addr'}>{t(l)}</span>)}
+                    </address>
+                    <a class="d-map" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(b.lines.join(', '))}`} target="_blank" rel="noopener noreferrer">
+                      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><circle cx="12" cy="10" r="2.4" fill="currentColor" /></svg>
+                      {c.directions}<span class="visually-hidden"> ({b.lines[0]})</span>
+                    </a>
+                  </section>
+                );
+              if (b.kind === 'link') return <p class="d-link" set:html={linkify(t(b.line))} />;
+              if (b.kind === 'mail') return <div class="d-mail">{b.lines.map((l) => <p set:html={linkify(t(l))} />)}</div>;
+              return <p set:html={linkify(t(b.line))} />;
+            })}
+            {townCount > 0 && (
+              <details class="d-towns">
+                <summary>{c.townsTitle} ({townCount})</summary>
+                {townLists.map((l) => (
+                  <p>{townLists.length > 1 && <strong>{districtName(`District ${l.number}`, lang)}: </strong>}{l.towns.join(', ')}</p>
+                ))}
+              </details>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<script type="application/json" id="d-data" is:inline set:html={JSON.stringify(clientData).replace(/</g, '\\u003c')} />
+<script>
+  import '../scripts/districts';
+</script>
