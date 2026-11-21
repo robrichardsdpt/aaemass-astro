@@ -1,68 +1,69 @@
+sourceHash: 55546b687e456481
 title: Empiece aquí, nuevo RSG | Área 30
-description: Qué hace un Representante de Servicios Generales (RSG), cómo registrarse en el Este de Massachusetts, dónde encontrar el número de servicio de su grupo y quién puede ayudarle a empezar.
+description: En qué consiste la labor de un Representante de Servicios Generales (RSG), cómo registrarse como tal en el este de Massachusetts, dónde encontrar el número de servicio de su grupo y quién puede ayudarle a dar los primeros pasos.
 eyebrow: Participe
-lede: Su grupo le eligió para ser su enlace con el resto de A.A. Esto es lo que significa y cómo ponerse en marcha.
+lede: Su grupo le ha elegido para que sea su enlace con el resto de A.A. A continuación le explicamos en qué consiste y cómo ponerse en marcha.
 blocks:
   - type: text
     heading: Qué hace un RSG
     body: |
-      El Representante de Servicios Generales (RSG) enlaza a su grupo con A.A. en su conjunto. Usted expresa la conciencia de su grupo y trae de vuelta lo que aprende para que el grupo esté informado.
+      El Representante de Servicios Generales (RSG) sirve de enlace entre su grupo y A.A. en su conjunto. Usted actúa como portavoz de la conciencia de grupo y transmite lo que aprende para que el grupo se mantenga informado.
 
-      En la práctica significa:
+      En la práctica, esto significa:
 
-      - **Asistir a la reunión de su distrito** y compartir lo que piensa su grupo con su Miembro del Comité de Distrito (MCD).
-      - **Asistir a la Asamblea de Área**, donde usted es miembro con voto. Allí también conoce al Delegado del Área, quien lleva la opinión de los grupos a la Conferencia de Servicios Generales.
-      - **Informar a su grupo** sobre lo que ocurre en el distrito, el Área y A.A. en todo el mundo.
-      - **Ayudar a su grupo a apoyar el servicio.** Trabaje con su tesorero en un plan de contribuciones regulares para el distrito, el Área, la oficina central o intergrupo local y la Oficina de Servicios Generales.
-      - **Ayudar a los grupos nuevos** de la zona a conocer los servicios a su disposición.
+      - **Asista a la reunión de su distrito** y comparta la opinión de su grupo con el miembro del Comité de Distrito (MCD).
+      - **Asista a la Asamblea de Área**, donde usted es miembro con derecho a voto. Allí también se reunirá con el Delegado de Área, quien transmite las opiniones de los grupos a la Conferencia de Servicios Generales.
+      - **Informe a su grupo** sobre lo que está sucediendo en el distrito, el Área y A.A. en todo el mundo.
+      - **Ayude a su grupo a apoyar los servicios.** Colabore con su tesorero en la elaboración de un plan de contribuciones periódicas para el distrito, el Área, su oficina central local o intergrupo y la Oficina de Servicios Generales.
+      - **Ayude a los nuevos grupos** que se estén formando en su entorno a conocer los servicios de los que disponen.
 
-      Sobre todo, un RSG escucha. La autoridad en A.A. reside en la conciencia de grupo, y su tarea es asegurarse de que se escuche.
+      Por encima de todo, un RSG sabe escuchar. Toda la autoridad que existe en A.A. reside en la Conciencia de grupo, y su labor consiste en asegurarse de que se escuche.
   - type: checklist
     heading: Sus primeros pasos
     items:
-      - Dígale a su MCD que usted es el nuevo RSG de su grupo. Él pasa sus datos al Registrador del Área. ¿No sabe quién es su MCD? Busque su distrito en la página de distritos.
-      - O regístrese usted mismo en cualquier Asamblea de Área, en la mesa de registro.
-      - Averigüe el número de servicio de su grupo. Pregunte a su MCD, al Registrador del Área o al Tesorero del Área. Lo necesita para todo lo que envíe al Área 30 o a la Oficina de Servicios Generales en Nueva York; sin él, su grupo no recibe crédito por sus contribuciones.
-      - Esté atento al paquete para RSG. Una vez registrado, la Oficina de Servicios Generales lo envía por correo a los nuevos RSG y sus grupos.
-      - Elija una fecha para su primera reunión de distrito y su primera Asamblea de Área (vea la guía de la Asamblea de Área).
+      - Informe a su MCD de que es el nuevo RSG de su grupo. Él o ella remitirá sus datos al Registrador de área. ¿No sabe quién es su MCD? Busque su distrito en la página de distritos.
+      - O bien, inscríbase en cualquier Asamblea de Área, en el mostrador de inscripción.
+      - Averigüe cuál es el número de servicio de su grupo. Pregunte a su MCD, al Registrador del Área o al tesorero del Área. Lo necesitará para cualquier envío que realice al Área 30 o a la Oficina de Servicios Generales de Nueva York; sin él, no se reconocerán las contribuciones de su grupo.
+      - Esté atento al kit del RSG. Una vez que se haya inscrito, la Oficina de Servicios Generales envía uno por correo a los nuevos RSG y a sus grupos.
+      - Elija una fecha para su primera reunión de distrito y su primera Asamblea de Área (consulte la guía de la Asamblea de Área).
   - type: buttons
     items:
-      - label: Encuentre su distrito
+      - label: Busque su distrito
         url: /districts/
         style: primary
-      - label: Comuníquese con el Registrador
+      - label: Póngase en contacto con la Secretaría
         url: /committees/registrar/
         style: quiet
       - label: Guía de la Asamblea de Área
         url: /area-assembly/
         style: quiet
   - type: callout
-    title: Registrarse en la oficina central es un paso aparte
-    body: Registrar su grupo en la oficina de servicio central o intergrupo local solo informa a esa oficina. No actualiza al Área, a su distrito ni a la Oficina de Servicios Generales en Nueva York. Son registros distintos, así que actualice cada uno.
+    title: La inscripción en la oficina central es un trámite independiente
+    body: Al inscribir a su grupo en la oficina central de servicios local o en el intergrupo, solo se informa a dicha oficina. Esto no supone una actualización para el Área, su distrito ni la Oficina de Servicios Generales de Nueva York. Se trata de registros independientes, por lo que deberá actualizar cada uno de ellos.
   - type: text
-    heading: Busque un padrino de servicio
+    heading: Busque un patrocinador del servicio
     body: |
-      Así como al dejar de beber necesitó a alguien que ya hubiera pasado por ello, ayuda tener a alguien con experiencia en el servicio. A los RSG nuevos a menudo los abruman los términos, la literatura y las preguntas: ¿por dónde empiezo, cómo doy un informe, cómo encajo esto en una vida ya ocupada? Muchos renuncian al mes o a los dos meses porque no tenían a quién preguntar.
+      Del mismo modo que necesitó a alguien que hubiera pasado por lo mismo cuando logró mantenerse sobrio, resulta de gran ayuda contar con alguien que haya vivido esa experiencia en el servicio. Los nuevos RSG suelen sentirse abrumados por la nueva terminología, la literatura y las preguntas: ¿por dónde empiezo?, ¿cómo presento un informe?, ¿cómo encajo esto en una vida ajetreada? Muchos abandonan al cabo de uno o dos meses porque no tenían a nadie a quien preguntar.
 
-      Su padrino de servicio puede ser un MCD con experiencia, un funcionario del Área o un Delegado anterior. No tiene que ser su padrino de recuperación, y una mujer puede apadrinar a un hombre en el servicio y viceversa. Puede hablar con esa persona tan seguido o tan poco como quiera, y puede pedir ayuda a otra persona a medida que crece su servicio.
+      Su padrino o madrina de servicio puede ser un MCD con experiencia, un responsable de área o un antiguo Delegado. No es necesario que sea su padrino o madrina de recuperación, y una mujer puede apadrinar a un hombre en el servicio y viceversa. El contacto puede ser tan frecuente o tan esporádico como desee, y puede recurrir a otra persona a medida que su servicio vaya creciendo.
 
-      Pregunte en su reunión de distrito o escriba a [info@aaemass.org](mailto:info@aaemass.org) y le ayudaremos a encontrar a alguien.
+      Pregunte en su reunión de distrito o envíe un correo electrónico a [info@aaemass.org](mailto:info@aaemass.org), y le ayudaremos a encontrar a alguien.
   - type: links
     heading: Más información
     items:
-      - label: Comité de Seminario de Servicio
+      - label: Comisión del Seminario de Servicio
         url: /committees/service-seminar/
-      - label: Voluntarios del Duodécimo Paso
+      - label: Ofrezca su colaboración como voluntario en el trabajo de los 12 pasos
         url: /committees/treatment-facilities/12th-step-volunteer/
-      - label: Todas las oportunidades de servicio
+      - label: Todas las oportunidades de voluntariado
         url: /get-involved/
       - label: Oficina de Servicios Generales de A.A.
         url: https://www.aa.org
   - type: faq
     items:
-      - q: ¿Qué significan las siglas?
-        a: RSG es Representante de Servicios Generales, MCD es Miembro del Comité de Distrito y OSG es la Oficina de Servicios Generales en Nueva York. Hay una lista más larga en el glosario del Manual del Área 30 (en inglés).
-      - q: ¿Tengo que ser experto antes de empezar?
-        a: No. Nadie espera que lo sepa todo. Lea los folletos de A.A. sobre el grupo y sobre el RSG, conserve el sentido del humor y haga preguntas en su reunión de distrito.
-      - q: ¿Dónde encaja el RSG en la estructura de servicio?
-        a: La estructura empieza en su grupo. Usted transmite la conciencia del grupo a su MCD y al Delegado del Área, y el Delegado la lleva a la Conferencia de Servicios Generales.
+      - q: ¿Qué significan las abreviaturas?
+        a: RSG son las siglas de «Representante de Servicios Generales», MCD las de «Miembro del Comité de Distrito» y OSG las de «Oficina de Servicios Generales» de Nueva York. En el glosario del Manual de la Área 30 figura una lista más completa.
+      - q: ¿Es necesario ser un experto antes de empezar?
+        a: No. Nadie espera que lo sepa todo. Lea los folletos de A.A. «El grupo de A.A.» y «RSG (Representante de Servicios Generales)», mantenga el sentido del humor y plantee sus preguntas en la reunión de su distrito.
+      - q: ¿Qué lugar ocupa el RSG en la estructura de servicios?
+        a: La estructura comienza con su grupo. Usted transmite la conciencia de grupo a su MCD y al delegado de área, y el delegado la lleva a la Conferencia de Servicios Generales.

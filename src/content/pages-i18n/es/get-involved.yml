@@ -1,39 +1,40 @@
-title: Participe en el servicio | Área 30
-description: Maneras de participar en el servicio de A.A. en el Este de Massachusetts, desde su grupo base hasta los comités del Área 30 y la Conferencia de Servicios Generales.
+sourceHash: 2430ff080f2e003e
+title: Participe en actividades de servicio | Área 30
+description: Formas de participar en el servicio de A.A. en el este de Massachusetts, desde su grupo de origen hasta los comités de Área 30 y la Conferencia de Servicios Generales.
 eyebrow: Servicio
-lede: El mejor lugar para empezar es su grupo base. Desde allí, el servicio está a un paso.
+lede: El mejor lugar para empezar es su grupo de origen. A partir de ahí, el servicio está a un paso.
 blocks:
   - type: text
-    heading: ¿Por qué prestar servicio?
+    heading: ¿Por qué el servicio?
     body: |
-      Los miembros de A.A. trabajamos juntos para ayudar al alcohólico que aún sufre, y ayudarnos unos a otros es una clave para mantenernos sobrios.
+      Los miembros de A.A. colaboran para ayudar al alcohólico que aún sufre, y ayudarse mutuamente es fundamental para mantenerse sobrios.
 
-      El servicio toma muchas formas: poner las sillas, servir como Representante de Servicios Generales (RSG) de su grupo o unirse a un comité del Área 30.
+      El servicio adopta muchas formas: colocar sillas, desempeñar el cargo de Representante de Servicios Generales (RSG) de su grupo o formar parte de un comité de Área 30.
   - type: cards
-    heading: Dónde empezar
+    heading: Por dónde empezar
     cards:
-      - title: Su grupo base
-        text: Pregunte qué puestos de servicio están abiertos, desde recibidor hasta RSG.
-        link_text: Encontrar una reunión
+      - title: Su grupo de referencia
+        text: Pregunte qué puestos de servicio están disponibles, desde el de recepcionista hasta el de RSG.
+        link_text: Busque una reunión
         link_url: https://aaboston.org/meetings
       - title: Un distrito
-        text: Los distritos reúnen a los grupos cercanos. Su RSG asiste a las reuniones del distrito.
-        link_text: Ver los distritos
+        text: Los distritos reúnen a los grupos de la zona. Su RSG asiste a las reuniones del distrito.
+        link_text: Consulte los distritos
         link_url: /districts/
       - title: Un comité del Área 30
-        text: Los comités llevan el mensaje a prisiones, centros de tratamiento, escuelas y profesionales.
-        link_text: Ver los comités
+        text: Los comités difunden el mensaje en centros penitenciarios, centros de tratamiento, colegios y entre los profesionales.
+        link_text: Ver las comisiones
         link_url: /committees/
-      - title: ¿Nuevo RSG?
-        text: Empiece aquí para saber qué hace un RSG y cómo registrarse, y vea qué ocurre en una Asamblea de Área.
-        link_text: Guía para nuevos RSG
+      - title: ¿Un nuevo RSG?
+        text: Empiece por aquí para conocer las funciones de un RSG y cómo inscribirse; a continuación, descubra en qué consiste una Asamblea de Área.
+        link_text: Nueva guía de RSG
         link_url: /new-gsr/
   - type: callout
-    title: ¿No sabe dónde encajar?
-    body: Escriba a [info@aaemass.org](mailto:info@aaemass.org) y le indicaremos un comité que necesite sus habilidades.
+    title: ¿No sabe muy bien en qué categoría encaja?
+    body: Envíe un correo electrónico a [info@aaemass.org](mailto:info@aaemass.org) y le indicaremos qué comité necesita sus habilidades.
   - type: faq
     items:
-      - q: ¿Necesito llevar cierto tiempo sobrio para prestar servicio?
-        a: Los requisitos varían según el puesto. Muchos puestos de servicio, como recibir a los recién llegados o ayudar en un evento, están abiertos a cualquier miembro de A.A. Los presidentes de comités y los oficiales pueden tener requisitos de sobriedad establecidos por el Área.
-      - q: ¿Cuánto tiempo requiere el servicio?
-        a: Depende del puesto. Los comités suelen reunirse una vez al mes, y la ayuda en un evento puede ser una sola tarde.
+      - q: ¿Es necesario llevar un tiempo determinado sin consumir alcohol para poder realizar actividades de servicio?
+        a: Los requisitos varían según el puesto. Muchas funciones de servicio, como dar la bienvenida a los recién llegados o colaborar en un evento, están abiertas a cualquier miembro de A.A. Los presidentes de comité y los cargos directivos pueden estar sujetos a requisitos de sobriedad establecidos por el Área.
+      - q: ¿Cuánto tiempo dura el servicio?
+        a: Depende del cargo. Las comisiones suelen reunirse una vez al mes, y la colaboración en los eventos puede limitarse a una sola tarde.
