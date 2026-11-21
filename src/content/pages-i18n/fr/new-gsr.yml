@@ -1,6 +1,6 @@
-sourceHash: f62c2d3df3f48416
+sourceHash: 19e8e1fd6bd495b7
 title: Commencez ici, nouveau RSG | Région 30
-description: Le rôle d'un représentant des services généraux (RSG), la procédure à suivre pour devenir représentant dans l'est du Massachusetts, où trouver le numéro de service de votre groupe et qui peut vous aider à vous lancer.
+description: Le rôle d'un RSG, comment s'inscrire dans l'est du Massachusetts, où trouver votre numéro de service de groupe et qui peut vous aider à vous lancer.
 eyebrow: Impliquez-vous
 lede: Votre groupe vous a choisi(e) pour assurer le lien avec le reste des A.A. Voici ce que cela implique et comment vous organiser.
 blocks:
@@ -17,15 +17,15 @@ blocks:
       - **Aidez votre groupe à soutenir les services.** Collaborez avec votre trésorier pour mettre en place un plan de contributions régulières au profit du district, de la région, de votre bureau central local ou de votre intergroupe, ainsi que du Bureau des services généraux.
       - **Aidez les nouveaux groupes** qui se forment à proximité à découvrir les services mis à leur disposition.
 
-      Mais avant tout, un RSG sait écouter. Toute l’autorité qui existe au sein des A.A. réside dans la Conscience de groupe, et votre rôle est de veiller à ce qu’elle soit entendue.
+      Mais avant tout, un RSG sait écouter. Toute l’autorité qui existe au sein des A.A. réside dans la Conscience de groupe, et votre rôle consiste à veiller à ce qu’elle soit entendue.
   - type: structure
   - type: checklist
     heading: Vos premiers pas
     items:
-      - Veuillez informer votre MCD que vous êtes le nouveau RSG de votre groupe. Il transmettra vos coordonnées au Registraire de la zone. Vous ne savez pas qui est votre MCD ? Retrouvez votre district sur la page dédiée aux districts.
+      - Indiquez à votre MCD que vous êtes le nouveau RSG de votre groupe. Il transmettra vos coordonnées au Registraire de la zone. Vous ne savez pas qui est votre MCD ? Retrouvez votre district sur la page des districts.
       - Ou inscrivez-vous lors de n'importe quelle Assemblée de région, au bureau des inscriptions.
-      - Retrouvez le numéro d'enregistrement de votre groupe. Adressez-vous à votre MCD, au Registraire de la région ou au trésorier de la région. Vous en aurez besoin pour tout envoi destiné à la Région 30 ou au Bureau des services généraux à New York ; sans ce numéro, votre groupe ne pourra pas être crédité de ses contributions.
-      - Attendez de recevoir le kit du RSG. Une fois votre inscription effectuée, le Bureau des services généraux en envoie un par courrier aux nouveaux RSG et à leurs groupes.
+      - Retrouvez le numéro d'enregistrement de votre groupe. Adressez-vous à votre MCD, au Registraire de la zone ou au trésorier de la zone. Vous en avez besoin pour tout envoi destiné à la Région 30 ou au Bureau des services généraux à New York ; sans ce numéro, votre groupe ne sera pas crédité de ses contributions.
+      - Attendez de recevoir le kit du RSG. Une fois votre inscription effectuée, le Bureau des services généraux en envoie un aux nouveaux RSG et à leurs groupes.
       - Choisissez une date pour votre première réunion de district et votre première assemblée de région (voir le guide de l'assemblée de région).
   - type: assembly
   - type: buttons
@@ -41,7 +41,7 @@ blocks:
         style: quiet
   - type: callout
     title: L'inscription auprès du siège social constitue une étape distincte
-    body: L'inscription de votre groupe auprès de votre bureau central de service local ou de votre intergroupe n'informe que ce bureau. Elle ne met pas à jour les informations au niveau de la région, de votre district ou du Bureau des services généraux à New York. Il s'agit de registres distincts ; vous devez donc mettre à jour chacun d'entre eux.
+    body: L'inscription de votre groupe auprès de votre bureau central de service local ou de votre intergroupe ne concerne que ce bureau. Elle n'entraîne pas la mise à jour des informations au niveau de la région, de votre district ou du Bureau des services généraux à New York. Il s'agit de registres distincts ; vous devez donc mettre à jour chacun d'entre eux.
   - type: text
     heading: Trouver un parrain de service
     body: |
@@ -69,5 +69,5 @@ blocks:
         a: RSG désigne le représentant des services généraux, MCD le membre du comité de district et BSG le Bureau des services généraux à New York. Vous trouverez une liste plus complète dans le glossaire du Manuel de la Région 30.
       - q: Dois-je être un expert avant de me lancer ?
         a: Non. Personne ne s'attend à ce que vous sachiez tout. Lisez les brochures des A.A. intitulées « Le groupe des A.A. » et « Le représentant des services généraux » (RSG), gardez votre sens de l'humour et posez des questions lors de votre réunion de district.
-      - q: Quelle est la place du RSG dans la structure des services ?
-        a: Cette structure commence au sein de votre groupe. Vous transmettez la Conscience de groupe à votre MCD et au Délégué de zone, et ce dernier la transmet à son tour à la Conférence des services généraux.
+      - q: Quelle est la place du RSG au sein de la structure des services ?
+        a: Cette structure commence au sein de votre groupe. Vous transmettez la voix de la conscience de groupe à votre MCD et au Délégué de zone, et ce dernier la transmet à son tour à la Conférence des services généraux.
