@@ -1,59 +1,60 @@
-title: A dónde van las contribuciones | Área 30
-description: Cómo las contribuciones de los grupos de A.A. sostienen el Área 30, cómo se elabora y aprueba el presupuesto anual y por qué el servicio de nadie debe depender de su propio dinero.
-eyebrow: Contribuciones
-lede: El Área 30 se sostiene únicamente con los grupos a los que sirve. Así se planifica, se aprueba y se usa ese dinero.
+sourceHash: 4ccaa8454fe7f4cd
+title: A dónde se destinan las aportaciones | Área 30
+description: Cómo se financia el Área 30 gracias a los grupos de A.A., cómo se elabora y se aprueba el presupuesto anual, y por qué el servicio de nadie debería verse limitado por sus propios recursos económicos.
+eyebrow: Colabore
+lede: El Área 30 se financia exclusivamente gracias a los grupos a los que presta servicio. A continuación se explica cómo se planifica, se aprueba y se utiliza ese dinero.
 blocks:
   - type: text
-    heading: Sostenida por los grupos de A.A.
+    heading: Financiado por los grupos de A.A.
     body: |
-      En el espíritu de la Séptima Tradición, el Área 30 se financia únicamente con las contribuciones de los grupos de A.A. dentro de sus límites.
+      En consonancia con la Séptima Tradición, el Área 30 se financia exclusivamente mediante las contribuciones de los grupos de A.A. que se encuentran dentro de sus límites.
 
-      El Comité de Finanzas asesora sobre el dinero. Lo preside el Tesorero del Área, y sus miembros con voto son los funcionarios elegidos del Área y sus suplentes, los presidentes de los comités de la Conferencia y permanentes (o sus suplentes) y el Delegado anterior inmediato. Sus actas están disponibles para quien las pida.
+      El Comité de Finanzas asesora en materia de finanzas. Lo preside el tesorero del Área, y sus miembros con derecho a voto son los cargos electos del Área y sus suplentes, los presidentes de la Conferencia y de los comités permanentes (o sus suplentes) y el Delegado saliente. Las actas están a disposición de quien las solicite.
   - type: timeline
     heading: Cómo se elabora el presupuesto anual
     steps:
       - when: Cada año
-        title: Los comités dicen cuánto prevén gastar
-        text: Se pide a cada comité que diga qué cree que necesitará el año siguiente. Esos gastos cotidianos forman el presupuesto operativo general.
-      - when: Noviembre
-        title: El Comité de Finanzas presenta una propuesta
-        text: El presupuesto propuesto pasa al Comité de Área.
+        title: Las comisiones indican cuánto prevén gastar
+        text: A cada comisión se le pregunta qué cree que va a necesitar durante el próximo año. Esos gastos corrientes conforman el presupuesto general de funcionamiento.
+      - when: noviembre
+        title: La Comisión de Finanzas presenta una propuesta
+        text: El presupuesto propuesto se remite al Comité de Área.
       - when: Después de noviembre
-        title: Los distritos y los grupos lo analizan
-        text: La propuesta vuelve a los distritos y a los grupos para su discusión y revisión.
+        title: Los distritos y los grupos lo debaten
+        text: La propuesta se remite a los distritos y grupos para su debate y revisión.
       - when: Enero
         title: La Asamblea vota
-        text: El Tesorero presenta el presupuesto en la primera Asamblea del año. La Asamblea puede aprobarlo, rechazarlo o modificarlo. Una vez aprobado, es el plan operativo del Área.
-      - when: Durante el año
-        title: Las solicitudes adicionales también necesitan aprobación
-        text: Una solicitud única, o una solicitud suplementaria de quien prevé exceder su presupuesto, la aprueba el Comité de Finanzas y luego una Asamblea.
+        text: El tesorero presenta el presupuesto en la primera Asamblea del año. La Asamblea puede aprobarlo, rechazarlo o modificarlo. Una vez aprobado, pasa a ser el plan operativo del Área.
+      - when: A lo largo del año
+        title: Las solicitudes adicionales también deben ser aprobadas
+        text: Una solicitud puntual, o una solicitud complementaria presentada por alguien que prevé sobrepasar su presupuesto, es aprobada primero por la Comisión de Finanzas y, posteriormente, por la Asamblea.
   - type: cards
-    heading: Reservas y excedentes
-    intro: Las contribuciones y los gastos no coinciden de un mes a otro, así que el Área guarda dinero en reserva. El Manual da las cantidades y reglas exactas.
+    heading: Reservas y superávit
+    intro: Las aportaciones y los gastos no coinciden de un mes a otro, por lo que el Área mantiene una reserva de fondos. En el Manual se indican las cantidades exactas y las normas.
     cards:
       - title: Reserva operativa
-        text: Suficiente para pagar los gastos del mes en curso y del siguiente, de modo que las cuentas se paguen a tiempo sin importar lo que entró ese mes.
-      - title: Reserva prudente
-        text: Un colchón mayor, fijado por la Asamblea, que mantendría al Área en funcionamiento unos seis meses.
+        text: Lo suficiente para cubrir los gastos de este mes y del próximo, de modo que las facturas se paguen a tiempo independientemente de los ingresos que haya habido ese mes.
+      - title: Reserva prudencial
+        text: Un colchón financiero más amplio, establecido por la Asamblea de Área, que permitiría mantener el funcionamiento del Área durante aproximadamente seis meses.
       - title: Fondos excedentes
-        text: Dinero que se mantiene por encima de ambas reservas durante al menos tres meses. El Tesorero lo anuncia en una Asamblea para que se use en llevar el mensaje. Lo que quede en la fecha fijada se envía a la Oficina de Servicios Generales en nombre del Área.
+        text: Fondos retenidos más allá de ambas reservas durante al menos tres meses. El tesorero lo anuncia en una Asamblea para que puedan destinarse a la difusión del mensaje. Cualquier importe restante en la fecha establecida se transfiere a la Oficina de Servicios Generales en nombre del Área.
   - type: checklist
-    heading: El servicio no debe depender de su bolsillo
+    heading: El servicio no debería depender de su poder adquisitivo
     items:
-      - Los gastos que usted tenga al atender asuntos a petición del Área se reembolsan por completo.
-      - Decidir si se reembolsa es decisión suya.
-      - La meta es que cualquiera que quiera y pueda servir lo haga, sin que sus finanzas personales sean un límite.
-      - Los funcionarios y los comités pueden decidir cómo usar sus fondos, y deben administrarlos con prudencia y rendir cuentas.
-      - El servicio es su propia recompensa.
+      - Los gastos en los que incurra al realizar actividades comerciales a petición de la Área le serán reembolsados íntegramente.
+      - La decisión de solicitar el reembolso es suya.
+      - El objetivo es que cualquier persona que esté dispuesta y sea capaz de prestar servicio pueda hacerlo, sin que su situación económica suponga un obstáculo.
+      - Los cargos directivos y las comisiones podrán decidir cómo utilizar sus fondos, y deberán gestionarlos con prudencia y rendir cuentas al respecto.
+      - El servicio es una recompensa en sí mismo.
   - type: callout
-    title: ¿Listo para contribuir?
-    body: Envíe una contribución en línea o por correo, o haga una pregunta al Tesorero en [treasurer@aaemass.org](mailto:treasurer@aaemass.org).
+    title: ¿Está listo para colaborar?
+    body: Envíe su aportación por Internet o por correo postal, o plantee cualquier pregunta al tesorero en [treasurer@aaemass.org](mailto:treasurer@aaemass.org).
   - type: buttons
     items:
-      - label: Cómo contribuir
+      - label: Cómo colaborar
         url: /contribute/
         style: primary
-      - label: Manual del Área 30 (PDF, en inglés)
+      - label: Manual del Área 30 (PDF)
         url: https://aaemass.org/wp-content/uploads/2022/12/Area-Handbook-Jan2022.pdf
         style: quiet
       - label: Glosario
@@ -62,8 +63,8 @@ blocks:
   - type: faq
     items:
       - q: ¿Quién decide cómo se gasta el dinero del Área 30?
-        a: La Asamblea. Vota el presupuesto cada enero y también aprueba las solicitudes únicas y suplementarias.
-      - q: ¿Puedo ver las actas del Comité de Finanzas?
-        a: Sí. Las actas se conservan y están disponibles para cualquiera que las pida. Pregunte al Tesorero en treasurer@aaemass.org.
-      - q: ¿Pueden contribuir personas ajenas a A.A.?
-        a: No. De acuerdo con la Séptima Tradición, el Área 30 rechaza contribuciones de fuera de A.A.
+        a: La Asamblea. Cada mes de enero vota el presupuesto y, además, aprueba las solicitudes puntuales y complementarias.
+      - q: ¿Puedo consultar las actas de la Comisión de Finanzas?
+        a: Sí. Se levantan actas, que están a disposición de cualquier persona que las solicite. Diríjase al tesorero en treasurer@aaemass.org.
+      - q: ¿Pueden colaborar personas ajenas a A.A.?
+        a: No. De conformidad con la Séptima Tradición, el Área 30 rechaza las aportaciones procedentes de fuera de A.A.
