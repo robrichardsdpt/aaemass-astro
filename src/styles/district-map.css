@@ -16,9 +16,15 @@
   .dist-map__status:empty { display: none; }
   .dist-map__status { margin: 0; color: var(--ink-muted); }
   /* The text above the map has a fixed height, so showing a town (even Boston, with its six districts) never pushes the map down. */
-  .dist-map__info { display: grid; gap: var(--s-1); margin: 0; align-content: start; block-size: 21rem; overflow-y: auto; }
+  .dist-map__info { display: grid; gap: var(--s-1); margin: 0; align-content: start; block-size: 29rem; overflow-y: auto; }
+  /* Before anything is chosen: an invitation, not an empty box. */
+  .dist-map__info[data-empty] { place-content: center; justify-items: center; text-align: center; gap: var(--s-2); border-style: dashed; color: var(--ink-muted); }
+  .dm-empty__icon { color: var(--accent); }
+  .dm-empty__hint { font-size: var(--step-1); font-weight: 700; color: var(--ink); }
+  .dm-empty__tip { max-inline-size: 28ch; font-size: var(--step--1); }
   .dm-info__line:first-child, .dm-info__title { font-weight: 700; }
   .dm-info__title { font-size: var(--step-1); margin-block-start: var(--s-2); }
+  .dm-info__boston { font-size: var(--step--1); }
   .dm-info__region, .dm-info__muted { color: var(--ink-muted); }
   .dm-info__next { font-weight: 700; }
   .dist-map__jump { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-1); max-inline-size: 28rem; }

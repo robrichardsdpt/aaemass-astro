@@ -6,6 +6,7 @@ import mapUrl from '../data/area30-map.json?url';
 import '../styles/district-map.css';
 import { getLang, pick, lp } from '../i18n';
 import { districtMsgs } from '../i18n/pages/districts';
+import { BOSTON_NEIGHBORHOODS } from '../lib/map/boston';
 import { districtName, translateDistrictLine } from '../i18n/districts';
 import { districts, districtBlocks } from '../lib/districts';
 import { nextMeeting, dayLabel } from '../lib/next-meeting';
@@ -16,12 +17,14 @@ const lang = getLang(Astro);
 const m = pick(districtMsgs, lang);
 // The district map: the list of districts under it (readable without the map) and what the map's script needs.
 const mp = m.map;
-const legend = Array.from({ length: 26 }, (_, i) => i + 1).map((n) => ({
+// Districts 12 and 13 run as one (one card, the same neighbourhoods, the same meeting), so they are one entry here, under 12.
+const legend = Array.from({ length: 26 }, (_, i) => i + 1).filter((n) => n !== 13).map((n) => ({
   n,
   card: districtCard(n)?.id,
   href: districtCard(n)?.id ? `${lp(lang, '/districts/')}#${districtCard(n)!.id}` : undefined,
-  label: districtName(`District ${n}`, lang),
-  region: m.regions[n],
+  label: districtName(n === 12 ? 'District 12 & 13' : `District ${n}`, lang),
+  region: n === 12 ? m.regions[13] : m.regions[n],
+  boston: BOSTON_NEIGHBORHOODS[n],
   colour: mapData.colors[n], // undefined for a district that has no territory of its own on a map of towns (11, 12 and 13 lie inside Boston)
 }));
 const c = m.cards;
@@ -50,9 +53,9 @@ const mapClient = {
   colors: mapData.colors,
   labels: mapData.labels,
   names: mapData.names.main,
-  districts: Object.fromEntries(legend.map((d) => [d.n, { href: d.href, card: d.card, label: d.label, region: d.region }])),
+  districts: Object.fromEntries(legend.map((d) => [d.n, { href: d.href, card: d.card, label: d.label, region: d.region, boston: d.boston }])),
   cards,
-  text: { hint: mp.hint, hintTouch: mp.hintTouch, solid: mp.solid, also: mp.also, split: mp.split, none: mp.none, goTo: mp.goTo, error: mp.error, pickOne: mp.pickOne, zoomIn: mp.zoomIn, zoomOut: mp.zoomOut, full: mp.full, nextMeeting: c.nextMeeting, directions: c.directions, openZoom: c.openZoom, choose: mp.choose },
+  text: { hint: mp.hint, hintTouch: mp.hintTouch, solid: mp.solid, also: mp.also, split: mp.split, none: mp.none, goTo: mp.goTo, error: mp.error, pickOne: mp.pickOne, bostonIn: mp.bostonIn, zoomIn: mp.zoomIn, zoomOut: mp.zoomOut, full: mp.full, nextMeeting: c.nextMeeting, directions: c.directions, openZoom: c.openZoom, choose: mp.choose },
 };
 ---
 
@@ -83,7 +86,11 @@ const mapClient = {
             <div class="dist-map__frame" style={`--ratio: ${mapRatios.main}`}></div>
           </figure>
           <div class="dist-map__side">
-            <div id="dm-info" class="notice dist-map__info" aria-live="polite">{mp.hint}</div>
+            <div id="dm-info" class="notice dist-map__info" aria-live="polite" data-empty>
+              <svg class="dm-empty__icon" viewBox="0 0 24 24" width="40" height="40" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+              <span class="dm-empty__hint">{mp.hint}</span>
+              <span class="dm-empty__tip">{mp.emptyTip}</span>
+            </div>
             <figure class="dist-map__inset">
               <div class="dist-map__frame" style={`--ratio: ${mapRatios.inset}`}></div>
               <figcaption>{mp.insetTitle}</figcaption>

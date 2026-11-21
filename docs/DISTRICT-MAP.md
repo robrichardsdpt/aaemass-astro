@@ -40,6 +40,9 @@ page ("Town boundaries: MassGIS") is already shown.
 - **Towns, not neighbourhoods.** Boston is hatched: its districts (10, 11, 12, 13, 14 and 17) cover neighbourhoods, which the
   town outlines do not have. Choosing Boston offers each of its districts. Districts 11, 12 and 13 have no territory of their
   own on the map, but the "Jump to a district" list reaches them and highlights Boston.
+  The panel lists each Boston district's neighbourhoods (`src/lib/map/boston.ts`, from the district town lists, the Area Handbook
+  and the groups' meeting addresses). Districts 12 and 13 run as a pair and share the same neighbourhoods (Back Bay, Beacon Hill,
+  Fenway, Mission Hill, Roxbury, Charlestown, South End, North End, Downtown), so the map page treats them as one "District 12 & 13" (one entry in the list, one button for Boston, one panel).
 - **Area 31 and anything outside Area 30.**
 - **District 27**, the Spanish-language district. It is not tied to a place. It is not on the map and has no entry in the list.
 - **Three towns nobody has listed yet**: Brookfield, Carlisle and Wenham. They are grey, and the page says so. Add them to a

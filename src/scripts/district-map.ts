@@ -16,9 +16,9 @@ interface Data {
   colors: Record<string, number>;
   labels: { main: Record<string, Label>; inset: Record<string, Label> };
   names: Record<string, Label>;
-  districts: Record<string, { href?: string; card?: string; label: string; region: string }>;
+  districts: Record<string, { href?: string; card?: string; label: string; region: string; boston?: string[] }>;
   cards: Record<string, Card>;
-  text: Record<'hint' | 'hintTouch' | 'solid' | 'also' | 'split' | 'none' | 'goTo' | 'error' | 'pickOne' | 'full' | 'nextMeeting' | 'directions' | 'openZoom' | 'choose' | 'zoomIn' | 'zoomOut', string>;
+  text: Record<'hint' | 'hintTouch' | 'solid' | 'also' | 'split' | 'none' | 'goTo' | 'error' | 'pickOne' | 'bostonIn' | 'full' | 'nextMeeting' | 'directions' | 'openZoom' | 'choose' | 'zoomIn' | 'zoomOut', string>;
 }
 
 const root = document.getElementById('dist-map');
@@ -35,11 +35,22 @@ const el = <K extends keyof HTMLElementTagNameMap>(tag: K, props: Partial<HTMLEl
 if (root && dataEl && views && info && status && jump) {
   const data = JSON.parse(dataEl.textContent || '{}') as Data;
   const label = (n: number) => data.districts[n]?.label ?? `District ${n}`;
+  // Districts 12 and 13 are shown as one: the town lists give Boston to both, and the page names them together.
+  const canon = (n: number) => (n === 13 ? 12 : n);
+  const districtsOf = (a: Extract<Assignment, { kind: 'split' }>) => [...new Set(a.districts.map(canon))];
 
   // A phone has no pointer to point with, so it is told to tap.
   const touch = matchMedia('(hover: none)');
   const hint = () => (touch.matches ? data.text.hintTouch : data.text.hint);
-  info.textContent = hint();
+  // The panel starts with a prompt (written into the page); this puts it back when nothing is chosen.
+  const emptyState = [...info.childNodes].map((n) => n.cloneNode(true));
+  const showEmpty = () => {
+    const nodes = emptyState.map((n) => n.cloneNode(true));
+    nodes.forEach((n) => n instanceof HTMLElement && n.classList.contains('dm-empty__hint') && (n.textContent = hint()));
+    info!.replaceChildren(...nodes);
+    info!.toggleAttribute('data-empty', true);
+  };
+  showEmpty();
 
   // ---- Drawing -----------------------------------------------------------------------------------------------------------
   const regionOf = (town: string): number | 'split' | 'none' => {
@@ -136,6 +147,7 @@ if (root && dataEl && views && info && status && jump) {
     const card = d?.card ? data.cards[d.card] : undefined;
     const nodes: Node[] = [line(label(n), 'dm-info__title')];
     if (d?.region) nodes.push(line(d.region, 'dm-info__region'));
+    if (d?.boston) nodes.push(line(fill(data.text.bostonIn, { neighborhoods: d.boston.join(', ') }), 'dm-info__boston'));
     if (card) {
       nodes.push(...card.when.map((w) => line(w, 'dm-info__when')));
       if (card.next) nodes.push(line(`${data.text.nextMeeting} ${card.next}`, 'dm-info__next'));
@@ -161,7 +173,7 @@ if (root && dataEl && views && info && status && jump) {
 
   const inDistrict = (name: string, n: number) => {
     const a = data.towns[name];
-    return a.kind === 'solid' ? a.district === n : a.kind === 'split' && a.districts.includes(n);
+    return a.kind === 'solid' ? a.district === n : a.kind === 'split' && districtsOf(a).includes(n);
   };
 
   // What is chosen now: a town (for a town split between districts, also which of its districts), or a district alone.
@@ -175,10 +187,10 @@ if (root && dataEl && views && info && status && jump) {
       nodes.push(line(fill(data.text.solid, { town, district: label(a.district) })));
       if (a.alsoIn.length) nodes.push(line(fill(data.text.also, { districts: a.alsoIn.map(label).join(', ') })));
     } else if (a?.kind === 'split') {
-      nodes.push(line(fill(data.text.split, { town, districts: a.districts.map(label).join(', ') })));
+      nodes.push(line(fill(data.text.split, { town, districts: districtsOf(a).map(label).join(', ') })));
       const row = el('span', { className: 'dist-map__links' });
-      for (const d of a.districts) {
-        const b = el('button', { type: 'button', className: 'dist-map__chip', textContent: String(d) });
+      for (const d of districtsOf(a)) {
+        const b = el('button', { type: 'button', className: 'dist-map__chip', textContent: d === 12 ? '12 & 13' : String(d) });
         b.setAttribute('aria-label', label(d));
         b.setAttribute('aria-pressed', String(d === chosen));
         b.addEventListener('click', () => {
@@ -194,6 +206,7 @@ if (root && dataEl && views && info && status && jump) {
       nodes.push(line(fill(data.text.none, { town })));
     }
     if (chosen) nodes.push(...districtNodes(chosen));
+    info!.removeAttribute('data-empty');
     info!.replaceChildren(...nodes);
     if (!town) highlight((p) => inDistrict(p.dataset.town!, chosen));
     else highlight((p) => p.dataset.town === town || (a?.kind === 'solid' && p.dataset.d === String(a.district)));
@@ -212,7 +225,7 @@ if (root && dataEl && views && info && status && jump) {
     chosen = Number(jump.value);
     if (chosen) render();
     else {
-      info!.textContent = hint();
+      showEmpty();
       highlight(() => false);
     }
   });
@@ -223,7 +236,7 @@ if (root && dataEl && views && info && status && jump) {
   views.append(tip);
   const tipText = (name: string) => {
     const a = data.towns[name];
-    return a.kind === 'solid' ? `${name}: ${label(a.district)}` : a.kind === 'split' ? `${name}: ${a.districts.map(label).join(', ')}` : name;
+    return a.kind === 'solid' ? `${name}: ${label(a.district)}` : a.kind === 'split' ? `${name}: ${districtsOf(a).map(label).join(', ')}` : name;
   };
   views.addEventListener('pointermove', (e) => {
     const name = e.pointerType === 'mouse' ? (e.target as Element).closest<SVGPathElement>('.dm-town')?.dataset.town : undefined;

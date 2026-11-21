@@ -37,3 +37,10 @@ test('every town on the map is drawn, the Boston inset only shows towns that rea
   const main = new Set(municipalities);
   for (const t of geometry.inset.towns) assert.ok(main.has(t.n), `${t.n} is in the inset but not the main map`);
 });
+
+test('the Boston neighbourhoods are listed only for districts that really cover part of Boston', async () => {
+  const { BOSTON_NEIGHBORHOODS } = await import('../src/lib/map/boston.ts');
+  const boston = assignMunicipalities(lists, municipalities).get('Boston');
+  assert.equal(boston.kind, 'split');
+  for (const d of Object.keys(BOSTON_NEIGHBORHOODS)) assert.ok(boston.districts.includes(Number(d)), `district ${d} does not touch Boston in the town list`);
+});
