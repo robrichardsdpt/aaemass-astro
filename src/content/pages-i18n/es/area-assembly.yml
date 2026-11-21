@@ -1,15 +1,15 @@
-sourceHash: 11602c6a818b35fc
+sourceHash: 575c8b93c928122f
 title: "La Asamblea de Área: guía para principiantes | Área 30"
 description: Qué ocurre en una asamblea del Área 30, quiénes asisten, quiénes pueden votar y el ritmo anual habitual de las asambleas y los actos en el este de Massachusetts.
 eyebrow: Participe
-lede: Cinco veces al año, se reúnen grupos de todo el este de Massachusetts para compartir experiencias y contribuir a la labor del Delegado de área. Cualquier miembro de A.A. es bienvenido a asistir.
+lede: Cinco veces al año, se reúnen grupos de todo el este de Massachusetts para compartir experiencias y contribuir a la labor informativa del Delegado de área. Cualquier miembro de A.A. es bienvenido a asistir.
 blocks:
   - type: text
     heading: Para qué sirve una Asamblea
     body: |
       El objetivo de la Asamblea de Área es el mismo que el de un grupo de A.A.: llevar el mensaje al alcohólico que aún sufre. Lo hace principalmente mediante la elección del Delegado que representa al Área en la Conferencia de Servicios Generales y manteniendo informados a los grupos, a los MCD y al Delegado sobre las actividades de A.A. a nivel local y mundial.
 
-      Se trata de un órgano de servicio, nunca de un gobierno. Su función consiste en dar voz a todos los grupos, proteger el derecho de las minorías a ser escuchadas y garantizar que no se aprueben apresuradamente las propuestas de ninguna persona o grupo en particular.
+      Se trata de un órgano de servicio, nunca de un gobierno. Su función consiste en dar voz a todos los grupos, proteger el derecho de las minorías a ser escuchadas y garantizar que no se apruebe de forma precipitada la agenda de ninguna persona ni de ningún grupo en particular.
   - type: assembly
   - type: callout
     title: Cualquier miembro de A.A. puede asistir, y cualquier miembro de A.A. tiene voz y voto
@@ -28,7 +28,7 @@ blocks:
         text: Lecturas, bienvenida y conmemoraciones de aniversarios, seguidas de los informes del secretario, del tesorero, del responsable de área y de los Delegados.
       - when: 10:30 de la mañana
         title: Asuntos pendientes y nuevos asuntos
-      - when: 11:00 de la mañana
+      - when: 11:00 h
         title: Presentaciones
         text: Comisiones de la conferencia e informes sobre los eventos regionales.
       - when: 11:30 de la mañana
@@ -58,18 +58,18 @@ blocks:
   - type: text
     heading: Cómo se toman las decisiones
     body: |
-      El Área 30 sigue de forma flexible las «Reglas de Orden de Robert», con modificaciones que se ajustan al espíritu de A.A. Las votaciones se realizan a mano alzada o mediante papeleta, y cualquier cuestión relacionada con las normas requiere **una unanimidad sustancial**, lo que significa dos tercios de los votos de los miembros con derecho a voto presentes en la sala en el momento de la votación.
+      El Área 30 sigue de forma flexible las «Reglas de Orden de Robert», con modificaciones que se ajustan al espíritu de A.A. Las votaciones se realizan a mano alzada o mediante papeleta, y cualquier cuestión relacionada con las normas requiere **unanimidad sustancial**, lo que significa dos tercios de los votos de los miembros con derecho a voto presentes en la sala en el momento de la votación.
 
       Tras una votación importante, siempre se concede a la minoría la oportunidad de intervenir. A continuación, cualquier persona que haya votado con la mayoría y haya cambiado de opinión puede solicitar que se reconsidere la decisión.
 
-      Las elecciones se rigen por el «Procedimiento del Tercer Legado» de A.A. (Alcoholics Anonymous), diseñado para evitar que ninguna facción imponga a la fuerza a un candidato. Un candidato necesita dos tercios de los votos, y si nadie alcanza esa cifra tras cinco votaciones, la elección se decide por sorteo.
+      Las elecciones se rigen por el «Procedimiento del Tercer Legado» de A.A. (Alcoholicos Anonimos), diseñado para evitar que ninguna facción imponga a la fuerza a un candidato. Un candidato necesita dos tercios de los votos, y si nadie alcanza esa cifra tras cinco votaciones, la elección se decide por sorteo.
   - type: timeline
     heading: Resumen de los 30 años del Área 30
     intro: El Área se reúne con la misma periodicidad cada año. Hay ligeras diferencias entre los años pares y los impares, sobre todo en noviembre.
     steps:
       - when: Enero
         title: Asamblea inaugural
-        text: Las comisiones de la conferencia presentan sus informes y la Asamblea vota el presupuesto del Área para el año.
+        text: Las comisiones de la conferencia presentan sus informes y la Asamblea vota el presupuesto del Área para el año. [Consulte a dónde se destinan las contribuciones](/contribute/#where-contributions-go).
       - when: Febrero
         title: NERAASA
         text: La Asamblea Regional de Servicio A.A. del Noreste, celebrada el último fin de semana de febrero.

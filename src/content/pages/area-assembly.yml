@@ -68,7 +68,7 @@ blocks:
     steps:
       - when: January
         title: Kick-off Assembly
-        text: Conference committees report, and the Assembly votes on the Area budget for the year.
+        text: Conference committees report, and the Assembly votes on the Area budget for the year. [See where contributions go](/contribute/#where-contributions-go).
       - when: February
         title: NERAASA
         text: The Northeast Regional AA Service Assembly, held the last weekend of February.

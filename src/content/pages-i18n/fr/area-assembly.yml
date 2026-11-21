@@ -1,18 +1,18 @@
-sourceHash: 11602c6a818b35fc
+sourceHash: 575c8b93c928122f
 title: "L'Assemblée de région : guide à l'intention des nouveaux venus | Région 30"
 description: Comment se déroule une assemblée de région de la Région 30, qui y participe, qui peut voter, ainsi que le calendrier annuel habituel des assemblées et des événements dans l'est du Massachusetts.
 eyebrow: Impliquez-vous
-lede: Cinq fois par an, des groupes de tout l'est du Massachusetts se réunissent pour partager leurs expériences et contribuer à l'information du Délégué. Tous les membres de l'A.A. sont les bienvenus.
+lede: Cinq fois par an, des groupes de toute la région de l'Est du Massachusetts se réunissent pour partager leurs expériences et contribuer à l'information du Délégué. Tous les membres de l'A.A. sont les bienvenus.
 blocks:
   - type: text
     heading: À quoi sert une Assemblée ?
     body: |
-      L’objectif de l’Assemblée de région est le même que celui d’un groupe des A.A. : transmettre le message à l’alcoolique qui souffre encore. Elle y parvient principalement en élisant le Délégué qui représente la région à la Conférence des services généraux, et en tenant les groupes, les MCD et le Délégué informés des activités des A.A. au niveau local et mondial.
+      L’objectif de l’Assemblée de région est le même que celui d’un groupe des A.A. : transmettre le message à l’alcoolique qui souffre encore. Elle y parvient principalement en élisant le Délégué qui représente la région à la Conférence des services généraux, et en tenant les groupes, les MCD et le Délégué informés de l’actualité des A.A. au niveau local et mondial.
 
-      Il s’agit d’un organe de service, et en aucun cas d’un organe de direction. Sa mission consiste à donner la parole à chaque groupe, à protéger le droit des minorités à être entendues et à veiller à ce qu’aucun programme, qu’il émane d’une personne ou d’un groupe, ne soit adopté à la hâte.
+      Il s’agit d’un organe de service, en aucun cas d’un organe de direction. Sa mission consiste à donner la parole à chaque groupe, à protéger le droit des minorités à être entendues et à veiller à ce qu’aucun programme, qu’il émane d’une personne ou d’un groupe, ne soit adopté à la hâte.
   - type: assembly
   - type: callout
-    title: Tout membre de l’A.A. peut venir, et tout membre de l’A.A. a son mot à dire
+    title: Tout membre de l'A.A. peut venir, et tout membre de l'A.A. a son mot à dire
     body: Il n'est pas nécessaire d'être membre du RSG pour assister à la réunion ou prendre la parole. Seuls certains responsables ont le droit de vote (voir ci-dessous), mais toutes les personnes présentes peuvent s'exprimer. Les assemblées ont lieu le dimanche, généralement dans un lieu différent à chaque fois, selon le district.
   - type: timeline
     heading: Une journée type à l'Assemblée
@@ -62,19 +62,19 @@ blocks:
 
       Après un vote important, la minorité a toujours la possibilité de s’exprimer. Ensuite, toute personne ayant voté avec la majorité et ayant changé d’avis peut demander un réexamen du vote.
 
-      Les élections se déroulent selon la « procédure du Troisième Legs » des A.A., conçue pour empêcher toute faction d’imposer un candidat. Un candidat doit obtenir les deux tiers des suffrages ; si personne n’atteint ce seuil après cinq tours de scrutin, le choix se fait par tirage au sort.
+      Les élections se déroulent selon la procédure du « Troisième Legs » des A.A., conçue pour empêcher toute faction d’imposer un candidat. Un candidat doit obtenir les deux tiers des suffrages ; si personne n’atteint ce seuil après cinq tours de scrutin, le choix se fait par tirage au sort.
   - type: timeline
     heading: La Région 30 en bref
     intro: Le groupe se réunit à la même fréquence chaque année. Le calendrier varie légèrement selon que l'année est paire ou impaire, généralement au mois de novembre.
     steps:
       - when: janvier
         title: Réunion de lancement
-        text: Les commissions de conférence présentent leur rapport, puis l'Assemblée vote le budget de la région pour l'année.
+        text: Les commissions de conférence présentent leur rapport, puis l'Assemblée vote le budget de la région pour l'année. [Découvrez à quoi servent les cotisations](/contribute/#where-contributions-go).
       - when: février
         title: NERAASA
         text: L'Assemblée régionale des services A.A. du Nord-Est, qui s'est tenue le dernier week-end de février.
       - when: avril
-        title: Réunion préalable à la conférence
+        title: Réunion préparatoire à la conférence
         text: Elle se tient avant la Conférence des services généraux à New York.
       - when: juin
         title: Assemblée post-conférence
