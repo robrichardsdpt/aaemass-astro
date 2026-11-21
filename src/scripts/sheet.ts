@@ -6,6 +6,7 @@
 //   - swipe down on the header to dismiss (phones),
 //   - keeping the sheet inside the visible area while the on-screen keyboard is open (iOS Safari).
 import { closesOnBackdrop, isOutside } from '../lib/backdrop';
+import { createPageLock } from '../lib/page-lock';
 
 /** True while sheets are bottom sheets (phones). Keep in step with the breakpoint in global.css. */
 export const phoneSheet = matchMedia('(max-width: 39.99rem)');
@@ -15,38 +16,46 @@ const KEYBOARD_MIN_HEIGHT = 120;
 const FIELDS = 'input, select, textarea';
 
 /**
- * Pins the page where it is while a sheet is open. `overflow: hidden` on the page is not enough on iOS Safari: a touch on
- * anything that cannot scroll (a header, short results) still scrolls the page behind. Fixing the body in place stops that,
- * and the scroll position is put back when the sheet closes.
+ * Pins the page where it is while a sheet is open (see lib/page-lock.ts). The page's smooth scrolling would otherwise
+ * animate the scroll position back, so it is restored instantly.
  */
-function lockPage() {
-  const body = document.body;
-  const y = window.scrollY;
-  body.style.position = 'fixed';
-  body.style.top = `${-y}px`;
-  body.style.inlineSize = '100%';
-  return () => {
-    body.style.position = body.style.top = body.style.inlineSize = '';
-    window.scrollTo({ top: y, behavior: 'instant' }); // the page's smooth scrolling would otherwise animate back
-  };
+const pageLock = createPageLock({
+  body: document.body,
+  scrollY: () => window.scrollY,
+  scrollTo: (top) => window.scrollTo({ top, behavior: 'instant' }),
+});
+
+/**
+ * A page with no sheet open must never stay pinned. If a close was missed (iOS Safari has done odd things with dialogs,
+ * keyboards and the back/forward cache), the page is freed when it is restored, shown again or touched.
+ */
+function keepPageFree() {
+  const heal = () => { if (!document.querySelector('dialog.sheet[open]')) pageLock.heal(); };
+  addEventListener('pageshow', heal);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) heal(); });
+  document.addEventListener('touchstart', heal, { capture: true, passive: true });
 }
 
 /**
  * On open: the one-shot entrance animation (tied to an attribute, not to [open], so it never replays when the layout
- * changes) and the page lock. On close: the page is released.
+ * changes) and the page lock. On close: the page is released. The dialog's own `close` event is listened to as well as the
+ * attribute, so a close is never missed.
  */
 function onOpenClose(dlg: HTMLDialogElement) {
-  let unlock: (() => void) | undefined;
-  new MutationObserver(() => {
-    if (dlg.open && !unlock) {
-      unlock = lockPage();
+  let holding = false;
+  const sync = () => {
+    if (dlg.open && !holding) {
+      holding = true;
+      pageLock.lock();
       dlg.dataset.opening = '';
       setTimeout(() => { delete dlg.dataset.opening; }, 400);
-    } else if (!dlg.open && unlock) {
-      unlock();
-      unlock = undefined;
+    } else if (!dlg.open && holding) {
+      holding = false;
+      pageLock.unlock();
     }
-  }).observe(dlg, { attributes: true, attributeFilter: ['open'] });
+  };
+  new MutationObserver(sync).observe(dlg, { attributes: true, attributeFilter: ['open'] });
+  dlg.addEventListener('close', sync);
 }
 
 /** Dragging the header down dismisses the sheet; a short drag springs back. */
@@ -152,6 +161,7 @@ function closeOnBackdrop(dlg: HTMLDialogElement) {
   });
 }
 
+keepPageFree();
 for (const dlg of document.querySelectorAll<HTMLDialogElement>('dialog.sheet')) {
   const bar = dlg.querySelector<HTMLElement>('.sheet__bar');
   onOpenClose(dlg);
