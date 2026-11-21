@@ -1,4 +1,4 @@
-sourceHash: 359f7a9bfcf6e46a
+sourceHash: 4132a6b74a92ba49
 title: "La Asamblea de Área: guía para principiantes | Área 30"
 description: Qué ocurre en una asamblea del Área 30, quiénes asisten, quiénes pueden votar y el ritmo anual habitual de las asambleas y los actos en el este de Massachusetts.
 eyebrow: Participe
@@ -9,7 +9,7 @@ blocks:
     body: |
       El objetivo de la Asamblea de Área es el mismo que el de un grupo de A.A.: llevar el mensaje al alcohólico que aún sufre. Lo hace principalmente mediante la elección del Delegado que representa al Área en la Conferencia de Servicios Generales y manteniendo informados a los grupos, a los MCD y al Delegado sobre las actividades de A.A. a nivel local y mundial.
 
-      Se trata de un órgano de servicio, nunca de un gobierno. Su función consiste en dar voz a todos los grupos, proteger el derecho de la minoría a ser escuchada y garantizar que no se apruebe de forma precipitada la agenda de ninguna persona ni de ningún grupo.
+      Se trata de un órgano de servicio, nunca de un órgano de gobierno. Su función consiste en dar voz a todos los grupos, proteger el derecho de las minorías a ser escuchadas y garantizar que no se aprueben apresuradamente las propuestas de ninguna persona o grupo en particular.
   - type: callout
     title: Cualquier miembro de A.A. puede asistir, y cualquier miembro de A.A. tiene voz y voto
     body: No es necesario ser miembro del RSG para asistir o intervenir. Solo votan determinados servidores (véase más abajo), pero todas las personas presentes en la sala pueden intervenir. Las asambleas se celebran los domingos, normalmente en una sede de un distrito diferente cada vez.
@@ -32,7 +32,7 @@ blocks:
         text: Comisiones de la conferencia e informes sobre los eventos regionales.
       - when: 11:30 de la mañana
         title: Tema de la Asamblea
-        text: A continuación, se servirá el almuerzo, a cargo del distrito anfitrión.
+        text: A continuación, se servirá el almuerzo, que correrá a cargo del distrito anfitrión.
       - when: 13:00 h
         title: Continuación del tema y talleres
       - when: 15:30 h
@@ -61,7 +61,7 @@ blocks:
 
       Tras una votación importante, siempre se concede a la minoría la oportunidad de intervenir. A continuación, cualquier persona que haya votado con la mayoría y haya cambiado de opinión puede solicitar que se reconsidere la decisión.
 
-      Las elecciones se rigen por el «Procedimiento del Tercer Legado» de A.A. (Alcoholicos Anonimos), diseñado para evitar que ninguna facción imponga a la fuerza a un candidato. Un candidato necesita dos tercios de los votos, y si nadie alcanza esa cifra tras cinco votaciones, la elección se decide por sorteo.
+      Las elecciones se rigen por el «Procedimiento del Tercer Legado» de A.A. (Alcoholics Anonymous), diseñado para evitar que ninguna facción imponga a la fuerza a un candidato. Un candidato necesita dos tercios de los votos, y si nadie alcanza esa cifra tras cinco votaciones, la elección se decide por sorteo.
   - type: timeline
     heading: Resumen de los 30 años del Área 30
     intro: El Área se reúne con la misma periodicidad cada año. Hay ligeras diferencias entre los años pares y los impares, sobre todo en noviembre.
@@ -80,13 +80,13 @@ blocks:
         text: El Delegado informa sobre lo que se trató en la Conferencia. En los años impares, también se celebra en junio el Foro Regional del Noreste.
       - when: septiembre
         title: Taller de montaje
-      - when: Noviembre
+      - when: noviembre
         title: Taller en los años impares, elecciones en los años pares
         text: Cada dos años, la Asamblea Electoral elige al Delegado y al resto de los cargos de la zona. Noviembre es también el mes en que se celebra la Convención Estatal de Massachusetts.
   - type: links
-    heading: El Manual de Servicio
+    heading: Lea el texto original
     items:
-      - label: El Manual de Servicio de A.A. y los Doce Conceptos para el Servicio Mundial
+      - label: Manual de servicio de A.A. y los Doce Conceptos para el Servicio Mundial
         url: https://www.aa.org/aa-service-manualtwelve-concepts-world-services
   - type: buttons
     items:
