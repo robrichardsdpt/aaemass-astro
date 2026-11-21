@@ -8,13 +8,14 @@ const en = {
   lede: 'Districts give the groups in each part of Eastern Massachusetts a voice in matters that affect AA as a whole.',
   whatTitle: 'What are Districts?',
   about: 'A District is a geographical division within an Area that provides an opportunity for the groups in that vicinity to have a voice in matters affecting other groups and AA as a whole. Each District has a District Committee that is made up of representatives from its many AA groups. These representatives are called General Service Representatives or G.S.R.s. Each group may elect a G.S.R. who will attend the District meetings and Area assemblies in order to represent the group and vote the group’s conscience. The District Committee elects a representative — a District Committee Member, or D.C.M., who is an experienced G.S.R., to serve as an essential link between the group G.S.R. and the Area Delegate. As a member of the area committee, the D.C.M. is able to pass on the District’s thinking to the delegate and the committee.',
-  linkText: 'What District am I in?',
+  linkText: 'Printed list of towns by district (PDF)',
+  mapText: 'District map (on the District 26 website)',
   meetTitle: 'Where and when does each district meet?',
   faqs: [
     { q: 'What is an AA district?', a: 'A district is a geographical division within an area that gives the groups in that vicinity a voice in matters affecting other groups and AA as a whole. Each district has a District Committee made up of representatives from its groups.' },
     { q: 'What is a GSR?', a: 'A General Service Representative (GSR) is the member a group elects to attend district meetings and Area Assemblies and to represent the group’s conscience.' },
     { q: 'What is a DCM?', a: 'A District Committee Member (DCM) is an experienced GSR elected by the district to link the groups’ GSRs with the Area Delegate and the area committee.' },
-    { q: 'How do I find out which district I am in?', a: 'Use the “What District am I in?” link on this page, or email info@aaemass.org.' },
+    { q: 'How do I find out which district I am in?', a: 'Type your town in the “Find your district by town” box on this page, or email info@aaemass.org.' },
   ],
   cards: {
     nextMeeting: 'Next meeting',
@@ -30,6 +31,14 @@ const en = {
     searchHint: 'Try a district number, a town or a church name',
     shown: '{n} of {total} districts',
     none: 'No districts match. Try a different word, or clear the search.',
+    townsTitle: 'Towns in this district',
+  },
+  finder: {
+    title: 'Find your district by town',
+    hint: 'Type your town',
+    count: 'Towns found: {n}',
+    none: 'No town matches that. Try fewer letters, or open the printed list below.',
+    or: 'or',
   },
 };
 type D = typeof en;
@@ -42,13 +51,14 @@ const es: D = {
   lede: 'Los distritos dan a los grupos de cada parte del Este de Massachusetts una voz en los asuntos que afectan a A.A. en su conjunto.',
   whatTitle: '¿Qué son los distritos?',
   about: 'Un distrito es una división geográfica dentro de un área que ofrece a los grupos de esa zona la oportunidad de tener voz en los asuntos que afectan a otros grupos y a A.A. en su conjunto. Cada distrito tiene un Comité de Distrito formado por representantes de sus numerosos grupos de A.A. Esos representantes se llaman Representantes de Servicios Generales o RSG. Cada grupo puede elegir un RSG que asista a las reuniones del distrito y a las asambleas de área para representar al grupo y votar según la conciencia del grupo. El Comité de Distrito elige a un representante, un Miembro del Comité de Distrito o MCD, que es un RSG con experiencia, para que sirva de enlace esencial entre el RSG del grupo y el delegado del área. Como miembro del comité de área, el MCD puede transmitir el pensamiento del distrito al delegado y al comité.',
-  linkText: '¿En qué distrito estoy?',
+  linkText: 'Lista impresa de pueblos por distrito (PDF)',
+  mapText: 'Mapa de distritos (en el sitio web del Distrito 26)',
   meetTitle: '¿Dónde y cuándo se reúne cada distrito?',
   faqs: [
     { q: '¿Qué es un distrito de A.A.?', a: 'Un distrito es una división geográfica dentro de un área que da a los grupos de esa zona una voz en los asuntos que afectan a otros grupos y a A.A. en su conjunto. Cada distrito tiene un Comité de Distrito formado por representantes de sus grupos.' },
     { q: '¿Qué es un RSG?', a: 'Un Representante de Servicios Generales (RSG) es el miembro que un grupo elige para asistir a las reuniones del distrito y a las asambleas de área y para representar la conciencia del grupo.' },
     { q: '¿Qué es un MCD?', a: 'Un Miembro del Comité de Distrito (MCD) es un RSG con experiencia, elegido por el distrito para enlazar a los RSG de los grupos con el delegado del área y el comité de área.' },
-    { q: '¿Cómo averiguo en qué distrito estoy?', a: 'Use el enlace «¿En qué distrito estoy?» de esta página, o escriba a info@aaemass.org.' },
+    { q: '¿Cómo averiguo en qué distrito estoy?', a: 'Escriba su pueblo en el cuadro «Encuentre su distrito por pueblo» de esta página, o escriba a info@aaemass.org.' },
   ],
   cards: {
     nextMeeting: 'Próxima reunión',
@@ -64,6 +74,14 @@ const es: D = {
     searchHint: 'Pruebe con un número de distrito, una ciudad o el nombre de una iglesia',
     shown: '{n} de {total} distritos',
     none: 'Ningún distrito coincide. Pruebe con otra palabra o borre la búsqueda.',
+    townsTitle: 'Pueblos de este distrito',
+  },
+  finder: {
+    title: 'Encuentre su distrito por pueblo',
+    hint: 'Escriba su pueblo',
+    count: 'Pueblos encontrados: {n}',
+    none: 'Ningún pueblo coincide. Pruebe con menos letras o abra la lista impresa más abajo.',
+    or: 'o',
   },
 };
 
@@ -75,13 +93,14 @@ const fr: D = {
   lede: 'Les districts donnent aux groupes de chaque partie de l’Est du Massachusetts une voix dans les questions qui touchent les A.A. dans leur ensemble.',
   whatTitle: 'Que sont les districts?',
   about: 'Un district est une division géographique à l’intérieur d’une région qui permet aux groupes de ce secteur de se faire entendre dans les questions qui touchent les autres groupes et les A.A. dans leur ensemble. Chaque district a un comité de district formé de représentants de ses nombreux groupes A.A. Ces représentants s’appellent représentants des services généraux, ou RSG. Chaque groupe peut élire un RSG qui assistera aux réunions du district et aux assemblées de région afin de représenter le groupe et de voter selon la conscience du groupe. Le comité de district élit un représentant, un membre du comité de district, ou MCD, qui est un RSG d’expérience, pour servir de lien essentiel entre le RSG du groupe et le délégué de la région. En tant que membre du comité de région, le MCD peut transmettre la pensée du district au délégué et au comité.',
-  linkText: 'Dans quel district suis-je?',
+  linkText: 'Liste imprimée des municipalités par district (PDF)',
+  mapText: 'Carte des districts (sur le site du District 26)',
   meetTitle: 'Où et quand chaque district se réunit-il?',
   faqs: [
     { q: 'Qu’est-ce qu’un district des A.A.?', a: 'Un district est une division géographique à l’intérieur d’une région qui donne aux groupes de ce secteur une voix dans les questions qui touchent les autres groupes et les A.A. dans leur ensemble. Chaque district a un comité de district formé de représentants de ses groupes.' },
     { q: 'Qu’est-ce qu’un RSG?', a: 'Un représentant des services généraux (RSG) est le membre qu’un groupe élit pour assister aux réunions de district et aux assemblées de région et pour représenter la conscience du groupe.' },
     { q: 'Qu’est-ce qu’un MCD?', a: 'Un membre du comité de district (MCD) est un RSG d’expérience élu par le district pour relier les RSG des groupes au délégué de la région et au comité de région.' },
-    { q: 'Comment savoir dans quel district je me trouve?', a: 'Utilisez le lien « Dans quel district suis-je? » sur cette page, ou écrivez à info@aaemass.org.' },
+    { q: 'Comment savoir dans quel district je me trouve?', a: 'Saisissez votre municipalité dans la case « Trouvez votre district par municipalité » de cette page, ou écrivez à info@aaemass.org.' },
   ],
   cards: {
     nextMeeting: 'Prochaine réunion',
@@ -97,6 +116,14 @@ const fr: D = {
     searchHint: 'Essayez un numéro de district, une ville ou le nom d’une église',
     shown: '{n} districts sur {total}',
     none: 'Aucun district ne correspond. Essayez un autre mot ou effacez la recherche.',
+    townsTitle: 'Municipalités de ce district',
+  },
+  finder: {
+    title: 'Trouvez votre district par municipalité',
+    hint: 'Saisissez votre municipalité',
+    count: 'Municipalités trouvées : {n}',
+    none: 'Aucune municipalité ne correspond. Essayez moins de lettres ou ouvrez la liste imprimée ci-dessous.',
+    or: 'ou',
   },
 };
 export const districtMsgs: Record<Lang, D> = { en, es, fr };

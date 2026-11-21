@@ -1,0 +1,331 @@
+# Which district each town is in, for the "Find your district by town" box and the town lists on the Districts page.
+# One list of towns (and the villages people use as addresses) under each district number. Edit it by hand: add a town
+# to its district, or move it. A town in two districts (Boston) is listed under both.
+#
+# Merged from two published lists, which agree on every town they share:
+#   - "General Service Districts by Community", Area 30 (2023, page 2 of "How your group contribution helps carry the AA message")
+#   - the District Table on the District 26 website (aadistrict26.org)
+# Spellings are the official ones: abbreviations spelled out ("E Falmouth" is East Falmouth) and slips corrected.
+
+"1":
+  - Barnstable
+  - Brewster
+  - Centerville
+  - Chatham
+  - Dennis
+  - Eastham
+  - Harwich
+  - Harwich Port
+  - Hyannis
+  - Orleans
+  - Osterville
+  - Provincetown
+  - South Dennis
+  - South Yarmouth
+  - Truro
+  - Wellfleet
+  - West Barnstable
+  - West Dennis
+  - Yarmouth
+  - Yarmouth Port
+"2":
+  - Bourne
+  - Buzzards Bay
+  - Cataumet
+  - Cotuit
+  - Cuttyhunk
+  - East Falmouth
+  - Edgartown
+  - Falmouth
+  - "Martha’s Vineyard"
+  - Mashpee
+  - Nantucket
+  - North Falmouth
+  - Oak Bluffs
+  - Pocasset
+  - Sagamore
+  - Sandwich
+  - Vineyard Haven
+  - Waquoit
+  - West Tisbury
+  - Woods Hole
+"3":
+  - Acushnet
+  - Dartmouth
+  - East Freetown
+  - East Wareham
+  - Fairhaven
+  - Fall River
+  - Freetown
+  - Lakeville
+  - Marion
+  - Mattapoisett
+  - Middleborough
+  - New Bedford
+  - Onset
+  - Rochester
+  - South Dartmouth
+  - Wareham
+  - Westport
+"4":
+  - Assonet
+  - Attleboro
+  - Berkley
+  - Dighton
+  - Mansfield
+  - North Attleboro
+  - North Attleborough
+  - North Dighton
+  - Norton
+  - Raynham
+  - Rehoboth
+  - Seekonk
+  - Somerset
+  - South Attleboro
+  - Swansea
+  - Taunton
+"5":
+  - Carver
+  - Duxbury
+  - Halifax
+  - Kingston
+  - Marshfield
+  - Pembroke
+  - Plymouth
+  - Plympton
+  - South Carver
+"6":
+  - Avon
+  - Bridgewater
+  - Brockton
+  - East Bridgewater
+  - Easton
+  - Holbrook
+  - Stoughton
+  - West Bridgewater
+  - Whitman
+"7":
+  - Abington
+  - Cohasset
+  - Hanover
+  - Hanson
+  - Hingham
+  - Hull
+  - Norwell
+  - Rockland
+  - Scituate
+"8":
+  - Braintree
+  - Milton
+  - Quincy
+  - Randolph
+  - Weymouth
+  - Wollaston
+"9":
+  - Foxborough
+  - Franklin
+  - Medfield
+  - Medway
+  - Millis
+  - Norfolk
+  - Plainville
+  - Sharon
+  - Walpole
+  - Wrentham
+"10":
+  - Canton
+  - Dedham
+  - Dover
+  - Hyde Park
+  - Jamaica Plain
+  - Needham
+  - Norwood
+  - Roslindale
+  - West Roxbury
+  - Westwood
+"11":
+  - Dorchester
+  - South Boston
+"12":
+  - Boston
+  - Roxbury
+"13":
+  - Boston
+  - Charlestown
+"14":
+  - Allston
+  - Brighton
+  - Brookline
+  - Wellesley
+"15":
+  - Cambridge
+  - Medford
+  - Somerville
+"16":
+  - Chelsea
+  - Everett
+  - Malden
+  - Melrose
+  - Stoneham
+"17":
+  - East Boston
+  - Lynn
+  - Lynnfield
+  - Nahant
+  - Revere
+  - Saugus
+  - Wakefield
+  - Winthrop
+"18":
+  - Marblehead
+  - Peabody
+  - Salem
+  - Swampscott
+"19":
+  - Beverly
+  - Danvers
+  - Essex
+  - Gloucester
+  - Hamilton
+  - Ipswich
+  - Magnolia
+  - Manchester
+  - Middleton
+  - Rockport
+  - Rowley
+  - Topsfield
+"20":
+  - Amesbury
+  - Andover
+  - Boxford
+  - Byfield
+  - Georgetown
+  - Groveland
+  - Haverhill
+  - Lawrence
+  - Merrimac
+  - Methuen
+  - Newbury
+  - Newburyport
+  - North Andover
+  - Salisbury
+  - West Newbury
+"21":
+  - Bedford
+  - Billerica
+  - Burlington
+  - Chelmsford
+  - Dracut
+  - Lowell
+  - North Reading
+  - Reading
+  - Tewksbury
+  - Tyngsborough
+  - Westford
+  - Wilmington
+  - Woburn
+"22":
+  - Arlington
+  - Auburndale
+  - Belmont
+  - Lexington
+  - Newton
+  - Newtonville
+  - Waltham
+  - Watertown
+  - Weston
+  - Winchester
+"23":
+  - Ashland
+  - Bellingham
+  - Blackstone
+  - Framingham
+  - Holliston
+  - Hopedale
+  - Hopkinton
+  - Marlborough
+  - Mendon
+  - Milford
+  - Millville
+  - Natick
+  - Sherborn
+  - Southborough
+  - Wayland
+"24":
+  - Acton
+  - Boxborough
+  - Concord
+  - Lincoln
+  - Littleton
+  - Maynard
+  - Stow
+  - Sudbury
+"25":
+  - Auburn
+  - Barre
+  - Berlin
+  - Boylston
+  - Charlton
+  - Dudley
+  - East Brookfield
+  - East Douglas
+  - Grafton
+  - Hardwick
+  - Holden
+  - Hudson
+  - Leicester
+  - Millbury
+  - New Braintree
+  - North Brookfield
+  - Northborough
+  - Northbridge
+  - Oakham
+  - Oxford
+  - Paxton
+  - Rochdale
+  - Rutland
+  - Shrewsbury
+  - South Barre
+  - Southbridge
+  - Spencer
+  - Sturbridge
+  - Sutton
+  - Upton
+  - Uxbridge
+  - Warren
+  - Webster
+  - West Boylston
+  - West Brookfield
+  - Westborough
+  - Whitinsville
+  - Worcester
+"26":
+  - Ashburnham
+  - Ashby
+  - Athol
+  - Ayer
+  - Bolton
+  - Clinton
+  - Devens
+  - Dunstable
+  - Fitchburg
+  - Gardner
+  - Groton
+  - Harvard
+  - Hubbardston
+  - Lancaster
+  - Leominster
+  - Lunenburg
+  - Orange
+  - Pepperell
+  - Petersham
+  - Phillipston
+  - Princeton
+  - Royalston
+  - Shirley
+  - Sterling
+  - Templeton
+  - Townsend
+  - West Groton
+  - Westminster
+  - Winchendon

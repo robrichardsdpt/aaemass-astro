@@ -2,6 +2,7 @@
 import Page from '../layouts/Page.astro';
 import { districtsAbout } from '../lib/mirror-data';
 import { districts, districtBlocks } from '../lib/districts';
+import { townEntries, districtCard, townsOfCard } from '../lib/district-towns';
 import { linkify } from '../lib/links';
 import Rich from '../components/Rich.astro';
 import { getLang, pick, fmt, htmlLang } from '../i18n';
@@ -17,7 +18,15 @@ const m = pick(districtMsgs, lang);
 const seen = new Set<string>();
 
 const c = m.cards;
+const f = m.finder;
 const locale = lang === 'en' ? 'en-US' : htmlLang[lang];
+// What the "Find your district by town" box needs: every town with its district numbers, and where each number's card is.
+const finderData = {
+  towns: townEntries.map((e) => [e.town, e.districts]),
+  districts: Object.fromEntries(
+    [...new Set(townEntries.flatMap((e) => e.districts))].map((n) => [n, { id: districtCard(n)!.id, label: districtName(`District ${n}`, lang) }]),
+  ),
+};
 // Districts whose meeting has a holiday exception ("if the 1st Monday falls on a holiday ...") get no computed "next meeting": the date could be wrong.
 const nextOf = (d: (typeof districts)[number]) => (d.meeting && !d.meeting.note ? nextMeeting(d.meeting) : undefined);
 
@@ -62,8 +71,16 @@ const extraLd = districts.flatMap((d) => {
     <div class="wrap prose stack">
       <h2 id="what-title">{m.whatTitle}</h2>
       <p><Rich text={m.about} seen={seen} /></p>
-      <p>
+      <div class="d-finder" id="d-finder" hidden data-count={f.count} data-or={f.or}>
+        <label for="df-q">{f.title}</label>
+        <input id="df-q" type="search" placeholder={f.hint} autocomplete="off" enterkeyhint="search" spellcheck="false" />
+        <ul id="df-results" class="d-finder__results" hidden></ul>
+        <p id="df-none" class="notice" hidden>{f.none}</p>
+        <p id="df-status" class="visually-hidden" role="status" aria-live="polite"></p>
+      </div>
+      <p class="d-finder__links">
         <a class="button button--quiet" href={districtsAbout.link.href}>{m.linkText}</a>
+        <a class="button button--quiet" href={site.links.districtMap} target="_blank" rel="noopener noreferrer">{m.mapText}</a>
       </p>
     </div>
   </section>
@@ -90,6 +107,9 @@ const extraLd = districts.flatMap((d) => {
           };
           const next = nextOf(d);
           const zoom = d.meeting?.how !== 'in person' ? zoomLink(d.online?.platform, d.online?.id) : undefined;
+          // Part of the card's text, so the "Find a district" search above the cards finds a district by its towns too.
+          const townLists = townsOfCard(d.id);
+          const townCount = townLists.reduce((n, l) => n + l.towns.length, 0);
           return (
             <li class="notice district anchor" id={d.id}>
               <h3>{districtName(d.name, lang)}</h3>
@@ -158,6 +178,14 @@ const extraLd = districts.flatMap((d) => {
                 if (b.kind === 'mail') return <div class="d-mail">{b.lines.map((l) => <p set:html={linkify(t(l))} />)}</div>;
                 return <p set:html={linkify(t(b.line))} />;
               })}
+              {townCount > 0 && (
+                <details class="d-towns">
+                  <summary>{c.townsTitle} ({townCount})</summary>
+                  {townLists.map((l) => (
+                    <p>{townLists.length > 1 && <strong>{districtName(`District ${l.number}`, lang)}: </strong>}{l.towns.join(', ')}</p>
+                  ))}
+                </details>
+              )}
             </li>
           );
         })}
@@ -166,7 +194,9 @@ const extraLd = districts.flatMap((d) => {
   </section>
 
   <script type="application/json" id="d-data" is:inline set:html={JSON.stringify(clientData).replace(/</g, '\\u003c')} />
+  <script type="application/json" id="df-data" is:inline set:html={JSON.stringify(finderData).replace(/</g, '\\u003c')} />
   <script>
     import '../scripts/districts';
+    import '../scripts/district-finder';
   </script>
 </Page>
