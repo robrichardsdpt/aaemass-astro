@@ -31,9 +31,16 @@ simplifies the borders (borders shared by two towns are stored once, so neighbou
 an enlarged Boston inset. The file is about 346 KB, 126 KB over the wire, fetched only when the map is about to scroll
 into view.
 
-**Licence.** MassGIS data is public. As of this writing the MassGIS page does not state a licence, so confirm that it can be
-used here before launch (a one-line email to MassGIS is enough) and record the answer in this file. The credit line on the
-page ("Town boundaries: MassGIS") is already shown.
+**Licence (checked on mass.gov, November 2026).** MassGIS has no licence file for this layer, and says so in effect: its
+["Using and crediting MassGIS data"](https://www.mass.gov/info-details/about-massgis) section says the data it creates or
+collects is a matter of public record that "can be used by anyone for their purposes". The only exception is the rare dataset
+MassGIS itself licenses for internal use, and the Municipalities layer is a free download (not one of those). It asks for a
+source credit worded "MassGIS (Bureau of Geographic Information), Commonwealth of Massachusetts EOTSS", which is the credit line on the
+map page, in all three languages. The layer's own metadata lists no access or use constraints.
+
+Not a survey: MassGIS describes the outlines as the most accurate representation of the municipal boundaries, typically within
+about 12 feet, and says only a licensed land surveyor can determine where a boundary is. The map is for finding a district, not a boundary.
+This was read from the pages, not confirmed with MassGIS by email; contact is massgismail@mass.gov if you want it in writing.
 
 ## What the map does not show
 
