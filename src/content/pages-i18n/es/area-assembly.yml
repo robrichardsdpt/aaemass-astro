@@ -69,7 +69,7 @@ blocks:
     steps:
       - when: Enero
         title: Asamblea inaugural
-        text: Las comisiones de la conferencia presentan sus informes y la Asamblea vota el presupuesto del Área para el año.
+        text: Las comisiones de la conferencia presentan sus informes y la Asamblea vota el presupuesto del Área para el año. [Vea a dónde van las contribuciones](/contribute/#where-contributions-go).
       - when: Febrero
         title: NERAASA
         text: La Asamblea Regional de Servicio A.A. del Noreste, celebrada el último fin de semana de febrero.

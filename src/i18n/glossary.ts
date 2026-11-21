@@ -3,7 +3,8 @@
 // Draft: have a bilingual AA member review the Spanish and French before publishing (docs/TRANSLATION.md).
 import type { Lang } from './index';
 
-export type Entry = readonly [term: string, definition: string];
+/** `more: 'contribute'` adds a link back to the Contribute page's budget section. */
+export type Entry = readonly [term: string, definition: string, more?: 'contribute'];
 
 const en: Entry[] = [
   ['Ad hoc committee', 'A committee formed for one specific purpose and for a limited time.'],
@@ -42,12 +43,12 @@ const en: Entry[] = [
   ['Treatment Facilities (TF)', 'The committee that carries the message into treatment facilities. The Joint Treatment Facilities Committee (JTFC) works with Central Service.'],
   ['Trustee', 'A member of the General Service Board.'],
   ['Twelve Concepts for World Service', 'Describe how AA’s service structure evolved and the experience and reasoning behind it.'],
-  ['General operating budget', 'The part of the yearly budget covering normal day-to-day expenses.'],
-  ['One-time budget request', 'A request for something that may last beyond the year, or for a workshop, event or other special item. The Assembly must approve it.'],
-  ['Operating reserve', 'Money kept so the Area can pay the current and next month’s expenses, since contributions and costs do not match month to month.'],
-  ['Prudent reserve', 'A larger cushion, set by the Assembly, that would let the Area keep running for roughly six months.'],
-  ['Supplemental budget request', 'A request by a committee or officer who expects to spend more than their approved budget. The Assembly must approve it.'],
-  ['Surplus funds', 'Money held beyond both reserves for at least three months. The Treasurer announces it at an Assembly so it can be put to use, and any left at the set date goes to the General Service Office on the Area’s behalf.'],
+  ['General operating budget', 'The part of the yearly budget covering normal day-to-day expenses.', 'contribute'],
+  ['One-time budget request', 'A request for something that may last beyond the year, or for a workshop, event or other special item. The Assembly must approve it.', 'contribute'],
+  ['Operating reserve', 'Money kept so the Area can pay the current and next month’s expenses, since contributions and costs do not match month to month.', 'contribute'],
+  ['Prudent reserve', 'A larger cushion, set by the Assembly, that would let the Area keep running for roughly six months.', 'contribute'],
+  ['Supplemental budget request', 'A request by a committee or officer who expects to spend more than their approved budget. The Assembly must approve it.', 'contribute'],
+  ['Surplus funds', 'Money held beyond both reserves for at least three months. The Treasurer announces it at an Assembly so it can be put to use, and any left at the set date goes to the General Service Office on the Area’s behalf.', 'contribute'],
 ];
 
 const es: Entry[] = [
@@ -87,12 +88,12 @@ const es: Entry[] = [
   ['Centros de Tratamiento (TF)', 'El comité que lleva el mensaje a los centros de tratamiento. El Comité Conjunto de Centros de Tratamiento (JTFC) trabaja con el Servicio Central.'],
   ['Custodio', 'Un miembro de la Junta de Servicios Generales.'],
   ['Los Doce Conceptos para el Servicio Mundial', 'Describen cómo evolucionó la estructura de servicio de A.A. y la experiencia y el razonamiento que la sustentan.'],
-  ['Presupuesto operativo general', 'La parte del presupuesto anual que cubre los gastos normales del día a día.'],
-  ['Solicitud presupuestaria única', 'Una solicitud para algo que puede durar más allá del año, o para un taller, evento u otro artículo especial. La Asamblea debe aprobarla.'],
-  ['Reserva operativa', 'Dinero guardado para que el Área pueda pagar los gastos del mes en curso y del siguiente, ya que las contribuciones y los gastos no coinciden de un mes a otro.'],
-  ['Reserva prudente', 'Un colchón mayor, fijado por la Asamblea, que permitiría al Área seguir funcionando unos seis meses.'],
-  ['Solicitud de presupuesto suplementario', 'Una solicitud de un comité o funcionario que prevé gastar más de su presupuesto aprobado. La Asamblea debe aprobarla.'],
-  ['Fondos excedentes', 'Dinero que se mantiene por encima de ambas reservas durante al menos tres meses. El Tesorero lo anuncia en una Asamblea para que se pueda aprovechar, y lo que quede en la fecha fijada se envía a la Oficina de Servicios Generales en nombre del Área.'],
+  ['Presupuesto operativo general', 'La parte del presupuesto anual que cubre los gastos normales del día a día.', 'contribute'],
+  ['Solicitud presupuestaria única', 'Una solicitud para algo que puede durar más allá del año, o para un taller, evento u otro artículo especial. La Asamblea debe aprobarla.', 'contribute'],
+  ['Reserva operativa', 'Dinero guardado para que el Área pueda pagar los gastos del mes en curso y del siguiente, ya que las contribuciones y los gastos no coinciden de un mes a otro.', 'contribute'],
+  ['Reserva prudente', 'Un colchón mayor, fijado por la Asamblea, que permitiría al Área seguir funcionando unos seis meses.', 'contribute'],
+  ['Solicitud de presupuesto suplementario', 'Una solicitud de un comité o funcionario que prevé gastar más de su presupuesto aprobado. La Asamblea debe aprobarla.', 'contribute'],
+  ['Fondos excedentes', 'Dinero que se mantiene por encima de ambas reservas durante al menos tres meses. El Tesorero lo anuncia en una Asamblea para que se pueda aprovechar, y lo que quede en la fecha fijada se envía a la Oficina de Servicios Generales en nombre del Área.', 'contribute'],
 ];
 
 const fr: Entry[] = [
@@ -132,12 +133,12 @@ const fr: Entry[] = [
   ['Centres de traitement (TF)', 'Le comité qui porte le message dans les centres de traitement. Le comité conjoint des centres de traitement (JTFC) travaille avec le service central.'],
   ['Administrateur', 'Un membre du Conseil des services généraux.'],
   ['Les Douze Concepts pour le service mondial', 'Décrivent comment la structure de service des A.A. a évolué, ainsi que l’expérience et le raisonnement sur lesquels elle repose.'],
-  ['Budget de fonctionnement général', 'La partie du budget annuel qui couvre les dépenses courantes normales.'],
-  ['Demande budgétaire ponctuelle', 'Une demande pour un article qui peut servir au-delà de l’année, ou pour un atelier, un événement ou un autre article spécial. L’assemblée doit l’approuver.'],
-  ['Réserve de fonctionnement', 'De l’argent mis de côté pour que la région puisse payer les dépenses du mois en cours et du suivant, car les contributions et les dépenses ne coïncident pas d’un mois à l’autre.'],
-  ['Réserve prudente', 'Un coussin plus important, fixé par l’assemblée, qui permettrait à la région de fonctionner environ six mois.'],
-  ['Demande de budget supplémentaire', 'Une demande d’un comité ou d’un responsable qui prévoit de dépasser son budget approuvé. L’assemblée doit l’approuver.'],
-  ['Fonds excédentaires', 'De l’argent conservé au-delà des deux réserves pendant au moins trois mois. Le trésorier l’annonce à une assemblée pour qu’on puisse l’utiliser, et ce qui reste à la date fixée est versé au Bureau des services généraux au nom de la région.'],
+  ['Budget de fonctionnement général', 'La partie du budget annuel qui couvre les dépenses courantes normales.', 'contribute'],
+  ['Demande budgétaire ponctuelle', 'Une demande pour un article qui peut servir au-delà de l’année, ou pour un atelier, un événement ou un autre article spécial. L’assemblée doit l’approuver.', 'contribute'],
+  ['Réserve de fonctionnement', 'De l’argent mis de côté pour que la région puisse payer les dépenses du mois en cours et du suivant, car les contributions et les dépenses ne coïncident pas d’un mois à l’autre.', 'contribute'],
+  ['Réserve prudente', 'Un coussin plus important, fixé par l’assemblée, qui permettrait à la région de fonctionner environ six mois.', 'contribute'],
+  ['Demande de budget supplémentaire', 'Une demande d’un comité ou d’un responsable qui prévoit de dépasser son budget approuvé. L’assemblée doit l’approuver.', 'contribute'],
+  ['Fonds excédentaires', 'De l’argent conservé au-delà des deux réserves pendant au moins trois mois. Le trésorier l’annonce à une assemblée pour qu’on puisse l’utiliser, et ce qui reste à la date fixée est versé au Bureau des services généraux au nom de la région.', 'contribute'],
 ];
 
 export const glossaryExtras: Record<Lang, Entry[]> = { en, es, fr };

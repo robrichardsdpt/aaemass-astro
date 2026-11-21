@@ -69,7 +69,7 @@ blocks:
     steps:
       - when: janvier
         title: Réunion de lancement
-        text: Les commissions de conférence présentent leur rapport, puis l'Assemblée vote le budget de la région pour l'année.
+        text: Les commissions de conférence présentent leur rapport, puis l'Assemblée vote le budget de la région pour l'année. [Voyez où vont les contributions](/contribute/#where-contributions-go).
       - when: février
         title: NERAASA
         text: L'Assemblée régionale des services A.A. du Nord-Est, qui s'est tenue le dernier week-end de février.
