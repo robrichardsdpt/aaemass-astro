@@ -82,6 +82,11 @@ blocks:
       - when: November
         title: Workshop in odd years, elections in even years
         text: Every two years the Election Assembly chooses the Delegate and the other Area officers. November is also the time of the Massachusetts State Convention.
+  - type: links
+    heading: Read the source
+    items:
+      - label: AA Service Manual and Twelve Concepts for World Service
+        url: https://www.aa.org/aa-service-manualtwelve-concepts-world-services
   - type: buttons
     items:
       - label: See the next Assembly

@@ -83,6 +83,11 @@ blocks:
       - when: novembre
         title: Atelier les années impaires, élections les années paires
         text: Tous les deux ans, l'Assemblée électorale élit le Délégué et les autres responsables de la région. Le mois de novembre est également celui où se tient la Convention de l'État du Massachusetts.
+  - type: links
+    heading: Le Manuel du service
+    items:
+      - label: Le Manuel du service des A.A. et les Douze Concepts pour le service mondial
+        url: https://www.aa.org/aa-service-manualtwelve-concepts-world-services
   - type: buttons
     items:
       - label: Consultez la prochaine Assemblée

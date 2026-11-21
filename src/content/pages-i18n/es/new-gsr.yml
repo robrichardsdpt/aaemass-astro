@@ -57,6 +57,8 @@ blocks:
         url: /committees/treatment-facilities/12th-step-volunteer/
       - label: Todas las oportunidades de voluntariado
         url: /get-involved/
+      - label: El Manual de Servicio de A.A. y los Doce Conceptos para el Servicio Mundial
+        url: https://www.aa.org/aa-service-manualtwelve-concepts-world-services
       - label: Oficina de Servicios Generales de A.A.
         url: https://www.aa.org
   - type: faq

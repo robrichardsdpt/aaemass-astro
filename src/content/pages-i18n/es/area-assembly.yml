@@ -83,6 +83,11 @@ blocks:
       - when: Noviembre
         title: Taller en los años impares, elecciones en los años pares
         text: Cada dos años, la Asamblea Electoral elige al Delegado y al resto de los cargos de la zona. Noviembre es también el mes en que se celebra la Convención Estatal de Massachusetts.
+  - type: links
+    heading: El Manual de Servicio
+    items:
+      - label: El Manual de Servicio de A.A. y los Doce Conceptos para el Servicio Mundial
+        url: https://www.aa.org/aa-service-manualtwelve-concepts-world-services
   - type: buttons
     items:
       - label: Consulte la próxima Asamblea
