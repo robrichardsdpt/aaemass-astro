@@ -5,17 +5,31 @@ items:
     url: /calendar/
   - label: Districts
     url: /districts/
-  - label: Literature
-    url: /literature/
-  - label: Committees
-    url: /committees/
-  - label: Registrar
-    url: /committees/registrar/
+  - label: Get involved
+    children:
+      - label: Ways to get involved
+        url: /get-involved/
+      - label: New GSR guide
+        url: /new-gsr/
+      - label: Area Assembly guide
+        url: /area-assembly/
+      - label: Committees
+        url: /committees/
+      - label: Registrar
+        url: /committees/registrar/
+      - label: Services
+        url: /service/
+      - label: 12th Step volunteer
+        url: /committees/treatment-facilities/12th-step-volunteer/
   - label: Resources
-    url: /resources/
-  - label: Documents
-    url: '@documents'
-  - label: Contact
-    url: /contact/
+    children:
+      - label: All resources
+        url: /resources/
+      - label: Literature
+        url: /literature/
+      - label: Documents
+        url: '@documents'
   - label: Contribute
     url: /contribute/
+  - label: Contact
+    url: /contact/

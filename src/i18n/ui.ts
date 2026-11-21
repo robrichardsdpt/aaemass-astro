@@ -35,7 +35,8 @@ export interface Ui {
   meetingWhen: string;
   meetingWhere: string;
   addressOrg: string;
-  nav: Record<string, string>;
+  nav: Record<string, string>; // menu labels, found by the link's address or by its English label
+  navGroups: Record<string, string>; // menu group names, found by their English label
   formSending: string;
   formThanks: string;
   formError: string; // {email}
@@ -97,6 +98,7 @@ const en: Ui = {
   meetingWhere: 'Boston Central Service office, 12 Channel St, Boston, MA 02210',
   addressOrg: 'AA General Service Committee of Eastern Massachusetts',
   nav: {},
+  navGroups: {},
   formSending: 'Sending…',
   formThanks: 'Thank you. Your message was sent.',
   formError: 'Sorry, that did not go through. Please email {email} instead.',
@@ -168,7 +170,14 @@ const es: Ui = {
     '/contact/': 'Contacto',
     '/contribute/': 'Contribuciones',
     '/get-involved/': 'Participe en el servicio',
+    'Ways to get involved': 'Maneras de participar',
+    'New GSR guide': 'Guía para nuevos RSG',
+    'Area Assembly guide': 'Guía de la Asamblea de Área',
+    '/service/': 'Servicios',
+    '/committees/treatment-facilities/12th-step-volunteer/': 'Voluntarios del Duodécimo Paso',
+    'All resources': 'Todos los recursos',
   },
+  navGroups: { 'Get involved': 'Participe', Resources: 'Recursos' },
   formSending: 'Enviando…',
   formThanks: 'Gracias. Su mensaje fue enviado.',
   formError: 'Lo sentimos, no se pudo enviar. Escriba a {email}.',
@@ -240,7 +249,14 @@ const fr: Ui = {
     '/contact/': 'Contact',
     '/contribute/': 'Contributions',
     '/get-involved/': 'S’engager dans le service',
+    'Ways to get involved': 'Façons de s’engager',
+    'New GSR guide': 'Guide du nouveau RSG',
+    'Area Assembly guide': 'Guide de l’assemblée de région',
+    '/service/': 'Services',
+    '/committees/treatment-facilities/12th-step-volunteer/': 'Bénévoles de la douzième étape',
+    'All resources': 'Toutes les ressources',
   },
+  navGroups: { 'Get involved': 'S’engager', Resources: 'Ressources' },
   formSending: 'Envoi en cours…',
   formThanks: 'Merci. Votre message a été envoyé.',
   formError: 'Désolé, l’envoi a échoué. Écrivez plutôt à {email}.',

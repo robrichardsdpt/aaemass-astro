@@ -22,6 +22,38 @@ import BackToTop from './BackToTop.astro';
   document.addEventListener('click', function (e) {
     if (menu && menu.open && !wide.matches && !menu.contains(e.target)) menu.open = false;
   });
+  // Sticky header: compact it once the page is scrolled. The gap between the two limits stops it flickering
+  // when the shrinking header itself shifts the page by a few pixels.
+  var root = document.documentElement;
+  function syncScrolled() {
+    var y = window.scrollY;
+    if (!root.hasAttribute('data-scrolled') && y > 80) root.setAttribute('data-scrolled', '');
+    else if (root.hasAttribute('data-scrolled') && y < 20) root.removeAttribute('data-scrolled');
+  }
+  syncScrolled();
+  addEventListener('scroll', syncScrolled, { passive: true });
+  // The header's real height (it changes with text size, language and when compacted) keeps the phone menu on screen
+  // and stops jumped-to headings hiding under the header.
+  var header = document.querySelector('.site-header');
+  if (header && 'ResizeObserver' in window) {
+    new ResizeObserver(function () { root.style.setProperty('--header-h', header.offsetHeight + 'px'); }).observe(header);
+  }
+  // Menu groups are dropdowns on wide screens: only one open at a time, closed by Escape or a tap outside.
+  // (On phones they stay open until tapped again, so the whole menu can be browsed.)
+  var groups = Array.prototype.slice.call(document.querySelectorAll('.nav-group'));
+  groups.forEach(function (g) {
+    g.addEventListener('toggle', function () {
+      if (g.open && wide.matches) groups.forEach(function (o) { if (o !== g) o.open = false; });
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || !wide.matches) return;
+    groups.forEach(function (g) { if (g.open) { g.open = false; g.querySelector('summary').focus(); } });
+  });
+  document.addEventListener('click', function (e) {
+    if (!wide.matches) return;
+    groups.forEach(function (g) { if (g.open && !g.contains(e.target)) g.open = false; });
+  });
   // Language menu closes on Escape or a tap outside.
   var langMenu = document.getElementById('lang-menu');
   document.addEventListener('keydown', function (e) {

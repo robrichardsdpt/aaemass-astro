@@ -83,7 +83,10 @@ const eventsI18n = defineCollection({
 const settings = defineCollection({
   loader: glob({ pattern: '**/*.yml', base: './src/content/settings' }),
   schema: z.object({
-    items: z.array(z.object({ label: str, url: str })).default([]),
+    // A menu entry is a link (url) or a group (children, shown as a dropdown on wide screens).
+    items: z
+      .array(z.object({ label: str, url: opt, children: z.array(z.object({ label: str, url: str })).default([]) }))
+      .default([]),
   }),
 });
 

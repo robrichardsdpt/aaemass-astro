@@ -11,10 +11,16 @@ const { current } = Astro.props;
 const lang = getLang(Astro);
 const u = ui[lang];
 // "@documents" in the menu settings is the Area 30 documents folder (an external link with its own translated label).
-const nav = ((await getEntry('settings', 'navigation'))?.data.items ?? []).map((i) =>
+type MenuLink = { label: string; href: string; url: string };
+const link = (i: { label: string; url: string }): MenuLink =>
   i.url === '@documents'
-    ? { label: u.docs, href: site.links.areaFolder }
-    : { label: u.nav[i.url] ?? i.label, href: i.url.startsWith('/') ? lp(lang, i.url) : i.url },
+    ? { label: u.docs, href: site.links.areaFolder, url: i.url }
+    : { label: u.nav[i.label] ?? u.nav[i.url] ?? i.label, href: i.url.startsWith('/') ? lp(lang, i.url) : i.url, url: i.url };
+type MenuEntry = { group: string; items: MenuLink[] } | { item: MenuLink };
+const nav: MenuEntry[] = ((await getEntry('settings', 'navigation'))?.data.items ?? []).map((i): MenuEntry =>
+  i.children.length
+    ? { group: u.navGroups[i.label] ?? i.label, items: i.children.map(link) }
+    : { item: link({ label: i.label, url: i.url ?? '/' }) },
 );
 // Same page in the other languages; pages without a translation link to that language's home page.
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -54,9 +60,20 @@ const switcher = locales.map((l) => ({ l, href: path(alts[l] ?? (l === 'en' ? '/
     </button>
     <nav class="site-nav" aria-label={u.mainNav}>
       <details id="menu">
-        <summary>{u.menu}</summary>
-        <ul>
-          {nav.map((item) => <li><a href={item.href} aria-current={current === item.href ? 'page' : undefined}>{item.label}</a></li>)}
+        <summary class="menu-toggle">{u.menu}</summary>
+        <ul class="nav-list">
+          {nav.map((n) => 'group' in n ? (
+            <li>
+              <details class="nav-group" open={n.items.some((x) => current === x.href) || undefined}>
+                <summary>{n.group}</summary>
+                <ul class="nav-sub">
+                  {n.items.map((x) => <li><a href={x.href} aria-current={current === x.href ? 'page' : undefined}>{x.label}</a></li>)}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li><a href={n.item.href} aria-current={current === n.item.href ? 'page' : undefined}>{n.item.label}</a></li>
+          ))}
         </ul>
       </details>
     </nav>
