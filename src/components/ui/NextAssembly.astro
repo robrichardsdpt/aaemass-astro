@@ -1,0 +1,76 @@
+---
+// "The next Area Assembly" card: date, place, and one line on what this kind of Assembly is for.
+import { getAllEvents } from '../../lib/all-events';
+import { assemblyKind, nextAssembly } from '../../lib/next-assembly';
+import { getLang, htmlLang, lp } from '../../i18n';
+import Callout from './Callout.astro';
+
+interface Props { title?: string }
+const lang = getLang(Astro);
+const event = nextAssembly(await getAllEvents());
+const locale = lang === 'en' ? 'en-US' : htmlLang[lang];
+const when = event && new Intl.DateTimeFormat(locale, { timeZone: 'America/New_York', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(event.start));
+
+const words = {
+  en: {
+    heading: 'The next Area Assembly',
+    none: 'The next Assembly has not been posted yet. Dates appear on the calendar as soon as a host district confirms them.',
+    calendar: 'See the calendar',
+    details: 'Details and directions',
+    kinds: {
+      kickoff: 'The first Assembly of the year. Conference committees report, and the Assembly votes on the Area budget.',
+      pre: 'The Pre-Conference Assembly, held before the General Service Conference meets in New York.',
+      post: 'The Post-Conference Assembly, where the Delegate reports back on what the Conference did.',
+      workshop: 'A workshop Assembly: the day is built around the Assembly topic and workshops.',
+      election: 'The Election Assembly: the Delegate and the other Area officers are chosen using the Third Legacy Procedure.',
+      other: '',
+    },
+  },
+  es: {
+    heading: 'La próxima Asamblea de Área',
+    none: 'La próxima Asamblea aún no se ha publicado. Las fechas aparecen en el calendario en cuanto un distrito anfitrión las confirma.',
+    calendar: 'Ver el calendario',
+    details: 'Detalles e indicaciones',
+    kinds: {
+      kickoff: 'La primera Asamblea del año. Los comités de la Conferencia presentan informes y la Asamblea vota el presupuesto del Área.',
+      pre: 'La Asamblea previa a la Conferencia, que se celebra antes de que la Conferencia de Servicios Generales se reúna en Nueva York.',
+      post: 'La Asamblea posterior a la Conferencia, en la que el Delegado informa sobre lo que hizo la Conferencia.',
+      workshop: 'Una Asamblea de talleres: el día gira en torno al tema de la Asamblea y a los talleres.',
+      election: 'La Asamblea de Elecciones: se elige al Delegado y a los demás funcionarios del Área con el Procedimiento del Tercer Legado.',
+      other: '',
+    },
+  },
+  fr: {
+    heading: 'La prochaine assemblée de région',
+    none: 'La prochaine assemblée n’a pas encore été publiée. Les dates apparaissent au calendrier dès qu’un district hôte les confirme.',
+    calendar: 'Voir le calendrier',
+    details: 'Détails et itinéraire',
+    kinds: {
+      kickoff: 'La première assemblée de l’année. Les comités de la Conférence font rapport et l’assemblée vote le budget de la région.',
+      pre: 'L’assemblée précédant la Conférence, tenue avant la réunion de la Conférence des services généraux à New York.',
+      post: 'L’assemblée suivant la Conférence, où le délégué rend compte de ce que la Conférence a fait.',
+      workshop: 'Une assemblée d’ateliers : la journée est organisée autour du thème de l’assemblée et d’ateliers.',
+      election: 'L’assemblée d’élection : le délégué et les autres responsables de la région sont choisis selon la procédure du Troisième Legs.',
+      other: '',
+    },
+  },
+}[lang];
+const { title = words.heading } = Astro.props;
+const blurb = event ? words.kinds[assemblyKind(event.title)] : '';
+---
+<Callout title={title}>
+  <div class="stack prose-body">
+    {event ? (
+      <>
+        <p><strong>{when}</strong><br />{event.title}{event.address ? <><br />{event.address}</> : null}</p>
+        {blurb && <p>{blurb}</p>}
+        <p><a href={event.detail}>{words.details}</a></p>
+      </>
+    ) : (
+      <>
+        <p>{words.none}</p>
+        <p><a href={lp(lang, '/calendar/')}>{words.calendar}</a></p>
+      </>
+    )}
+  </div>
+</Callout>

@@ -26,6 +26,7 @@ blocks:
       - Retrouvez le numéro d'enregistrement de votre groupe. Adressez-vous à votre MCD, au Registraire de la zone ou au trésorier de la zone. Vous en aurez besoin pour tout envoi destiné à la Région 30 ou au Bureau des services généraux à New York ; sans ce numéro, votre groupe ne pourra pas être crédité de ses contributions.
       - Attendez de recevoir le dossier RSG. Une fois votre inscription effectuée, le Bureau des services généraux en envoie un aux nouveaux RSG et à leurs groupes.
       - Choisissez une date pour votre première réunion de district et votre première assemblée de région (voir le guide de l'assemblée de région).
+  - type: assembly
   - type: buttons
     items:
       - label: Trouvez votre arrondissement

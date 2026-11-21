@@ -26,6 +26,7 @@ blocks:
       - Averigüe cuál es el número de servicio de su grupo. Pregunte a su MCD, al Registrador del Área o al tesorero del Área. Lo necesitará para cualquier envío que realice al Área 30 o a la Oficina de Servicios Generales de Nueva York; sin él, no se reconocerán las contribuciones de su grupo.
       - Esté atento al kit del RSG. Una vez que se haya inscrito, la Oficina de Servicios Generales envía uno por correo a los nuevos RSG y a sus grupos.
       - Elija una fecha para su primera reunión de distrito y su primera Asamblea de Área (consulte la guía de la Asamblea de Área).
+  - type: assembly
   - type: buttons
     items:
       - label: Busque su distrito
