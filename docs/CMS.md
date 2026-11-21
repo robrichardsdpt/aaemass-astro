@@ -25,6 +25,13 @@ the site in about a minute. Nothing runs on a server.
   whose "When it meets" has a note such as a holiday exception), **Add to calendar** (a repeating `.ics`, `src/lib/district-ics.ts`),
   **Copy** buttons and an **Open in Zoom** link for Zoom meetings, the **Find a district** search, and one `Event` (with a
   schedule) per district in the page's structured data. A district written only as free text (`extra_lines`) gets none of these.
+- **District towns**: `src/content/site/district-towns.yml` lists the towns (and the villages people use as addresses) in each
+  district. It powers the **Find your district by town** box on the Districts page and the **Towns in this district** list on each
+  card, and the **Find a district** search finds districts by those towns too. `src/lib/town-finder.ts` does the matching and
+  `src/lib/district-towns.ts` loads and checks the file: a district number with no card, or a town listed twice in one
+  district, fails the build. **It is not in the CMS**: edit the file on GitHub, adding a town under its district number (a town in
+  two districts, such as Boston, is listed under both). It was merged from the printed "General Service Districts by Community"
+  list (2023) and the District Table on the District 26 website, which agree on every town they share.
 - **Site settings pages**: Home, Contribute, Resources, Literature, What is AA?, Registrar, 12th Step Volunteer, Calendar
   and Services (`src/content/site/<page>.yml`). They hold the English text an editor may change, checked against the
   English in `src/i18n/pages/<page>.ts` (an unknown or mistyped field fails the build). Anything not in those files stays
