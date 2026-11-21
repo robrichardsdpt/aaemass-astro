@@ -1,0 +1,15 @@
+---
+// A vertical list of dated steps (for example the Area's assembly year). `html` is already-cleaned markdown.
+interface Step { when: string; title: string; html?: string }
+interface Props { steps: Step[] }
+const { steps } = Astro.props;
+---
+<ol class="timeline">
+  {steps.map((s) => (
+    <li>
+      <p class="when">{s.when}</p>
+      <h3>{s.title}</h3>
+      {s.html && <div class="stack prose-body" set:html={s.html} />}
+    </li>
+  ))}
+</ol>

@@ -45,6 +45,12 @@ export const blockSchema = z.discriminatedUnion('type', [
     items: z.array(z.object({ label: str, url: str, style: z.enum(['primary', 'quiet']).optional() })).default([]),
   }),
   z.object({ type: z.literal('checklist'), heading: opt, items: z.array(str).default([]) }),
+  z.object({
+    type: z.literal('timeline'),
+    heading: opt,
+    intro: opt,
+    steps: z.array(z.object({ when: str, title: str, text: opt })).default([]),
+  }),
   z.object({ type: z.literal('events'), heading: opt, count: z.coerce.number().optional() }),
 ]);
 export type Block = z.infer<typeof blockSchema>;

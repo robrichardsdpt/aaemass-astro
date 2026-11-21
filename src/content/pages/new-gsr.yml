@@ -1,0 +1,68 @@
+title: Start Here, New GSR | Area 30
+description: What a General Service Representative (GSR) does, how to register as one in Eastern Massachusetts, where to find your group service number and who can help you get started.
+eyebrow: Get involved
+lede: Your group chose you to be its link to the rest of AA. Here is what that means, and how to get set up.
+blocks:
+  - type: text
+    heading: What a GSR does
+    body: |
+      The General Service Representative (GSR) links your group with AA as a whole. You speak for your group's conscience, and you bring back what you learn so the group stays informed.
+
+      In practice that means:
+
+      - **Go to your district meeting** and share what your group thinks with your District Committee Member (DCM).
+      - **Go to the Area Assembly**, where you are a voting member. This is also where you meet the Area Delegate, who carries the groups' views to the General Service Conference.
+      - **Report back to your group** on what is happening in the district, the Area and AA worldwide.
+      - **Help your group support service.** Work with your treasurer on a regular contribution plan for the district, Area, your local central office or intergroup and the General Service Office.
+      - **Help new groups** that are forming nearby learn about the services available to them.
+
+      Most of all, a GSR listens. Whatever authority there is in AA rests in the group conscience, and your job is to make sure it is heard.
+  - type: checklist
+    heading: Your first steps
+    items:
+      - Tell your DCM you are your group's new GSR. They pass your details to the Area Registrar. Not sure who your DCM is? Find your district on the districts page.
+      - Or register yourself at any Area Assembly, at the registration desk.
+      - Find your group service number. Ask your DCM, the Area Registrar or the Area Treasurer. You need it for anything you send to Area 30 or the General Service Office in New York, and without it your group does not get credit for its contributions.
+      - Watch for the GSR kit. Once you are registered, the General Service Office mails one to new GSRs and their groups.
+      - Pick a date for your first district meeting and your first Area Assembly (see the Area Assembly guide).
+  - type: buttons
+    items:
+      - label: Find your district
+        url: /districts/
+        style: primary
+      - label: Contact the Registrar
+        url: /committees/registrar/
+        style: quiet
+      - label: Area Assembly guide
+        url: /area-assembly/
+        style: quiet
+  - type: callout
+    title: Registering with the central office is a separate step
+    body: Registering your group with your local central service office or intergroup only tells that office. It does not update the Area, your district or the General Service Office in New York. Those are separate records, so update each one.
+  - type: text
+    heading: Find a service sponsor
+    body: |
+      Just as you needed someone who had been there when you got sober, it helps to have someone who has been there in service. New GSRs are often overwhelmed by the new terms, the literature and the questions: where do I begin, how do I give a report, how do I fit this into a full life? Many step down after a month or two because they had no one to ask.
+
+      Your service sponsor can be an experienced DCM, an Area officer or a past Delegate. They do not need to be your recovery sponsor, and a woman can sponsor a man in service and the other way round. Contact is as often or as seldom as you like, and you can ask someone different as your service grows.
+
+      Ask at your district meeting, or email [info@aaemass.org](mailto:info@aaemass.org) and we will help you find someone.
+  - type: links
+    heading: Read more
+    items:
+      - label: Service Seminar Committee
+        url: /committees/service-seminar/
+      - label: Volunteer for 12th Step work
+        url: /committees/treatment-facilities/12th-step-volunteer/
+      - label: All service opportunities
+        url: /get-involved/
+      - label: AA General Service Office
+        url: https://www.aa.org
+  - type: faq
+    items:
+      - q: What do the abbreviations mean?
+        a: GSR is General Service Representative, DCM is District Committee Member and GSO is the General Service Office in New York. A longer list is in the glossary in the Area 30 Handbook.
+      - q: Do I have to be an expert before I start?
+        a: No. Nobody expects you to know it all. Read the AA pamphlets The AA Group and GSR (General Service Representative), keep a sense of humor and ask questions at your district meeting.
+      - q: Where does the GSR fit in the service structure?
+        a: The structure starts with your group. You pass the group's conscience to your DCM and the Area Delegate, and the Delegate takes it to the General Service Conference.

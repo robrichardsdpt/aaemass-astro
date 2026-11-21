@@ -1,6 +1,6 @@
 ---
 // Renders CMS page blocks with the shared UI components. Add a new block type in three places:
-// content.config.ts (schema), public/admin/config.yml (editor fields) and here.
+// blocks-schema.ts (schema), public/admin/config.yml (editor fields) and here.
 import type { Block } from '../content.config';
 import Section from './ui/Section.astro';
 import CardGrid from './ui/CardGrid.astro';
@@ -15,6 +15,7 @@ import Checklist from './ui/Checklist.astro';
 import ButtonRow from './ui/ButtonRow.astro';
 import Button from './ui/Button.astro';
 import EventList from './ui/EventList.astro';
+import Timeline from './ui/Timeline.astro';
 import { md, href, slugify } from '../lib/cms';
 import { path } from '../lib/site';
 import { getLang, lp } from '../i18n';
@@ -102,6 +103,12 @@ const idFor = (b: { heading?: string; title?: string }, i: number) => `${slugify
       return (
         <Section id={id} title={b.heading} narrow>
           <Checklist items={b.items} />
+        </Section>
+      );
+    case 'timeline':
+      return (
+        <Section id={id} title={b.heading} intro={b.intro}>
+          <Timeline steps={b.steps.map((x) => ({ when: x.when, title: x.title, html: x.text ? md(x.text, seen, lang) : undefined }))} />
         </Section>
       );
     case 'events':

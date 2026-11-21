@@ -24,6 +24,10 @@ blocks:
         text: Los comités llevan el mensaje a prisiones, centros de tratamiento, escuelas y profesionales.
         link_text: Ver los comités
         link_url: /committees/
+      - title: ¿Nuevo RSG?
+        text: Empiece aquí para saber qué hace un RSG y cómo registrarse, y vea qué ocurre en una Asamblea de Área.
+        link_text: Guía para nuevos RSG
+        link_url: /new-gsr/
   - type: callout
     title: ¿No sabe dónde encajar?
     body: Escriba a [info@aaemass.org](mailto:info@aaemass.org) y le indicaremos un comité que necesite sus habilidades.

@@ -1,0 +1,95 @@
+title: L’assemblée de région, guide pour une première fois | Région 30
+description: Ce qui se passe lors d’une assemblée de la région 30, qui y assiste, qui vote et le rythme annuel habituel des assemblées et événements dans l’est du Massachusetts.
+eyebrow: S’engager
+lede: Cinq fois par an, des groupes de tout l’est du Massachusetts se réunissent pour partager leur expérience et aider à informer le délégué de la région. Tout membre des A.A. est le bienvenu.
+blocks:
+  - type: text
+    heading: À quoi sert une assemblée
+    body: |
+      Le but de l’assemblée de région est le même que celui d’un groupe des A.A. : transmettre le message à l’alcoolique qui souffre encore. Elle le fait surtout en élisant le délégué qui représente la région à la Conférence des services généraux, et en tenant les groupes, les MCD et le délégué informés de la vie des A.A. au niveau local et mondial.
+
+      C’est un organe de service, jamais un gouvernement. Son rôle est de donner la parole à chaque groupe, de protéger le droit de la minorité à être entendue et d’empêcher qu’un programme personnel ou celui d’un seul groupe soit imposé à la hâte.
+  - type: callout
+    title: Tout membre des A.A. peut venir et a droit à la parole
+    body: Il n’est pas nécessaire d’être RSG pour assister ou pour prendre la parole. Seuls certains serviteurs votent (voir plus bas), mais tous les présents peuvent s’exprimer. Les assemblées ont lieu le dimanche, en général à un endroit différent chaque fois, selon le district hôte.
+  - type: timeline
+    heading: Une journée d’assemblée type
+    intro: Les horaires et les sujets exacts changent ; consultez le calendrier pour la prochaine.
+    steps:
+      - when: 9 h 00
+        title: Inscription
+      - when: 9 h 15
+        title: Orientation pour les nouveaux RSG et MCD
+        text: Un bon premier arrêt si vous êtes nouveau. Posez-y vos questions.
+      - when: 10 h 00
+        title: Ouverture et rapports
+        text: Lectures, accueil et anniversaires, puis rapports du secrétaire, du trésorier, de la région et du délégué.
+      - when: 10 h 30
+        title: Affaires en cours et nouvelles affaires
+      - when: 11 h 00
+        title: Présentations
+        text: Comités de la Conférence et comptes rendus des événements régionaux.
+      - when: 11 h 30
+        title: Thème de l’assemblée
+        text: Suivi du déjeuner, offert par le district hôte.
+      - when: 13 h 00
+        title: Suite du thème et ateliers
+      - when: 15 h 30
+        title: '"Ask It Basket" et "What''s on Your Mind?" (la corbeille de questions et ce qui vous préoccupe)'
+        text: L’occasion d’aborder ce qui n’est pas encore venu sur le tapis.
+      - when: 16 h 00
+        title: Clôture
+  - type: cards
+    heading: Qui est dans la salle
+    intro: L’assemblée réunit les serviteurs de confiance de la région.
+    cards:
+      - title: RSG
+        text: Une voix par groupe, de chaque district. Ils devraient représenter environ les deux tiers des membres votants.
+      - title: MCD
+        text: Les membres du comité de district des 26 districts, plus le district hispanophone.
+      - title: Responsables de la région
+        text: Délégué, président, trésorier et secrétaire, chacun avec un suppléant.
+      - title: Présidents de comités
+        text: Les présidents des comités de la Conférence et des comités permanents, ou leurs suppléants.
+      - title: Agents de liaison et invités
+        text: Des représentants des conférences de jeunes, du service central de Boston, des intergroupes et d’autres membres intéressés. Ils participent, mais ne votent pas.
+  - type: text
+    heading: Comment les décisions sont prises
+    body: |
+      La région 30 suit en général le règlement de Robert, avec des adaptations conformes à l’esprit des A.A. On vote à main levée ou par bulletin, et toute question de politique exige une **quasi-unanimité**, c’est-à-dire les deux tiers des membres votants présents dans la salle au moment du vote.
+
+      Après un vote important, la minorité a toujours la possibilité de s’exprimer. Ensuite, toute personne qui a voté avec la majorité et qui a changé d’avis peut demander une reconsidération.
+
+      Les élections suivent la procédure du Troisième Legs des A.A., conçue pour empêcher qu’une faction impose un candidat. Un candidat doit obtenir les deux tiers des bulletins et, si personne n’y parvient après cinq tours, le choix se fait par tirage au sort.
+  - type: timeline
+    heading: L’année de la région 30 en un coup d’œil
+    intro: La région se réunit selon le même rythme chaque année. Il diffère un peu entre les années impaires et paires, surtout en novembre.
+    steps:
+      - when: Janvier
+        title: Assemblée de lancement
+        text: Les comités de la Conférence font rapport et l’assemblée vote le budget de la région pour l’année.
+      - when: Février
+        title: NERAASA
+        text: L’assemblée régionale de service des A.A. du Nord-Est, tenue le dernier week-end de février.
+      - when: Avril
+        title: Assemblée précédant la Conférence
+        text: Tenue avant la réunion de la Conférence des services généraux à New York.
+      - when: Juin
+        title: Assemblée suivant la Conférence
+        text: Le délégué rend compte de ce que la Conférence a fait. Les années impaires, le Forum régional du Nord-Est a aussi lieu en juin.
+      - when: Septembre
+        title: Assemblée d’ateliers
+      - when: Novembre
+        title: Ateliers les années impaires, élections les années paires
+        text: Tous les deux ans, l’assemblée d’élection choisit le délégué et les autres responsables de la région. Le congrès d’État du Massachusetts a aussi lieu en novembre.
+  - type: buttons
+    items:
+      - label: Voir la prochaine assemblée
+        url: /calendar/
+        style: primary
+      - label: Guide du nouveau RSG
+        url: /new-gsr/
+        style: quiet
+  - type: events
+    heading: À venir
+    count: 4

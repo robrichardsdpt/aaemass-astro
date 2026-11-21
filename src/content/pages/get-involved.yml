@@ -24,6 +24,10 @@ blocks:
         text: Committees carry the message to prisons, treatment centers, schools and professionals.
         link_text: Browse committees
         link_url: /committees/
+      - title: New GSR?
+        text: Start here for what a GSR does and how to register, then see what happens at an Area Assembly.
+        link_text: New GSR guide
+        link_url: /new-gsr/
   - type: callout
     title: Not sure where you fit?
     body: Email [info@aaemass.org](mailto:info@aaemass.org) and we will point you to a committee that needs your skills.

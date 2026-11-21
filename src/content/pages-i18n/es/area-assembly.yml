@@ -1,0 +1,95 @@
+title: La Asamblea de Área, guía para quien asiste por primera vez | Área 30
+description: Qué ocurre en una Asamblea del Área 30, quién asiste, quién vota y el ritmo anual habitual de asambleas y eventos en el Este de Massachusetts.
+eyebrow: Participe
+lede: Cinco veces al año, grupos de todo el Este de Massachusetts se reúnen para compartir experiencia y ayudar a informar al Delegado del Área. Todo miembro de A.A. es bienvenido.
+blocks:
+  - type: text
+    heading: Para qué sirve una Asamblea
+    body: |
+      El propósito de la Asamblea de Área es el mismo que el de un grupo de A.A.: llevar el mensaje al alcohólico que aún sufre. Lo hace principalmente eligiendo al Delegado que representa al Área en la Conferencia de Servicios Generales, y manteniendo informados a los grupos, a los MCD y al Delegado sobre A.A. a nivel local y mundial.
+
+      Es un cuerpo de servicio, nunca un gobierno. Su tarea es dar voz a cada grupo, proteger el derecho de la minoría a ser escuchada y asegurar que la agenda de una sola persona o grupo no se imponga a toda prisa.
+  - type: callout
+    title: Cualquier miembro de A.A. puede venir y tiene voz
+    body: No hace falta ser RSG para asistir ni para hablar. Solo ciertos servidores votan (vea más abajo), pero todos en la sala pueden compartir. Las asambleas se celebran en domingo, normalmente en un lugar distinto cada vez, según el distrito anfitrión.
+  - type: timeline
+    heading: Un día típico de Asamblea
+    intro: Los horarios y temas exactos cambian, así que consulte el calendario para ver la próxima.
+    steps:
+      - when: 9:00 AM
+        title: Registro
+      - when: 9:15 AM
+        title: Orientación para nuevos RSG y MCD
+        text: Un buen primer paso si es nuevo. Haga aquí sus preguntas.
+      - when: 10:00 AM
+        title: Apertura e informes
+        text: Lecturas, bienvenida y aniversarios, y luego los informes del Secretario, del Tesorero, del Área y del Delegado.
+      - when: 10:30 AM
+        title: Asuntos pendientes y asuntos nuevos
+      - when: 11:00 AM
+        title: Presentaciones
+        text: Comités de la Conferencia e informes de eventos regionales.
+      - when: 11:30 AM
+        title: Tema de la Asamblea
+        text: Después, el almuerzo, que ofrece el distrito anfitrión.
+      - when: 1:00 PM
+        title: Continúa el tema y talleres
+      - when: 3:30 PM
+        title: '"Ask It Basket" y "What''s on Your Mind?" (la cesta de preguntas y lo que tiene en mente)'
+        text: Una oportunidad para plantear lo que no haya surgido.
+      - when: 4:00 PM
+        title: Clausura
+  - type: cards
+    heading: Quién está en la sala
+    intro: La Asamblea reúne a los servidores de confianza del Área.
+    cards:
+      - title: RSG
+        text: Un voto por grupo, de cada distrito. Deben ser aproximadamente dos tercios de los miembros con voto.
+      - title: MCD
+        text: Los Miembros del Comité de Distrito de los 26 distritos más el distrito de habla hispana.
+      - title: Funcionarios del Área
+        text: Delegado, Presidente, Tesorero y Secretario, cada uno con un suplente.
+      - title: Presidentes de comités
+        text: Los presidentes de los comités de la Conferencia y de los comités permanentes, o sus suplentes.
+      - title: Enlaces e invitados
+        text: Representantes de las conferencias de jóvenes, del Servicio Central de Boston, de intergrupos y otros miembros interesados. Participan, pero no votan.
+  - type: text
+    heading: Cómo se toman las decisiones
+    body: |
+      El Área 30 sigue en general las Reglas de Orden de Robert, con cambios que se ajustan al espíritu de A.A. Se vota a mano alzada o con boleta, y todo asunto de política requiere **unanimidad sustancial**, es decir, dos tercios de los miembros con voto presentes en la sala en el momento de la votación.
+
+      Después de una votación importante, siempre se da la palabra a la minoría. Luego, quien votó con la mayoría y haya cambiado de opinión puede pedir que se reconsidere.
+
+      Las elecciones usan el Procedimiento del Tercer Legado de A.A., pensado para que ninguna facción imponga a un candidato. Un candidato necesita dos tercios de las boletas y, si nadie los alcanza tras cinco votaciones, la elección se decide por sorteo.
+  - type: timeline
+    heading: El año del Área 30 de un vistazo
+    intro: El Área se reúne con el mismo ritmo cada año. Cambia un poco entre años impares y pares, sobre todo en noviembre.
+    steps:
+      - when: Enero
+        title: Asamblea de inicio
+        text: Los comités de la Conferencia presentan informes y la Asamblea vota el presupuesto del Área para el año.
+      - when: Febrero
+        title: NERAASA
+        text: La Asamblea Regional de Servicio de A.A. del Noreste, el último fin de semana de febrero.
+      - when: Abril
+        title: Asamblea previa a la Conferencia
+        text: Se celebra antes de que la Conferencia de Servicios Generales se reúna en Nueva York.
+      - when: Junio
+        title: Asamblea posterior a la Conferencia
+        text: El Delegado informa sobre lo que hizo la Conferencia. En los años impares, en junio también se celebra el Foro Regional del Noreste.
+      - when: Septiembre
+        title: Asamblea de talleres
+      - when: Noviembre
+        title: Talleres en años impares, elecciones en años pares
+        text: Cada dos años, la Asamblea de Elecciones elige al Delegado y a los demás funcionarios del Área. En noviembre también se celebra la Convención Estatal de Massachusetts.
+  - type: buttons
+    items:
+      - label: Ver la próxima Asamblea
+        url: /calendar/
+        style: primary
+      - label: Guía para nuevos RSG
+        url: /new-gsr/
+        style: quiet
+  - type: events
+    heading: Próximamente
+    count: 4

@@ -1,0 +1,95 @@
+title: The Area Assembly, A First-Timer's Guide | Area 30
+description: What happens at an Area 30 Assembly, who attends, who can vote and the usual yearly rhythm of assemblies and events in Eastern Massachusetts.
+eyebrow: Get involved
+lede: Five times a year, groups from across Eastern Massachusetts meet to share experience and help inform the Area Delegate. Anyone in AA is welcome to come.
+blocks:
+  - type: text
+    heading: What an Assembly is for
+    body: |
+      The purpose of the Area Assembly is the same as the purpose of an AA group: to carry the message to the alcoholic who still suffers. It does this mainly by electing the Delegate who represents the Area at the General Service Conference, and by keeping the groups, DCMs and Delegate informed about local and worldwide AA.
+
+      It is a service body, never a government. Its job is to give every group a voice, protect the right of the minority to be heard and make sure no one person's or group's agenda is rushed through.
+  - type: callout
+    title: Any AA member can come, and any AA member has a voice
+    body: You do not have to be a GSR to attend or to speak. Only certain servants vote (see below), but everyone in the room can share. Assemblies are held on Sundays, usually at a different district's location each time.
+  - type: timeline
+    heading: A typical Assembly day
+    intro: The exact times and topics change, so check the calendar for the next one.
+    steps:
+      - when: 9:00 AM
+        title: Registration
+      - when: 9:15 AM
+        title: Orientation for new GSRs and DCMs
+        text: A good first stop if you are new. Ask your questions here.
+      - when: 10:00 AM
+        title: Call to order and reports
+        text: Readings, welcome and anniversaries, then the Secretary, Treasurer, Area and Delegate reports.
+      - when: 10:30 AM
+        title: Old and new business
+      - when: 11:00 AM
+        title: Presentations
+        text: Conference committees and reports back from regional events.
+      - when: 11:30 AM
+        title: Topic of the Assembly
+        text: Followed by lunch, which the host district provides.
+      - when: 1:00 PM
+        title: Topic continues and workshops
+      - when: 3:30 PM
+        title: '"Ask It Basket" and "What''s on Your Mind?"'
+        text: A chance to raise anything that has not come up.
+      - when: 4:00 PM
+        title: Adjournment
+  - type: cards
+    heading: Who is in the room
+    intro: The Assembly brings together the trusted servants of the Area.
+    cards:
+      - title: GSRs
+        text: One vote per group, from every district. They are meant to be about two-thirds of the voting members.
+      - title: DCMs
+        text: The District Committee Members from the 26 districts plus the Spanish-language district.
+      - title: Area officers
+        text: Delegate, Chair, Treasurer and Secretary, each with an alternate.
+      - title: Committee chairs
+        text: The Conference committee chairs and the standing committee chairs, or their alternates.
+      - title: Liaisons and guests
+        text: Representatives from young people's conferences, Boston Central Service, intergroups and other interested members. They take part but do not vote.
+  - type: text
+    heading: How decisions are made
+    body: |
+      Area 30 follows Robert's Rules of Order loosely, with changes that suit AA's spirit. Voting is by show of hands or ballot, and anything about policy needs **substantial unanimity**, which means a two-thirds vote of the voting members in the room when the vote is called.
+
+      After an important vote, the minority is always given a chance to speak. Then anyone who voted with the majority and has changed their mind may ask to reconsider.
+
+      Elections use AA's Third Legacy Procedure, which is built to keep any faction from railroading a candidate. A candidate needs two-thirds of the ballots, and if no one gets there after five ballots, the choice is made by lot.
+  - type: timeline
+    heading: The Area 30 year at a glance
+    intro: The Area meets in the same rhythm each year. It differs a little between odd and even years, mostly in November.
+    steps:
+      - when: January
+        title: Kick-off Assembly
+        text: Conference committees report, and the Assembly votes on the Area budget for the year.
+      - when: February
+        title: NERAASA
+        text: The Northeast Regional AA Service Assembly, held the last weekend of February.
+      - when: April
+        title: Pre-Conference Assembly
+        text: Held before the General Service Conference meets in New York.
+      - when: June
+        title: Post-Conference Assembly
+        text: The Delegate reports back on what the Conference did. In odd years the Northeast Regional Forum is also held in June.
+      - when: September
+        title: Workshop Assembly
+      - when: November
+        title: Workshop in odd years, elections in even years
+        text: Every two years the Election Assembly chooses the Delegate and the other Area officers. November is also the time of the Massachusetts State Convention.
+  - type: buttons
+    items:
+      - label: See the next Assembly
+        url: /calendar/
+        style: primary
+      - label: New GSR guide
+        url: /new-gsr/
+        style: quiet
+  - type: events
+    heading: Coming up
+    count: 4
