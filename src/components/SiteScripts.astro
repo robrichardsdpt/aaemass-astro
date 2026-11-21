@@ -41,6 +41,10 @@ import BackToTop from './BackToTop.astro';
   // Menu groups are dropdowns on wide screens: only one open at a time, closed by Escape or a tap outside.
   // (On phones they stay open until tapped again, so the whole menu can be browsed.)
   var groups = Array.prototype.slice.call(document.querySelectorAll('.nav-group'));
+  // The group holding the current page starts open (handy in the phone menu), but a dropdown must start closed.
+  function closeGroupsWhenWide() { if (wide.matches) groups.forEach(function (g) { g.open = false; }); }
+  closeGroupsWhenWide();
+  wide.addEventListener('change', closeGroupsWhenWide);
   groups.forEach(function (g) {
     g.addEventListener('toggle', function () {
       if (g.open && wide.matches) groups.forEach(function (o) { if (o !== g) o.open = false; });

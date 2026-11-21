@@ -1,0 +1,69 @@
+title: Where Contributions Go | Area 30
+description: How Area 30 is funded by AA groups, how the yearly budget is made and approved, and why no one's service should be limited by their own money.
+eyebrow: Contribute
+lede: Area 30 is supported only by the groups it serves. Here is how that money is planned, approved and used.
+blocks:
+  - type: text
+    heading: Funded by AA groups
+    body: |
+      In the spirit of the Seventh Tradition, Area 30 is funded solely by contributions from the AA groups within its boundaries.
+
+      The Finance Committee advises on the money. The Area Treasurer chairs it, and its voting members are the elected Area officers and their alternates, the Conference and standing committee chairs (or their alternates) and the Immediate Past Delegate. Its minutes are available to anyone who asks.
+  - type: timeline
+    heading: How the yearly budget is made
+    steps:
+      - when: Each year
+        title: Committees say what they expect to spend
+        text: Every committee is asked what it thinks it will need in the coming year. Those everyday costs make up the general operating budget.
+      - when: November
+        title: The Finance Committee presents a proposal
+        text: The proposed budget goes to the Area Committee.
+      - when: After November
+        title: Districts and groups discuss it
+        text: The proposal is taken back to the districts and groups for discussion and review.
+      - when: January
+        title: The Assembly votes
+        text: The Treasurer presents the budget at the first Assembly of the year. The Assembly can approve it, reject it or change it. Once approved, it becomes the Area's operating plan.
+      - when: Through the year
+        title: Extra requests need approval too
+        text: A one-time request, or a supplemental request from someone who expects to go over their budget, is approved by the Finance Committee and then by an Assembly.
+  - type: cards
+    heading: Reserves and surplus
+    intro: Contributions and costs do not match month to month, so the Area keeps some money in reserve. The Handbook gives the exact amounts and rules.
+    cards:
+      - title: Operating reserve
+        text: Enough to pay the current and next month's expenses, so bills are paid on time whatever came in that month.
+      - title: Prudent reserve
+        text: A larger cushion, set by the Assembly, that would keep the Area running for roughly six months.
+      - title: Surplus funds
+        text: Money held beyond both reserves for at least three months. The Treasurer announces it at an Assembly so it can be put to work carrying the message. Any left at the set date goes to the General Service Office on the Area's behalf.
+  - type: checklist
+    heading: Service should not depend on your wallet
+    items:
+      - Expenses you incur doing business at the Area's request are fully reimbursed.
+      - Whether to be reimbursed is your choice.
+      - The goal is that anyone willing and able to serve can, with personal finances removed as a limit.
+      - Officers and committees may decide how to use their funds, and must manage them prudently and report on them.
+      - Service is its own reward.
+  - type: callout
+    title: Ready to contribute?
+    body: Send a contribution online or by mail, or ask the Treasurer a question at [treasurer@aaemass.org](mailto:treasurer@aaemass.org).
+  - type: buttons
+    items:
+      - label: How to contribute
+        url: /contribute/
+        style: primary
+      - label: Area 30 Handbook (PDF)
+        url: https://aaemass.org/wp-content/uploads/2022/12/Area-Handbook-Jan2022.pdf
+        style: quiet
+      - label: Glossary
+        url: /glossary/
+        style: quiet
+  - type: faq
+    items:
+      - q: Who decides how Area 30's money is spent?
+        a: The Assembly. It votes on the budget each January, and it also approves one-time and supplemental requests.
+      - q: Can I see the Finance Committee's minutes?
+        a: Yes. Minutes are kept and are available to anyone on request. Ask the Treasurer at treasurer@aaemass.org.
+      - q: Can people outside AA contribute?
+        a: No. In keeping with the Seventh Tradition, Area 30 declines contributions from outside AA.

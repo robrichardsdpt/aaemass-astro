@@ -27,9 +27,17 @@ items:
         url: /resources/
       - label: Literature
         url: /literature/
+      - label: Glossary
+        url: /glossary/
       - label: Documents
         url: '@documents'
+      - label: Area 30 Handbook (PDF)
+        url: https://aaemass.org/wp-content/uploads/2022/12/Area-Handbook-Jan2022.pdf
   - label: Contribute
-    url: /contribute/
+    children:
+      - label: How to contribute
+        url: /contribute/
+      - label: Where contributions go
+        url: /where-contributions-go/
   - label: Contact
     url: /contact/

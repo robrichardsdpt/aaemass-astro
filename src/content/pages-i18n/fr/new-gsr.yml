@@ -18,6 +18,7 @@ blocks:
       - **Aidez les nouveaux groupes** qui se forment à proximité à découvrir les services mis à leur disposition.
 
       Mais avant tout, un RSG sait écouter. Toute l’autorité qui existe au sein des A.A. réside dans la Conscience de groupe, et votre rôle est de veiller à ce qu’elle soit entendue.
+  - type: structure
   - type: checklist
     heading: Vos premiers pas
     items:

@@ -17,6 +17,7 @@ import CommitteesIndex from '../../views/CommitteesIndex.astro';
 import Registrar from '../../views/Registrar.astro';
 import Volunteer from '../../views/Volunteer.astro';
 import Service from '../../views/Service.astro';
+import Glossary from '../../views/Glossary.astro';
 import Committee from '../../views/Committee.astro';
 import CmsPage from '../../views/CmsPage.astro';
 import { committees } from '../../lib/committee-pages';
@@ -37,6 +38,7 @@ export async function getStaticPaths() {
     { key: 'committees/registrar', view: Registrar },
     { key: 'committees/treatment-facilities/12th-step-volunteer', view: Volunteer },
     { key: 'service', view: Service },
+    { key: 'glossary', view: Glossary },
     ...Object.keys(committees).map((slug) => ({ key: `committees/${slug}`, view: Committee, props: { slug } })),
   ];
   const toSlug = (lang: string, key: string) => {

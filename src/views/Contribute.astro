@@ -22,6 +22,12 @@ const types = ['grp', 'mem', 'dist'];
 const online = Boolean(site.formsEndpoint);
 const pamphlet = 'https://www.aa.org/self-support-where-money-and-spirituality-mix';
 import ExtraSections from '../components/ExtraSections.astro';
+import { lp } from '../i18n';
+const where = {
+  en: { title: 'Where do contributions go?', text: 'See how the Area budget is made, who approves it and how reserves work.', link: 'Where contributions go' },
+  es: { title: '¿A dónde van las contribuciones?', text: 'Vea cómo se elabora el presupuesto del Área, quién lo aprueba y cómo funcionan las reservas.', link: 'A dónde van las contribuciones' },
+  fr: { title: 'Où vont les contributions ?', text: 'Découvrez comment le budget de la région est établi, qui l’approuve et comment fonctionnent les réserves.', link: 'Où vont les contributions' },
+}[lang];
 ---
 
 <Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} faqs={m.faqs} current="/contribute">
@@ -201,6 +207,12 @@ import ExtraSections from '../components/ExtraSections.astro';
         <li><a href="mailto:pi@aaemass.org">{m.nonLinks.ind}</a></li>
         <li><a href="mailto:treasurer@aaemass.org">{m.nonLinks.fin}</a></li>
       </ul>
+    </div>
+  </section>
+  <section class="section" aria-labelledby="where-title">
+    <div class="wrap prose stack">
+      <h2 id="where-title">{where.title}</h2>
+      <p>{where.text} <a href={lp(lang, '/where-contributions-go/')}>{where.link}</a></p>
     </div>
   </section>
 <ExtraSections page="contribute" />

@@ -1,6 +1,7 @@
 ---
 import Page from '../layouts/Page.astro';
 import ExtraSections from '../components/ExtraSections.astro';
+import ServiceStructure from '../components/ui/ServiceStructure.astro';
 import { linkify } from '../lib/links';
 import Msg from '../components/Msg.astro';
 import { committees } from '../lib/committee-pages';
@@ -43,6 +44,8 @@ const rich = (p: string) => termify(linkify(p), seen, lang);
       </nav>
     </div>
   </section>
+
+  <ServiceStructure />
 
   {sections.map((s) => (
     <section class="section anchor" id={s.id} aria-labelledby={`${s.id}-title`}>

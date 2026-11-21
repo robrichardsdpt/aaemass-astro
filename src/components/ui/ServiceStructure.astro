@@ -1,0 +1,67 @@
+---
+// "How AA service fits together": group, GSR, district, Area and Conference as one flow, with each role's job in a line.
+import { getLang, lp } from '../../i18n';
+import Section from './Section.astro';
+
+interface Props { title?: string; id?: string }
+const lang = getLang(Astro);
+const manual = 'https://www.aa.org/aa-service-manualtwelve-concepts-world-services';
+
+const words = {
+  en: {
+    heading: 'How AA service fits together',
+    intro: 'Every service role links the one below it to the one above. Your group’s voice travels up, and what is learned comes back down.',
+    steps: [
+      { name: 'Your group', job: 'Holds a group conscience on service matters and chooses a GSR.' },
+      { name: 'GSR', job: 'The group’s voice. Goes to district meetings and the Area Assembly, then reports back.', href: '/new-gsr/', link: 'New GSR guide' },
+      { name: 'District (DCM)', job: 'The District Committee Member leads the district meeting of all its GSRs and links them to the Area.', href: '/districts/', link: 'See the districts' },
+      { name: 'Area 30', job: 'The Area Assembly, officers and committees. Every two years the Assembly elects the Delegate.', href: '/area-assembly/', link: 'Area Assembly guide', href2: '/committees/', link2: 'Committees' },
+      { name: 'General Service Conference', job: 'Delegates from areas across the United States and Canada meet each year to consider the needs of AA as a whole.', href: manual, link: 'The Service Manual' },
+    ],
+    note: 'No level gives orders to another. The structure is a service body, never a government.',
+  },
+  es: {
+    heading: 'Cómo encaja el servicio de A.A.',
+    intro: 'Cada puesto de servicio enlaza el nivel de abajo con el de arriba. La voz de su grupo sube, y lo que se aprende vuelve a bajar.',
+    steps: [
+      { name: 'Su grupo', job: 'Celebra una conciencia de grupo sobre asuntos de servicio y elige a un RSG.' },
+      { name: 'RSG', job: 'La voz del grupo. Asiste a las reuniones de distrito y a la Asamblea de Área, y luego informa al grupo.', href: '/new-gsr/', link: 'Guía para nuevos RSG' },
+      { name: 'Distrito (MCD)', job: 'El Miembro del Comité de Distrito dirige la reunión de distrito de todos sus RSG y los enlaza con el Área.', href: '/districts/', link: 'Ver los distritos' },
+      { name: 'Área 30', job: 'La Asamblea de Área, los funcionarios y los comités. Cada dos años la Asamblea elige al Delegado.', href: '/area-assembly/', link: 'Guía de la Asamblea de Área', href2: '/committees/', link2: 'Comités' },
+      { name: 'Conferencia de Servicios Generales', job: 'Delegados de áreas de todo Estados Unidos y Canadá se reúnen cada año para considerar las necesidades de A.A. en su conjunto.', href: manual, link: 'El Manual de Servicio' },
+    ],
+    note: 'Ningún nivel da órdenes a otro. La estructura es un cuerpo de servicio, nunca un gobierno.',
+  },
+  fr: {
+    heading: 'Comment le service des A.A. s’articule',
+    intro: 'Chaque poste de service relie le niveau du dessous à celui du dessus. La voix de votre groupe monte, et ce qu’on apprend redescend.',
+    steps: [
+      { name: 'Votre groupe', job: 'Tient une conscience de groupe sur les questions de service et choisit un RSG.' },
+      { name: 'RSG', job: 'La voix du groupe. Assiste aux réunions de district et à l’assemblée de région, puis fait rapport.', href: '/new-gsr/', link: 'Guide du nouveau RSG' },
+      { name: 'District (MCD)', job: 'Le membre du comité de district dirige la réunion de district de tous ses RSG et les relie à la région.', href: '/districts/', link: 'Voir les districts' },
+      { name: 'Région 30', job: 'L’assemblée de région, les responsables et les comités. Tous les deux ans, l’assemblée élit le délégué.', href: '/area-assembly/', link: 'Guide de l’assemblée de région', href2: '/committees/', link2: 'Comités' },
+      { name: 'Conférence des services généraux', job: 'Des délégués de régions des États-Unis et du Canada se réunissent chaque année pour examiner les besoins des A.A. dans leur ensemble.', href: manual, link: 'Le Manuel du service' },
+    ],
+    note: 'Aucun niveau ne donne d’ordres à un autre. La structure est un organe de service, jamais un gouvernement.',
+  },
+}[lang];
+const { title = words.heading, id = 'structure' } = Astro.props;
+const to = (h: string) => (h.startsWith('/') ? lp(lang, h) : h);
+---
+<Section id={id} title={title} intro={words.intro}>
+  <ol class="flow">
+    {words.steps.map((s) => (
+      <li>
+        <h3>{s.name}</h3>
+        <p>{s.job}</p>
+        {s.href && (
+          <p class="flow-links">
+            <a href={to(s.href)}>{s.link}</a>
+            {s.href2 && <a href={to(s.href2)}>{s.link2}</a>}
+          </p>
+        )}
+      </li>
+    ))}
+  </ol>
+  <p class="flow-note">{words.note}</p>
+</Section>

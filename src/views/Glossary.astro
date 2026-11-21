@@ -1,0 +1,89 @@
+---
+// A-Z glossary of AA service terms: the popover terms plus the extra entries in src/i18n/glossary.ts.
+import Page from '../layouts/Page.astro';
+import Section from '../components/ui/Section.astro';
+import { getLang, htmlLang } from '../i18n';
+import { termDefs } from '../i18n/terms';
+import { glossaryExtras } from '../i18n/glossary';
+import { site } from '../lib/site';
+
+const lang = getLang(Astro);
+const locale = htmlLang[lang];
+const m = {
+  en: {
+    title: 'Glossary of AA Service Terms | Area 30',
+    description: 'Plain-language meanings of the abbreviations and terms you will hear in AA service in Eastern Massachusetts: GSR, DCM, Delegate, Conference, reserves and more.',
+    heading: 'Glossary',
+    eyebrow: 'Resources',
+    lede: 'The abbreviations and terms you will hear in general service, in plain language.',
+    jump: 'Jump to a letter',
+    note: 'These are short explanations written for this site, drawing on the glossary in the Area 30 Handbook. For the official wording, see the AA Service Manual.',
+    set: 'AA service terms, Area 30',
+  },
+  es: {
+    title: 'Glosario de términos del servicio de A.A. | Área 30',
+    description: 'Significado en lenguaje sencillo de las siglas y términos que oirá en el servicio de A.A. en el Este de Massachusetts: RSG, MCD, Delegado, Conferencia, reservas y más.',
+    heading: 'Glosario',
+    eyebrow: 'Recursos',
+    lede: 'Las siglas y los términos que oirá en el servicio general, en lenguaje sencillo.',
+    jump: 'Ir a una letra',
+    note: 'Son explicaciones breves escritas para este sitio, basadas en el glosario del Manual del Área 30. Para la redacción oficial, consulte el Manual de Servicio de A.A.',
+    set: 'Términos del servicio de A.A., Área 30',
+  },
+  fr: {
+    title: 'Glossaire des termes du service des A.A. | Région 30',
+    description: 'Le sens, en langage simple, des sigles et termes que vous entendrez dans le service des A.A. dans l’est du Massachusetts : RSG, MCD, délégué, Conférence, réserves et plus.',
+    heading: 'Glossaire',
+    eyebrow: 'Ressources',
+    lede: 'Les sigles et termes que vous entendrez dans le service général, en langage simple.',
+    jump: 'Aller à une lettre',
+    note: 'Ce sont de courtes explications écrites pour ce site, d’après le glossaire du manuel de la région 30. Pour le libellé officiel, consultez le Manuel du service des A.A.',
+    set: 'Termes du service des A.A., région 30',
+  },
+}[lang];
+
+const entries = [
+  ...Object.values(termDefs[lang]).map((t) => [t.full, t.def] as const),
+  ...glossaryExtras[lang],
+];
+const letterOf = (term: string) =>
+  term.replace(/^(the|les?|la|los|las|el)\s+/i, '').normalize('NFD').replace(/[̀-ͯ]/g, '').charAt(0).toUpperCase();
+const sortKey = (term: string) => term.replace(/^(the|les?|la|los|las|el)\s+/i, '');
+const sorted = [...entries].sort((a, b) => sortKey(a[0]).localeCompare(sortKey(b[0]), locale));
+const groups = new Map<string, (readonly [string, string])[]>();
+for (const e of sorted) groups.set(letterOf(e[0]), [...(groups.get(letterOf(e[0])) ?? []), e]);
+
+const ld = [{
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  name: m.set,
+  inLanguage: locale,
+  publisher: { '@type': 'Organization', name: site.name },
+  hasDefinedTerm: sorted.map(([name, description]) => ({ '@type': 'DefinedTerm', name, description })),
+}];
+---
+
+<Page title={m.title} description={m.description} heading={m.heading} eyebrow={m.eyebrow} lede={m.lede} current="/resources" extraLd={ld}>
+  <Section narrow>
+    <div class="stack prose-body">
+      <nav aria-label={m.jump}>
+        <ul class="inline-list">
+          {[...groups.keys()].map((l) => <li><a href={`#letter-${l}`}>{l}</a></li>)}
+        </ul>
+      </nav>
+      <p>{m.note}</p>
+    </div>
+  </Section>
+  {[...groups].map(([letter, items]) => (
+    <Section id={`letter-${letter}`} title={letter} narrow>
+      <div class="glossary">
+        {items.map(([term, def]) => (
+          <div>
+            <h3>{term}</h3>
+            <p>{def}</p>
+          </div>
+        ))}
+      </div>
+    </Section>
+  ))}
+</Page>

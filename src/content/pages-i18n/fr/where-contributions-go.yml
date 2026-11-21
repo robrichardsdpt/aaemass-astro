@@ -1,0 +1,69 @@
+title: Où vont les contributions | Région 30
+description: Comment les contributions des groupes A.A. soutiennent la région 30, comment le budget annuel est établi et approuvé, et pourquoi le service de personne ne devrait dépendre de son propre argent.
+eyebrow: Contributions
+lede: La région 30 est soutenue uniquement par les groupes qu’elle sert. Voici comment cet argent est planifié, approuvé et utilisé.
+blocks:
+  - type: text
+    heading: Financée par les groupes A.A.
+    body: |
+      Dans l’esprit de la Septième Tradition, la région 30 est financée uniquement par les contributions des groupes A.A. situés dans ses limites.
+
+      Le comité des finances conseille sur l’argent. Il est présidé par le trésorier de la région, et ses membres votants sont les responsables élus de la région et leurs suppléants, les présidents des comités de la Conférence et des comités permanents (ou leurs suppléants) et l’ancien délégué immédiat. Ses procès-verbaux sont accessibles à quiconque les demande.
+  - type: timeline
+    heading: Comment le budget annuel est établi
+    steps:
+      - when: Chaque année
+        title: Les comités indiquent ce qu’ils prévoient de dépenser
+        text: On demande à chaque comité ce dont il pense avoir besoin l’année suivante. Ces dépenses courantes forment le budget de fonctionnement général.
+      - when: Novembre
+        title: Le comité des finances présente une proposition
+        text: Le budget proposé est soumis au comité de région.
+      - when: Après novembre
+        title: Les districts et les groupes en discutent
+        text: La proposition retourne aux districts et aux groupes pour discussion et examen.
+      - when: Janvier
+        title: L’assemblée vote
+        text: Le trésorier présente le budget à la première assemblée de l’année. L’assemblée peut l’approuver, le rejeter ou le modifier. Une fois approuvé, il devient le plan de fonctionnement de la région.
+      - when: Tout au long de l’année
+        title: Les demandes supplémentaires doivent aussi être approuvées
+        text: Une demande ponctuelle, ou une demande supplémentaire de quelqu’un qui prévoit de dépasser son budget, est approuvée par le comité des finances puis par une assemblée.
+  - type: cards
+    heading: Réserves et excédents
+    intro: Les contributions et les dépenses ne coïncident pas d’un mois à l’autre ; la région garde donc de l’argent en réserve. Le manuel donne les montants et les règles exacts.
+    cards:
+      - title: Réserve de fonctionnement
+        text: Assez pour payer les dépenses du mois en cours et du suivant, afin que les factures soient payées à temps quoi qu’il soit entré ce mois-là.
+      - title: Réserve prudente
+        text: Un coussin plus important, fixé par l’assemblée, qui maintiendrait la région en activité environ six mois.
+      - title: Fonds excédentaires
+        text: De l’argent conservé au-delà des deux réserves pendant au moins trois mois. Le trésorier l’annonce à une assemblée pour qu’il serve à transmettre le message. Ce qui reste à la date fixée est versé au Bureau des services généraux au nom de la région.
+  - type: checklist
+    heading: Le service ne doit pas dépendre de votre portefeuille
+    items:
+      - Les dépenses que vous engagez à la demande de la région sont entièrement remboursées.
+      - Être remboursé ou non est votre choix.
+      - Le but est que quiconque veut et peut servir le fasse, sans que ses finances personnelles soient une limite.
+      - Les responsables et les comités peuvent décider de l’usage de leurs fonds, et doivent les gérer avec prudence et en rendre compte.
+      - Le service est sa propre récompense.
+  - type: callout
+    title: Prêt à contribuer ?
+    body: Envoyez une contribution en ligne ou par la poste, ou posez une question au trésorier à [treasurer@aaemass.org](mailto:treasurer@aaemass.org).
+  - type: buttons
+    items:
+      - label: Comment contribuer
+        url: /contribute/
+        style: primary
+      - label: Manuel de la région 30 (PDF, en anglais)
+        url: https://aaemass.org/wp-content/uploads/2022/12/Area-Handbook-Jan2022.pdf
+        style: quiet
+      - label: Glossaire
+        url: /glossary/
+        style: quiet
+  - type: faq
+    items:
+      - q: Qui décide de l’utilisation de l’argent de la région 30 ?
+        a: L’assemblée. Elle vote le budget chaque janvier et approuve aussi les demandes ponctuelles et supplémentaires.
+      - q: Puis-je consulter les procès-verbaux du comité des finances ?
+        a: Oui. Les procès-verbaux sont conservés et accessibles à quiconque les demande. Écrivez au trésorier à treasurer@aaemass.org.
+      - q: Des personnes extérieures aux A.A. peuvent-elles contribuer ?
+        a: Non. Conformément à la Septième Tradition, la région 30 refuse les contributions venant de l’extérieur des A.A.
