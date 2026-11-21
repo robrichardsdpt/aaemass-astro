@@ -31,7 +31,9 @@ the site in about a minute. Nothing runs on a server.
   `src/lib/district-towns.ts` loads and checks the file: a district number with no card, or a town listed twice in one
   district, fails the build. **It is not in the CMS**: edit the file on GitHub, adding a town under its district number (a town in
   two districts, such as Boston, is listed under both). It was merged from the printed "General Service Districts by Community"
-  list (2023) and the District Table on the District 26 website, which agree on every town they share.
+  list (2023) and the District Table on the District 26 website, which agree on every town they share. The same file colours the
+  **district map** (`/districts/map/`); see [DISTRICT-MAP.md](DISTRICT-MAP.md). A town name in it that matches no town or known
+  village fails `node --test scripts/*.test.mjs`.
 - **Site settings pages**: Home, Contribute, Resources, Literature, What is AA?, Registrar, 12th Step Volunteer, Calendar
   and Services (`src/content/site/<page>.yml`). They hold the English text an editor may change, checked against the
   English in `src/i18n/pages/<page>.ts` (an unknown or mistyped field fails the build). Anything not in those files stays

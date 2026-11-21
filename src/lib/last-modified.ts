@@ -12,6 +12,7 @@ const fixed: Record<string, string[]> = {
   contact: ['src/views/Contact.astro', 'src/i18n/pages/contact.ts', 'src/content/site/contact.yml'],
   contribute: ['src/views/Contribute.astro', 'src/i18n/pages/contribute.ts'],
   districts: ['src/views/Districts.astro', 'src/i18n/pages/districts.ts', 'src/content/districts'],
+  'districts/map': ['src/views/DistrictMap.astro', 'src/i18n/pages/districts.ts', 'src/content/site/district-towns.yml', 'src/data/area30-map.json'],
   literature: ['src/pages/literature.astro', 'src/i18n/pages/literature.ts'],
   resources: ['src/pages/resources.astro', 'src/i18n/pages/resources.ts'],
   service: ['src/views/Service.astro', 'src/i18n/pages/service.ts', 'src/i18n/pages/service-en.ts'],

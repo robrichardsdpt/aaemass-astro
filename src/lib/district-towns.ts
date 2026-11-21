@@ -13,6 +13,9 @@ if (!parsed.success) {
 }
 const byDistrict = parsed.data;
 
+/** The towns of every district, by district number, as written in the file (used by the district map). */
+export const districtTownLists: Record<string, string[]> = byDistrict;
+
 // A district's number appears in its card's name: "District 14", or "District 1 & 2" for a card that serves both.
 const cardFor = new Map<number, { id: string; name: string }>();
 for (const d of districts) for (const n of d.name.match(/\d+/g) ?? []) cardFor.set(Number(n), { id: d.id, name: d.name });

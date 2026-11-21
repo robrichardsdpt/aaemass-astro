@@ -1,0 +1,84 @@
+/* The Districts page: the district map and its legend (src/views/Districts.astro, src/scripts/district-map.ts). The map's elements are built by the script, so these are plain classes, not scoped styles. */
+/* The layer order is repeated so these rules rank the same as the ones in global.css whichever file loads first. */
+@layer reset, tokens, base, layout, components;
+
+@layer components {
+  /* The district map. Colours are mixed into the page's own background, so they follow light and dark mode. */
+  .dist-map {
+    --dm-c0: color-mix(in oklch, oklch(0.76 0.15 75) 62%, var(--ground));
+    --dm-c1: color-mix(in oklch, oklch(0.72 0.12 235) 62%, var(--ground));
+    --dm-c2: color-mix(in oklch, oklch(0.76 0.15 145) 62%, var(--ground));
+    --dm-c3: color-mix(in oklch, oklch(0.72 0.14 330) 62%, var(--ground));
+    --dm-c4: color-mix(in oklch, oklch(0.84 0.13 105) 62%, var(--ground));
+  }
+  .dist-map { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
+  @media (scripting: none) { .dist-map { display: none; } } /* the map is drawn by a script; the legend below it works without one */
+  .dist-map__status:empty { display: none; }
+  .dist-map__status { margin: 0; color: var(--ink-muted); }
+  /* The text above the map has a fixed height, so showing a town (even Boston, with its six districts) never pushes the map down. */
+  .dist-map__info { display: grid; gap: var(--s-1); margin: 0; align-content: start; block-size: 29rem; overflow-y: auto; }
+  /* Before anything is chosen: an invitation, not an empty box. */
+  .dist-map__info[data-empty] { place-content: center; justify-items: center; text-align: center; gap: var(--s-2); border-style: dashed; color: var(--ink-muted); }
+  .dm-empty__icon { color: var(--accent); }
+  .dm-empty__hint { font-size: var(--step-1); font-weight: 700; color: var(--ink); }
+  .dm-empty__tip { max-inline-size: 28ch; font-size: var(--step--1); }
+  .dm-info__line:first-child, .dm-info__title { font-weight: 700; }
+  .dm-info__title { font-size: var(--step-1); margin-block-start: var(--s-2); }
+  .dm-info__boston { font-size: var(--step--1); }
+  .dm-info__region, .dm-info__muted { color: var(--ink-muted); }
+  .dm-info__next { font-weight: 700; }
+  .dist-map__jump { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-1); max-inline-size: 28rem; }
+  .dist-map__jump label { font-weight: 700; }
+  /* The same look as the site's other dropdowns: a border, room around the text, and a chevron inset from the edge. */
+  .dist-map__jump select {
+    inline-size: 100%; min-inline-size: 0; min-block-size: 3rem; text-overflow: ellipsis;
+    padding: var(--s-2) 2.75rem var(--s-2) var(--s-3);
+    border: 2px solid var(--ink-muted); border-radius: 0.375rem; background-color: var(--ground); font: inherit; color: inherit; cursor: pointer;
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position: calc(100% - 1.3rem) 50%, calc(100% - 0.95rem) 50%;
+    background-size: 0.4rem 0.4rem, 0.4rem 0.4rem;
+    background-repeat: no-repeat;
+  }
+  .dist-map__jump select:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .dist-map__links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-4); margin-block-start: var(--s-1); }
+  .dist-map__links a { font-weight: 700; }
+  .dist-map__chip { font: inherit; font-weight: 700; color: inherit; background: none; cursor: pointer; display: inline-grid; place-items: center; min-inline-size: 2.75rem; min-block-size: 2.75rem; padding-inline: var(--s-2); border: 2px solid var(--accent); border-radius: 0.375rem; text-decoration: none; }
+  /* Beside the map on a wide screen (the pointer leaves the map sideways to reach the links); above it on a phone. */
+  .dist-map__side { display: contents; }
+  @media (min-width: 56rem) { .dist-map__side { display: grid; gap: var(--s-4); align-content: start; } }
+  .dist-map__views { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-5); align-items: start; }
+  .dist-map__views > *, .dist-map__side > * { min-inline-size: 0; }
+  /* The label that follows the mouse over the map. */
+  .dist-map__tip { position: absolute; z-index: 3; pointer-events: none; padding: var(--s-1) var(--s-2); border-radius: 0.25rem; background: var(--ink); color: var(--ground); font-size: var(--step--1); font-weight: 700; white-space: nowrap; box-shadow: 0 2px 8px rgb(0 0 0 / 0.3); }
+  .dist-map__tip[hidden] { display: none; }
+  /* Each frame has the map's proportions before the map has loaded, which is what stops the page jumping when it arrives. */
+  .dist-map__frame { aspect-ratio: var(--ratio); }
+  /* Zoomed in (phones), the map is larger than its frame and the frame scrolls, so a finger moves around it. */
+  .dist-map__frame[data-zoomed] { overflow: auto; overscroll-behavior: contain; }
+  .dist-map__frame[data-zoomed] .dm-svg { inline-size: calc(var(--zoom, 1) * 100%); max-inline-size: none; }
+  .dist-map__main { position: relative; }
+  .dist-map__zoom { position: absolute; inset-block-start: var(--s-2); inset-inline-end: var(--s-2); display: none; gap: var(--s-1); }
+  @media (max-width: 40rem) { .dist-map__zoom { display: flex; } }
+  .dist-map__zoom button { inline-size: 2.75rem; block-size: 2.75rem; font: inherit; font-size: 1.5rem; line-height: 1; border: 1px solid var(--ink-muted); border-radius: 0.375rem; background: var(--surface); color: var(--ink); cursor: pointer; }
+  .dist-map__frame:empty { background: var(--surface); border-radius: 0.5rem; }
+  @media (min-width: 56rem) { .dist-map__views { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
+  .dist-map figure { margin: 0; }
+  .dist-map figcaption { margin-block-start: var(--s-2); font-weight: 700; color: var(--ink-muted); }
+  .dm-svg { display: block; inline-size: 100%; block-size: auto; }
+  .dm-town { cursor: pointer; transition: opacity 0.15s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  @media (hover: hover) { .dm-town:hover { filter: brightness(1.35); } }
+  .dm-c0 { fill: var(--dm-c0); } .dm-c1 { fill: var(--dm-c1); } .dm-c2 { fill: var(--dm-c2); } .dm-c3 { fill: var(--dm-c3); } .dm-c4 { fill: var(--dm-c4); }
+  .dm-none { fill: color-mix(in oklch, var(--ink) 22%, var(--ground)); }
+  .dm-split { fill: url(#dm-hatch); }
+  .dm-hatch__bg { fill: var(--surface); }
+  .dm-hatch__line { stroke: var(--ink-muted); stroke-width: 2; }
+  .dm-line { stroke: var(--ground); stroke-width: 0.6; stroke-linejoin: round; }
+  .dm-coast { stroke: var(--ink-muted); stroke-width: 0.5; stroke-linejoin: round; }
+  .dm-border { stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+  .dm-num { fill: var(--ink); stroke: var(--ground); stroke-width: calc(var(--dm-font, 17px) / 5.5); paint-order: stroke; font-size: var(--dm-font, 17px); font-weight: 800; font-family: inherit; }
+  .dm-name { fill: var(--ink); stroke: var(--ground); stroke-width: calc(var(--dm-name-font, 10px) / 4); paint-order: stroke; font-size: var(--dm-name-font, 10px); font-weight: 600; font-family: inherit; }
+  /* Pointing at a district dims the rest, so it stands out. */
+  .dist-map[data-active] .dm-town:not(.dm-active) { opacity: 0.45; }
+  .dist-map__notes, .dist-map__credit { margin: 0; color: var(--ink-muted); font-size: var(--step--1); }
+}

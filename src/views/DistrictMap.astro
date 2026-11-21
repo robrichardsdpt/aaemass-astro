@@ -1,0 +1,109 @@
+---
+import Page from '../layouts/Page.astro';
+import { districtCard } from '../lib/district-towns';
+import { mapData, mapRatios } from '../lib/map/map-data';
+import mapUrl from '../data/area30-map.json?url';
+import '../styles/district-map.css';
+import { getLang, pick, lp } from '../i18n';
+import { districtMsgs } from '../i18n/pages/districts';
+import { BOSTON_NEIGHBORHOODS } from '../lib/map/boston';
+import { districtName, translateDistrictLine } from '../i18n/districts';
+import { districts, districtBlocks } from '../lib/districts';
+import { nextMeeting, dayLabel } from '../lib/next-meeting';
+import { zoomLink } from '../lib/district-ics';
+import { htmlLang } from '../i18n';
+
+const lang = getLang(Astro);
+const m = pick(districtMsgs, lang);
+// The district map: the list of districts under it (readable without the map) and what the map's script needs.
+const mp = m.map;
+// Districts 12 and 13 run as one (one card, the same neighbourhoods, the same meeting), so they are one entry here, under 12.
+const legend = Array.from({ length: 26 }, (_, i) => i + 1).filter((n) => n !== 13).map((n) => ({
+  n,
+  card: districtCard(n)?.id,
+  href: districtCard(n)?.id ? `${lp(lang, '/districts/')}#${districtCard(n)!.id}` : undefined,
+  label: districtName(n === 12 ? 'District 12 & 13' : `District ${n}`, lang),
+  region: n === 12 ? m.regions[13] : m.regions[n],
+  boston: BOSTON_NEIGHBORHOODS[n],
+  colour: mapData.colors[n], // undefined for a district that has no territory of its own on a map of towns (11, 12 and 13 lie inside Boston)
+}));
+const c = m.cards;
+const locale = lang === 'en' ? 'en-US' : htmlLang[lang];
+// What the panel shows for a district: when and where it meets, worded as on its card (the card has the rest).
+const cards = Object.fromEntries(districts.map((d) => {
+  const t = (l: string) => translateDistrictLine(l, lang).trim();
+  let when: string[] = [];
+  let place: string[] = [];
+  for (const b of districtBlocks(d.lines)) {
+    if (b.kind === 'when') when = b.lines.map(t).filter(Boolean);
+    if (b.kind === 'place') place = b.lines.map(t);
+  }
+  // A meeting with a holiday exception gets no computed "next meeting": the date could be wrong.
+  const next = d.meeting && !d.meeting.note ? nextMeeting(d.meeting) : undefined;
+  return [d.id, {
+    when,
+    next: next ? (next.today ? c.today : dayLabel(next.ymd, locale)) : undefined,
+    place,
+    directions: place.length ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.join(', '))}` : undefined,
+    zoom: d.meeting && d.meeting.how !== 'in person' ? zoomLink(d.online?.platform, d.online?.id) : undefined,
+  }];
+}));
+const mapClient = {
+  towns: mapData.towns,
+  colors: mapData.colors,
+  labels: mapData.labels,
+  names: mapData.names.main,
+  districts: Object.fromEntries(legend.map((d) => [d.n, { href: d.href, card: d.card, label: d.label, region: d.region, boston: d.boston }])),
+  cards,
+  text: { hint: mp.hint, hintTouch: mp.hintTouch, solid: mp.solid, also: mp.also, split: mp.split, none: mp.none, goTo: mp.goTo, error: mp.error, pickOne: mp.pickOne, bostonIn: mp.bostonIn, zoomIn: mp.zoomIn, zoomOut: mp.zoomOut, full: mp.full, nextMeeting: c.nextMeeting, directions: c.directions, openZoom: c.openZoom, choose: mp.choose },
+};
+---
+
+<Page title={mp.pageTitle} description={mp.description} heading={mp.title} lede={mp.intro} current="/districts" trail={[{ name: m.heading, href: '/districts/' }]}>
+  <section class="section">
+    <div class="wrap stack">
+      <noscript><p class="notice">{mp.noscript} <a href={lp(lang, '/districts/')}>{m.heading}</a>.</p></noscript>
+      <div class="dist-map" id="dist-map" data-src={mapUrl} data-loading={mp.loading}>
+        <svg class="visually-hidden" width="0" height="0" aria-hidden="true" focusable="false">
+          <defs>
+            <pattern id="dm-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <rect width="6" height="6" class="dm-hatch__bg" />
+              <line x1="0" y1="0" x2="0" y2="6" class="dm-hatch__line" />
+            </pattern>
+          </defs>
+        </svg>
+        <div class="dist-map__jump">
+          <label for="dm-jump">{mp.jump}</label>
+          <select id="dm-jump">
+            <option value="">{mp.choose}</option>
+            {legend.map((d) => <option value={d.n}>{d.label}{d.region ? ` – ${d.region}` : ''}</option>)}
+          </select>
+        </div>
+        <p id="dm-status" class="dist-map__status" role="status"></p>
+        <!-- The frames are on the page with their final proportions, so nothing moves when the map arrives. -->
+        <div class="dist-map__views" id="dm-views">
+          <figure class="dist-map__main" role="group" aria-label={mp.alt}>
+            <div class="dist-map__frame" style={`--ratio: ${mapRatios.main}`}></div>
+          </figure>
+          <div class="dist-map__side">
+            <div id="dm-info" class="notice dist-map__info" aria-live="polite" data-empty>
+              <svg class="dm-empty__icon" viewBox="0 0 24 24" width="40" height="40" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+              <span class="dm-empty__hint">{mp.hint}</span>
+              <span class="dm-empty__tip">{mp.emptyTip}</span>
+            </div>
+            <figure class="dist-map__inset">
+              <div class="dist-map__frame" style={`--ratio: ${mapRatios.inset}`}></div>
+              <figcaption>{mp.insetTitle}</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <p class="dist-map__notes">{mp.boston} {mp.unlisted} {mp.spanish}</p>
+      <p class="dist-map__credit">{mp.credit}</p>
+    </div>
+  </section>
+  <script type="application/json" id="dm-data" is:inline set:html={JSON.stringify(mapClient).replace(/</g, '\\u003c')} />
+  <script>
+    import '../scripts/district-map';
+  </script>
+</Page>

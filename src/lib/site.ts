@@ -53,8 +53,6 @@ export const site = {
     registerForm:
       'https://drive.google.com/file/d/1nT4Sv1NXQQ8uSwO3t4Gh7Wq2MCc3AYV-/view?usp=drive_link',
     areaFolder: 'https://drive.google.com/drive/folders/14RcIZzknJIGU3-q5WoCqIu4_aAcoksrE',
-    // A map of the districts, kept on the District 26 website.
-    districtMap: 'https://aadistrict26.org/aadistricts.aspx?GRP=District26',
   },
 };
 
