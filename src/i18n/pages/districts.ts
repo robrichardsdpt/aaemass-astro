@@ -70,7 +70,7 @@ const en = {
     boston: 'Boston is hatched: its neighborhoods are in several districts (10, 11, 12 & 13, 14 and 17).',
     unlisted: 'Towns in grey are not in our list yet.',
     spanish: 'District 27 is the Spanish-language district. It is not tied to a place, so it is not on the map.',
-    credit: 'Town boundaries: MassGIS. District names: Area 30 Handbook.',
+    credit: 'Town boundaries: MassGIS (Bureau of Geographic Information), Commonwealth of Massachusetts EOTSS. District names: Area 30 Handbook.',
   },
   regions: {
     1: 'East Cape Cod', 2: 'West Cape Cod and the Islands', 3: 'Bristol County (Fall River, New Bedford)', 4: 'Bristol County (Attleboro, Taunton)',
@@ -153,7 +153,7 @@ const es: D = {
     boston: 'Boston se muestra rayado: sus barrios están en varios distritos (10, 11, 12 y 13, 14 y 17).',
     unlisted: 'Los pueblos en gris todavía no figuran en nuestra lista.',
     spanish: 'El Distrito 27 es el distrito de habla hispana. No está ligado a un lugar, así que no aparece en el mapa.',
-    credit: 'Límites de los pueblos: MassGIS. Nombres de los distritos: Manual del Área 30.',
+    credit: 'Límites de los pueblos: MassGIS (Bureau of Geographic Information), Commonwealth of Massachusetts EOTSS. Nombres de los distritos: Manual del Área 30.',
   },
   regions: {
     1: 'Este de Cape Cod', 2: 'Oeste de Cape Cod y las islas', 3: 'Condado de Bristol (Fall River, New Bedford)', 4: 'Condado de Bristol (Attleboro, Taunton)',
@@ -235,7 +235,7 @@ const fr: D = {
     boston: 'Boston est hachurée : ses quartiers sont répartis entre plusieurs districts (10, 11, 12 et 13, 14 et 17).',
     unlisted: 'Les municipalités en gris ne figurent pas encore dans notre liste.',
     spanish: 'Le District 27 est le district de langue espagnole. Il n’est pas lié à un lieu, donc il ne figure pas sur la carte.',
-    credit: 'Limites des municipalités : MassGIS. Noms des districts : Manuel de la Région 30.',
+    credit: 'Limites des municipalités : MassGIS (Bureau of Geographic Information), Commonwealth of Massachusetts EOTSS. Noms des districts : Manuel de la Région 30.',
   },
   regions: {
     1: 'Est de Cape Cod', 2: 'Ouest de Cape Cod et les îles', 3: 'Comté de Bristol (Fall River, New Bedford)', 4: 'Comté de Bristol (Attleboro, Taunton)',
