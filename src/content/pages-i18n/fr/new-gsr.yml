@@ -1,6 +1,6 @@
-sourceHash: 55546b687e456481
+sourceHash: 33d5e21a93fbb112
 title: Commencez ici, nouveau RSG | Région 30
-description: Le rôle d'un représentant des services généraux (RSG), la procédure à suivre pour devenir représentant dans l'est du Massachusetts, où trouver le numéro de service de votre groupe et qui peut vous aider à vous lancer.
+description: Le rôle d'un représentant des services généraux (RSG), comment s'inscrire en tant que tel dans l'est du Massachusetts, où trouver le numéro de service de votre groupe et qui peut vous aider à vous lancer.
 eyebrow: Impliquez-vous
 lede: Votre groupe vous a choisi(e) pour assurer le lien avec le reste des A.A. Voici ce que cela implique et comment vous organiser.
 blocks:
@@ -12,7 +12,7 @@ blocks:
       Concrètement, cela signifie :
 
       - **Assister à la réunion de votre district** et faire part de l’avis de votre groupe au membre du comité de district (MCD).
-      - **Participer à l’Assemblée de région**, où vous disposez d’un droit de vote. C’est également là que vous rencontrez le Délégué de région, qui transmet les points de vue des groupes à la Conférence des services généraux.
+      - **Assister à l’Assemblée de région**, où vous disposez d’un droit de vote. C’est également là que vous rencontrez le Délégué de région, qui transmet les points de vue des groupes à la Conférence des services généraux.
       - **Rendez compte à votre groupe** de ce qui se passe dans le district, la région et au sein des A.A. à l’échelle mondiale.
       - **Aidez votre groupe à soutenir les services.** Collaborez avec votre trésorier pour mettre en place un plan de contributions régulières au profit du district, de la région, de votre bureau central local ou de votre intergroupe, ainsi que du Bureau des services généraux.
       - **Aidez les nouveaux groupes** qui se forment à proximité à découvrir les services mis à leur disposition.
@@ -21,10 +21,10 @@ blocks:
   - type: checklist
     heading: Vos premiers pas
     items:
-      - Indiquez à votre MCD que vous êtes le nouveau RSG de votre groupe. Il transmettra vos coordonnées au Registraire de la zone. Vous ne savez pas qui est votre MCD ? Retrouvez votre district sur la page des districts.
+      - Veuillez informer votre MCD que vous êtes le nouveau RSG de votre groupe. Il transmettra vos coordonnées au Registraire de la zone. Vous ne savez pas qui est votre MCD ? Retrouvez votre district sur la page dédiée aux districts.
       - Ou inscrivez-vous lors de n'importe quelle Assemblée de région, au bureau des inscriptions.
-      - Retrouvez le numéro d'enregistrement de votre groupe. Adressez-vous à votre MCD, au Registraire de la zone ou au trésorier de la zone. Vous en aurez besoin pour tout envoi destiné à la Région 30 ou au Bureau des services généraux à New York ; sans ce numéro, votre groupe ne pourra pas être crédité de ses contributions.
-      - Attendez de recevoir le dossier RSG. Une fois votre inscription effectuée, le Bureau des services généraux en envoie un aux nouveaux RSG et à leurs groupes.
+      - Retrouvez le numéro d'enregistrement de votre groupe. Adressez-vous à votre MCD, au Registraire de la zone ou au trésorier de la zone. Vous en avez besoin pour tout envoi destiné à la Région 30 ou au Bureau des services généraux à New York ; sans ce numéro, votre groupe ne sera pas crédité de ses contributions.
+      - Attendez de recevoir le dossier du RSG. Une fois votre inscription effectuée, le Bureau des services généraux en envoie un aux nouveaux RSG et à leurs groupes.
       - Choisissez une date pour votre première réunion de district et votre première assemblée de région (voir le guide de l'assemblée de région).
   - type: assembly
   - type: buttons
@@ -40,13 +40,13 @@ blocks:
         style: quiet
   - type: callout
     title: L'inscription auprès du siège social constitue une étape distincte
-    body: L'inscription de votre groupe auprès de votre bureau central de service local ou de votre intergroupe ne concerne que ce bureau. Elle n'entraîne pas la mise à jour des informations au niveau de la région, de votre district ou du Bureau des services généraux à New York. Il s'agit de registres distincts ; vous devez donc mettre à jour chacun d'entre eux.
+    body: L'inscription de votre groupe auprès de votre bureau central de service local ou de votre intergroupe n'informe que ce bureau. Elle ne met pas à jour les informations au niveau de la région, de votre district ou du Bureau des services généraux à New York. Il s'agit de registres distincts ; vous devez donc mettre à jour chacun d'entre eux.
   - type: text
     heading: Trouver un parrain de service
     body: |
       Tout comme vous aviez besoin de quelqu’un qui avait déjà vécu cette expérience lorsque vous avez arrêté de boire, il est utile d’avoir à vos côtés une personne qui a déjà occupé un poste de service. Les nouveaux RSG sont souvent submergés par les nouveaux termes, la documentation et les questions : par où commencer, comment présenter un rapport, comment intégrer tout cela dans une vie bien remplie ? Beaucoup abandonnent au bout d’un mois ou deux parce qu’ils n’avaient personne à qui s’adresser.
 
-      Votre parrain de service peut être un MCD expérimenté, un responsable de zone ou un ancien Délégué. Il n’est pas nécessaire qu’il s’agisse de votre parrain de rétablissement, et une femme peut parrainer un homme dans le cadre du service, et inversement. Vous pouvez le contacter aussi souvent ou aussi rarement que vous le souhaitez, et vous pouvez vous tourner vers une autre personne à mesure que votre engagement dans le service s'intensifie.
+      Votre parrain de service peut être un MCD expérimenté, un responsable de zone ou un ancien Délégué. Il n’est pas nécessaire qu’il s’agisse de votre parrain de rétablissement, et une femme peut parrainer un homme dans le cadre du service, et inversement. Vous pouvez le contacter aussi souvent ou aussi rarement que vous le souhaitez, et vous pouvez vous tourner vers une autre personne à mesure que votre engagement dans le service s’intensifie.
 
       Renseignez-vous lors de votre réunion de district, ou envoyez un e-mail à [info@aaemass.org](mailto:info@aaemass.org), et nous vous aiderons à trouver quelqu’un.
   - type: links
@@ -58,7 +58,7 @@ blocks:
         url: /committees/treatment-facilities/12th-step-volunteer/
       - label: Toutes les possibilités de bénévolat
         url: /get-involved/
-      - label: Le Manuel du service des A.A. et les Douze Concepts pour le service mondial
+      - label: Le Manuel de service des A.A. et les Douze concepts pour les Services mondiaux des A.A.
         url: https://www.aa.org/aa-service-manualtwelve-concepts-world-services
       - label: Bureau des services généraux des A.A.
         url: https://www.aa.org
