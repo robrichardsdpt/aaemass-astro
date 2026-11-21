@@ -1,0 +1,101 @@
+sourceHash: 4132a6b74a92ba49
+title: "L'Assemblée de région : guide à l'intention des nouveaux venus | Région 30"
+description: Comment se déroule une assemblée de Région 30, qui y participe, qui peut voter, ainsi que le calendrier annuel habituel des assemblées et des événements dans l'est du Massachusetts.
+eyebrow: Impliquez-vous
+lede: Cinq fois par an, des groupes de tout l'est du Massachusetts se réunissent pour partager leurs expériences et contribuer à l'information du Délégué. Tous les membres de l'A.A. sont les bienvenus.
+blocks:
+  - type: text
+    heading: À quoi sert une Assemblée ?
+    body: |
+      L’objectif de l’Assemblée de région est le même que celui d’un groupe des A.A. : transmettre le message à l’alcoolique qui souffre encore. Elle y parvient principalement en élisant le Délégué qui représente la région à la Conférence des services généraux, et en tenant les groupes, les MCD et le Délégué informés des activités locales et mondiales des A.A.
+
+      Il s’agit d’un organe de service, et en aucun cas d’un organe de direction. Sa mission consiste à donner la parole à chaque groupe, à protéger le droit des minorités à être entendues et à veiller à ce qu’aucun programme, qu’il émane d’une personne ou d’un groupe, ne soit adopté à la hâte.
+  - type: callout
+    title: Tout membre de l'A.A. peut venir, et tout membre de l'A.A. a son mot à dire
+    body: Il n'est pas nécessaire d'être membre du RSG pour assister à la réunion ou prendre la parole. Seuls certains responsables ont le droit de vote (voir ci-dessous), mais toutes les personnes présentes peuvent s'exprimer. Les assemblées ont lieu le dimanche, généralement dans un lieu différent à chaque fois, selon le district.
+  - type: timeline
+    heading: Une journée type à l'Assemblée
+    intro: Les horaires et les thèmes varient, veuillez donc consulter le calendrier pour connaître la prochaine session.
+    steps:
+      - when: 9 h 00
+        title: Inscription
+      - when: 9 h 15
+        title: Séance d'orientation destinée aux nouveaux RSG et MCD
+        text: C'est un bon point de départ si vous êtes nouveau. Posez vos questions ici.
+      - when: 10 h 00
+        title: Ouverture de la séance et rapports
+        text: Lectures, mot de bienvenue et commémorations, puis les rapports du secrétaire, du trésorier, de la région et des Délégués.
+      - when: 10 h 30
+        title: Points anciens et nouveaux
+      - when: 11 h 00
+        title: Présentations
+        text: Comités de conférence et comptes rendus des événements régionaux.
+      - when: 11 h 30
+        title: Thème de l'Assemblée
+        text: Ce sera suivi d'un déjeuner, offert par le district d'accueil.
+      - when: 13 h
+        title: Poursuite du thème et ateliers
+      - when: 15 h 30
+        title: « Ask It Basket » et « Qu'avez-vous à l'esprit ? »
+        text: C'est l'occasion d'aborder tout sujet qui n'aurait pas encore été évoqué.
+      - when: 16 h
+        title: Ajournement
+  - type: cards
+    heading: Qui se trouve dans la pièce ?
+    intro: L'Assemblée de région rassemble les serviteurs de confiance de la région.
+    cards:
+      - title: RSG
+        text: Une voix par groupe, pour chaque circonscription. Ces groupes sont censés représenter environ les deux tiers des membres votants.
+      - title: MCD
+        text: Les membres des comités de district des 26 districts, ainsi que ceux du district hispanophone.
+      - title: Responsables de secteur
+        text: Un délégué, un président, un trésorier et un secrétaire, chacun disposant d'un suppléant.
+      - title: Présidents de commission
+        text: Les présidents des commissions de la Conférence et les présidents des commissions permanentes, ou leurs suppléants.
+      - title: Représentants et invités
+        text: Des représentants des conférences de jeunes, du Boston Central Service, des intergroupes et d'autres membres intéressés. Ils participent aux délibérations mais ne disposent pas du droit de vote.
+  - type: text
+    heading: Comment les décisions sont prises
+    body: |
+      La Région 30 suit de manière souple les « Robert's Rules of Order », en y apportant des adaptations conformes à l’esprit des A.A. Les votes se font à main levée ou par bulletin secret, et toute décision relative à la politique de l’association nécessite une **unanimité substantielle**, ce qui signifie un vote favorable des deux tiers des membres votants présents dans la salle au moment du scrutin.
+
+      Après un vote important, la minorité a toujours la possibilité de s’exprimer. Ensuite, toute personne ayant voté avec la majorité et ayant changé d’avis peut demander un réexamen du vote.
+
+      Les élections se déroulent selon la « procédure du Troisième Legs » des A.A., conçue pour empêcher toute faction d’imposer un candidat. Un candidat doit obtenir les deux tiers des suffrages ; si personne n’atteint ce seuil après cinq tours de scrutin, le choix se fait par tirage au sort.
+  - type: timeline
+    heading: La Région 30 en bref
+    intro: Le groupe se réunit à la même fréquence chaque année. Le calendrier varie légèrement selon que l'année est paire ou impaire, généralement au mois de novembre.
+    steps:
+      - when: janvier
+        title: Réunion de lancement
+        text: Les commissions de conférence présentent leur rapport, puis l'Assemblée vote le budget de la région pour l'année.
+      - when: février
+        title: NERAASA
+        text: L'Assemblée régionale des services A.A. du Nord-Est, qui s'est tenue le dernier week-end de février.
+      - when: avril
+        title: Réunion préparatoire à la conférence
+        text: Elle se tient avant la Conférence des services généraux à New York.
+      - when: juin
+        title: Assemblée post-conférence
+        text: Le délégué rend compte des travaux de la conférence. Les années impaires, le Forum régional du Nord-Est se tient également en juin.
+      - when: septembre
+        title: Atelier de montage
+      - when: novembre
+        title: Atelier les années impaires, élections les années paires
+        text: Tous les deux ans, l'Assemblée électorale élit le Délégué et les autres responsables de la région. Le mois de novembre est également celui où se tient la Convention de l'État du Massachusetts.
+  - type: links
+    heading: Lire le texte source
+    items:
+      - label: Le Manuel de service des A.A. et les Douze concepts pour les Services mondiaux des A.A.
+        url: https://www.aa.org/aa-service-manualtwelve-concepts-world-services
+  - type: buttons
+    items:
+      - label: Consultez la prochaine Assemblée
+        url: /calendar/
+        style: primary
+      - label: Nouveau guide RSG
+        url: /new-gsr/
+        style: quiet
+  - type: events
+    heading: À venir
+    count: 4

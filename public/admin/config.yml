@@ -163,6 +163,19 @@ collections:
                 name: items
                 widget: list
                 field: { label: Item, name: item, widget: string }
+          - label: Timeline
+            name: timeline
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string, required: false }
+              - { label: Intro, name: intro, widget: text, required: false }
+              - label: Steps
+                name: steps
+                widget: list
+                fields:
+                  - { label: When, name: when, widget: string, hint: 'For example: January' }
+                  - { label: Title, name: title, widget: string }
+                  - { label: Text, name: text, widget: text, required: false }
           - label: Upcoming events
             name: events
             widget: object

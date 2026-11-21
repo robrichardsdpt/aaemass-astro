@@ -1,35 +1,40 @@
-title: Engagez-vous dans le service | Région 30
-description: Des façons de vous engager dans le service des A.A. dans l’Est du Massachusetts, de votre groupe d’attache aux comités de la Région 30 et à la Conférence des services généraux.
+sourceHash: 2430ff080f2e003e
+title: Engagez-vous dans le bénévolat | Région 30
+description: Comment s'impliquer dans les activités de service des A.A. dans l'est du Massachusetts, depuis votre groupe d'appartenance jusqu'aux comités de la Région 30 et à la Conférence des services généraux.
 eyebrow: Service
-lede: Le meilleur endroit pour commencer est votre groupe d’attache. De là, le service n’est qu’à un pas.
+lede: Le meilleur point de départ, c'est votre groupe d'appartenance. De là, le chemin vers le service est tout proche.
 blocks:
   - type: text
-    heading: Pourquoi le service?
+    heading: Pourquoi le service ?
     body: |
-      Les membres des A.A. travaillent ensemble pour aider l’alcoolique qui souffre encore, et s’entraider est une clé pour rester sobre.
+      Les membres des A.A. travaillent ensemble pour venir en aide à l’alcoolique qui souffre encore, et s’entraider est essentiel pour rester sobre.
 
-      Le service prend de nombreuses formes : disposer les chaises, servir comme représentant des services généraux (RSG) de votre groupe ou se joindre à un comité de la Région 30.
+      Le service prend de nombreuses formes : installer des chaises, occuper le poste de Représentant des services généraux (RSG) de votre groupe ou rejoindre un comité de la Région 30.
   - type: cards
-    heading: Par où commencer
+    heading: Par où commencer ?
     cards:
-      - title: Votre groupe d’attache
-        text: Demandez quels postes de service sont ouverts, de l’accueil au poste de RSG.
+      - title: Votre groupe d'appartenance
+        text: Renseignez-vous sur les postes disponibles dans le domaine du service, de l'accueil au RSG.
         link_text: Trouver une réunion
         link_url: https://aaboston.org/meetings
-      - title: Un district
-        text: Les districts réunissent les groupes voisins. Votre RSG assiste aux réunions de district.
-        link_text: Voir les districts
+      - title: Un arrondissement
+        text: Les districts rassemblent les groupes voisins. Votre RSG participe aux réunions de district.
+        link_text: Découvrez les quartiers
         link_url: /districts/
       - title: Un comité de la Région 30
-        text: Les comités portent le message aux prisons, aux centres de traitement, aux écoles et aux professionnels.
-        link_text: Parcourir les comités
+        text: Ces comités diffusent ce message dans les prisons, les centres de traitement, les établissements scolaires et auprès des professionnels.
+        link_text: Parcourir les commissions
         link_url: /committees/
+      - title: Un nouveau RSG ?
+        text: Commencez par découvrir ici le rôle d'un RSG et comment s'inscrire, puis découvrez le déroulement d'une Assemblée de région.
+        link_text: Nouveau guide RSG
+        link_url: /new-gsr/
   - type: callout
-    title: Vous ne savez pas où vous situer?
-    body: Écrivez à [info@aaemass.org](mailto:info@aaemass.org) et nous vous dirigerons vers un comité qui a besoin de vos compétences.
+    title: Vous ne savez pas trop où vous vous situez ?
+    body: Envoyez-nous un e-mail à l'adresse [info@aaemass.org](mailto:info@aaemass.org), et nous vous orienterons vers un comité qui a besoin de vos compétences.
   - type: faq
     items:
-      - q: Dois-je avoir un certain temps de sobriété pour faire du service?
-        a: Les exigences varient selon le poste. De nombreux postes de service, comme accueillir les nouveaux ou aider lors d’un événement, sont ouverts à tout membre des A.A. Les présidents de comités et les officiers peuvent devoir respecter des exigences de sobriété fixées par la Région.
-      - q: Combien de temps le service demande-t-il?
-        a: Cela dépend du poste. Les comités se réunissent habituellement une fois par mois, et l’aide lors d’un événement peut se limiter à un après-midi.
+      - q: Dois-je être sobre depuis un certain temps pour m'engager dans le service ?
+        a: Les conditions requises varient selon le poste. De nombreuses fonctions de service, telles que l'accueil des nouveaux venus ou l'aide lors d'un événement, sont ouvertes à tout membre de l'A.A. Les présidents de comité et les responsables peuvent être soumis à des conditions de sobriété fixées par la région.
+      - q: Combien de temps dure l'intervention ?
+        a: Cela dépend du rôle. Les comités se réunissent généralement une fois par mois, et l'aide à l'organisation d'un événement peut se limiter à un seul après-midi.
