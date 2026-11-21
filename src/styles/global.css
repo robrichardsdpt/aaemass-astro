@@ -742,7 +742,15 @@
     box-shadow: 0 1rem 3rem rgb(0 0 0 / 0.3);
     overflow: auto;
   }
-  .sheet::backdrop { background: oklch(0 0 0 / 0.55); backdrop-filter: blur(2px); }
+  /* The dimming behind a sheet is a layer on the page itself, not the dialog's ::backdrop. On iOS 26 Safari a position: fixed
+     backdrop is clipped to the area between the status bar and the address bar, so the page shows through the translucent
+     bars (and the keyboard's edge) undimmed and can still be tapped there. An absolutely positioned layer covers the whole
+     page. It sits above the page's content (the highest z-index in the page is 100) and below the sheet in the top layer. */
+  .sheet::backdrop { background: transparent; }
+  html:has(dialog.sheet[open])::before {
+    content: ''; position: absolute; inset: 0; z-index: 1000;
+    background: oklch(0 0 0 / 0.55); backdrop-filter: blur(2px);
+  }
   .sheet__bar {
     position: sticky; inset-block-start: 0; z-index: 1;
     display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
@@ -763,7 +771,7 @@
     /* The entrance animations run only while data-opening is set (sheet.ts sets it on open, then removes it). Tying them
        to [open] made them replay whenever another rule that changed `animation` stopped matching, e.g. the keyboard closing. */
     .sheet[data-opening] { animation: sheet-in 180ms ease-out; }
-    .sheet[data-opening]::backdrop { animation: sheet-fade 180ms ease-out; }
+    html:has(dialog.sheet[data-opening])::before { animation: sheet-fade 180ms ease-out; }
   }
   @keyframes sheet-in { from { opacity: 0; transform: translateY(0.75rem) scale(0.985); } }
   @keyframes sheet-fade { from { opacity: 0; } }
