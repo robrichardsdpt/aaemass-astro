@@ -37,8 +37,8 @@ const blurb = !event ? '' : featured.kind === 'assembly' ? assemblyKinds[lang][a
           <strong>{dayNumber}</strong>
         </time>
         <div class="featured-body">
-          <p class="eyebrow">{words.eyebrow}</p>
-          <h2 id="featured-title">{event.title}</h2>
+          <p class="eyebrow featured-eyebrow">{words.eyebrow}</p>
+          <h2 id="featured-title" class="featured-title">{event.title}</h2>
           <p class="featured-when"><strong>{longDate}{event.allDay ? '' : `, ${clock}`}</strong>{place ? <><br />{place}</> : null}</p>
           {blurb && <p class="featured-blurb">{blurb}</p>}
           <p class="featured-actions">
