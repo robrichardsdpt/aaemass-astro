@@ -19,6 +19,7 @@ export interface SearchEvent {
   slug?: string; // static page at /events/e/<slug>/ (one-off Google and Tribe events known at build time)
   detail: string; // where the title links: the event's own page, or /calendar/#e=<id>, which opens it in the search window
   external?: string; // the event's page on the source site (Tribe only)
+  featured?: boolean; // an editor ticked "Feature on the home page" (CMS events only)
 }
 
 export const TZ = 'America/New_York';

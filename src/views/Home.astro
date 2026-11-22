@@ -11,6 +11,7 @@ import CommitteeTile from '../components/CommitteeTile.astro';
 import NoticeBar from '../components/NoticeBar.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteScripts from '../components/SiteScripts.astro';
+import FeaturedEvent from '../components/FeaturedEvent.astro';
 import LiveFormScript from '../components/ui/LiveFormScript.astro';
 import { getLang, lp, fmt, htmlLang } from '../i18n';
 import { ui } from '../i18n/ui';
@@ -63,6 +64,8 @@ import ExtraSections from '../components/ExtraSections.astro';
         </div>
       </div>
     </section>
+
+    <FeaturedEvent />
 
     <section class="signup" aria-labelledby="signup-title">
       <div class="wrap">

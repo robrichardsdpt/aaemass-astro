@@ -27,6 +27,7 @@ async function highlighted(): Promise<SearchEvent[]> {
       online: e.data.online_url,
       description: e.data.summary ?? '',
       categories: [],
+      featured: e.data.featured,
       detail: path(`/events/${e.id}/`),
     }));
 }

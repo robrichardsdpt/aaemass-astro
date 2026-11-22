@@ -1,6 +1,6 @@
 // Finds the next Area 30 Assembly in the calendar and says what kind it is. Pure, so it is easy to test.
 // Only Area 30's own assemblies count: "Area 30 Kickoff & Budget Assembly" does, "Northeast Regional ... Assembly" (NERAASA) does not.
-import type { SearchEvent } from './event-model';
+import type { SearchEvent } from './event-model.ts';
 
 export type AssemblyKind = 'kickoff' | 'pre' | 'post' | 'workshop' | 'election' | 'other';
 

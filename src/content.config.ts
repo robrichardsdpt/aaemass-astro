@@ -54,6 +54,7 @@ const events = defineCollection({
       online_url: opt,
       image: opt,
       image_alt: opt,
+      featured: z.boolean().optional(),
       removed: z.boolean().optional(),
     })
     .superRefine((e, ctx) => {
