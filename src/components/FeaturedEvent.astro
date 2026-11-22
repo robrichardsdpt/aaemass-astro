@@ -1,0 +1,52 @@
+---
+// The one big event promoted right under the home page banner: a convention or special assembly an editor ticked
+// "Feature on the home page" for, or else the next Area 30 Assembly once it is close. Renders nothing when neither applies.
+import { getAllEvents } from '../lib/all-events';
+import { pickFeatured } from '../lib/featured-event';
+import { assemblyKind } from '../lib/next-assembly';
+import { googleCalendarUrl } from '../lib/event-model';
+import { assemblyKinds } from '../i18n/assembly-kinds';
+import { getLang, htmlLang } from '../i18n';
+
+const lang = getLang(Astro);
+const featured = pickFeatured(await getAllEvents());
+const words = {
+  en: { eyebrow: 'Coming up', details: 'Details and directions', calendar: 'Add to Google Calendar' },
+  es: { eyebrow: 'Próximamente', details: 'Detalles e indicaciones', calendar: 'Añadir a Google Calendar' },
+  fr: { eyebrow: 'À venir', details: 'Détails et itinéraire', calendar: 'Ajouter à Google Agenda' },
+}[lang];
+
+const tz = 'America/New_York';
+const locale = lang === 'en' ? 'en-US' : htmlLang[lang];
+const start = featured && new Date(featured.event.start);
+const month = start && new Intl.DateTimeFormat(locale, { timeZone: tz, month: 'short' }).format(start);
+const dayNumber = start && new Intl.DateTimeFormat(locale, { timeZone: tz, day: 'numeric' }).format(start);
+const longDate = start && new Intl.DateTimeFormat(locale, { timeZone: tz, weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(start);
+const clock = start && new Intl.DateTimeFormat(locale, { timeZone: tz, hour: 'numeric', minute: '2-digit' }).format(start);
+const event = featured?.event;
+const place = event && [event.venue, event.address?.replace(/,\s*USA$/, '')].filter(Boolean).join(', ');
+const blurb = !event ? '' : featured.kind === 'assembly' ? assemblyKinds[lang][assemblyKind(event.title)] : event.description;
+---
+
+{featured && event && (
+  <section class="featured" aria-labelledby="featured-title">
+    <div class="wrap">
+      <div class="featured-card">
+        <time class="featured-date" datetime={event.start} aria-hidden="true">
+          <span>{month}</span>
+          <strong>{dayNumber}</strong>
+        </time>
+        <div class="featured-body">
+          <p class="eyebrow featured-eyebrow">{words.eyebrow}</p>
+          <h2 id="featured-title" class="featured-title">{event.title}</h2>
+          <p class="featured-when"><strong>{longDate}{event.allDay ? '' : `, ${clock}`}</strong>{place ? <><br />{place}</> : null}</p>
+          {blurb && <p class="featured-blurb">{blurb}</p>}
+          <p class="featured-actions">
+            <a class="button" href={event.detail}>{words.details}<span class="visually-hidden"> – {event.title}</span></a>
+            <a href={googleCalendarUrl(event)} target="_blank" rel="noopener">{words.calendar}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+)}

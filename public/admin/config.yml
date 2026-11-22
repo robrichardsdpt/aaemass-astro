@@ -246,6 +246,7 @@ collections:
       - { label: Image, name: image, widget: image, required: false }
       - { label: Image description (for screen readers), name: image_alt, widget: string, required: false, hint: 'A few words describing the picture for people who cannot see it. Fill this in whenever there is an image.' }
       - { label: Details, name: body, widget: markdown, buttons: [bold, italic, link, heading-two, heading-three, bulleted-list, numbered-list], modes: [rich_text], editor_components: [], required: false }
+      - { label: Feature on the home page, name: featured, widget: boolean, default: false, required: false, hint: 'Tick this for a big event (a convention, a special assembly) to show it in a card right under the banner on the home page. It shows until the event ends. If several are ticked, the soonest shows. Leave it off and the home page shows the next Area 30 Assembly on its own when one is within four months.' }
       - label: Remove from the website
         name: removed
         widget: boolean

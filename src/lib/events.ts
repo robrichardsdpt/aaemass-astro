@@ -2,6 +2,7 @@ import { getCollection } from 'astro:content';
 import { getLiveEvents } from './live-content';
 import { path } from './site';
 import type { Lang } from '../i18n';
+import type { SearchEvent } from './event-model';
 
 export interface AreaEvent {
   id?: string; // CMS events only (src/content/events/<id>.md)
@@ -11,6 +12,16 @@ export interface AreaEvent {
   allDay: boolean;
   venue?: string;
 }
+
+/** A calendar event in the shape the home page's list uses. */
+export const toAreaEvent = (e: SearchEvent): AreaEvent => ({
+  id: e.source === 'highlight' ? e.id.replace(/^c-/, '') : undefined,
+  title: e.title,
+  url: e.detail,
+  start: new Date(e.start),
+  allDay: e.allDay,
+  venue: e.venue ?? e.address?.replace(/,\s*USA$/, ''),
+});
 
 const API = 'https://aaemass.org/wp-json/tribe/events/v1/events';
 
